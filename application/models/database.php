@@ -12,15 +12,15 @@ class Database extends CI_Model
 
 	function GetProductById($id)
 	{
-		$this->db->where('tshirt_id', $id);
-		$query = $this->db->get('tshirts');
+		$this->db->where('product_id', $id);
+		$query = $this->db->get('products');
 		return $query->row_array();
 	}
 	
 	function GetProductByName($name)
 	{
-		$this->db->like('tshirt_game', $name);
-		$query = $this->db->get('tshirts');
+		$this->db->like('product_game', $name);
+		$query = $this->db->get('products');
 		return $query->result_array();
 	}
 
@@ -29,11 +29,11 @@ class Database extends CI_Model
 		//-----Use type also------
 		
 		if($sort == 'latest')
-			$this->db->order_by('tshirt_id', 'desc');
+			$this->db->order_by('product_id', 'desc');
 		else if($sort =='popluar')
-			$this->db->order_by('tshirt_id', 'desc');	//Sort by selling amount
+			$this->db->order_by('product_id', 'desc');	//Sort by selling amount
 
-		$query = $this->db->get('tshirts');
+		$query = $this->db->get('products');
 		echo $query->num_rows();
 		return $query->result_array();
 	}

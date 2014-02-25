@@ -13,19 +13,44 @@ class cart extends CI_controller
 		$this->load->helper('url');
 		$this->load->helper('form');
 		$this->load->library('session');
+		$this->load->library('tank_auth');
 	}
 
 	function index()
 	{		
 		$this->view();
 	}
+	
+	function GenerateHeader(&$data)
+	{
+		//Login Info
+		$data['user_id'] = 0;
+		$data['user_name'] = null;
+
+		if($this->tank_auth->is_logged_in())
+		{
+			$data['user_id'] 	= $this->tank_auth->get_user_id();
+			$data['user_name'] 	= $this->tank_auth->get_username();
+		}
+
+		echo "User ID : {$data['user_id']}<br>";
+
+		//Cart Info
+		$data['num_items'] = $this->cart->total_items();
+		$data['total_price'] = $this->cart->total();
+		echo "<br>{$data['num_items']} item(s) in ";
+		echo "  / Price : {$data['total_price']}";
+		echo anchor('cart/','Cart');
+	}
 
 	//Show items in cart
 	function view()
 	{
+		$data[] = 0;
 		$num_items = $this->cart->total_items();
-		$this->load->view('header');
-		$this->load->view('view_cart');
+		$this->GenerateHeader($data);
+		$this->load->view('header',$data);
+		$this->load->view('view_cart',$data);
 		//$this->load->view('footer');
 	}
 
@@ -54,8 +79,8 @@ class cart extends CI_controller
 					(
 						'id' 	=> $productID,
 						'qty'	=> '1',
-						'price' => $product['tshirt_price'],
-						'name'  => $product['tshirt_name'],
+						'price' => $product['product_price'],
+						'name'  => $product['product_name'],
 						'options'=> array('size' => $size),
 					);
 		

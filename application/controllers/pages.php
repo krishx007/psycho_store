@@ -85,9 +85,9 @@ class Pages extends CI_controller
 		//Cart Info
 		$data['num_items'] = $this->cart->total_items();
 		$data['total_price'] = $this->cart->total();
-		echo "<br>$num_items item(s) in ";
+		echo "<br>{$data['num_items']} item(s) in ";
+		echo "  / Price : {$data['total_price']}";
 		echo anchor('cart/','Cart');
-		echo "  / Price : $total_price";
 	}
 
 	function display($page, $data)
@@ -113,7 +113,7 @@ class Pages extends CI_controller
 		}		
 
 		//Show footer
-		$this->load->view->('footer', $data);
+		//$this->load->view->('footer', $data);
 	}
 }
 ?>  
