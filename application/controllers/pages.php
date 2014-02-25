@@ -17,20 +17,7 @@ class Pages extends CI_controller
 	function index()
 	{
 		//$this->load->view('header');
-		$this->latest();
-	}
-
-	function View($page = "welcome")
-	{
-		echo $filename = "application/views/".$page.".php"; 
-
-		if(!file_exists($filename))
-			show_404();
-
-		//passing data to views page
-		$data['title'] = $page;
-
-		$this->load->view($page, $data);
+		$this->latest('all');
 	}
 
 	function product($id)
@@ -48,12 +35,20 @@ class Pages extends CI_controller
 			echo "No product available";
 	}
 
-	function latest()
+	function latest($type)
 	{		
-		$data['products'] = $this->database->GetProductLatest();
+		$data['products'] = $this->database->GetProduct($type, 'latest');
 
-		$this->display('latest', $data);
+		$this->display('browse', $data);
 	}
+
+	function popular($type)
+	{		
+		$data['products'] = $this->database->GetProduct($type, 'popular');
+
+		$this->display('browse', $data);
+	}
+
 
 	function search()
 	{
@@ -66,16 +61,16 @@ class Pages extends CI_controller
 			$data['searchResult'] = count($result);
 			$data['searchText'] = $name;
 
-			if($result)
-			{
-				$data['products'] = $result;
-				$this->display('search', $data);
-			}			
-		}		
+			if($result)			
+				$data['products'] = $result;						
+		}
+
+		$this->display('search', $data);
 	}
 
-	function GenerateLoginHeader(&$data)
+	function GenerateHeader(&$data)
 	{
+		//Login Info
 		$data['user_id'] = 0;
 		$data['user_name'] = null;
 
@@ -86,12 +81,10 @@ class Pages extends CI_controller
 		}
 
 		echo "User ID : {$data['user_id']}<br>";
-	}
 
-	function GenerateCartHeader()
-	{
-		$num_items = $this->cart->total_items();
-		$total_price = $this->cart->total();
+		//Cart Info
+		$data['num_items'] = $this->cart->total_items();
+		$data['total_price'] = $this->cart->total();
 		echo "<br>$num_items item(s) in ";
 		echo anchor('cart/','Cart');
 		echo "  / Price : $total_price";
@@ -99,23 +92,28 @@ class Pages extends CI_controller
 
 	function display($page, $data)
 	{
-		$this->GenerateLoginHeader($data);
-		$this->GenerateCartHeader();	
+		$this->GenerateHeader($data);
+
+		//Show header
+		$this->load->view('header', $data);
+
+		//Show body		
 		switch ($page)
 		{
-			case 'search' : 
-				$this->load->view('header', $data);
+			case 'search':
+			case 'browse':
 				$this->load->view('view_products_link', $data);	
 			break;
-			case 'product' : 
-				$this->load->view('header', $data);
-				$this->load->view('view_product', $data);	
-			break;
-			case 'latest' : 
-				$this->load->view('header', $data);
-				$this->load->view('view_products_link', $data);	
-			break;
-		}
+			case 'product': 				
+				$this->load->view('view_product', $data);
+			break;			
+			default:
+				show_404();
+			break;		
+		}		
+
+		//Show footer
+		$this->load->view->('footer', $data);
 	}
 }
 ?>  

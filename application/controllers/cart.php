@@ -24,7 +24,9 @@ class cart extends CI_controller
 	function view()
 	{
 		$num_items = $this->cart->total_items();
+		$this->load->view('header');
 		$this->load->view('view_cart');
+		//$this->load->view('footer');
 	}
 
 	function createKey($id, $size)

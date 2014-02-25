@@ -24,9 +24,15 @@ class Database extends CI_Model
 		return $query->result_array();
 	}
 
-	function GetProductLatest()
+	function GetProduct($type, $sort = 'latest')
 	{
-		$this->db->order_by('tshirt_id', 'desc');
+		//-----Use type also------
+		
+		if($sort == 'latest')
+			$this->db->order_by('tshirt_id', 'desc');
+		else if($sort =='popluar')
+			$this->db->order_by('tshirt_id', 'desc');	//Sort by selling amount
+
 		$query = $this->db->get('tshirts');
 		echo $query->num_rows();
 		return $query->result_array();

@@ -31,15 +31,12 @@ class checkout extends CI_controller
 	{
 		$userid = $this->tank_auth->get_user_id();
 		//Get relevant addresses
-		$result = $this->database->GetAddressesForUser($userid);		
+		$result = $this->database->GetAddressesForUser($userid);
 		
-		if($result)
-		{
+		if($result)		
 			$data['addresses'] = $result;
-			$this->load->view('view_address',$data);
-		}			
-		else
-			'No address';
+		
+		$this->load->view('view_address',$data);
 	}
 
 	function payment()
