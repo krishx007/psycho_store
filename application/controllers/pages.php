@@ -25,8 +25,8 @@ class Pages extends CI_controller
 		$result = $this->database->GetProductById($id);
 		if($result)
 		{
-			$path = "/" . $result['tshirt_image_path'];			
-			$data['tshirt_img'] = $path;
+			$path = "/" . $result['product_image_path'];			
+			$data['product_img'] = $path;
 			$data['product'] = $result;
 
 			$this->display('product', $data);

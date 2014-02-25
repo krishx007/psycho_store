@@ -1,11 +1,11 @@
 
-<?php $id = $product['tshirt_id'] - 1; echo anchor("pages/product/$id", "Previous")?>
+<?php $id = $product['product_id'] - 1; echo anchor("pages/product/$id", "Previous")?>
 
-<?php $id = $product['tshirt_id'] + 1; echo anchor("pages/product/$id", "Next")?>
+<?php $id = $product['product_id'] + 1; echo anchor("pages/product/$id", "Next")?>
 <table border="10">
 <tr> <?php echo $product['product_name'] ?> </tr>
 <tr>
-<td><img src = <?php echo $tshirt_img  ?> > </td>
+<td><img src = <?php echo $product_img  ?> > </td>
 </tr>
 
 <tr>
