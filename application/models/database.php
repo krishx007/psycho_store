@@ -16,6 +16,11 @@ class Database extends CI_Model
 		$query = $this->db->get('products');
 		return $query->row_array();
 	}
+
+	function GetProductCount()
+	{
+		return $this->db->count_all('products');
+	}
 	
 	function GetProductByName($name)
 	{
@@ -33,7 +38,7 @@ class Database extends CI_Model
 		else if($sort =='popluar')
 			$this->db->order_by('product_id', 'desc');	//Sort by selling amount
 
-		$query = $this->db->get('products');		
+		$query = $this->db->get('products');
 		return $query->result_array();
 	}
 

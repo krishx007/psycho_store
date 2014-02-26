@@ -1,7 +1,17 @@
 
-<?php $id = $product['product_id'] - 1; echo anchor("product/$id", "Previous")?>
+<?php
+	$id = $product['product_id'] - 1;
+	
+	if($id >= 1 )
+		echo anchor("product/$id", "Previous");
 
-<?php $id = $product['product_id'] + 1; echo anchor("product/$id", "Next")?>
+  	$id = $product['product_id'] + 1;
+  	
+  	if($id <= $total_products)
+  		echo anchor("product/$id", "Next");
+?>
+
+<?php ?>
 <table border="10">
 <tr> <?php echo $product['product_name'] ?> </tr>
 <tr>

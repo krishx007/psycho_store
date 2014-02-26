@@ -28,6 +28,7 @@ class Pages extends CI_controller
 			$path = "/" . $result['product_image_path'];			
 			$data['product_img'] = $path;
 			$data['product'] = $result;
+			$data['total_products'] = $this->database->GetProductCount();
 
 			$this->display('product', $data);
 		}
