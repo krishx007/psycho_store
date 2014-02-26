@@ -1,7 +1,7 @@
 
-<?php $id = $product['product_id'] - 1; echo anchor("pages/product/$id", "Previous")?>
+<?php $id = $product['product_id'] - 1; echo anchor("product/$id", "Previous")?>
 
-<?php $id = $product['product_id'] + 1; echo anchor("pages/product/$id", "Next")?>
+<?php $id = $product['product_id'] + 1; echo anchor("product/$id", "Next")?>
 <table border="10">
 <tr> <?php echo $product['product_name'] ?> </tr>
 <tr>
