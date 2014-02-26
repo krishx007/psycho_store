@@ -31,16 +31,11 @@ class cart extends CI_controller
 		{
 			$data['user_id'] 	= $this->tank_auth->get_user_id();
 			$data['user_name'] 	= $this->tank_auth->get_username();
-		}
-
-		echo "User ID : {$data['user_id']}<br>";
+		}		
 
 		//Cart Info
 		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();
-		echo "<br>{$data['num_items']} item(s) in ";
-		echo "  / Price : {$data['total_price']}";
-		echo anchor('cart/','Cart');
+		$data['total_price'] = $this->cart->total();		
 	}
 
 	//Show items in cart

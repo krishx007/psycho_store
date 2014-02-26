@@ -33,8 +33,7 @@ class Database extends CI_Model
 		else if($sort =='popluar')
 			$this->db->order_by('product_id', 'desc');	//Sort by selling amount
 
-		$query = $this->db->get('products');
-		echo $query->num_rows();
+		$query = $this->db->get('products');		
 		return $query->result_array();
 	}
 

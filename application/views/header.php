@@ -7,45 +7,67 @@
 <script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.js"></script>
 </head>
 
+
+
 <?php
 if($user_id == 0)
 {	//Not Logged in
 ?>
-	<form action= <?php echo site_url('pages/search')?> method="post">
-	<table border="0">
-	<tr bgcolor="#cccccc">
-	</tr>
-
-	<tr>
-	<td>Search</td>
-	<td align="center"><input type="text" name="searchQuery" size="39"maxlength="30" /> </td>
-	<td> <input type="submit" value="Submit" /></td>
-	<td> <?php echo anchor('auth', "Login") ?></td>
-	</tr>
-
-	</table>
-	</form>
+<header>
+  <div class="panel collapse navbar-collapse">
+    <ul class="nav nav-pills navbar-right">
+      <li>
+        <a href="#"><i class="fa fa-search"></i></a>
+      </li>
+      <li>
+        <a href= <?php echo site_url('auth')?> >Log In</a>
+      </li>          
+      <li>
+        <a href= <?php echo site_url('cart')?> ><i class="fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
+      </li>
+    </ul>
+    <ul class="nav nav-pills navbar-left">
+      <a href= <?php echo site_url('') ?> ><h4>Psycho Store</h4></a>
+    </ul>
+  </div>
+  <div class="row">
+    <div class="col-xs-3 col-xs-push-5 col-sm-3 col-sm-push-5 col-md-2 col-md-push-5">
+      <img class="img-responsive" src="http://cdn.shopify.com/s/files/1/0063/2872/t/4/assets/logo.png?2093">
+    </div>
+  </div>
+</header>
 
 <?php
 }
 else
 {	//Logged In, Show UserName/Logout
 ?>
-	<form action= <?php echo site_url('pages/search')?> method="post">
-	<table border="0">
-	<tr bgcolor="#cccccc">
-	</tr>
-
-	<tr>
-	<td>Search</td>
-	<td align="center"><input type="text" name="searchQuery" size="39"maxlength="30" /> </td>
-	<td> <input type="submit" value="Submit" /></td>
-	<td> <?php echo $user_name ?> </td>
-	<td> <?php echo anchor('auth/logout', "Logout") ?></td>
-	</tr>
-
-	</table>
-	</form>
+	<header>
+      <div class="panel collapse navbar-collapse">
+        <ul class="nav nav-pills navbar-right">
+          <li>
+            <a href="#"><i class="fa fa-search"></i></a>
+          </li>
+          <li>
+            <h4><?php echo $user_name ?></h4>
+          </li> 
+          <li>
+            <a href= <?php echo site_url('auth/logout', "Logout")?> >Log Out</a>
+          </li>          
+          <li>
+            <a href= <?php echo site_url('cart')?> ><i class="fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
+          </li>
+        </ul>
+        <ul class="nav nav-pills navbar-left">
+          <a href = <?php echo site_url('') ?> ><h4>Psycho Store</h4></a>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col-xs-3 col-xs-push-5 col-sm-3 col-sm-push-5 col-md-2 col-md-push-5">
+          <img class="img-responsive" src="http://cdn.shopify.com/s/files/1/0063/2872/t/4/assets/logo.png?2093">
+        </div>
+      </div>
+</header>
 <?php
 }
 
