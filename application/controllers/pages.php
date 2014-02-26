@@ -22,14 +22,19 @@ class Pages extends CI_controller
 
 	function product($id)
 	{
+		$total_products = $this->database->GetProductCount();
+		
+		//Safety Check, revert to first product when dont know what to do
+		if($id <= 0 || $id > $total_products)
+			$id = 1;
+
 		$result = $this->database->GetProductById($id);
 		if($result)
 		{
 			$path = "/" . $result['product_image_path'];			
 			$data['product_img'] = $path;
 			$data['product'] = $result;
-			$data['total_products'] = $this->database->GetProductCount();
-
+			$data['total_products'] = $total_products;
 			$this->display('product', $data);
 		}
 		else
