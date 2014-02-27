@@ -68,8 +68,8 @@ class cart extends CI_controller
 		//Get the product using id
 		$product = $this->database->getProductbyId($productID);
 		if($product)
-		{
-			$size = $this->input->post('size');	
+		{			
+			$size = $this->input->post('size');
 			$cart_item = array
 					(
 						'id' 	=> $productID,
@@ -78,10 +78,11 @@ class cart extends CI_controller
 						'name'  => $product['product_name'],
 						'options'=> array('size' => $size),
 					);
-		
+
 			$row_id = $this->cart->insert($cart_item);
+			
 			if($row_id)
-			{
+			{			
 				$key = $this->createKey($productID, $size);
 				$this->session->set_userdata($key, $row_id);
 			}	

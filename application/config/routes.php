@@ -40,8 +40,8 @@
 $route['default_controller'] = "pages";
 $route['product/(:any)'] = 'pages/product/$1';
 $route['search/(:any)'] = 'pages/search/$1';
-$route['latest/'] = 'pages/latest/';
-$route['popular/'] = 'pages/popular/';
+$route['latest'] = 'pages/latest/';
+$route['popular'] = 'pages/popular/';
 $route['404_override'] = '';
 
 

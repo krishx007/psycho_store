@@ -68,7 +68,7 @@ class Pages extends CI_controller
 			$data['searchText'] = $name;
 
 			if($result)			
-				$data['products'] = $result;						
+				$data['products'] = $result;
 		}
 
 		$this->display('search', $data);
@@ -114,7 +114,7 @@ class Pages extends CI_controller
 		}		
 
 		//Show footer
-		//$this->load->view->('footer', $data);
+		$this->load->view('footer', $data);
 	}
 }
 ?>  
