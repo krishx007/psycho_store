@@ -51,7 +51,7 @@
 </table>
 
 <p><?php echo form_submit('', 'Update your Cart'); ?></p>
-<p><?php echo anchor('pages/', 'Continue Shopping'); ?></p>
+<p><?php echo anchor('', 'Continue Shopping'); ?></p>
 <p><?php 
 	if($this->cart->total_items())
 		echo anchor('checkout/', 'Checkout'); 
