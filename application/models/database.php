@@ -10,6 +10,7 @@ class Database extends CI_Model
 		$this->load->database();
 	}
 
+	//For single product
 	function GetProductById($id)
 	{
 		$this->db->where('product_id', $id);
@@ -21,22 +22,18 @@ class Database extends CI_Model
 	{
 		return $this->db->count_all('products');
 	}
-	
-	function GetProductByName($name)
-	{
-		$this->db->like('product_game', $name);
-		$query = $this->db->get('products');
-		return $query->result_array();
-	}
 
-	function GetProduct($type, $sort = 'latest')
-	{
-		//-----Use type also------
-		
+	function GetProducts($type, $sort, $game_name = 'all')
+	{	
 		if($sort == 'latest')
 			$this->db->order_by('product_id', 'desc');
-		else if($sort =='popluar')
-			$this->db->order_by('product_id', 'desc');	//Sort by selling amount
+		else if($sort =='popular')				
+			$this->db->order_by('product_qty_sold', 'desc');	//Sort by selling amount					
+
+		if($type != 'all')
+			$this->db->where('product_type', $type);
+		if($game_name != 'all')
+			$this->db->where('product_game', $game_name);
 
 		$query = $this->db->get('products');
 		return $query->result_array();

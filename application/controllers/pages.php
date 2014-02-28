@@ -41,20 +41,19 @@ class Pages extends CI_controller
 			echo "No product available";
 	}
 
-	function latest($type)
+	function latest()
 	{		
-		$data['products'] = $this->database->GetProduct($type, 'latest');
+		$data['products'] = $this->database->GetProducts('all', 'latest', 'all');
 
 		$this->display('browse', $data);
 	}
 
-	function popular($type)
+	function popular()
 	{		
-		$data['products'] = $this->database->GetProduct($type, 'popular');
+		$data['products'] = $this->database->GetProducts('all', 'popular', 'all');
 
 		$this->display('browse', $data);
 	}
-
 
 	function search()
 	{

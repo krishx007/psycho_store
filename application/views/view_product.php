@@ -14,12 +14,12 @@
             </li>
           </ul>
           <div class="col-md-6">
-            <img class="img-responsive" src = <?php echo site_url("$product_img") ?> >
+            <img class="img-responsive" src = <?php echo site_url("{$product['product_image_path']}") ?> >
           </div>
           <div class="col-md-4">
             <div class="row">
               <div class="col-md-12">
-                <p>Product description here</p>
+                <p> <?php echo $product['product_desc']; ?> </p>
                 <p>Product description here</p>
                 <p>Product description here</p>
                 <hr>
