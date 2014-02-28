@@ -1,17 +1,19 @@
 <div class="container">
   <div>
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-3">
-        <h4 class="lead">Sort&nbsp;<small>By</small> <a class = <?php echo $latest_link_state ?> href="latest">Latest</a><small>&nbsp;/&nbsp;</small><a class = <?php echo $popular_link_state ?> href="popular">Popularity</a></h4> 
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <h2 class="text-primary"><?php echo $search_result ?>&nbsp;<small>product(s) found for</small> <?php echo $search_text?></h2>
       </div>
     </div>
   </div>
 </div>
 
+
 <div class="container">
   <div class="well">
     <div class="row">
 <?php 
+if($search_result)
 foreach($products as $product_item): 
 	$id = $product_item['product_id'];
 	$path = "/".$product_item['product_image_path'];

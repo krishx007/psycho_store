@@ -25,15 +25,15 @@ class Database extends CI_Model
 
 	function GetProducts($type, $sort, $game_name = 'all')
 	{	
-		if($sort == 'latest')
-			$this->db->order_by('product_id', 'desc');
-		else if($sort =='popular')				
-			$this->db->order_by('product_qty_sold', 'desc');	//Sort by selling amount					
-
 		if($type != 'all')
 			$this->db->where('product_type', $type);
 		if($game_name != 'all')
-			$this->db->where('product_game', $game_name);
+			$this->db->like('product_game', $game_name);
+
+		if($sort == 'latest')
+			$this->db->order_by('product_id', 'desc');
+		else if($sort =='popular')				
+			$this->db->order_by('product_qty_sold', 'desc');	//Sort by selling amount
 
 		$query = $this->db->get('products');
 		return $query->result_array();

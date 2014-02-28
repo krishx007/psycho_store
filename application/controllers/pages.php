@@ -57,20 +57,22 @@ class Pages extends CI_controller
 		$this->display('browse', $data);
 	}
 
-	function search()
+	function search($game = "")
 	{
-		$name = $this->input->post('searchQuery');	
+		$name = ($this->input->post('search_query') != false) ? trim($this->input->post('search_query')) : trim($game);
 
+		$data['search_result'] = 0;
+		$data['search_text'] = $name;
 		if(strlen($name))
-		{
-			$result = $this->database->GetProductByName($name);
+		{			
+			$result = $this->database->GetProducts('all','latest', $name);
+			$count = count($result);			
+			$data['search_result'] = $count;			
 
-			$data['searchResult'] = count($result);
-			$data['searchText'] = $name;
-
-			if($result)			
+			if($result)
 				$data['products'] = $result;
-		}
+				
+		}		
 
 		$this->display('search', $data);
 	}
@@ -103,8 +105,10 @@ class Pages extends CI_controller
 		switch ($page)
 		{
 			case 'search':
+			$this->load->view('view_search', $data);
+			break;
 			case 'browse':
-				$this->load->view('view_products_link', $data);	
+				$this->load->view('home', $data);	
 			break;
 			case 'product': 				
 				$this->load->view('view_product', $data);
