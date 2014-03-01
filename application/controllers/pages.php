@@ -71,7 +71,6 @@ class Pages extends CI_controller
 
 			if($result)
 				$data['products'] = $result;
-				
 		}		
 
 		$this->display('search', $data);
