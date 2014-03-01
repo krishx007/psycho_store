@@ -13,7 +13,7 @@
       <li>
        <form class="navbar-form " method = "post" action=<?php echo site_url("search");?>>
         <div class="form-group">          
-          <input class="form-control input-sm" type="text" name="search_query" placeholder="Search for a Game">                            
+          <input class="form-control input-sm" type="text" name="search_query" placeholder="Search for a Game">
         </div>
       </form>  
       </li>

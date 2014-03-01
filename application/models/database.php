@@ -39,6 +39,18 @@ class Database extends CI_Model
 		return $query->result_array();
 	}
 
+	function GetRandomProducts($count)
+	{		
+		$total_prods = $this->GetProductCount();
+
+		if($count > $total_prods)
+			$count = $total_prods;
+		
+		$random_prods = array_rand($this->GetProducts('all','latest'), $count-1);
+		
+		return $random_prods;
+	}
+
 	function GetUserById($id)
 	{
 		$this->db->where('id', $id);
