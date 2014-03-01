@@ -39,15 +39,19 @@ class Database extends CI_Model
 		return $query->result_array();
 	}
 
-	function GetRandomProducts($count)
-	{		
-		$total_prods = $this->GetProductCount();
+	function GetRandomProductIds($count, $type, $game_name, $exceptions/*pass an array with exception values*/)
+	{	
+		$arr1 = $this->GetProducts($type,'latest',$game_name);
+		$final_arr = array_diff_key($arr1, $exceptions);
+		var_dump($arr1);
+		var_dump($final_arr);
+		$max_prods = count($final_arr);
+		
+		if($count > $max_prods )
+			$count = $max_prods;
 
-		if($count > $total_prods)
-			$count = $total_prods;
-		
-		$random_prods = array_rand($this->GetProducts('all','latest'), $count-1);
-		
+		$random_prods = array_rand ($final_arr, $count);
+
 		return $random_prods;
 	}
 

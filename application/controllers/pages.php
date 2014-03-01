@@ -20,20 +20,17 @@ class Pages extends CI_controller
 		$this->latest('all');
 	}
 
-	function GenerateSuggestions()
-	{
-		//Get the game name
-		// $game_name = $data['product']['product_game'];
-		// //Get products of same game
-		// $game_products = $this->database->GetProducts('all', 'popular', $game_name);
-		// $game_products_count = count($game_products);
-		// //See if we have some products from this game (3)
-		// if( count($game_products) > 3)
-		// {
- 
-		// }
-		//Get 2/5 random products
-		return $this->database->GetRandomProducts(5);
+	function GenerateSuggestions($product)
+	{		
+		$exception[] = $product;
+		$random_ids = $this->database->GetRandomProductIds(5,'all', 'all', $exception);		
+		var_dump($random_ids);
+		$suggested_products = array();
+		
+		foreach ($random_ids as $key => $value)
+			$suggested_products[] = $this->database->GetProductById($value);
+		
+		return $suggested_products;
 	}
 
 	function product($id)
@@ -51,7 +48,7 @@ class Pages extends CI_controller
 			$data['total_products'] = $total_products;
 			
 			//Generate Suggestions
-			$data['suggested_products'] = $this->GenerateSuggestions();
+			$data['suggested_products'] = $this->GenerateSuggestions($result);
 			$this->display('product', $data);			
 		}
 		else
