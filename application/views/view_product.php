@@ -51,7 +51,7 @@
             <hr>
           </div>
           <div class="row">
-            <?php 
+<?php 
 foreach($suggested_products as $product_item): 
   $id = $product_item['product_id'];
   $path = "/".$product_item['product_image_path'];
