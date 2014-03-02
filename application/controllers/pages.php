@@ -23,13 +23,7 @@ class Pages extends CI_controller
 	function GenerateSuggestions($product)
 	{		
 		$exception[] = $product;
-		$random_ids = $this->database->GetRandomProductIds(5,'all', 'all', $exception);		
-		var_dump($random_ids);
-		$suggested_products = array();
-		
-		foreach ($random_ids as $key => $value)
-			$suggested_products[] = $this->database->GetProductById($value);
-		
+		$suggested_products = $this->database->GetRandomProducts(5,'all', 'all', $exception);		
 		return $suggested_products;
 	}
 

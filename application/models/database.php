@@ -39,19 +39,28 @@ class Database extends CI_Model
 		return $query->result_array();
 	}
 
-	function GetRandomProductIds($count, $type, $game_name, $exceptions/*pass an array with exception values*/)
+	function GetRandomProducts ($count, $type, $game_name, $exceptions/*pass an array with exception values*/)
 	{	
-		$arr1 = $this->GetProducts($type,'latest',$game_name);
-		$final_arr = array_diff_key($arr1, $exceptions);
-		var_dump($arr1);
-		var_dump($final_arr);
-		$max_prods = count($final_arr);
+		$prods = $this->GetProducts($type,'latest',$game_name);
+		foreach ($prods as $key => $value)
+		{
+			foreach ($exceptions as $ex_key => $ex_value)
+			{
+				if( (string)$value['product_id'] === (string)$ex_value['product_id'] )
+					unset($prods[$key]);
+			}
+		}		
+		$max_prods = count($prods);
 		
 		if($count > $max_prods )
 			$count = $max_prods;
+		
+		$random_ids = array_rand ($prods, $count);
+		$random_prods = array();
 
-		$random_prods = array_rand ($final_arr, $count);
-
+		foreach ($random_ids as $key => $value) 
+			$random_prods[] = $prods[$value];
+		
 		return $random_prods;
 	}
 
