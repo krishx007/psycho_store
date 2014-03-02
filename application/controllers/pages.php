@@ -20,10 +20,10 @@ class Pages extends CI_controller
 		$this->latest('all');
 	}
 
-	function GenerateSuggestions($product)
+	function GenerateSuggestions($product, $howmany)
 	{		
 		$exception[] = $product;
-		$suggested_products = $this->database->GetRandomProducts(5,'all', 'all', $exception);		
+		$suggested_products = $this->database->GetRandomProducts($howmany,'all', 'all', $exception);		
 		return $suggested_products;
 	}
 
@@ -32,8 +32,8 @@ class Pages extends CI_controller
 		$total_products = $this->database->GetProductCount();
 
 		//Safety Check, revert to first product when dont know what to do
-		if($id <= 0 || $id > $total_products)
-			$id = 1;		
+		// if($id <= 0 || $id > $total_products)
+		// 	$id = 1;		
 
 		$result = $this->database->GetProductById($id);
 		if($result)
@@ -42,7 +42,7 @@ class Pages extends CI_controller
 			$data['total_products'] = $total_products;
 			
 			//Generate Suggestions
-			$data['suggested_products'] = $this->GenerateSuggestions($result);
+			$data['suggested_products'] = $this->GenerateSuggestions($result, 6);
 			$this->display('product', $data);			
 		}
 		else
@@ -82,6 +82,11 @@ class Pages extends CI_controller
 		}		
 
 		$this->display('search', $data);
+	}
+
+	function subscribe($email_id)
+	{
+		
 	}
 
 	function GenerateHeader(&$data)

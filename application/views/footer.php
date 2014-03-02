@@ -21,10 +21,12 @@
               </li>
               <div class="col-md-5">
                 <li>
-                  <div class="input-group">
-                    <input type="text" class="form-control input-sm" placeholder="Be the first to know">
-                    <span class="input-group-btn"><button class="btn btn-warning btn-sm" type="button">Subscribe</button></span>
-                  </div>
+                  <form method = "post" action=<?php echo site_url('subscribe')?>>
+                    <div class="form-group">
+                      <input type="text" class="form-control input-sm" placeholder="Be the first to know">
+                      <span class="input-group-btn"><button class="btn btn-warning btn-sm" type="submit">Subscribe</button></span>
+                    </div>
+                  </form>
                 </li>
               </div>
             </ul>
