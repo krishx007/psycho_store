@@ -12,6 +12,7 @@ class Pages extends CI_controller
 		$this->load->helper('html');
 		$this->load->library('tank_auth');
 		$this->load->library('cart');
+		$this->load->helper('email');
 	}
 
 	function index()
@@ -84,9 +85,26 @@ class Pages extends CI_controller
 		$this->display('search', $data);
 	}
 
-	function subscribe($email_id)
+	function subscribe()
 	{
-		
+		$email_id = $this->input->post('subscribe_email');
+		$data = array();
+
+		if(valid_email($email_id))
+		{			
+			$this->database->Subscribe($email_id);
+			$data['email_id'] = $email_id;
+			$data['heading'] = "All right ";
+			$data['small_heading'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you We dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";
+		}
+		else
+		{
+			$data['email_id'] = $email_id;
+			$data['heading'] = "Damn, you cant even type an email correctly";
+			$data['small_heading'] = "Just dont disappoint this time, try again";
+		}			
+
+		$this->display('newsletter', $data);
 	}
 
 	function GenerateHeader(&$data)
@@ -124,7 +142,10 @@ class Pages extends CI_controller
 			break;
 			case 'product': 				
 				$this->load->view('view_product', $data);
-			break;			
+			break;		
+			case 'newsletter':
+				$this->load->view('newsletter', $data);
+			break;
 			default:
 				show_404();
 			break;		

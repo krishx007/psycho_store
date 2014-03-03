@@ -118,5 +118,23 @@ class Database extends CI_Model
 		$query = $this->db->get('orders');
 		return $query->result_array();
 	}
+
+	function Subscribe($email_id)
+	{
+		//make sure it isnt already present
+		$this->db->where('email', $email_id);
+		$query = $this->db->get('newsletter');		
+		if($query->num_rows() == 0)
+		{
+			$email = array('email' => $email_id);
+			$this->db->insert('newsletter',$email);
+		}
+	}
+
+	function Unsubscribe($email)
+	{
+		$this->db->where('email_id', $email);
+		$this->db->delete('email_id');
+	}
 }
 ?>
