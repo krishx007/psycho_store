@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 28, 2014 at 07:58 PM
+-- Generation Time: Mar 03, 2014 at 07:41 PM
 -- Server version: 5.6.12-log
--- PHP Version: 5.4.12
+-- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 --
 
 INSERT INTO `ci_sessions` (`session_id`, `ip_address`, `user_agent`, `last_activity`, `user_data`) VALUES
-('1902b73db7dd99882ab2685896c00a7a', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1393617514, 'a:2:{s:13:"cart_contents";a:4:{s:32:"eccbf08a16d1b2819fbe45b34cb5b3f5";a:7:{s:5:"rowid";s:32:"eccbf08a16d1b2819fbe45b34cb5b3f5";s:2:"id";s:1:"2";s:3:"qty";s:1:"1";s:5:"price";s:3:"600";s:4:"name";s:18:"Can you walk dead?";s:7:"options";a:1:{s:4:"size";s:5:"small";}s:8:"subtotal";i:600;}s:32:"f196f670f9d70aa6ffd7e07a694571bc";a:7:{s:5:"rowid";s:32:"f196f670f9d70aa6ffd7e07a694571bc";s:2:"id";s:1:"3";s:3:"qty";s:1:"1";s:5:"price";s:3:"600";s:4:"name";s:16:"Get Sherlocked !";s:7:"options";a:1:{s:4:"size";s:6:"Medium";}s:8:"subtotal";i:600;}s:11:"total_items";i:2;s:10:"cart_total";i:1200;}s:2:"2s";s:32:"eccbf08a16d1b2819fbe45b34cb5b3f5";}');
+('66742ec6d01c2e6540311b50656ad4f3', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36', 1393875242, '');
 
 -- --------------------------------------------------------
 
@@ -88,6 +88,25 @@ CREATE TABLE IF NOT EXISTS `login_attempts` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `newsletter`
+--
+
+CREATE TABLE IF NOT EXISTS `newsletter` (
+  `email` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `newsletter`
+--
+
+INSERT INTO `newsletter` (`email`) VALUES
+(''),
+('ishkaran.singh@hotmail.com'),
+('ishkaran.fearme@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -173,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `product_count_xl` int(11) NOT NULL DEFAULT '10',
   `product_qty_sold` int(11) DEFAULT '0',
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `products`
@@ -184,7 +203,14 @@ INSERT INTO `products` (`product_id`, `product_type`, `product_game`, `product_n
 (2, 'tshirt', 'Doom 3', 'Can you walk dead?', '', 'images\\walkingdead.png', 600, 20, 20, 20, 10, 7),
 (3, 'tshirt', 'Half life 2', 'Get Sherlocked !', '', 'images\\sherlock.png', 600, 20, 20, 20, 10, 8),
 (4, 'tshirt', 'Dead Space', 'Join the club !', '', 'images\\fightclub.png', 600, 20, 20, 20, 10, 4),
-(5, 'tshirt', 'Witcher', 'Which dog are you', '', 'images\\reservoirdogs.png', 600, 20, 20, 20, 10, 12);
+(5, 'tshirt', 'Witcher', 'Which dog are you', '', 'images\\reservoirdogs.png', 600, 20, 20, 20, 10, 12),
+(6, 'tshirt', 'Half Life 2', 'Bahadur Bille', '', 'images\\swatkats.png', 600, 10, 20, 20, 10, 0),
+(7, 'tshirt', 'Harry Potter', 'Catch that Snitch', '', 'images\\harrypotter.png', 600, 10, 20, 20, 10, 0),
+(8, 'hoodie', 'Wolf', 'RedWolf', '', 'images\\wolf.png', 600, 10, 20, 20, 10, 0),
+(10, 'tshirt', 'Breaking Bad', 'Golden moth', '', 'images\\goldenmoth.png', 600, 10, 20, 20, 10, 0),
+(11, 'tshirt', 'Breaking Bad', 'Bender', '', 'images\\bender.png', 600, 10, 20, 20, 10, 0),
+(12, 'tshirt', 'Dragon ball z', 'Goku', '', 'images\\goku.png', 600, 10, 20, 20, 10, 0),
+(13, 'tshirt', 'Breaking Bad', 'Heisenberg Principal', '', 'images\\heisenberg.png', 600, 10, 20, 20, 10, 0);
 
 -- --------------------------------------------------------
 
@@ -216,8 +242,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `last_login`, `created`, `modified`) VALUES
-(1, 'Ishkaran', '$2a$08$3emZrsG1eFlN5vN5zKBCXOpTfs9JblIeZ9QPsvsC7YotQ73iR/JwO', 'ishkaran.singh@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '2014-02-28 18:02:08', '2013-12-08 15:01:08', '2014-02-28 18:02:08'),
-(2, 'ishu', '$2a$08$FntmR9k6tyhcUGZ4aYPyAOh2Dxu23Bd/BbB3MemlC/PfPz/O97Sd.', 'ishkaran.fearme@gmail.com', 1, 0, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '0000-00-00 00:00:00', '2013-12-08 15:04:11', '2013-12-08 15:04:11');
+(1, 'Ishkaran', '$2a$08$3emZrsG1eFlN5vN5zKBCXOpTfs9JblIeZ9QPsvsC7YotQ73iR/JwO', 'ishkaran.singh@hotmail.com', 1, 0, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '2014-03-03 19:33:29', '2013-12-08 15:01:08', '2014-03-03 19:33:29'),
+(2, 'ishu', '$2a$08$FntmR9k6tyhcUGZ4aYPyAOh2Dxu23Bd/BbB3MemlC/PfPz/O97Sd.', 'ishkaran.fearme@gmail.com', 1, 0, NULL, NULL, NULL, NULL, NULL, '127.0.0.1', '2014-03-02 16:32:11', '2013-12-08 15:04:11', '2014-03-02 16:32:11');
 
 -- --------------------------------------------------------
 
