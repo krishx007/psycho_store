@@ -24,23 +24,45 @@ class Pages extends CI_controller
 	function GenerateSuggestions($product, $howmany)
 	{		
 		$exception[] = $product;
-		$suggested_products = $this->database->GetRandomProducts($howmany,'all', 'all', $exception);		
+		$suggested_products = $this->database->GetRandomProducts($howmany,'all', 'all', $exception);
 		return $suggested_products;
+	}
+
+	function GetNextPreviousIds($current_id, &$next, &$prev, $total_products)
+	{		
+		$result = array();
+		$id = $current_id;		
+		while(count($result) < 1)
+		{
+			$id = $id + 1; if($id > $total_products ) $id = 1;
+			$result = $this->database->GetProductById($id);						
+		}		
+		$next = $result['product_id'];		
+		
+		//reset
+		$result = null;
+		$id = $current_id;
+		while(count($result) < 1)
+		{
+			$id = $id - 1; if($id < 1 ) $id = $total_products;
+			$result = $this->database->GetProductById($id);		
+		}
+		$prev = $result['product_id'];	
 	}
 
 	function product($id)
 	{
-		$total_products = $this->database->GetProductCount();
-
-		//Safety Check, revert to first product when dont know what to do
-		// if($id <= 0 || $id > $total_products)
-		// 	$id = 1;		
+		$total_products = $this->database->GetMaxProductID();
 
 		$result = $this->database->GetProductById($id);
 		if($result)
-		{			
+		{
+			$next = $prev = 0;
+			$this->GetNextPreviousIds($result['product_id'], $next, $prev, $total_products);
 			$data['product'] = $result;
-			$data['total_products'] = $total_products;
+			$data['total_products'] = $total_products;			
+			$data['next_id'] = $next;
+			$data['prev_id'] = $prev;
 			
 			//Generate Suggestions
 			$data['suggested_products'] = $this->GenerateSuggestions($result, 6);
@@ -65,10 +87,17 @@ class Pages extends CI_controller
 		$data['latest_link_state'] = 'none';
 		$this->display('browse', $data);
 	}
+	
+	//Removes spaces from a url
+	function beautify($string, $search_char)
+	{
+		return str_replace($search_char,' ',$string);
+	}
+
 
 	function search($game = "")
 	{
-		$name = ($this->input->post('search_query') != false) ? trim($this->input->post('search_query')) : trim($game);
+		$name = ($this->input->post('search_query') != false) ? trim($this->input->post('search_query')) : $this->beautify($game,'_');
 
 		$data['search_result'] = 0;
 		$data['search_text'] = $name;

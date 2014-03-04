@@ -18,7 +18,14 @@ class Database extends CI_Model
 		return $query->row_array();
 	}
 
-	function GetProductCount()
+	function GetMaxProductID()
+	{
+		$result = $this->db->get('products');
+		$row = $result->last_row('array');		
+		return $row['product_id'];
+	}
+
+	function GetproductCount()
 	{
 		return $this->db->count_all('products');
 	}

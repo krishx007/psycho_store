@@ -30,11 +30,7 @@ foreach($products as $product_item):
 	    	</div>
     	</div>
     </div>
-
-<?php endforeach ?>
-
-
-      
+<?php endforeach ?>    
     </div>
   </div>
 </div>

@@ -7,10 +7,10 @@
           </div>
           <ul class="pager">
             <li class="previous">
-  				<?php 	$id = $product['product_id'] - 1; if($id < 1 ) $id = $total_products; echo anchor("product/$id", "Previous");?>
+  				<?php 	$id = $product['product_id'] - 1; if($id < 1 ) $id = $total_products; echo anchor("product/$prev_id", "Previous");?>
             </li>
             <li class="next">
-              <?php 	$id = $product['product_id'] + 1; if($id > $total_products ) $id = 1; echo anchor("product/$id", "Next");?>
+              <?php 	$id = $product['product_id'] + 1; if($id > $total_products ) $id = 1; echo anchor("product/$next_id", "Next");?>
             </li>
           </ul>
           <div class="col-md-6">
@@ -42,6 +42,12 @@
 	                <button type="submit" name = "add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
 	              </div>
           		</form>
+            </div>
+            <hr>
+            <div class="row ">
+              <div class="col-md-12">
+                <h4>Inspired by <a href=<?php $game = url_title($product['product_game'],'_'); echo site_url("search/$game")?>> <?php echo $product['product_game']?></a></h4>
+              </div>
             </div>
           </div>
         </div>
