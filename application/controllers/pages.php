@@ -53,7 +53,7 @@ class Pages extends CI_controller
 	function product($id)
 	{
 		$total_products = $this->database->GetMaxProductID();
-
+		
 		$result = $this->database->GetProductById($id);
 		if($result)
 		{
@@ -105,23 +105,11 @@ class Pages extends CI_controller
 		{			
 			$result = $this->database->GetProducts('all','latest', $name);
 			$count = count($result);			
-			$data['search_result'] = $count;
-			$data['extra_text'] = '';
+			$data['search_result'] = $count;			
 
 			if($result)
-				$data['products'] = $result;
-			else
-			{
-				$data['extra_text'] = 'Try another game search, meanwhile check these out';
-				$data['products'] = $this->database->GetRandomProducts(6,'all','all',null);
-			}
-		}
-		else
-		{
-			$data['extra_text'] = 'Try actually searching for something, meanwhile check these';
-			$data['products'] = $this->database->GetRandomProducts(6,'all','all',null);
-		}
-			
+				$data['products'] = $result;			
+		}		
 
 		$this->display('search', $data);
 	}
@@ -162,7 +150,10 @@ class Pages extends CI_controller
 
 		//Cart Info
 		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();		
+		$data['total_price'] = $this->cart->total();
+
+		//Game search Links
+		$data['supported_games'] = $this->database->GetAllSuportedGames();		
 	}
 
 	function display($page, $data)

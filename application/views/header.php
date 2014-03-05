@@ -12,8 +12,15 @@
     <ul class="nav nav-pills navbar-right">
       <li>
        <form class="navbar-form " method = "post" action=<?php echo site_url("search");?>>
-        <div class="form-group">          
-          <input class="form-control input-sm" type="text" name="search_query" placeholder="Search for a Game">
+        <div class="btn-group">
+          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Search Products Related To <span class="caret"></span>  </a>
+          <ul class="dropdown-menu">
+            <?php foreach ($supported_games as $key => $game):?>
+              <li>
+                <a href=<?php $url = url_title($game['product_game'],'_'); echo site_url("search/$url")?>> <?php echo $game['product_game'] ?></a>
+              </li>
+            <?php endforeach ?>           
+          </ul>
         </div>
       </form>  
       </li>
