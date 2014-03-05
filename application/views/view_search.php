@@ -2,7 +2,8 @@
   <div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
-        <h2 class="text-primary"><?php echo $search_result ?>&nbsp;<small>product(s) found for</small> <?php echo $search_text?></h2>
+        <h2 class="text-primary"><?php echo $search_result ?>&nbsp;<small>product(s) found for</small> <?php echo $search_text;?> </h2>
+        <h3><?php echo $extra_text ?></h3>
       </div>
     </div>
   </div>
@@ -12,8 +13,7 @@
 <div class="container">
   <div class="well">
     <div class="row">
-<?php 
-if($search_result)
+<?php
 foreach($products as $product_item): 
 	$id = $product_item['product_id'];
 	$path = "/".$product_item['product_image_path'];

@@ -105,11 +105,23 @@ class Pages extends CI_controller
 		{			
 			$result = $this->database->GetProducts('all','latest', $name);
 			$count = count($result);			
-			$data['search_result'] = $count;			
+			$data['search_result'] = $count;
+			$data['extra_text'] = '';
 
 			if($result)
 				$data['products'] = $result;
-		}		
+			else
+			{
+				$data['extra_text'] = 'Try another game search, meanwhile check these out';
+				$data['products'] = $this->database->GetRandomProducts(6,'all','all',null);
+			}
+		}
+		else
+		{
+			$data['extra_text'] = 'Try actually searching for something, meanwhile check these';
+			$data['products'] = $this->database->GetRandomProducts(6,'all','all',null);
+		}
+			
 
 		$this->display('search', $data);
 	}

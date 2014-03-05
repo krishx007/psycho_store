@@ -51,10 +51,13 @@ class Database extends CI_Model
 		$prods = $this->GetProducts($type,'latest',$game_name);
 		foreach ($prods as $key => $value)
 		{
-			foreach ($exceptions as $ex_key => $ex_value)
+			if($exceptions)
 			{
-				if( (string)$value['product_id'] === (string)$ex_value['product_id'] )
-					unset($prods[$key]);
+				foreach ($exceptions as $ex_key => $ex_value)
+				{
+					if( (string)$value['product_id'] === (string)$ex_value['product_id'] )
+						unset($prods[$key]);
+				}				
 			}
 		}		
 		$max_prods = count($prods);
