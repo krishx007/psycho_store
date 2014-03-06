@@ -1,0 +1,55 @@
+/* Make something awesome! */
+body {
+font-family: "Cabin",Arial,sans-serif;
+font-size: 14px;
+line-height: 1.428571429;
+color: #f3f3f3;
+background-color: #242424;
+}
+
+.panel {
+margin-bottom: 20px;
+background-color: rgb(9,9,8);
+border: 0px solid transparent;
+border-radius: 0px;
+-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+text-decoration: none;
+background-color: inherit;
+color: #f3f3f3;
+}
+
+a:hover, a:focus {
+color: inherit;
+text-decoration: underline;
+}
+
+a 
+{
+	color:#bababa;
+}
+
+.well {
+min-height: 20px;
+padding: 19px;
+margin-bottom: 20px;
+background-color: inherit;
+border: 0px solid;
+border-radius: 4px;
+-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.badge {
+background-color: #09f;
+}
+
+hr {
+margin-top: 20px;
+margin-bottom: 20px;
+border: 5;
+border-top: 1px solid #444444;
+}
