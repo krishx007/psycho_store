@@ -1,5 +1,6 @@
 <div class="container">
       <div class="section">
+        <div class="top-bottom-space">
         <div class="row">
           <div class="col-md-12">
             <h1 class="text-left"><?php echo $product['product_name'] ?> <small>Rs <?php echo $product['product_price']?></small></h1>            
@@ -27,7 +28,7 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <a class="inline" href="#"><p><small>Whats my </small><strong> size</strong> ?</p></a>
+                <p><a class="inline" href="#"><small>Whats my </small><strong> size</strong> ?</a></p>
               </div>              
               <div class="col-xs-12 col-md-4">
               	<form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
@@ -51,6 +52,7 @@
             </div>
           </div>
         </div>
+      </div>
         <div class="row">
           <div class="col-md-12">
             <h3 class="text-left">Other Products</h3>
@@ -66,7 +68,7 @@ foreach($suggested_products as $product_item):
           'class' => 'img-responsive',
 );
 ?>
-  <div class="col-md-2">
+  <div class="product-link-sm col-md-2">
       <?php echo anchor("/product/$id", img($image_properties));?>      
   </div>
 

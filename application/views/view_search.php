@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-12">
-        <h2 class="text-primary"><?php echo $search_result ?>&nbsp;<small>product(s) found for</small> <?php echo $search_text;?> </h2>        
+        <h2 class=""><?php echo $search_result ?>&nbsp;<small>product(s) found for</small> <?php echo $search_text;?> </h2>
       </div>
     </div>
   </div>
@@ -22,14 +22,14 @@ foreach($products as $product_item):
           'class' => 'img-responsive',
 );
 ?>
-	<div class="col-md-4">
+	<div class="product-link col-md-4">    
     	<?php echo anchor("/product/$id", img($image_properties));?>
-    	<div class="row">
+    	<div class="product-link row">
 	    	<div class="col-md-12">
-	    		<h4 class="text-center"> <?php echo anchor("product/$id", $product_item['product_name']) ?> <br>Rs <?php echo $product_item['product_price'] ?></h4>
+	    		<h4 class="text-center"> <?php echo $product_item['product_name'] ?> <br>Rs <?php echo $product_item['product_price'] ?></h4>
 	    	</div>
-    	</div>
-    </div>
+    	</div>    
+  </div>  
 <?php endforeach ?>    
     </div>
   </div>
