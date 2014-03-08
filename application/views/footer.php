@@ -24,7 +24,7 @@
                   <form class="form" method = "post" action=<?php echo site_url('subscribe')?>>
                     <div class="input-group">
                       <input type="text" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know">
-                      <span class="input-group-btn"><button class="btn btn-default btn-sm" type="submit">Subscribe</button></span>
+                      <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
                     </div>
                   </form>
                 </li>

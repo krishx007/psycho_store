@@ -28,8 +28,15 @@ text-decoration: none;
 }
 
 .active
-{		
-	text-decoration: underline;
+{
+	color: #09f;
+	text-decoration: underline;		
+	text-decoration-color:#09f;	
+}
+
+.active:hover
+{	
+	text-decoration: underline;	
 }
 
 a 
@@ -37,9 +44,14 @@ a
 	color:#bababa;
 }
 
+.product-link:hover>.row>.col-md-12>h4
+{	
+	color:inherit;	
+}
+
 .product-link:hover
 {
-	border: 2px solid transparent;
+	border: 3px solid transparent;	
 }
 
 .product-link-sm
