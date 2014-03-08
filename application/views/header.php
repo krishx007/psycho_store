@@ -39,9 +39,11 @@
       <a href= <?php echo site_url('') ?> ><h4>Psycho Store</h4></a>
     </ul>
   </div>
-  <div class="row">
-    <div class="col-xs-3 col-xs-push-5 col-sm-3 col-sm-push-5 col-md-2 col-md-push-5">
-      <img class="img-responsive" src="http://cdn.shopify.com/s/files/1/0063/2872/t/4/assets/logo.png?2093">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <img class="img-responsive" src="http://cdn.shopify.com/s/files/1/0063/2872/t/4/assets/logo.png?2093" style="display: inline">
+      </div>
     </div>
   </div>
 </header>
