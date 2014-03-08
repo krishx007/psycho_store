@@ -1,14 +1,3 @@
-<script>
-function getCheckedRadioValue(radioGroupName) {
-   var rads = document.getElementsByName(radioGroupName),
-       i;
-   for (i=0; i < rads.length; i++)
-      if (rads[i].checked)
-          return rads[i].value;
-   return null; // or undefined, or your preferred default for none checked
-}
-</script>
-
 <form method = 'post' action = <?php echo site_url('checkout/payment')?> >
 <table>
 <tr>

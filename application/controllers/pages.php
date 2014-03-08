@@ -53,7 +53,7 @@ class Pages extends CI_controller
 	function product($id)
 	{
 		$total_products = $this->database->GetMaxProductID();
-
+		
 		$result = $this->database->GetProductById($id);
 		if($result)
 		{
@@ -108,7 +108,7 @@ class Pages extends CI_controller
 			$data['search_result'] = $count;			
 
 			if($result)
-				$data['products'] = $result;
+				$data['products'] = $result;			
 		}		
 
 		$this->display('search', $data);
@@ -123,7 +123,7 @@ class Pages extends CI_controller
 		{			
 			$this->database->Subscribe($email_id);
 			$data['email_id'] = $email_id;
-			$data['heading'] = "All right ";
+			$data['heading'] = "Greetings ";
 			$data['small_heading'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you We dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";
 		}
 		else
@@ -150,7 +150,10 @@ class Pages extends CI_controller
 
 		//Cart Info
 		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();		
+		$data['total_price'] = $this->cart->total();
+
+		//Game search Links
+		$data['supported_games'] = $this->database->GetAllSuportedGames();		
 	}
 
 	function display($page, $data)

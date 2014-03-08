@@ -30,6 +30,15 @@ class Database extends CI_Model
 		return $this->db->count_all('products');
 	}
 
+	function GetAllSuportedGames()
+	{
+		$this->db->distinct();
+		$this->db->select('product_game');
+		$this->db->order_by('product_game');
+		$query = $this->db->get('products');
+		return $query->result_array();
+	}
+
 	function GetProducts($type, $sort, $game_name = 'all')
 	{	
 		if($type != 'all')
@@ -57,8 +66,8 @@ class Database extends CI_Model
 				{
 					if( (string)$value['product_id'] === (string)$ex_value['product_id'] )
 						unset($prods[$key]);
-				}	
-			}			
+				}				
+			}
 		}		
 		$max_prods = count($prods);
 		
