@@ -31,7 +31,7 @@ text-decoration: none;
 {
 	color: #09f;
 	text-decoration: underline;		
-	text-decoration-color:#09f;	
+	
 }
 
 .active:hover
@@ -44,14 +44,9 @@ a
 	color:#bababa;
 }
 
-.product-link:hover>.row>.col-md-12>h4
-{	
-	color:inherit;	
-}
-
 .product-link:hover
 {
-	border: 3px solid transparent;	
+	border: 2px solid transparent;	
 }
 
 .product-link-sm
@@ -164,4 +159,14 @@ footer
 {
 	padding-right: 10px;
 	padding-left: 10px;
+}
+
+.gothic
+{
+font-family: "Carrois Gothic SC";	
+}
+
+.lobster
+{
+font-family: "lobster";
 }

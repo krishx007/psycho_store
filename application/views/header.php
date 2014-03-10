@@ -22,7 +22,7 @@
               <li>
                 <a href=<?php $url = url_title($game['product_game'],'_'); echo site_url("search/$url")?>> <?php echo $game['product_game'] ?></a>
               </li>
-            <?php endforeach ?>           
+            <?php endforeach ?>
           </ul>
         </div>
       </form>  
@@ -32,7 +32,7 @@
       </li>
       <li>
         <?php  echo (  $user_id == 0 ? anchor('auth', "Login") : anchor('auth/logout', "Logout") )?>
-      </li>          
+      </li>
       <li>
         <a href= <?php echo site_url('cart')?> ><i class="fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
       </li>
