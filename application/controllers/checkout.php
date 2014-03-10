@@ -41,7 +41,11 @@ class checkout extends CI_controller
 
 	function payment()
 	{
-		$address_id = $this->input->post('address_id');
+		if($this->input->post('address_id'))
+			$address_id = $this->input->post('address_id');
+		else
+			redirect('checkout/address');
+		
 		$order = array
 				(
 					'user_id'	=>	$this->tank_auth->get_user_id(),
@@ -62,6 +66,15 @@ class checkout extends CI_controller
 							'size'			=> $item['options']['size']
 						);
 
+			//Update product info
+			$size = $item['options']['size'];
+			$size = 'product_count_'.$size;			
+			$product = $this->database->GetProductById($item['id']);			
+			$product['product_qty_sold'] += $item['qty'];
+			$product[$size] -= $item['qty'];			
+
+			//Update database
+			$this->database->ModifyProduct($product);
 			$this->database->AddOrderItem($order_item);
 		}
 

@@ -83,6 +83,12 @@ class Database extends CI_Model
 		return $random_prods;
 	}
 
+	function ModifyProduct($product)
+	{
+		$this->db->where('product_id', $product['product_id']);
+		$this->db->update('products', $product);
+	}
+
 	function GetUserById($id)
 	{
 		$this->db->where('id', $id);
