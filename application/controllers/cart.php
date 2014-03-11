@@ -47,9 +47,19 @@ class cart extends CI_controller
 		$data[] = 0;
 		$num_items = $this->cart->total_items();
 		$this->GenerateHeader($data);
+		
+		//make sure user cant enter more than available tshirts qty
+		foreach ($this->cart->contents() as $items)
+		{
+			$prod_id = $items['id'];
+			$product = $this->database->GetProductById($prod_id);
+			$key = 'product_count_'.$items['options']['size'];			
+			$data['max'.$prod_id] = $product[$key];
+		}
+
 		$this->load->view('header',$data);
 		$this->load->view('view_cart',$data);
-		//$this->load->view('footer');
+		$this->load->view('footer');
 	}
 
 	function createKey($id, $size)
@@ -104,10 +114,22 @@ class cart extends CI_controller
 
 	function update()
 	{
-		$id = $this->input->post('row_id');
-		$quant = $this->input->post('quantity');
-		$data = array('rowid' => $id, 'qty' => $quant);
-		$this->cart->update($data);
+		$i = 1;
+		foreach ($this->cart->contents() as $items)
+		{
+			if( $this->input->post($i.$items['rowid']) )
+			{
+				$id = $items['rowid'];
+				$quant = (int)$this->input->post($i.$items['rowid']);
+
+				//Update Cart				
+				$data = array('rowid' => $id, 'qty' => $quant);
+				$this->cart->update($data);					
+			}
+
+			$i++;		
+		}
+
 		redirect('cart');	
 	}
 

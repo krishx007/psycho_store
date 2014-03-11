@@ -11,8 +11,8 @@
 </head>
 
 <header>
-  <div class="panel collapse navbar-collapse">
-    <ul class="nav nav-pills navbar-right">
+  <nav class="panel collapse navbar-collapse">
+    <ul class="nav nav-pills navbar-right ">
       <li>
        <form class="navbar-form " method = "post" action=<?php echo site_url("search");?>>
         <div class="btn-group">
@@ -38,9 +38,9 @@
       </li>
     </ul>
     <ul class="nav nav-pills navbar-left">
-      <a href= <?php echo site_url('') ?> ><h4>Psycho Store</h4></a>
+      <a href= <?php echo site_url('') ?> ><h4 class='gothic'><strong>Psycho Store</strong></h4></a>
     </ul>
-  </div>
+  </nav>
   <div class="container">
     <div class="row">
       <div class="col-xs-12 text-center">
