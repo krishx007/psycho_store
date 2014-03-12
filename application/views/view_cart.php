@@ -16,7 +16,7 @@
 	<?php echo form_hidden('row_id', $items['rowid']); ?>
 
 	<tr>
-	  <td><?php $var_name = 'max'.$items['id']; $max = $$var_name; echo form_input(array('type'=> 'number', 'pattern' => '[0-9]','name' => $i.$items['rowid'], 'value' => $items['qty'], 'min' => '1', 'max' => $max  )); ?></td>
+	  <td><?php echo 1; echo nbs(1); $var_name = 'max'.$items['rowid']; $max = $$var_name; echo form_input(array('type'=> 'range', 'name' => $i.$items['rowid'], 'value' => $items['qty'], 'min' => '1', 'max' => $max  )); echo nbs(1);echo $max; ?></td>
 	  <td>
 		<?php echo $items['name']; ?>
 

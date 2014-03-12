@@ -44,9 +44,15 @@ a
 	color:#bababa;
 }
 
+.product-link:hover>.row>.col-md-12>h4
+{	
+	color: #fff;
+}
+
 .product-link:hover
 {
-	border: 2px solid transparent;	
+	border: 2px solid transparent;
+	color: #fff;
 }
 
 .product-link-sm
@@ -169,4 +175,9 @@ font-family: "Carrois Gothic SC";
 .lobster
 {
 font-family: "lobster";
+}
+
+.catalog-desc
+{
+	color:#bababa;
 }

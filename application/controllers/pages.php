@@ -63,6 +63,20 @@ class Pages extends CI_controller
 			$data['total_products'] = $total_products;			
 			$data['next_id'] = $next;
 			$data['prev_id'] = $prev;
+			$data['small_stock']="";
+			$data['medium_stock']="";
+			$data['large_stock']="";
+			$data['xlarge_stock']="";
+
+			if($result['product_count_small'] == 0)
+				$data['small_stock'] = 'disbaled';
+			if($result['product_count_medium'] == 0)
+				$data['medium_stock'] = 'disabled';
+			if($result['product_count_large'] == 0)
+				$data['large_stock'] = 'disabled';
+			if($result['product_count_x-large'] == 0)
+				$data['xlarge_stock'] = 'disabled';
+
 			
 			//Generate Suggestions
 			$data['suggested_products'] = $this->GenerateSuggestions($result, 6);

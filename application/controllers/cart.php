@@ -11,6 +11,7 @@ class cart extends CI_controller
 		$this->load->library('cart');
 		$this->load->model('database');
 		$this->load->helper('url');
+		$this->load->helper('html');
 		$this->load->helper('form');
 		$this->load->library('session');
 		$this->load->library('tank_auth');
@@ -52,9 +53,9 @@ class cart extends CI_controller
 		foreach ($this->cart->contents() as $items)
 		{
 			$prod_id = $items['id'];
-			$product = $this->database->GetProductById($prod_id);
-			$key = 'product_count_'.$items['options']['size'];			
-			$data['max'.$prod_id] = $product[$key];
+			$product = $this->database->GetProductById($prod_id);			
+			$key = 'product_count_'.$items['options']['size'];
+			$data['max'.$items['rowid']] = $product[$key];
 		}
 
 		$this->load->view('header',$data);
@@ -82,7 +83,7 @@ class cart extends CI_controller
 		$product = $this->database->getProductbyId($productID);
 		if($product)
 		{			
-			$size = $this->input->post('size');
+			$size = $this->input->post('size');			
 			$cart_item = array
 					(
 						'id' 	=> $productID,
@@ -120,8 +121,7 @@ class cart extends CI_controller
 			if( $this->input->post($i.$items['rowid']) )
 			{
 				$id = $items['rowid'];
-				$quant = (int)$this->input->post($i.$items['rowid']);
-
+				$quant = (int)$this->input->post($i.$items['rowid']);				
 				//Update Cart				
 				$data = array('rowid' => $id, 'qty' => $quant);
 				$this->cart->update($data);					
