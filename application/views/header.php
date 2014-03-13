@@ -1,7 +1,7 @@
 <head>
 	<title>Psycho Store</title>
 <meta name="viewport" content="width=device-width">
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootswatch/3.0.0/amelia/bootstrap.min.css">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
@@ -28,7 +28,7 @@
       </form>  
       </li>
       <li>
-        <h4><?php if($user_id > 0) echo $user_name ?></h4>
+        <h4 class="molot"><?php if($user_id > 0) echo $user_name ?></h4>
       </li>
       <li>
         <?php  echo (  $user_id == 0 ? anchor('auth', "Login") : anchor('auth/logout', "Logout") )?>
@@ -38,7 +38,7 @@
       </li>
     </ul>
     <ul class="nav nav-pills navbar-left">
-      <a href= <?php echo site_url('') ?> ><h4 class='gothic'><strong>Psycho Store</strong></h4></a>
+      <a href= <?php echo site_url('') ?> ><h4 class='molot'>Psycho Store</h4></a>
     </ul>
   </nav>
   <div class="container">
