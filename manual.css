@@ -44,7 +44,7 @@
 }
 
 @font-face {
-    font-family: 'cuprumregular';
+    font-family: 'cuprum';
     src: url('typeface/cuprum/Cuprum-Regular-webfont.eot');
     src: url('typeface/cuprum/Cuprum-Regular-webfont.eot?#iefix') format('embedded-opentype'),
          url('typeface/cuprum/Cuprum-Regular-webfont.woff') format('woff'),
@@ -117,7 +117,7 @@
 }
 
 @font-face {
-    font-family: 'gandhi_sansregular';
+    font-family: 'gandhi';
     src: url('typeface/gandhi/GandhiSans-Regular-webfont.eot');
     src: url('typeface/gandhi/GandhiSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
          url('typeface/gandhi/GandhiSans-Regular-webfont.woff') format('woff'),
@@ -164,7 +164,7 @@
 }
 
 @font-face {
-	font-family: 'Inder-Regular';
+	font-family: 'Inder';
 	src: url('typeface/inder/Inder-Regular.eot?') format('eot'), 
 	     url('typeface/inder/Inder-Regular.otf')  format('opentype'),
 	     url('typeface/inder/Inder-Regular.woff') format('woff'), 
@@ -183,7 +183,7 @@
 
 
 body {
-font-family: "Carrois Gothic SC";
+font-family: "gandhi";
 font-size: 14px;
 line-height: 1.428571429;
 color: #fff;
@@ -352,12 +352,13 @@ footer
 
 .gothic
 {
-font-family: "Carrois Gothic SC";	
+font-family: "gandhi";	
 }
 
 .molot
 {
 font-family: "molotregular";
+letter-spacing: 1px;
 }
 
 .catalog-desc
@@ -368,4 +369,5 @@ font-family: "molotregular";
 h1,h2,h3
 {
 	font-family: "molotregular";
+	letter-spacing: 1px;
 }
