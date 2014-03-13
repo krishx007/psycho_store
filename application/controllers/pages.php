@@ -74,7 +74,7 @@ class Pages extends CI_controller
 				$data['medium_stock'] = 'disabled';
 			if($result['product_count_large'] == 0)
 				$data['large_stock'] = 'disabled';
-			if($result['product_count_x-large'] == 0)
+			if($result['product_count_xl'] == 0)
 				$data['xlarge_stock'] = 'disabled';
 
 			
