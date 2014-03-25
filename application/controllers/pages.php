@@ -115,6 +115,7 @@ class Pages extends CI_controller
 
 		$data['search_result'] = 0;
 		$data['search_text'] = $name;
+		$data['products'] = array();
 		if(strlen($name))
 		{			
 			$result = $this->database->GetProducts('all','latest', $name);
