@@ -8,10 +8,10 @@
           </div>
           <ul class="pager">
             <li class="previous">
-  				<?php 	$id = $product['product_id'] - 1; if($id < 1 ) $id = $total_products; echo anchor("product/$prev_id", "Previous");?>
+  				<?php echo anchor("product/$prev_id", "Previous");?>
             </li>
             <li class="next">
-              <?php 	$id = $product['product_id'] + 1; if($id > $total_products ) $id = 1; echo anchor("product/$next_id", "Next");?>
+              <?php echo anchor("product/$next_id", "Next");?>
             </li>
           </ul>
           <div class="col-md-6">
