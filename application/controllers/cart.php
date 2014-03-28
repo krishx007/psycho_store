@@ -124,7 +124,7 @@ class cart extends CI_controller
 				$quant = (int)$this->input->post($i.$items['rowid']);				
 				//Update Cart				
 				$data = array('rowid' => $id, 'qty' => $quant);
-				$this->cart->update($data);					
+				$this->cart->update($data);
 			}
 
 			$i++;		

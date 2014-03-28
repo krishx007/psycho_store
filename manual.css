@@ -181,9 +181,21 @@
 	     url('typeface/geo/Geo.svg#Geo') format('svg');
 }
 
+@font-face {
+    font-family: 'playregular';
+    src: url('typeface/play/play-regular-webfont.eot');
+    src: url('typeface/play/play-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('typeface/play/play-regular-webfont.woff') format('woff'),
+         url('typeface/play/play-regular-webfont.ttf') format('truetype'),
+         url('typeface/play/play-regular-webfont.svg#playregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 
 body {
-font-family: "Carrois Gothic SC";
+font-family: "playregular";
 font-size: 14px;
 line-height: 1.428571429;
 color: #fff;
@@ -352,7 +364,7 @@ footer
 
 .gothic
 {
-font-family: "Carrois Gothic SC";	
+font-family: "playregular";	
 }
 
 .molot
