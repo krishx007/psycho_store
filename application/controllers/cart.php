@@ -54,8 +54,18 @@ class cart extends CI_controller
 		{
 			$prod_id = $items['id'];
 			$product = $this->database->GetProductById($prod_id);			
-			$key = 'product_count_'.$items['options']['size'];
-			$data['max'.$items['rowid']] = $product[$key];
+
+			//Check stock Size and set stock state					
+			$data['products'][$items['rowid'].'stock_state'] = "";
+			$size = $items['options']['Size'];
+			$size_in_stock = $product['product_count_'.strtolower($size)] ;
+			$view_stock_var = $items['rowid'].'stock_state';
+
+			if($items['qty'] > $size_in_stock)
+				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";				
+				
+
+			$data['products'][$prod_id] = $product;
 		}
 
 		$this->load->view('header',$data);
@@ -90,7 +100,7 @@ class cart extends CI_controller
 						'qty'	=> '1',
 						'price' => $product['product_price'],
 						'name'  => $product['product_name'],
-						'options'=> array('size' => $size),
+						'options'=> array('Size' => $size),
 					);
 
 			$row_id = $this->cart->insert($cart_item);
@@ -114,20 +124,19 @@ class cart extends CI_controller
 	}
 
 	function update()
-	{
-		$i = 1;
+	{		
 		foreach ($this->cart->contents() as $items)
-		{
-			if( $this->input->post($i.$items['rowid']) )
+		{			
+			if( $this->input->post($items['rowid']) != (string)FALSE)
 			{
+				echo $this->input->post($items['rowid']);
 				$id = $items['rowid'];
-				$quant = (int)$this->input->post($i.$items['rowid']);				
-				//Update Cart				
+				$quant = (int)$this->input->post($items['rowid']);
+
+				//Update Cart
 				$data = array('rowid' => $id, 'qty' => $quant);
 				$this->cart->update($data);
-			}
-
-			$i++;		
+			}	
 		}
 
 		redirect('cart');	

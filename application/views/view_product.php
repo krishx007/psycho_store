@@ -33,10 +33,10 @@
               <div class="col-xs-12 col-md-4">
               	<form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
 	                <select class="form-control" name="size">
-                  		<option <?php echo $small_stock; ?> value ="small">Small <?php if($small_stock == 'disabled') echo '(Out Of Stock)';?> </option>
-                  		<option <?php echo $medium_stock; ?> value ="medium">Medium <?php if($medium_stock == 'disabled') echo '(Out Of Stock)';?> </option>
-                  		<option <?php echo $large_stock; ?> value ="large">Large <?php if($large_stock == 'disabled') echo '(Out Of Stock)';?> </option>
-                  		<option <?php echo $xlarge_stock; ?> value ="xl">X-Large <?php if($xlarge_stock == 'disabled') echo '(Out Of Stock)';?> </option>
+                  		<option <?php echo $small_stock; ?> value ="Small">Small <?php if($small_stock == 'disabled') echo '(Out Of Stock)';?> </option>
+                  		<option <?php echo $medium_stock; ?> value ="Medium">Medium <?php if($medium_stock == 'disabled') echo '(Out Of Stock)';?> </option>
+                  		<option <?php echo $large_stock; ?> value ="Large">Large <?php if($large_stock == 'disabled') echo '(Out Of Stock)';?> </option>
+                  		<option <?php echo $xlarge_stock; ?> value ="XL">XL <?php if($xlarge_stock == 'disabled') echo '(Out Of Stock)';?> </option>
                 	</select>
                 </div>	
 	              <div class="col-md-8">
