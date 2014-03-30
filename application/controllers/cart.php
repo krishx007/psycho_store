@@ -57,10 +57,8 @@ class cart extends CI_controller
 
 			//Check stock Size and set stock state					
 			$data['products'][$items['rowid'].'stock_state'] = "";
-			$size = $items['options']['Size'];
-			$size_in_stock = $product['product_count_'.strtolower($size)] ;
-			$view_stock_var = $items['rowid'].'stock_state';
-
+			$size = $items['options']['Size'];			
+			$size_in_stock = $product['product_count_'.strtolower($size)];
 			if($items['qty'] > $size_in_stock)
 				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";				
 				

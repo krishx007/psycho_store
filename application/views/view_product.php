@@ -36,7 +36,7 @@
                   		<option <?php echo $small_stock; ?> value ="Small">Small <?php if($small_stock == 'disabled') echo '(Out Of Stock)';?> </option>
                   		<option <?php echo $medium_stock; ?> value ="Medium">Medium <?php if($medium_stock == 'disabled') echo '(Out Of Stock)';?> </option>
                   		<option <?php echo $large_stock; ?> value ="Large">Large <?php if($large_stock == 'disabled') echo '(Out Of Stock)';?> </option>
-                  		<option <?php echo $xlarge_stock; ?> value ="XL">XL <?php if($xlarge_stock == 'disabled') echo '(Out Of Stock)';?> </option>
+                  		<option <?php echo $xl_stock; ?> value ="XL">XL <?php if($xl_stock == 'disabled') echo '(Out Of Stock)';?> </option>
                 	</select>
                 </div>	
 	              <div class="col-md-8">
