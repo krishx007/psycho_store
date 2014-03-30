@@ -5,16 +5,16 @@
 				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> 
 					<span class="pull-right play">
 						<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>
-						<?php 
-						if($this->cart->total_items())
-							echo anchor('checkout/', 'Checkout', 'class="btn btn-primary"'); 	?>
+						<?php if($this->cart->total_items()): ?>						
+							<a class="btn btn-primary" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> </a>
+						<?php endif; ?>	
 					</span> 
-				</h1>
-				<hr>
+				</h1>				
 			</div>
 		</div>
+		<hr>
 		<div class="well">
-			<div class="row">				
+			<div class="row">
 				<?php $num_plus = 0;
 				foreach ($this->cart->contents() as $items):
 				$product = $products["{$items['id']}"];
@@ -55,16 +55,13 @@
 										<h3 class="navbar-text play"><small><i class="fa fa-times"> <i class="fa fa-rupee"><?php echo $this->cart->format_number($items['price']); ?></i> </i> = </small><i class="fa fa-rupee"><strong><?php echo $this->cart->format_number($items['subtotal']); ?></i></strong></h3>                                    
 									</li>
 								</ul>
-							<h4 class="text-right text-primary"><?php echo $products[$items['rowid'].'stock_state'];?></h4>																		
+							<h4 class="text-right text-primary"><?php echo $products[$items['rowid'].'stock_state'];?></h4>
 							</nav>
 						</div>
 			        </div>
-			    <?php if(count($this->cart->contents()) - $num_plus > 1)
-			    {
-			    	echo heading('+',1, 'class="text-center"');
-			    	$num_plus++;
-			    }			    
-				?>
+			    <?php if(count($this->cart->contents()) - $num_plus > 1): ?>			    
+			    	<div class="col-md-12"> <h1 class="text-center"><strong>+</strong></h1></div>			    	
+				<?php $num_plus++; endif;?>
 			<?php endforeach; 
 			if($this->cart->total_items() == 0)
 				echo heading('Empty Cart',3);

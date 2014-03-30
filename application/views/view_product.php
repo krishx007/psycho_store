@@ -30,7 +30,7 @@
               <div class="col-md-12">
                 <p><a class="inline" href="#"><small>Whats my </small><strong> size</strong> ?</a></p>
               </div>              
-              <div class="col-xs-12 col-md-4">
+              <div class="col-md-4">
               	<form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
 	                <select class="form-control" name="size">
                   		<option <?php echo $small_stock; ?> value ="Small">Small <?php if($small_stock == 'disabled') echo '(Out Of Stock)';?> </option>

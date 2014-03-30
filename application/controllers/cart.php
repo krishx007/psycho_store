@@ -39,7 +39,7 @@ class cart extends CI_controller
 		$data['total_price'] = $this->cart->total();
 
 		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();		
+		$data['supported_games'] = $this->database->GetAllSuportedGames();
 	}
 
 	//Show items in cart
