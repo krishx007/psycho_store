@@ -68,13 +68,13 @@ class Pages extends CI_controller
 			$data['large_stock']="";
 			$data['xl_stock']="";
 
-			if($result['product_count_small'] == 0)
+			if($result['product_count_small'] <= 0)
 				$data['small_stock'] = 'disabled';
-			if($result['product_count_medium'] == 0)
+			if($result['product_count_medium'] <= 0)
 				$data['medium_stock'] = 'disabled';
-			if($result['product_count_large'] == 0)
+			if($result['product_count_large'] <= 0)
 				$data['large_stock'] = 'disabled';
-			if($result['product_count_xl'] == 0)
+			if($result['product_count_xl'] <= 0)
 				$data['xl_stock'] = 'disabled';			
 			
 			//Generate Suggestions
@@ -145,7 +145,7 @@ class Pages extends CI_controller
 			$data['email_id'] = $email_id;
 			$data['heading'] = "Damn, you cant even type an email correctly";
 			$data['small_heading'] = "Just dont disappoint this time, try again";
-		}			
+		}
 
 		$this->display('newsletter', $data);
 	}
