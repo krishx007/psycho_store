@@ -4,9 +4,9 @@
 			<div class="col-md-12">
 				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> 
 					<span class="pull-right play">
-						<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>
-						<?php if($this->cart->total_items()): ?>						
-							<a class="btn btn-primary" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> </a>
+						<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
+						<?php if($this->cart->total_items()): ?>
+							<a class="btn btn-primary" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> <i class="fa fa-arrow-right"></i> </a>
 						<?php endif; ?>	
 					</span> 
 				</h1>				
@@ -64,7 +64,7 @@
 				<?php $num_plus++; endif;?>
 			<?php endforeach; 
 			if($this->cart->total_items() == 0)
-				echo heading('Empty Cart',3);
+				echo heading('Empty Cart',3, 'class="text-center"');
 			?>
 			</div> 
 		</div>

@@ -1,3 +1,7 @@
+<div class="container top-bottom-space">
+	<h1>Forgot Password</h1>
+	<hr>
+	<div class="well">
 <?php
 $login = array(
 	'name'	=> 'login',
@@ -20,5 +24,7 @@ if ($this->config->item('use_username', 'tank_auth')) {
 		<td style="color: red;"><?php echo form_error($login['name']); ?><?php echo isset($errors[$login['name']])?$errors[$login['name']]:''; ?></td>
 	</tr>
 </table>
-<?php echo form_submit('reset', 'Get a new password'); ?>
+</div>
+<button class="btn btn-primary" type="submit">Get a New Password</button>
 <?php echo form_close(); ?>
+</div>

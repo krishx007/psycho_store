@@ -1,3 +1,7 @@
+<div class="container top-bottom-space">
+	<h1>Add Address</h1>
+	<hr>
+	<div class="well">
 <?php
 $first_name = array(
 	'name'	=> 'first_name',
@@ -64,12 +68,15 @@ $number = array(
 );
 ?>
 <!--<?php echo form_open($this->uri->uri_string()); ?>-->
-<?php echo form_open('auth/register_address'); ?>
+<form method = 'post' action = <?php echo site_url('auth/register_address')?> role="form">
+<?php// echo form_open('auth/register_address'); ?>
 <table>
 	<tr>
 		<td><?php echo form_label('First Name', $first_name['id']); ?></td>
 		<td><?php echo form_input($first_name); ?></td>
 		<td style="color: red;"><?php echo form_error($first_name['name']); ?></td>
+	</tr>
+	<tr>
 		<td><?php echo form_label('Last Name', $last_name['id']); ?></td>
 		<td><?php echo form_input($last_name); ?></td>
 		<td style="color: red;"><?php echo form_error($last_name['name']); ?></td>
@@ -110,5 +117,10 @@ $number = array(
 		<td style="color: red;"><?php echo form_error($number['name']); ?></td>
 	</tr>
 </table>
-<?php echo form_submit('register', 'Register'); ?>
-<?php echo form_close(); ?>
+<?php// echo form_close(); ?>
+
+
+</div>
+<button class="btn btn-primary" type="submit">Add Address</button>
+</form>
+</div>

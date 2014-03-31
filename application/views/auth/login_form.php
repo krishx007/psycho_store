@@ -1,3 +1,7 @@
+<div class="container top-bottom-space ">
+	<h1>Login</h1>
+	<hr>
+	<div class="well">
 <?php
 $login = array(
 	'name'	=> 'login',
@@ -31,7 +35,7 @@ $captcha = array(
 	'maxlength'	=> 8,
 );
 ?>
-<?php echo form_open($this->uri->uri_string()); ?>
+ <?php echo form_open($this->uri->uri_string()); ?>
 <table>
 	<tr>
 		<td><?php echo form_label($login_label, $login['id']); ?></td>
@@ -85,9 +89,12 @@ $captcha = array(
 			<?php echo form_checkbox($remember); ?>
 			<?php echo form_label('Remember me', $remember['id']); ?>
 			<?php echo anchor('/auth/forgot_password/', 'Forgot password'); ?>
-			<?php if ($this->config->item('allow_registration', 'tank_auth')) echo anchor('/auth/register_user_address/', 'Register'); ?>
+			<?php if ($this->config->item('allow_registration', 'tank_auth')) echo anchor('/auth/register_user_address/', ' Register'); ?>
 		</td>
 	</tr>
 </table>
-<?php echo form_submit('submit', 'Let me in'); ?>
+</div>
+<?php //echo form_submit('submit', 'Let me in'); ?>
+<button class="btn btn-primary" type="submit">Login</button>
 <?php echo form_close(); ?>
+</div>

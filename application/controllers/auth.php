@@ -12,14 +12,20 @@ class Auth extends CI_Controller
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');		
 		$this->load->model('database');
+		$this->load->library('cart');
 	}
 
 	function index()
 	{
-		if ($message = $this->session->flashdata('message')) {
-			$this->load->view('auth/general_message', array('message' => $message));
-		} else {
-			redirect('/auth/login/');
+		if ($message = $this->session->flashdata('message')) 
+		{
+			$data['message'] = $message;
+			//$this->load->view('auth/general_message', array('message' => );
+			$this->display('message',$data);
+		} 
+		else
+		{
+			redirect('/auth/login/');			
 		}
 	}
 
@@ -93,7 +99,8 @@ class Auth extends CI_Controller
 					$data['captcha_html'] = $this->_create_captcha();
 				}
 			}
-			$this->load->view('auth/login_form', $data);
+			//$this->load->view('auth/login_form', $data);
+			$this->display('login',$data);
 		}
 	}
 
@@ -222,9 +229,9 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('address2', 'Address2', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('postal', 'Postal', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('pincode', 'Pin Code', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('number', 'Number', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
+			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']');
 			$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
 
 			$captcha_registration	= $this->config->item('captcha_registration', 'tank_auth');
@@ -262,6 +269,7 @@ class Auth extends CI_Controller
 						'user_id' => $data['user_id']
 					);					
 					$this->database->RegisterAddress($address);
+					$this->database->Subscribe($data['email']);
 
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 
@@ -298,7 +306,8 @@ class Auth extends CI_Controller
 			$data['use_username'] = $use_username;
 			$data['captcha_registration'] = $captcha_registration;
 			$data['use_recaptcha'] = $use_recaptcha;
-			$this->load->view('auth/register_user_address', $data);
+			//$this->load->view('auth/register_user_address', $data);
+			$this->display('register_user_address', $data);
 		}
 	}
 
@@ -323,7 +332,7 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('address2', 'Address2', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('postal', 'Postal', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('pincode', 'Pin Code', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('number', 'Number', 'trim|required|xss_clean');
 
 			if ($this->form_validation->run())
@@ -339,15 +348,75 @@ class Auth extends CI_Controller
 					'city' => $this->form_validation->set_value('city'),
 					'state' => $this->form_validation->set_value('state'),
 					'country' => $this->form_validation->set_value('country'),
-					'postal' => $this->form_validation->set_value('postal'),
+					'pincode' => $this->form_validation->set_value('picode'),
 					'phone_number' => $this->form_validation->set_value('number'),
 					'user_id' => $this->tank_auth->get_user_id()
 				);
 				$this->database->RegisterAddress($address);
 				redirect('checkout/address');
 			}
-			$this->load->view('auth/add_address');
+			//$this->load->view('auth/add_address');
+			$data = array();
+			$this->display('add_address',$data);
 		}
+	}
+
+	function GenerateHeader(&$data)
+	{
+		//Login Info
+		$data['user_id'] = 0;
+		$data['user_name'] = null;
+
+		if($this->tank_auth->is_logged_in())
+		{
+			$data['user_id'] 	= $this->tank_auth->get_user_id();
+			$data['user_name'] 	= $this->tank_auth->get_username();
+		}
+
+		//Cart Info
+		$data['num_items'] = $this->cart->total_items();
+		$data['total_price'] = $this->cart->total();
+
+		//Game search Links
+		$data['supported_games'] = $this->database->GetAllSuportedGames();		
+	}
+
+	function display($page, $data)
+	{
+		$this->GenerateHeader($data);
+
+		//Show header
+		$this->load->view('header', $data);
+
+		//Show body		
+		switch ($page)
+		{
+			case 'login':
+				$this->load->view('auth/login_form', $data);
+			break;
+			case 'register_user_address':
+				$this->load->view('auth/register_user_address', $data);	
+			break;
+			case 'forgot_password': 				
+				$this->load->view('auth/forgot_password_form', $data);
+			break;		
+			case 'add_address':
+				$this->load->view('auth/add_address', $data);
+			break;
+			case 'message':
+				$this->load->view('auth/general_message', $data);
+			break;
+			case 'reset_password':
+				$this->load->view('auth/reset_password_form', $data);
+			break;
+			
+			default:
+				show_404();
+			break;		
+		}		
+
+		//Show footer
+		$this->load->view('footer', $data);
 	}
 
 	/**
@@ -441,7 +510,8 @@ class Auth extends CI_Controller
 					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 				}
 			}
-			$this->load->view('auth/forgot_password_form', $data);
+			//$this->load->view('auth/forgot_password_form', $data);
+			$this->display('forgot_password', $data);
 		}
 	}
 
@@ -456,8 +526,9 @@ class Auth extends CI_Controller
 	{
 		$user_id		= $this->uri->segment(3);
 		$new_pass_key	= $this->uri->segment(4);
+		
 
-		$this->form_validation->set_rules('new_password', 'New Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']|alpha_dash');
+		$this->form_validation->set_rules('new_password', 'New Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']');
 		$this->form_validation->set_rules('confirm_new_password', 'Confirm new Password', 'trim|required|xss_clean|matches[new_password]');
 
 		$data['errors'] = array();
@@ -474,7 +545,7 @@ class Auth extends CI_Controller
 
 				$this->_show_message($this->lang->line('auth_message_new_password_activated').' '.anchor('/auth/login/', 'Login'));
 
-			} else {														// fail
+			} else {				
 				$this->_show_message($this->lang->line('auth_message_new_password_failed'));
 			}
 		} else {
@@ -483,11 +554,12 @@ class Auth extends CI_Controller
 				$this->tank_auth->activate_user($user_id, $new_pass_key, FALSE);
 			}
 
-			if (!$this->tank_auth->can_reset_password($user_id, $new_pass_key)) {
+			if (!$this->tank_auth->can_reset_password($user_id, $new_pass_key)) {				
 				$this->_show_message($this->lang->line('auth_message_new_password_failed'));
 			}
 		}
-		$this->load->view('auth/reset_password_form', $data);
+		//$this->load->view('auth/reset_password_form', $data);
+		$this->display('reset_password', $data);
 	}
 
 	/**

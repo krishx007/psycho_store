@@ -19,6 +19,57 @@ class checkout extends CI_controller
 		$this->login();
 	}
 
+	function GenerateHeader(&$data)
+	{
+		//Login Info
+		$data['user_id'] = 0;
+		$data['user_name'] = null;
+
+		if($this->tank_auth->is_logged_in())
+		{
+			$data['user_id'] 	= $this->tank_auth->get_user_id();
+			$data['user_name'] 	= $this->tank_auth->get_username();
+		}
+
+		//Cart Info
+		$data['num_items'] = $this->cart->total_items();
+		$data['total_price'] = $this->cart->total();
+
+		//Game search Links
+		$data['supported_games'] = $this->database->GetAllSuportedGames();		
+	}
+
+	function display($page, $data)
+	{
+		$this->GenerateHeader($data);
+
+		//Show header
+		$this->load->view('header', $data);
+
+		//Show body		
+		switch ($page)
+		{
+			case 'address':
+				$this->load->view('view_address', $data);
+			break;
+			// case 'browse':
+			// 	$this->load->view('home', $data);	
+			// break;
+			// case 'product': 				
+			// 	$this->load->view('view_product', $data);
+			// break;		
+			// case 'newsletter':
+			// 	$this->load->view('newsletter', $data);
+			// break;
+			default:
+				show_404();
+			break;		
+		}		
+
+		//Show footer
+		$this->load->view('footer', $data);
+	}
+
 	function login()
 	{
 		if(!$this->tank_auth->is_logged_in())
@@ -36,15 +87,18 @@ class checkout extends CI_controller
 		if($result)		
 			$data['addresses'] = $result;
 		
-		$this->load->view('view_address',$data);
+		$this->display('address',$data);
 	}
 
 	function payment()
 	{
-		if($this->input->post('address_id'))
-			$address_id = $this->input->post('address_id');
+		if($this->input->post('address_id') != (string)FALSE)
+			$address_id = $this->input->post('address_id');			
 		else
+		{			
 			redirect('checkout/address');
+		}
+			
 		
 		$order = array
 				(
@@ -63,12 +117,12 @@ class checkout extends CI_controller
 							'order_id' 		=> $num_orders,
 							'product_id'	=> $item['id'],
 							'count'			=> $item['qty'],
-							'size'			=> $item['options']['size']
+							'size'			=> $item['options']['Size']
 						);
 
 			//Update product info
-			$size = $item['options']['size'];
-			$size = 'product_count_'.$size;			
+			$size = $item['options']['Size'];
+			$size = 'product_count_'.strtolower($size);			
 			$product = $this->database->GetProductById($item['id']);			
 			$product['product_qty_sold'] += $item['qty'];
 			$product[$size] -= $item['qty'];			

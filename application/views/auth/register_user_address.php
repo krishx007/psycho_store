@@ -78,10 +78,10 @@ $country = array(
 	'maxlength'	=> 20,
 	'size'	=> 30,
 );
-$postal = array(
-	'name'	=> 'postal',
-	'id'	=> 'postal',
-	'value' => set_value('postal'),
+$pincode = array(
+	'name'	=> 'pincode',
+	'id'	=> 'pincode',
+	'value' => set_value('pincode'),
 	'maxlength'	=> 10,
 	'size'	=> 30,
 );
@@ -99,6 +99,10 @@ $captcha = array(
 );
 ?>
 <!--<?php echo form_open($this->uri->uri_string()); ?>-->
+<div class="container top-bottom-space">
+	<h1>Register</h1>
+	<hr>
+	<div class="well">
 <?php echo form_open('auth/register_user_address'); ?>
 <table>
 	<?php if ($use_username) { ?>
@@ -127,6 +131,8 @@ $captcha = array(
 		<td><?php echo form_label('First Name', $first_name['id']); ?></td>
 		<td><?php echo form_input($first_name); ?></td>
 		<td style="color: red;"><?php echo form_error($first_name['name']); ?></td>
+	</tr>
+	<tr>
 		<td><?php echo form_label('Last Name', $last_name['id']); ?></td>
 		<td><?php echo form_input($last_name); ?></td>
 		<td style="color: red;"><?php echo form_error($last_name['name']); ?></td>
@@ -157,16 +163,15 @@ $captcha = array(
 		<td style="color: red;"><?php echo form_error($country['name']); ?></td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Postal', $postal['id']); ?></td>
-		<td><?php echo form_input($postal); ?></td>
-		<td style="color: red;"><?php echo form_error($postal['name']); ?></td>
+		<td><?php echo form_label('Pin Code', $pincode['id']); ?></td>
+		<td><?php echo form_input($pincode); ?></td>
+		<td style="color: red;"><?php echo form_error($pincode['name']); ?></td>
 	</tr>
 	<tr>
 		<td><?php echo form_label('Number', $number['id']); ?></td>
 		<td><?php echo form_input($number); ?></td>
 		<td style="color: red;"><?php echo form_error($number['name']); ?></td>
-	</tr>
-
+	</tr>	
 	<?php if ($captcha_registration) {
 		if ($use_recaptcha) { ?>
 	<tr>
@@ -203,5 +208,7 @@ $captcha = array(
 	<?php }
 	} ?>
 </table>
-<?php echo form_submit('register', 'Register'); ?>
+</div>
+<button class="btn btn-primary" type="submit">Register</button>
 <?php echo form_close(); ?>
+</div>
