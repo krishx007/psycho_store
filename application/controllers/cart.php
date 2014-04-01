@@ -91,8 +91,10 @@ class cart extends CI_controller
 		$product = $this->database->getProductbyId($productID);
 		if($product)
 		{			
-			$size = $this->input->post('size');			
-			$cart_item = array
+			$size = $this->input->post('size');
+			if($size)			
+			{
+				$cart_item = array
 					(
 						'id' 	=> $productID,
 						'qty'	=> '1',
@@ -101,13 +103,14 @@ class cart extends CI_controller
 						'options'=> array('Size' => $size),
 					);
 
-			$row_id = $this->cart->insert($cart_item);
-			
-			if($row_id)
-			{			
-				$key = $this->createKey($productID, $size);
-				$this->session->set_userdata($key, $row_id);
-			}	
+				$row_id = $this->cart->insert($cart_item);
+				
+				if($row_id)
+				{			
+					$key = $this->createKey($productID, $size);
+					$this->session->set_userdata($key, $row_id);
+				}	
+			}									
 		}
 		
 		redirect('cart');
