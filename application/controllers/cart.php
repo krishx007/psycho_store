@@ -92,7 +92,7 @@ class cart extends CI_controller
 		if($product)
 		{			
 			$size = $this->input->post('size');
-			if($size)			
+			if($size)
 			{
 				$cart_item = array
 					(
@@ -104,7 +104,7 @@ class cart extends CI_controller
 					);
 
 				$row_id = $this->cart->insert($cart_item);
-				
+
 				if($row_id)
 				{			
 					$key = $this->createKey($productID, $size);

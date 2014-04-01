@@ -102,9 +102,9 @@ class Pages extends CI_controller
 	}
 	
 	//Removes spaces from a url
-	function beautify($string, $search_char)
+	function beautify($string, $replace_char)
 	{
-		return str_replace($search_char,' ',$string);
+		return str_replace($replace_char,' ',$string);
 	}
 
 
@@ -118,8 +118,8 @@ class Pages extends CI_controller
 		if(strlen($name))
 		{			
 			$result = $this->database->GetProducts('all','latest', $name);
-			$count = count($result);			
-			$data['search_result'] = $count;			
+			$count = count($result);
+			$data['search_result'] = $count;
 
 			if($result)
 				$data['products'] = $result;			

@@ -39,7 +39,7 @@
                   		<option <?php echo $xl_stock; ?> value ="XL">XL <?php if($xl_stock == 'disabled') echo '(Out Of Stock)';?> </option>
                 	</select>
                 </div>	
-	              <div class="col-md-8">
+	              <div class="col-md-8">                  
 	                <button type="submit" name = "add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
 	              </div>
           		</form>

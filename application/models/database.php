@@ -92,14 +92,14 @@ class Database extends CI_Model
 	function GetUserById($id)
 	{
 		$this->db->where('id', $id);
-		$query = $this->db->get('users');		
+		$query = $this->db->get('users');
 		return $query->row_array();
 	}
 
 	function GetAddressById($id)
 	{
 		$this->db->where('address_id', $id);
-		$query = $this->db->get('address');		
+		$query = $this->db->get('address');
 		return $query->row_array();
 	}
 
