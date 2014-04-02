@@ -8,7 +8,7 @@
                 <a href="#"><i class="fa fa-twitter"></i></a>
               </li>
               <li>
-                <a href="#"><i class="fa fa-facebook"></i></a>
+                <div class="fb-like" data-href="https://www.facebook.com/psychostorein" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
               </li>
               <li>
                 <a href="#">Contact</a>
