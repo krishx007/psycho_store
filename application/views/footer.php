@@ -6,15 +6,13 @@
             <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsychostorein&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
             </iframe>
             <a href="https://twitter.com/codinpsycho" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="false" data-size="small">Follow</a>
-            
-            <a target="" href="https://github.com/codinpsycho/psycho_store">
-              <h5>Source Code
+                                      
+            <h5><a target="_blank" target="" href="https://github.com/codinpsycho/psycho_store">Source Code</a>            
                 <span>
                   <iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=fork"allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
                   <iframe src="http://ghbtns.com/github-btn.html?user=codinpsycho&type=follow&count=true"allowtransparency="true" frameborder="0" scrolling="0" width="160" height="20"></iframe>
                 </span>
-               </h5>
-            </a>
+            </h5>    
           </div>
           <div class="col-md-5 footer-col">
             <h4 class="text-center molot">Company</h4>
