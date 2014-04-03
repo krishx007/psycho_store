@@ -1,15 +1,24 @@
-    <footer>     
-      <hr>
+    <footer>      
       <div class="container">
-        <div class="row">          
-          <div class="col-md-8 col-md-push-3 navbar">
-            <ul class="nav nav-pills">
-              <li>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-              </li>
-              <li>
-                <div class="fb-like" data-href="https://www.facebook.com/psychostorein" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-              </li>
+        <div class="row">
+          <div class="col-md-4 footer-col">       
+            <h4 class="text-center molot">Social</h4>            
+            <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsychostorein&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
+            </iframe>
+            <a href="https://twitter.com/codinpsycho" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="false" data-size="small">Follow</a>
+            
+            <a target="" href="https://github.com/codinpsycho/psycho_store">
+              <h5>Source Code
+                <span>
+                  <iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=fork"allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
+                  <iframe src="http://ghbtns.com/github-btn.html?user=codinpsycho&type=follow&count=true"allowtransparency="true" frameborder="0" scrolling="0" width="160" height="20"></iframe>
+                </span>
+               </h5>
+            </a>
+          </div>
+          <div class="col-md-5 footer-col">
+            <h4 class="text-center molot">Company</h4>
+            <ul class="nav nav-pills ">
               <li>
                 <a href="#">Contact</a>
               </li>
@@ -17,20 +26,25 @@
                 <a href="#">About</a>
               </li>
               <li>
-                <a href="#">Information</a>
+                <a href="#">Policies</a>
               </li>
-              <div class="col-md-5">
-                <li>
-                  <form class="form" method = "post" action=<?php echo site_url('subscribe')?>>
-                    <div class="input-group">
-                      <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know">
-                      <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
-                    </div>
-                  </form>
-                </li>
-              </div>
-            </ul>
+              <li>
+                <a href="#">Media</a>
+              </li>
+              <li>
+                <a href="#">Something</a>
+              </li>             
+            </ul>           
           </div>
-        </div>
+          <div class="col-md-3 footer-col">
+            <h4 class="text-center molot">Newsletter</h4>
+              <form class="form" method = "post" action=<?php echo site_url('subscribe')?>>
+                <div class="input-group">
+                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know">
+                  <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
+                </div>
+              </form>              
+          </div>          
+        </div>      
       </div>
     </footer>
