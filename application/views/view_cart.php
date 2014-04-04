@@ -1,5 +1,5 @@
  <body>
-	<div class="container">
+	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> 
