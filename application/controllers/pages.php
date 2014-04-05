@@ -17,9 +17,33 @@ class Pages extends CI_controller
 
 	function index()
 	{
-		//$this->load->view('header');
+		$this->signup();
+		//$this->latest('all');
+	}
+
+	function signup()
+	{
+		$data['num_of_gamers'] = $this->database->GetNumOfSubscribers();
+		$this->load->view('launch_signup', $data);		
+	}
+
+	function beta()
+	{
 		$this->latest('all');
 	}
+
+	function launch_signup()
+	{
+		$email_id = $this->input->post('subscribe_email');
+		$data = array();
+
+		if(valid_email($email_id))
+		{			
+			$this->database->Subscribe($email_id);			
+		}		
+
+		redirect('');
+	}	
 
 	function GenerateSuggestions($product, $howmany)
 	{		

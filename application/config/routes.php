@@ -44,6 +44,7 @@ $route['search/(:any)'] = 'pages/search/$1';
 $route['latest'] = 'pages/latest/';
 $route['subscribe'] = 'pages/subscribe/';
 $route['popular'] = 'pages/popular/';
+$route['beta'] = 'pages/beta/';
 $route['404_override'] = '';
 
 

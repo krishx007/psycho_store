@@ -161,5 +161,10 @@ class Database extends CI_Model
 		$this->db->where('email_id', $email);
 		$this->db->delete('email_id');
 	}
+
+	function GetNumOfSubscribers()
+	{
+		return $this->db->count_all('newsletter');
+	}
 }
 ?>
