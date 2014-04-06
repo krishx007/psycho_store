@@ -14,11 +14,11 @@ $config['mailtype'] = 'html';
 $config['charset'] = 'utf-8';
 $config['newline'] = "\r\n";
 $config['protocol']= 'smtp';
-$config['smtp_host']= 'ssl://smtp.googlemail.com';// (SMTP server)
-$config['smtp_port']= '465';// (SMTP port)
+$config['smtp_host']= 'smtpout.asia.secureserver.net';// (SMTP server)
+$config['smtp_port']= '80';// (SMTP port)
 $config['smtp_timeout']= '30';
-$config['smtp_user']= 'ishkaran.fearme@gmail.com';
-$config['smtp_pass']= 'gamingismylife';
+$config['smtp_user']= 'ishkaran@psychostore.in';
+$config['smtp_pass']= 'fear<fearme';
 
 
 /* End of file email.php */
