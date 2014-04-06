@@ -31,7 +31,7 @@
 		</div>
 		<div class="col-md-6 col-md-offset-3 top-bottom-space">
 			<h4 class=" molot">Join the Gamers League </h4>
-            <form class="form" method = "post" action=<?php echo site_url('')?>>
+            <form class="form" method = "post" action=<?php echo site_url('pages/launch_signup')?>>
 	            <div class="input-group">
 	            	<input type="email" name="subscribe_email" class="form-control input-sm" placeholder="you@email.com">	            	
 	            	<span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Yes, I am a GAMER</button></span>

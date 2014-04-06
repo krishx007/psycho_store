@@ -39,7 +39,9 @@ class Pages extends CI_controller
 
 		if(valid_email($email_id))
 		{			
-			$this->database->Subscribe($email_id);			
+			$this->database->Subscribe($email_id);
+			$data['site_name'] = 'Psycho Store';
+			$this->_send_email('subscribe', $email_id, $data);			
 		}		
 
 		redirect('');
@@ -152,6 +154,20 @@ class Pages extends CI_controller
 		$this->display('search', $data);
 	}
 
+	function _send_email($type, $email, &$data)
+	{
+		$this->load->library('email');
+		$this->lang->load('tank_auth');
+		$this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+		$this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
+		$this->email->to($email);
+		$this->email->subject(sprintf($this->lang->line('auth_subject_'.$type), $this->config->item('website_name', 'tank_auth')));
+		$this->email->message($this->load->view('email/'.$type.'-html', $data, TRUE));
+		$this->email->set_alt_message($this->load->view('email/'.$type.'-txt', $data, TRUE));
+		if(!$this->email->send())
+			show_error($this->email->print_debugger());
+	}
+
 	function subscribe()
 	{
 		$email_id = $this->input->post('subscribe_email');
@@ -160,6 +176,8 @@ class Pages extends CI_controller
 		if(valid_email($email_id))
 		{			
 			$this->database->Subscribe($email_id);
+			$data['site_name'] = 'Psycho Store';
+			$this->_send_email('subscribe', $email_id, $data);
 			$data['email_id'] = $email_id;
 			$data['heading'] = "Greetings ";
 			$data['small_heading'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you We dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";

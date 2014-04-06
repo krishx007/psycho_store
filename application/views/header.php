@@ -47,13 +47,7 @@
       <a href= <?php echo site_url('') ?> ><h4 class='molot'>Psycho Store</h4></a>
     </ul>
   </nav>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 text-center">
-        <img class="img-responsive" src="http://cdn.shopify.com/s/files/1/0063/2872/t/4/assets/logo.png?2093" style="display: inline">
-      </div>
-    </div>
-  </div>
+  
 </header>
 
 <body>
