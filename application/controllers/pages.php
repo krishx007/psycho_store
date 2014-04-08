@@ -243,4 +243,4 @@ class Pages extends CI_controller
 		$this->load->view('footer', $data);
 	}
 }
-?>  
+?>

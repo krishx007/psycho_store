@@ -18,7 +18,7 @@ You have earned your right to wear clothes that distinguish you from the world.<
 <br />
 <br />
 Game Hard!<br />
-Psycho Gamers/Coders @ <?php echo $site_name; ?>
+Psychos @ <?php echo $site_name; ?>
 </td>
 </tr>
 </table>
