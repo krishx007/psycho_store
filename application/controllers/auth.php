@@ -312,8 +312,7 @@ class Auth extends CI_Controller
 	}
 
 	function remove_address($address_id)
-	{
-		echo $address_id = $this->input->post('address_id');
+	{		
 		$this->database->RemoveAddress($address_id);
 		redirect('checkout/address');
 	}

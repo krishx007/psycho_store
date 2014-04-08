@@ -127,20 +127,19 @@ class cart extends CI_controller
 	function update()
 	{		
 		foreach ($this->cart->contents() as $items)
-		{			
+		{
 			if( $this->input->post($items['rowid']) != (string)FALSE)
-			{
-				echo $this->input->post($items['rowid']);
+			{				
 				$id = $items['rowid'];
 				$quant = (int)$this->input->post($items['rowid']);
 
 				//Update Cart
 				$data = array('rowid' => $id, 'qty' => $quant);
 				$this->cart->update($data);
-			}	
+			}
 		}
 
-		redirect('cart');	
+		redirect('cart');
 	}
 
 	function checkout()
