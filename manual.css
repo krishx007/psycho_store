@@ -351,6 +351,12 @@ border-color: #09f;
 	margin-bottom: 90px;
 }
 
+.top-bottom-space-s
+{
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
 footer
 {
 	background-color: rgba(9,9,8,0.9);
