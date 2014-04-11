@@ -23,11 +23,11 @@
 
 
 <div class="container top-bottom-space">
-	<h1 class=""> Psycho Store <span class="pull-right navbar-text"><small><?php echo $num_of_gamers?> Gamers Found</small></h1>
+	<h1 class=""> Psycho Store <span class="pull-right navbar-text"><small><?php echo 88 + $num_of_gamers?> Gamers Found</small></h1>
 	<hr>
 	<div class="well row">
 		<div class="col-md-12">
-			<h3 class="play"><small>We believe that </small>you Gamers <small>need a different class of clothing to express</small> the Gamer inside you.<small> So sit tight, as we bring you the most amazing collection of clothing inspired by your</small> favorite Video games.</h3>
+			<h3 class="play"><small>We believe that </small>you Gamers <small>need a different class of clothing to express</small> the Gamer inside you.<small> So sit tight, as we bring you the most amazing collection of clothing inspired by your</small> favorite Video games.</h3>			
 		</div>
 		<div class="col-md-6 col-md-offset-3 top-bottom-space-s">
 			<h4 class=" molot">Join the Gamers League </h4>
@@ -36,7 +36,8 @@
 	            	<input type="email" name="subscribe_email" class="form-control input-sm" placeholder="you@email.com">	            	
 	            	<span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Yes, I am a GAMER</button></span>
 	            </div>
-           </form>            	
+           </form>
+           <h4 class="play"><small>Be the first to know when we go live</small></h4>
 		</div>
 		<div class="col-md-12 text-center navbar-btn top-bottom-space-s">
 			<h2 class="molot">Coming Soon</h2>
