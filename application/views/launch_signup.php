@@ -27,7 +27,7 @@
 	<hr>
 	<div class="well row">
 		<div class="col-md-12">
-			<h3 class="play"><small>We believe that </small> Gamers <small> of this country needs better class of </small>clothing for the Gamer<small> inside them. So sit tight, we are upto the task of designing unique clothing inspired by our</small> favorite Video games.</h3>
+			<h3 class="play"><small>We believe that </small>you Gamers <small>need a different class of clothing to express</small> the Gamer inside you.<small> So sit tight, as we bring you the most amazing collection of clothing inspired by your</small> favorite Video games.</h3>
 		</div>
 		<div class="col-md-6 col-md-offset-3 top-bottom-space-s">
 			<h4 class=" molot">Join the Gamers League </h4>
