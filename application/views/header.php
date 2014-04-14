@@ -3,9 +3,9 @@
 <meta property="fb:admins" content="100001096628321"/>
 <meta property="og:title" content="Psycho Store"/>
 <meta property="og:type" content="Clothing"/>
-<meta property="og:url" content="http://localhost/psycho_store/"/>
+<meta property="og:url" content="http://www.psychostore.in/"/>
 <meta property="og:image" content=""/>
-<meta property="og:description" content="Description of page content" />
+<meta property="og:description" content="Clothing inspired by your favorite Video Games" />
 <meta name="viewport" content="width=device-width">
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
