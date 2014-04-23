@@ -52,10 +52,10 @@ $country = array(
 	'maxlength'	=> 20,
 	'size'	=> 30,
 );
-$postal = array(
-	'name'	=> 'postal',
-	'id'	=> 'postal',
-	'value' => set_value('postal'),
+$pincode = array(
+	'name'	=> 'pincode',
+	'id'	=> 'pincode',
+	'value' => set_value('pincode'),
 	'maxlength'	=> 10,
 	'size'	=> 30,
 );
@@ -107,9 +107,9 @@ $number = array(
 		<td style="color: red;"><?php echo form_error($country['name']); ?></td>
 	</tr>
 	<tr>
-		<td><?php echo form_label('Postal', $postal['id']); ?></td>
-		<td><?php echo form_input($postal); ?></td>
-		<td style="color: red;"><?php echo form_error($postal['name']); ?></td>
+		<td><?php echo form_label('Pincode', $pincode['id']); ?></td>
+		<td><?php echo form_input($pincode); ?></td>
+		<td style="color: red;"><?php echo form_error($pincode['name']); ?></td>
 	</tr>
 	<tr>
 		<td><?php echo form_label('Number', $number['id']); ?></td>
@@ -117,7 +117,7 @@ $number = array(
 		<td style="color: red;"><?php echo form_error($number['name']); ?></td>
 	</tr>
 </table>
-<?php// echo form_close(); ?>
+<?php // echo form_close(); ?>
 
 
 </div>

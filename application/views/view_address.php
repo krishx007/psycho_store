@@ -9,7 +9,7 @@
 <?php
 foreach($addresses as $address): 
 	$complete_add = $address['address_1'] .',<br>'. $address['address_2'].', '.$address['city'].
-	'<br>'.$address['state'].' '.$address['postal'].', '.$address['country'].'<br>'. $address['phone_number'];	
+	'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];	
 ?>
 <div class="col-md-3">
 <td>

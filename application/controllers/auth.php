@@ -229,6 +229,7 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('address2', 'Address2', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('country', 'Country', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('pincode', 'Pin Code', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('number', 'Number', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length['.$this->config->item('password_min_length', 'tank_auth').']|max_length['.$this->config->item('password_max_length', 'tank_auth').']');
@@ -331,6 +332,7 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('address2', 'Address2', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('country', 'Country', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('pincode', 'Pin Code', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('number', 'Number', 'trim|required|xss_clean');
 
@@ -347,7 +349,7 @@ class Auth extends CI_Controller
 					'city' => $this->form_validation->set_value('city'),
 					'state' => $this->form_validation->set_value('state'),
 					'country' => $this->form_validation->set_value('country'),
-					'pincode' => $this->form_validation->set_value('picode'),
+					'pincode' => $this->form_validation->set_value('pincode'),
 					'phone_number' => $this->form_validation->set_value('number'),
 					'user_id' => $this->tank_auth->get_user_id()
 				);
