@@ -265,7 +265,7 @@ class Auth extends CI_Controller
 						'city' => $this->form_validation->set_value('city'),
 						'state' => $this->form_validation->set_value('state'),
 						'country' => $this->form_validation->set_value('country'),
-						'postal' => $this->form_validation->set_value('postal'),
+						'pincode' => $this->form_validation->set_value('pincode'),
 						'phone_number' => $this->form_validation->set_value('number'),
 						'user_id' => $data['user_id']
 					);					
