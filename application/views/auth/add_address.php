@@ -69,7 +69,7 @@ $number = array(
 ?>
 <!--<?php echo form_open($this->uri->uri_string()); ?>-->
 <form method = 'post' action = <?php echo site_url('auth/register_address')?> role="form">
-<?php// echo form_open('auth/register_address'); ?>
+<?php // echo form_open('auth/register_address'); ?>
 <table>
 	<tr>
 		<td><?php echo form_label('First Name', $first_name['id']); ?></td>

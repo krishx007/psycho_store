@@ -26,7 +26,7 @@ endforeach;
 <tr>
 <td> -->
 
-<?php// echo anchor("auth/remove_address/val", 'Remove Address'); ?>
+<?php // echo anchor("auth/remove_address/val", 'Remove Address'); ?>
 
 <!-- </td>
 <td>
