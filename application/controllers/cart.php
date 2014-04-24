@@ -102,14 +102,8 @@ class cart extends CI_controller
 						'name'  => $product['product_name'],
 						'options'=> array('Size' => $size),
 					);
-
+				
 				$row_id = $this->cart->insert($cart_item);
-
-				if($row_id)
-				{			
-					$key = $this->createKey($productID, $size);
-					$this->session->set_userdata($key, $row_id);
-				}	
 			}									
 		}
 		
