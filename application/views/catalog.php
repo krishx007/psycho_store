@@ -13,7 +13,7 @@
       	<?php echo anchor("/product/$id", img($image_properties));?>
       	<div class="row">
   	    	<div class="col-md-12 catalog-desc">
-  	    		<h5 class="text-center"> <strong><?php echo $product_item['product_name'] ?></strong> <br> Rs <?php echo $product_item['product_price'] ?></h5>
+  	    		<p class="text-center"> <strong><?php echo $product_item['product_name'] ?></strong> <h4 class="text-center"> <i class="fa fa-rupee"></i> <?php echo $product_item['product_price'] ?></h4></p>
   	    	</div>
       	</div>    
       </div>
