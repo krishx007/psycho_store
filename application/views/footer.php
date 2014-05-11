@@ -47,7 +47,7 @@
         <div class="row">
           <hr>
           <h5><i class="fa fa-angle-left"></i> <i class="fa fa-angle-right"></i> by Codinpsycho <span class='pull-right'>Psycho Store 2014 &copy; All rights reserved. Product of Psycho Corporation</span><h5>
-          <p>All artwork posted on this website is intended as fan art and is not purported to be official merchandise. If you have any issues regarding the artwork, drop a mail at contact@psychostore.in</p>
+          <p><small>All artwork posted on this website is intended as fan art and is not purported to be official merchandise. If you have any issues regarding the artwork, please write in to us at contact@psychostore.in</small></p>
         </div>
       </div>
     </footer>
