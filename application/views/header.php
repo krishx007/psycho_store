@@ -20,7 +20,13 @@
   <nav class="panel collapse navbar-collapse">
     <ul class="nav nav-pills navbar-right ">
       <li>
-       <form class="navbar-form " method = "post" action=<?php echo site_url("search");?>>
+    	<a target="_blank" href="https://www.facebook.com/psychostorein"><i class="navbar-btn fa fa-facebook"></i></a>
+      </li>
+      <li>
+    	<a target="_blank" href="https://twitter.com/psychostorein"><i class="navbar-btn fa fa-twitter"></i></a>
+      </li>
+      <li>
+       <form class="navbar-form" method = "post" action=<?php echo site_url("search");?>>
         <div class="btn-group">
           <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select A Game <span class="caret"></span>  </a>
           <ul class="dropdown-menu">
@@ -32,7 +38,7 @@
           </ul>
         </div>
       </form>  
-      </li>
+      </li>      
       <li>
         <h4 class="molot"><?php if($user_id > 0) echo $user_name ?></h4>
       </li>

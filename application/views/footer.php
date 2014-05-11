@@ -7,7 +7,7 @@
             </iframe>
             <a href="https://twitter.com/psychostorein" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="false" data-size="small">Follow</a>
                                       
-            <h5><a target="_blank" target="" href="https://github.com/codinpsycho/psycho_store">Source Code</a>            
+            <h5><a target="_blank" href="https://github.com/codinpsycho/psycho_store">Source Code</a>            
                 <span>
                   <iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=fork"allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
                   <iframe src="http://ghbtns.com/github-btn.html?user=codinpsycho&type=follow&count=true"allowtransparency="true" frameborder="0" scrolling="0" width="190" height="20"></iframe>
