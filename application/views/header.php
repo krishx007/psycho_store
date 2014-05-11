@@ -43,17 +43,20 @@
       </form>  
       </li>      
       <li>
-        <h4 class="molot"><?php if($user_id > 0) echo $user_name ?></h4>
+      	<?php if($user_id > 0): ?>
+        	<h4 class="navbar-text"> <strong> <?php echo $user_name ?> </strong></h4>
+    	<?php endif; ?>
       </li>
       <li>
-        <?php  echo (  $user_id == 0 ? anchor('auth', "Login") : anchor('auth/logout', "Logout") )?>
+      	<?php  if ( $user_id == 0 ): ?> <a href='auth'> <h5 class="navbar-btn">Login </h5></a>
+      	<?php else: ?> <a href='auth/logout'> <h5 class="navbar-btn">Logout </h5></a> <?php endif; ?>
       </li>
       <li>
-        <a href= <?php echo site_url('cart')?> ><i class="fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
+        <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
       </li>
     </ul>
-    <ul class="nav nav-pills navbar-left">
-      <a href= <?php echo site_url('') ?> ><h4 class='molot'>Psycho Store</h4></a>
+    <ul class="nav nav-pills navbar-left">    	
+		<a href= <?php echo site_url('') ?> ><h4 class='molot'>Psycho Store</h4></a>    
     </ul>
   </nav>
   
