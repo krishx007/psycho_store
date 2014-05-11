@@ -26,6 +26,9 @@
     	<a target="_blank" href="https://twitter.com/psychostorein"><i class="navbar-btn fa fa-twitter"></i></a>
       </li>
       <li>
+    	<a target="_blank" href="http://instagram.com/psychostore.in"><i class="navbar-btn fa fa-instagram"></i></a>
+      </li>
+      <li>
        <form class="navbar-form" method = "post" action=<?php echo site_url("search");?>>
         <div class="btn-group">
           <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select A Game <span class="caret"></span>  </a>
