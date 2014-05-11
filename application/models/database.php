@@ -18,6 +18,13 @@ class Database extends CI_Model
 		return $query->row_array();
 	}
 
+	function GetProductByURL($url)
+	{
+		$this->db->where('product_url', $url);
+		$query = $this->db->get('products');
+		return $query->row_array();
+	}
+
 	function GetMaxProductID()
 	{
 		$result = $this->db->get('products');

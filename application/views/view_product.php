@@ -61,7 +61,7 @@
           <div class="row">
 <?php 
 foreach($suggested_products as $product_item): 
-  $id = $product_item['product_id'];
+  $url = url_title($product_item['product_url'],'_');
   $path = "/".$product_item['product_image_path'];
   $image_properties = array(
           'src' => "$path",          
@@ -69,7 +69,7 @@ foreach($suggested_products as $product_item):
 );
 ?>
   <div class="product-link-sm col-md-2">
-      <?php echo anchor("/product/$id", img($image_properties));?>      
+      <?php echo anchor("/product/$url", img($image_properties));?>      
   </div>
 
 <?php endforeach ?>            

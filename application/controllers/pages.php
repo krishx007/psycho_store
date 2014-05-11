@@ -34,7 +34,7 @@ class Pages extends CI_controller
 
 	function launch_signup()
 	{
-		$email_id = $this->input->post('subscribe_email');
+		$email_id = strtolower($this->input->post('subscribe_email'));
 		$data = array();
 
 		if(valid_email($email_id))
@@ -76,19 +76,19 @@ class Pages extends CI_controller
 		$prev = $result['product_id'];	
 	}
 
-	function product($id)
+	function product($url)
 	{
 		$total_products = $this->database->GetMaxProductID();
-		
-		$result = $this->database->GetProductById($id);
+		$url = $this->beautify($url,'_');
+		$result = $this->database->GetProductByURL($url);
 		if($result)
 		{
 			$next = $prev = 0;
 			$this->GetNextPreviousIds($result['product_id'], $next, $prev, $total_products);
 			$data['product'] = $result;
 			$data['total_products'] = $total_products;			
-			$data['next_id'] = $next;
-			$data['prev_id'] = $prev;
+			$data['next_id'] = url_title($this->database->GetProductById($next)['product_url'],'_');
+			$data['prev_id'] = url_title($this->database->GetProductById($prev)['product_url'],'_');
 			$data['small_stock']="";
 			$data['medium_stock']="";
 			$data['large_stock']="";
@@ -170,7 +170,7 @@ class Pages extends CI_controller
 
 	function subscribe()
 	{
-		$email_id = $this->input->post('subscribe_email');
+		$email_id = strtolower($this->input->post('subscribe_email'));
 		$data = array();
 
 		if(valid_email($email_id))
