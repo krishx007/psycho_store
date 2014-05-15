@@ -44,7 +44,7 @@
 	              </div>
           		</form> 
               <div class="col-md-12">
-                 <h5 class=""><a class="" href= <?php echo site_url('policies')?> ><strong>Free shipping + 365 days return</strong></a></h5>
+                 <h5 class=""><a class="" href= <?php echo site_url('policies')?> >Free shipping + 365 days return</a></h5>
               </div>                       
             </div>
             <hr>
