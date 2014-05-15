@@ -28,7 +28,7 @@
             </div>
             <div class="row">
               <div class="col-md-12">
-                <p><a class="inline" href="#"><small>Whats my </small><strong> size</strong> ?</a></p>
+                <p><a class="inline" href="#"><small>Whats my </small><strong> size</strong> ?</a> </p>
               </div>              
               <div class="col-md-4">
               	<form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
@@ -42,14 +42,17 @@
 	              <div class="col-md-8">                  
 	                <button type="submit" name = "add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
 	              </div>
-          		</form>
+          		</form> 
+              <div class="col-md-12">
+                 <h5 class=""><a class="" href= <?php echo site_url('policies')?> ><strong>Free shipping + 365 days return</strong></a></h5>
+              </div>                       
             </div>
             <hr>
             <div class="row ">
               <div class="col-md-12">
                 <h5>Inspired by&nbsp;<span class="h4 molot"><a href=<?php $game = url_title($product['product_game'],'_'); echo site_url("search/$game")?>> <?php echo $product['product_game']?></a> </span></h5>
-              </div>
-            </div>
+              </div>              
+            </div>            
           </div>
         </div>
       </div>
