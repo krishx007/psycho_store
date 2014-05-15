@@ -177,19 +177,45 @@ class Pages extends CI_controller
 		{			
 			$this->database->Subscribe($email_id);
 			$data['site_name'] = 'Psycho Store';
-			$this->_send_email('subscribe', $email_id, $data);
-			$data['email_id'] = $email_id;
-			$data['heading'] = "Greetings ";
-			$data['small_heading'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you We dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";
+			//$this->_send_email('subscribe', $email_id, $data);			
+			$data['heading'] = "<small>Greetings</small> ".$email_id;
+			$data['content'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you we dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";
 		}
 		else
 		{
 			$data['email_id'] = $email_id;
 			$data['heading'] = "Damn, you cant even type an email correctly";
-			$data['small_heading'] = "Just dont disappoint this time, try again";
+			$data['content'] = "Just dont disappoint this time, try again";
 		}
 
-		$this->display('newsletter', $data);
+		$this->display('basic', $data);
+	}
+
+	function policies()
+	{
+		$data['heading'] = "Shipping and Returns";
+
+		$data['content'] = "At Psycho Store our aim is to always provide you with high quality stuff as quickly as possible. But in some unfortunate situations we may err. 
+							<h3>Free Shipping all over Inida</h3>
+							Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
+							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.
+							<br><h3 > 365 days Return Policy</h3>
+							If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and see if you are telling the truth and will do a refund or excahnge as you desire.
+							We will bear the shipping charges as well if it is acceptable for returning.
+							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
+							<br><br> Note : In both the cases, product should be in its original condition, it should not be worn or washed, otherwise it will not be returned.
+							<br><br>Email us with your product id at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> and ship the product to given address
+							<br><br> Return Address :
+							<br>
+							F5, Ganraj Heights,<br>
+							Sainikwadi, Wadgaon Sheri,<br>
+							Pune - 411014,<br>
+							Maharashtra
+							<br><br>For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a>";
+							
+							
+
+		$this->display('basic', $data);
 	}
 
 	function GenerateHeader(&$data)
@@ -231,9 +257,9 @@ class Pages extends CI_controller
 			case 'product': 				
 				$this->load->view('view_product', $data);
 			break;		
-			case 'newsletter':
-				$this->load->view('newsletter', $data);
-			break;
+			case 'basic':			
+				$this->load->view('basic_view', $data);
+				break;			
 			default:
 				show_404();
 			break;		

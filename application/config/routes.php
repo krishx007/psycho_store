@@ -43,6 +43,7 @@ $route['search'] = 'pages/search';
 $route['search/(:any)'] = 'pages/search/$1';
 $route['latest'] = 'pages/latest/';
 $route['subscribe'] = 'pages/subscribe/';
+$route['policies'] = 'pages/policies/';
 $route['popular'] = 'pages/popular/';
 $route['beta'] = 'pages/beta/';
 $route['404_override'] = '';

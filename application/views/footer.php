@@ -21,17 +21,14 @@
                 <a href="#">Contact</a>
               </li>
               <li>
-                <a href="#">About</a>
+                <a href="#">Who are We</a>
               </li>
               <li>
-                <a href="#">Policies</a>
+                <a href= <?php echo site_url('policies')?> >Shipping and Returns</a>
               </li>
               <li>
                 <a href="#">Media</a>
-              </li>
-              <li>
-                <a href="#">Something</a>
-              </li>             
+              </li>            
             </ul>           
           </div>
           <div class="col-md-3 footer-col">
