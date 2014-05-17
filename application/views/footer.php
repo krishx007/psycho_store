@@ -21,7 +21,7 @@
                 <a href= <?php echo site_url('contact')?> >Contact</a>
               </li>
               <li>
-                <a href="about">Who are We</a>
+                <a href=<?php echo site_url('about')?>>Who are We</a>
               </li>
               <li>
                 <a href= <?php echo site_url('policies')?> >Shipping and Returns</a>
