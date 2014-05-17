@@ -235,15 +235,15 @@ class Pages extends CI_controller
 		$data['content'] = "<h3>Psycho Store</h3>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that I have, that is getting increasingly obsessed with something that I am passionate about.
 							Giving it all that I have and actually going that exrtra mile when everyone else's common sense says that you are walking in the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which you just cannot get out of your head.
 							I call that being in a state of psychoness, when you feel about something deep from your heart and you take absurd decisions to get it through, no matter what it takes and whats the costs. If you can relate, then just give us a shout I am sure our frequency would match.
-							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\".<br>
+							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\". We just replaced Keeda with psycho.<br>
 							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
-							<br><br>Oh by the way, what were you asking <h3>who are we?</h3>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing brand for the gaming community, across the earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br>
+							<br><br>Oh by the way, you were asking <h3>who are we?</h3>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing brand for the gaming community, across the whole earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br>
 							<h3><small>What is</small> <> by Codinpsycho ?</h3>
 							It means all this crazy stuff was thought,designed and programmed by a single guy alone, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br>
-							<a href=\"https://twitter.com/codinpsycho\"><h5 class=\" molot\">Twitter</h5></a>
-							<a href=\"https://www.facebook.com/codinpsycho\"><h5 class=\" molot\">Facebook</h5></a>
-							<a href=\"https://github.com/codinpsycho\"><h5 class=\" molot\">github</h5></a>
-							<a href=\"https://github.com/codinpsycho/psycho_store\"><h5 class=\" molot\">Source Code</h5></a>
+							<a target='_blank' href=\"https://twitter.com/codinpsycho\"><h5 class=\" molot\">Twitter</h5></a>
+							<a target='_blank' href=\"https://www.facebook.com/codinpsycho\"><h5 class=\" molot\">Facebook</h5></a>
+							<a target='_blank' href=\"https://github.com/codinpsycho\"><h5 class=\" molot\">github</h5></a>
+							<a target='_blank' href=\"https://github.com/codinpsycho/psycho_store\"><h5 class=\" molot\">Source Code</h5></a>
 							<br><br><br>P.S : He also wrote all that stuff you just read, including this line.
 							";
 
