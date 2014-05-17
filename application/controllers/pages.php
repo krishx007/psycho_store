@@ -196,7 +196,7 @@ class Pages extends CI_controller
 		$data['heading'] = "Shipping and Returns";
 
 		$data['content'] = "At Psycho Store our aim is to always provide you with high quality stuff as quickly as possible. But in some unfortunate situations we may err. 
-							<h3>Free Shipping all over Inida</h3>
+							<h3>Free Shipping all over India</h3>
 							Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
 							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.
 							<br><h3 > 365 days Return Policy</h3>
@@ -214,6 +214,38 @@ class Pages extends CI_controller
 							<br><br>For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a>";
 							
 							
+
+		$this->display('basic', $data);
+	}
+
+	function contact()
+	{
+		$data['heading'] = "Psycho Store <small>designed and developed by</small> Psycho Corporation";
+		$data['content'] = "<h3>Head office</h3>55/2 Nanak Nagar,<br> Lane 1,<br> Jammu - 180004,<br> Jammu and Kashmir<br><br>Phone : +917387045828<br>Email : <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a>
+							<br><br><h4>Address for Refunds and Returns</h4>
+							F5, Ganraj Height,<br> Sainikwadi, Wadgaon sheri,<br> Pune - 411014,<br> Maharashtra";
+
+		$this->display('basic', $data);
+	}
+
+
+	function about()
+	{
+		$data['heading'] = "Who are We";
+		$data['content'] = "<h3>Psycho Store</h3>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that I have, that is getting increasingly obsessed with something that I am passionate about.
+							Giving it all that I have and actually going that exrtra mile when everyone else's common sense says that you are walking in the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which you just cannot get out of your head.
+							I call that being in a state of psychoness, when you feel about something deep from your heart and you take absurd decisions to get it through, no matter what it takes and whats the costs. If you can relate, then just give us a shout I am sure our frequency would match.
+							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\".<br>
+							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
+							<br><br>Oh by the way, what were you asking <h3>who are we?</h3>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing brand for the gaming community, across the earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br>
+							<h3><small>What is</small> <> by Codinpsycho ?</h3>
+							It means all this crazy stuff was thought,designed and programmed by a single guy alone, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br>
+							<a href=\"https://twitter.com/codinpsycho\"><h5 class=\" molot\">Twitter</h5></a>
+							<a href=\"https://www.facebook.com/codinpsycho\"><h5 class=\" molot\">Facebook</h5></a>
+							<a href=\"https://github.com/codinpsycho\"><h5 class=\" molot\">github</h5></a>
+							<a href=\"https://github.com/codinpsycho/psycho_store\"><h5 class=\" molot\">Source Code</h5></a>
+							<br><br><br>P.S : He also wrote all that stuff you just read, including this line.
+							";
 
 		$this->display('basic', $data);
 	}

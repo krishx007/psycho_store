@@ -9,7 +9,7 @@
 | and its corresponding controller class/method. The segments in a
 | URL normally follow this pattern:
 |
-|	example.com/class/method/id/
+|	example.com/class/method/id/foo
 |
 | In some instances, however, you may want to remap this relationship
 | so that a different class/function is called than the one
@@ -44,6 +44,8 @@ $route['search/(:any)'] = 'pages/search/$1';
 $route['latest'] = 'pages/latest/';
 $route['subscribe'] = 'pages/subscribe/';
 $route['policies'] = 'pages/policies/';
+$route['contact'] = 'pages/contact/';
+$route['about'] = 'pages/about/';
 $route['popular'] = 'pages/popular/';
 $route['beta'] = 'pages/beta/';
 $route['404_override'] = '';

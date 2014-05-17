@@ -18,10 +18,10 @@
             <h4 class="text-center molot">Company</h4>
             <ul class="nav nav-pills ">
               <li>
-                <a href="#">Contact</a>
+                <a href= <?php echo site_url('contact')?> >Contact</a>
               </li>
               <li>
-                <a href="#">Who are We</a>
+                <a href="about">Who are We</a>
               </li>
               <li>
                 <a href= <?php echo site_url('policies')?> >Shipping and Returns</a>
