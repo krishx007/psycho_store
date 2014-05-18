@@ -3,7 +3,7 @@
 * 
 */
 class cart extends CI_controller
-{
+{	
 	
 	function __construct()
 	{
@@ -42,14 +42,9 @@ class cart extends CI_controller
 		$data['supported_games'] = $this->database->GetAllSuportedGames();
 	}
 
-	//Show items in cart
-	function view()
-	{
-		$data[] = 0;
-		$num_items = $this->cart->total_items();
-		$this->GenerateHeader($data);
-		
-		//make sure user cant enter more than available tshirts qty
+	//make sure user cant enter more than available tshirts qty
+	function setStockText(&$data)
+	{		
 		foreach ($this->cart->contents() as $items)
 		{
 			$prod_id = $items['id'];
@@ -65,25 +60,23 @@ class cart extends CI_controller
 
 			$data['products'][$prod_id] = $product;
 		}
+	}
+
+	//Show items in cart
+	function view()
+	{
+		$data[] = 0;
+		$num_items = $this->cart->total_items();
+		$this->GenerateHeader($data);
+		
+		$this->setStockText($data);
+		$data['final_price'] = $this->calculateFinalPrice();
+		$data['discount'] = $this->getDiscount();		
 
 		$this->load->view('header',$data);
 		$this->load->view('view_cart',$data);
 		$this->load->view('footer');
-	}
-
-	function createKey($id, $size)
-	{
-		$key = 0;
-		switch($size)
-		{
-			case "small" 	: $key = (string)$id . "s";	break;
-			case "medium" 	: $key = (string)$id . "m";	break;
-			case "large" 	: $key = (string)$id . "l";	break;
-			case "x-large" 	: $key = (string)$id . "x";	break;
-		}
-		
-		return $key;
-	}
+	}	
 
 	function add($productID)
 	{		
@@ -104,7 +97,7 @@ class cart extends CI_controller
 					);
 				
 				$row_id = $this->cart->insert($cart_item);
-			}									
+			}
 		}
 		
 		redirect('cart');
@@ -136,7 +129,53 @@ class cart extends CI_controller
 		redirect('cart');
 	}
 
-	function checkout()
-	{}
+	function getDiscount()
+	{
+		if($this->session->userdata('discount_coupon') != (string)FALSE)
+		{
+			$coupon = $this->session->userdata('discount_coupon');
+			$discount = $this->database->GetDiscountCoupon($coupon);
+			//Apply the discount and store it in finalPrice
+			if(count($discount) > 0)
+			{			
+				//[TODO] : make sure it hasnt expired yet			
+				return ($discount['how_much']/100) * $this->cart->total();
+			}
+
+			return 0;		
+		}
+
+		return 0;
+	}
+
+	function applyDiscount()
+	{
+		if($this->input->post('coupon') != (string)FALSE)
+		{
+			$coupon = trim($this->input->post('coupon'));
+			$this->session->set_userdata('discount_coupon', $coupon);
+		}
+
+		redirect('cart');
+	}	
+
+	function calculateFinalPrice()
+	{
+		$final_price = $this->cart->total();
+		$coupon = $this->session->userdata('discount_coupon');
+		if( strlen($coupon) )
+		{
+			//Check if exists in db
+			$discount = $this->database->GetDiscountCoupon($coupon);
+			//Apply the discount and store it in finalPrice
+			if(count($discount) > 0)
+			{				
+				//make sure it hasnt expired yet			
+				$final_price = $final_price - ($discount['how_much']/100) * $final_price;
+			}
+		}
+
+		return $final_price;
+	}
 }
 ?>

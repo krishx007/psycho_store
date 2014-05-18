@@ -52,15 +52,6 @@ class checkout extends CI_controller
 			case 'address':
 				$this->load->view('view_address', $data);
 			break;
-			// case 'browse':
-			// 	$this->load->view('home', $data);	
-			// break;
-			// case 'product': 				
-			// 	$this->load->view('view_product', $data);
-			// break;		
-			// case 'newsletter':
-			// 	$this->load->view('newsletter', $data);
-			// break;
 			default:
 				show_404();
 			break;		
@@ -83,6 +74,7 @@ class checkout extends CI_controller
 		$userid = $this->tank_auth->get_user_id();
 		//Get relevant addresses
 		$result = $this->database->GetAddressesForUser($userid);
+		
 		
 		if($result)		
 			$data['addresses'] = $result;

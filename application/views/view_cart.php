@@ -1,18 +1,20 @@
  <body>
-	<div class="container">
+	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> 
-					<span class="pull-right play">
-						<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
-						<?php if($this->cart->total_items()): ?>
-							<a class="btn btn-primary" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total());?> </i> <i class="fa fa-arrow-right"></i> </a>
-						<?php endif; ?>	
+				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($final_price);?> </i> 
+					<span class="col-md-5 pull-right play">
+						<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
+				        	<div class="input-group">
+				          		<input type="text" name="coupon" class="form-control input" placeholder="Discount Coupon">
+				          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Discount</button></span>
+				        	</div>
+				      	</form>
 					</span> 
-				</h1>				
+				</h1>
 			</div>
 		</div>
-		<hr>
+		<hr class="">
 		<div class="well">
 			<div class="row">
 				<?php $num_plus = 0;
@@ -66,8 +68,30 @@
 			<?php endforeach; 
 			if($this->cart->total_items() == 0)
 				echo heading('Empty Cart',3, 'class="text-center"');
-			?>
-			</div> 
+			?>			
+			</div>
+			<br><br>
+			<hr>
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Sub Total <span class="pull-right play"> 
+						<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total()) ?> </i></h4>
+						<h4>Discount : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($discount) ?> </i></h4>
+						<h4>Shipping : Always Free </h4>
+						<h4>Final Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($final_price) ?> </i></h4>
+					</span> </h1>
+					
+				</div>
+			</div>
 		</div>
-	</div>
+		<div class="row">
+			<div class="col-md-12">
+				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
+						<?php if($this->cart->total_items()): ?>
+							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($final_price);?> </i> <i class="fa fa-arrow-right"></i> </a>
+						<?php endif; ?>					
+				</span> </h1>
+			</div>
+		</div>
+	</div>	
 </body>

@@ -173,5 +173,12 @@ class Database extends CI_Model
 	{
 		return $this->db->count_all('newsletter');
 	}
+
+	function GetDiscountCoupon($coupon)
+	{
+		$this->db->where('coupon', $coupon);
+		$query = $this->db->get('discount_coupons');
+		return $query->row_array();
+	}
 }
 ?>

@@ -38,7 +38,7 @@
                   <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know">
                   <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
                 </div>
-              </form>              
+              </form>
           </div>          
         </div>
         <div class="row">

@@ -7,12 +7,11 @@
 <tr> -->
 <div class="row">	
 <?php
-foreach($addresses as $address): 
-
+foreach($addresses as $address): 	
 	$complete_add = $address['address_1'] .',<br>';
 	if($address['address_2'] != NULL)
-	 	$complete_add += $address['address_2'].', ';
-	 $complete_add += $address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];	
+	 	$complete_add = $complete_add.$address['address_2'].', ';
+	 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];		 
 ?>
 <div class="col-md-3">
 <td>
