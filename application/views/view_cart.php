@@ -3,14 +3,16 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($final_price);?> </i> 
-					<span class="col-md-5 pull-right play">
-						<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
-				        	<div class="input-group">
-				          		<input type="text" name="coupon" class="form-control input" placeholder="Discount Coupon">
-				          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Discount</button></span>
-				        	</div>
-				      	</form>
-					</span> 
+					<?php if($this->cart->total_items()): ?>						
+						<span class="col-md-5 pull-right play">
+							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
+					        	<div class="input-group">
+					          		<input type="text" name="coupon" class="form-control input" placeholder="Discount Coupon">
+					          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Discount</button></span>
+					        	</div>
+					      	</form>
+						</span>
+					<?php endif; ?>	
 				</h1>
 			</div>
 		</div>
@@ -89,7 +91,7 @@
 				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
 						<?php if($this->cart->total_items()): ?>
 							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($final_price);?> </i> <i class="fa fa-arrow-right"></i> </a>
-						<?php endif; ?>					
+						<?php endif; ?>
 				</span> </h1>
 			</div>
 		</div>
