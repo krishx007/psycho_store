@@ -195,12 +195,12 @@ class Pages extends CI_controller
 	{
 		$data['heading'] = "Shipping and Returns";
 
-		$data['content'] = "At Psycho Store our aim is to always provide you with high quality stuff as quickly as possible. But in some unfortunate situations we may err. 
+		$data['content'] = "<p>At Psycho Store our aim is to always provide you with high quality stuff as quickly as possible. But in some unfortunate situations we may err.</p>
 							<h3>Free Shipping all over India</h3>
-							Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
-							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.
-							<br><h3 > 365 days Return Policy</h3>
-							If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and see if you are telling the truth and will do a refund or excahnge as you desire.
+							<p>Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
+							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
+							<h3> 365 days Return Policy</h3>
+							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and see if you are telling the truth and will do a refund or excahnge as you desire.
 							We will bear the shipping charges as well if it is acceptable for returning.
 							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
 							<br><br> Note : In both the cases, product should be in its original condition, it should not be worn or washed, otherwise it will not be returned.
@@ -211,7 +211,7 @@ class Pages extends CI_controller
 							Sainikwadi, Wadgaon Sheri,<br>
 							Pune - 411014,<br>
 							Maharashtra
-							<br><br>For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a>";
+							<br><br>For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a></p>";
 							
 							
 
@@ -232,19 +232,19 @@ class Pages extends CI_controller
 	function about()
 	{
 		$data['heading'] = "Who are We";
-		$data['content'] = "<h3>Psycho Store</h3>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that I have, that is getting increasingly obsessed with something that I am passionate about.
-							Giving it all that I have and actually going that exrtra mile when everyone else's common sense says that you are walking in the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which you just cannot get out of your head.
-							I call that being in a state of psychoness, when you feel about something deep from your heart and you take absurd decisions to get it through, no matter what it takes and whats the costs. If you can relate, then just give us a shout I am sure our frequency would match.
-							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\". We just replaced Keeda with psycho.<br>
+		$data['content'] = "<h3>Psycho Store</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that we have, that is getting increasingly obsessed with something that we are passionate about.
+							Giving it all that we have and actually going that exrtra mile when everyone else's common sense says that its the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which kept knocking on the back door of your mind.
+							We call that being in a state of psychoness, in which you feel about something so deep from your heart that you take absurd decisions to get it through, no matter what it takes and whats the cost. If you can relate, then just give us a shout I am sure our frequency would match.
+							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\". We just replaced Keeda with psycho and we are proud to say that we have that in us<br>
 							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
-							<br><br>Oh by the way, you were asking <h3>who are we?</h3>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing brand for the gaming community, across the whole earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br>
+							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing brand for the gaming community of earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br></p>
 							<h3><small>What is</small> <> by Codinpsycho ?</h3>
-							It means all this crazy stuff was thought,designed and programmed by a single guy alone, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br>
-							<a target='_blank' href=\"https://twitter.com/codinpsycho\"><h5 class=\" molot\">Twitter</h5></a>
-							<a target='_blank' href=\"https://www.facebook.com/codinpsycho\"><h5 class=\" molot\">Facebook</h5></a>
-							<a target='_blank' href=\"https://github.com/codinpsycho\"><h5 class=\" molot\">github</h5></a>
-							<a target='_blank' href=\"https://github.com/codinpsycho/psycho_store\"><h5 class=\" molot\">Source Code</h5></a>
-							<br><br><br>P.S : He also wrote all that stuff you just read, including this line.
+							<p>It means all this crazy stuff was thought,designed and programmed by a single guy alone, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br></p>
+							<h5 class=\" molot\"><a target='_blank' href=\"https://twitter.com/codinpsycho\">Twitter </a></h5>
+							<h5 class=\" molot\"><a target='_blank' href=\"https://www.facebook.com/codinpsycho\">Facebook </a></h5>
+							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho\">github</h5></a>
+							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho/psycho_store\">Source Code</h5></a>
+							<p><br><br><br>P.S : He also wrote all that stuff you just read, including this line.</p>
 							";
 
 		$this->display('basic', $data);
