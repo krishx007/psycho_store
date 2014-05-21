@@ -138,11 +138,14 @@ class cart extends CI_controller
 			//Apply the discount and store it in finalPrice
 			if(count($discount) > 0)
 			{			
-				//[TODO] : make sure it hasnt expired yet			
-				return ($discount['how_much']/100) * $this->cart->total();
+				//Make sure it hasnt expired yet
+				if( strtotime($discount['expiry']) > strtotime(date("Y-m-d")) )
+				{
+					return ($discount['how_much']/100) * $this->cart->total();
+				}
 			}
 
-			return 0;		
+			return 0;
 		}
 
 		return 0;
@@ -157,23 +160,12 @@ class cart extends CI_controller
 		}
 
 		redirect('cart');
-	}	
+	}
 
 	function calculateFinalPrice()
 	{
-		$final_price = $this->cart->total();
-		$coupon = $this->session->userdata('discount_coupon');
-		if( strlen($coupon) )
-		{
-			//Check if exists in db
-			$discount = $this->database->GetDiscountCoupon($coupon);
-			//Apply the discount and store it in finalPrice
-			if(count($discount) > 0)
-			{				
-				//make sure it hasnt expired yet			
-				$final_price = $final_price - ($discount['how_much']/100) * $final_price;
-			}
-		}
+		$final_price = $this->cart->total();		
+		$final_price = $final_price - $this->getDiscount();		
 
 		return $final_price;
 	}

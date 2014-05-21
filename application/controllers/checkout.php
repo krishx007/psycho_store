@@ -10,6 +10,7 @@ class checkout extends CI_controller
 		parent::__construct();
 		$this->load->library('tank_auth');
 		$this->load->library('cart');
+		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->model('database');
 	}
@@ -126,6 +127,7 @@ class checkout extends CI_controller
 
 		//Destroy the cart now
 		$this->cart->destroy();
+		$this->session->unset_userdata('discount_coupon');
 		redirect('checkout/success');
 	}
 
