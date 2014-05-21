@@ -195,15 +195,15 @@ class Pages extends CI_controller
 	{
 		$data['heading'] = "Shipping and Returns";
 
-		$data['content'] = "<p>At Psycho Store our aim is to always provide you with high quality stuff as quickly as possible. But in some unfortunate situations we may err.</p>
+		$data['content'] = "<p>At Psycho Store our aim is to always provide you with unique and highest quality gaming stuff that you have always desired for.</p>
 							<h3>Free Shipping all over India</h3>
 							<p>Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
 							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
 							<h3> 365 days Return Policy</h3>
-							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and see if you are telling the truth and will do a refund or excahnge as you desire.
-							We will bear the shipping charges as well if it is acceptable for returning.
+							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and will do a refund or excahnge as you desire.
+							We will bear the shipping charges as well if its our fault.
 							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
-							<br><br> Note : In both the cases, product should be in its original condition, it should not be worn or washed, otherwise it will not be returned.
+							<br><br> Note : In both the cases, product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
 							<br><br>Email us with your product id at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> and ship the product to given address
 							<br><br> Return Address :
 							<br>
@@ -232,12 +232,12 @@ class Pages extends CI_controller
 	function about()
 	{
 		$data['heading'] = "Who are We";
-		$data['content'] = "<h3>Psycho Store</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that we have, that is getting increasingly obsessed with something that we are passionate about.
+		$data['content'] = "<h3>Psycho Store</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that we have, \"Our Belief\" that is getting increasingly obsessed with something that we are passionate about.
 							Giving it all that we have and actually going that exrtra mile when everyone else's common sense says that its the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which kept knocking on the back door of your mind.
 							We call that being in a state of psychoness, in which you feel about something so deep from your heart that you take absurd decisions to get it through, no matter what it takes and whats the cost. If you can relate, then just give us a shout I am sure our frequency would match.
 							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\". We just replaced Keeda with psycho and we are proud to say that we have that in us<br>
 							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
-							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing brand for the gaming community of earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br></p>
+							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing/merchandise brand for the gaming community of earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br></p>
 							<h3><small>What is</small> <> by Codinpsycho ?</h3>
 							<p>It means all this crazy stuff was thought,designed and programmed by a single guy alone, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br></p>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://twitter.com/codinpsycho\">Twitter </a></h5>
