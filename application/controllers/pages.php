@@ -200,10 +200,10 @@ class Pages extends CI_controller
 							<p>Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
 							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
 							<h3> 365 days Return Policy</h3>
-							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and will do a refund or excahnge as you desire.
+							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want but most importantly notify us along with your order ID at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> within 2 days and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and will do a refund or excahnge as you desire.
 							We will bear the shipping charges as well if its our fault.
 							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
-							<br><br> Note : In both the cases, product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
+							<br><br> Note : In both the cases, problem should be notified withing 2 days along with order ID at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
 							<br><br>Email us with your product id at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> and ship the product to given address
 							<br><br> Return Address :
 							<br>
@@ -232,7 +232,7 @@ class Pages extends CI_controller
 	function about()
 	{
 		$data['heading'] = "Who are We";
-		$data['content'] = "<h3>Psycho Store</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that we have, \"Our Belief\" that is getting increasingly obsessed with something that we are passionate about.
+		$data['content'] = "<h3>Our belief</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that we have, \"Our Belief\" that is getting increasingly obsessed with something that we are passionate about.
 							Giving it all that we have and actually going that exrtra mile when everyone else's common sense says that its the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which kept knocking on the back door of your mind.
 							We call that being in a state of psychoness, in which you feel about something so deep from your heart that you take absurd decisions to get it through, no matter what it takes and whats the cost. If you can relate, then just give us a shout I am sure our frequency would match.
 							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\". We just replaced Keeda with psycho and we are proud to say that we have that in us<br>
@@ -272,8 +272,7 @@ class Pages extends CI_controller
 
 	function display($page, $data)
 	{
-		$this->GenerateHeader($data);
-
+		$this->GenerateHeader($data);		
 		//Show header
 		$this->load->view('header', $data);
 
