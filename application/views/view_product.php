@@ -14,8 +14,8 @@
               <?php echo anchor("product/$next_id", "Next");?>
             </li>
           </ul>
-          <div class="col-md-6">
-            <img class="img-responsive" src = <?php echo site_url("{$product['product_image_path']}") ?> >
+          <div class="col-md-6 text-center">
+            <img class="" src = <?php echo site_url("{$product['product_image_path']}") ?> >
           </div>
           <div class="col-md-4">
             <div class="row">
