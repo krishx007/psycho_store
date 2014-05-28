@@ -244,6 +244,9 @@ class Pages extends CI_controller
 							<h5 class=\" molot\"><a target='_blank' href=\"https://www.facebook.com/codinpsycho\">Facebook </a></h5>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho\">github</h5></a>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho/psycho_store\">Source Code</h5></a>
+							<p><br>Kudos to these kickass human beings: 
+							<a traget='_blank' href=\"https://twitter.com/mdo\">@mdo</a> and <a traget=\"_blank\" href=\"https://twitter.com/fat\">@fat</a> for <a traget=\"_blank\" href=\"https://getbootstrap.com/\">Bootstrap</a>,
+							guys at <a traget='_blank' href=\"http://ellislab.com/\">Ellis Lab</a> for <a traget='_blank' href=\"https://github.com/EllisLab/CodeIgniter/\">CodeIgniter</a></p>
 							<p><br><br><br>P.S : He also wrote all that stuff you just read, including this line.</p>
 							";
 
