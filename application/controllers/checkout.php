@@ -73,13 +73,9 @@ class checkout extends CI_controller
 	function address()
 	{
 		$userid = $this->tank_auth->get_user_id();
-		//Get relevant addresses
-		$result = $this->database->GetAddressesForUser($userid);
 		
-		
-		if($result)		
-			$data['addresses'] = $result;
-		
+		$result = $this->database->GetAddressesForUser($userid);		
+		$data['addresses'] = $result;
 		$this->display('address',$data);
 	}
 
