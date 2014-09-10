@@ -97,7 +97,7 @@ class Tank_auth
 				}
 			} else {															// fail - wrong login
 				$this->increase_login_attempt($login);
-				$this->error = array('login' => 'auth_incorrect_login');
+				$this->error = array('email' => 'auth_incorrect_login');
 			}
 		}
 		return FALSE;

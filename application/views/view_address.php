@@ -21,7 +21,7 @@
 			?>
 		</div>
 		<?php if(count($addresses) == 0): ?>
-			<h3 class = 'text-center'>No Adress Found</h3>
+			<h3 class = 'text-center'>No Address Found</h3>
 		<?php endif; ?>
 	</div>
 		<?php if(count($addresses) > 0): ?>
