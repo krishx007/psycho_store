@@ -166,8 +166,6 @@ class Auth extends CI_Controller
 						$email_activation)))
 				{
 					//success					
-					$login_val =$this->form_validation->set_value('email');
-					echo '$login_val';
 					$data['site_name'] = $this->config->item('website_name', 'tank_auth');					
 					if ($email_activation)
 					{									// send "activate" email
