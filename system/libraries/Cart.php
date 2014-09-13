@@ -68,6 +68,8 @@ class CI_Cart {
 			// No cart exists so we'll set some base values
 			$this->_cart_contents['cart_total'] = 0;
 			$this->_cart_contents['total_items'] = 0;
+			$this->_cart_contents['final_price'] = 0;
+			$this->_cart_contents['discount'] = 0;
 		}
 
 		log_message('debug', "Cart Class Initialized");
@@ -371,6 +373,7 @@ class CI_Cart {
 		// Unset these so our total can be calculated correctly below
 		unset($this->_cart_contents['total_items']);
 		unset($this->_cart_contents['cart_total']);
+		unset($this->_cart_contents['final_price']);		
 
 		// Lets add up the individual prices and set the cart sub-total
 		$total = 0;
@@ -393,6 +396,9 @@ class CI_Cart {
 		// Set the cart total and total items.
 		$this->_cart_contents['total_items'] = $items;
 		$this->_cart_contents['cart_total'] = $total;
+
+		//Check discount and set final price
+		$this->_cart_contents['final_price'] = $total - $this->discount();
 
 		// Is our cart empty?  If so we delete it from the session
 		if (count($this->_cart_contents) <= 2)
@@ -440,6 +446,36 @@ class CI_Cart {
 	}
 
 	// --------------------------------------------------------------------
+	
+	//@param 	is considered in %
+
+	function apply_discount($discount)
+	{
+		$this->_cart_contents['discount'] = $discount;
+		$this->_save_cart();
+	}
+
+	// --------------------------------------------------------------------
+
+	/* Returns the actual discounted amount, not %
+		Make sure you use this function only after you have set 'total' amount correctly
+	*/
+	function discount()
+	{
+		$discount_percent = $this->_cart_contents['discount'];		
+		return ($discount_percent/100) * $this->total();	
+	}
+
+	// --------------------------------------------------------------------
+
+	/* Returns the final price after applying discount		
+	*/
+	function final_price()
+	{		
+		return $this->_cart_contents['final_price'];
+	}
+
+	// --------------------------------------------------------------------
 
 	/**
 	 * Cart Contents
@@ -456,6 +492,8 @@ class CI_Cart {
 		// Remove these so they don't create a problem when showing the cart table
 		unset($cart['total_items']);
 		unset($cart['cart_total']);
+		unset($cart['final_price']);
+		unset($cart['discount']);
 
 		return $cart;
 	}
@@ -540,6 +578,8 @@ class CI_Cart {
 
 		$this->_cart_contents['cart_total'] = 0;
 		$this->_cart_contents['total_items'] = 0;
+		$this->_cart_contents['final_price'] = 0;
+		$this->_cart_contents['discount'] = 0;
 
 		$this->CI->session->unset_userdata('cart_contents');
 	}
