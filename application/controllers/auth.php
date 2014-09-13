@@ -355,8 +355,8 @@ class Auth extends CI_Controller
 				//Create an entry into address table as well
 				 $address = array
 				(
-					'address_2' => $this->form_validation->set_value('first_name'),
-					'address_2' => $this->form_validation->set_value('last_name'),
+					'first_name' => $this->form_validation->set_value('first_name'),
+					'last_name' => $this->form_validation->set_value('last_name'),
 					'address_1' => $this->form_validation->set_value('address1'),
 					'address_2' => $this->form_validation->set_value('address2'),
 					'city' => $this->form_validation->set_value('city'),
