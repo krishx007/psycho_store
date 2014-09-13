@@ -48,8 +48,7 @@ class cart extends CI_controller
 		foreach ($this->cart->contents() as $items)
 		{
 			$prod_id = $items['id'];
-			$product = $this->database->GetProductById($prod_id);			
-
+			$product = $this->database->GetProductById($prod_id);				
 			//Check stock Size and set stock state					
 			$data['products'][$items['rowid'].'stock_state'] = "";
 			$size = $items['options']['Size'];			
@@ -66,12 +65,9 @@ class cart extends CI_controller
 	function view()
 	{
 		$data[] = 0;
-		$num_items = $this->cart->total_items();
-		$this->GenerateHeader($data);
-		
-		$this->setStockText($data);
-		$data['final_price'] = $this->calculateFinalPrice();
-		$data['discount'] = $this->getDiscount();		
+		$num_items = $this->cart->total_items();		
+		$this->GenerateHeader($data);		
+		$this->setStockText($data);		
 
 		$this->load->view('header',$data);
 		$this->load->view('view_cart',$data);
@@ -129,26 +125,19 @@ class cart extends CI_controller
 		redirect('cart');
 	}
 
-	function getDiscount()
-	{
-		if($this->session->userdata('discount_coupon') != (string)FALSE)
+	function getDiscount($coupon)
+	{		
+		$discount = $this->database->GetDiscountCoupon($coupon);
+		
+		if(count($discount) > 0)
 		{
-			$coupon = $this->session->userdata('discount_coupon');
-			$discount = $this->database->GetDiscountCoupon($coupon);
-			//Apply the discount and store it in finalPrice
-			if(count($discount) > 0)
-			{			
-				//Make sure it hasnt expired yet
-				if( strtotime($discount['expiry']) > strtotime(date("Y-m-d")) )
-				{
-					return ($discount['how_much']/100) * $this->cart->total();
-				}
+			//Make sure it hasnt expired yet
+			if( strtotime($discount['expiry']) > strtotime(date("Y-m-d")) )
+			{
+				return $discount['how_much'];
 			}
-
-			return 0;
 		}
-
-		return 0;
+		return 0;	
 	}
 
 	function applyDiscount()
@@ -156,18 +145,10 @@ class cart extends CI_controller
 		if($this->input->post('coupon') != (string)FALSE)
 		{
 			$coupon = trim($this->input->post('coupon'));
-			$this->session->set_userdata('discount_coupon', $coupon);
+			$this->cart->apply_discount($this->getDiscount($coupon));
 		}
 
 		redirect('cart');
-	}
-
-	function calculateFinalPrice()
-	{
-		$final_price = $this->cart->total();		
-		$final_price = $final_price - $this->getDiscount();		
-
-		return $final_price;
 	}
 }
 ?>

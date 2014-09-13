@@ -2,11 +2,11 @@
 	<h1>Select an Address <span class='pull-right'><?php echo anchor("auth/register_address/", 'Add Address', "class='btn btn-default play navbar-btn' "); ?></span> </h1>
 	<hr>
 	<div class="well">
-		<form method = 'post' action = <?php echo site_url('checkout/payment')?> role="form">
+		<form method = 'post' action = <?php echo site_url('checkout/save_address')?> role="form">
 		<div class="row">
 			<?php
 			foreach($addresses as $address): 	
-				$complete_add = $address['address_1'] .',<br>';
+				$complete_add = $address['first_name'].' '.$address['last_name'].'<br>'.$address['address_1'] .',<br>';
 				if($address['address_2'] != NULL)
 				 	$complete_add = $complete_add.$address['address_2'].', ';
 				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
@@ -25,7 +25,7 @@
 		<?php endif; ?>
 	</div>
 		<?php if(count($addresses) > 0): ?>
-			<button class="btn btn-primary" type="submit"> Proceed To Payment</button>
+			<button class="btn btn-primary" type="submit">Review and Confirm Order</button>
 		<?php endif; ?>	
 	</form>
 </div>

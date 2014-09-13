@@ -12,6 +12,7 @@ class checkout extends CI_controller
 		$this->load->library('cart');
 		$this->load->library('session');
 		$this->load->helper('url');
+		$this->load->helper('html');
 		$this->load->model('database');
 	}
 
@@ -53,6 +54,9 @@ class checkout extends CI_controller
 			case 'address':
 				$this->load->view('view_address', $data);
 			break;
+			case 'review':
+				$this->load->view('view_review_order', $data);
+			break;
 			default:
 				show_404();
 			break;		
@@ -79,10 +83,54 @@ class checkout extends CI_controller
 		$this->display('address',$data);
 	}
 
+	function review()
+	{
+		foreach ($this->cart->contents() as $items)
+		{			
+			$prod_id = $items['id'];
+			$product = $this->database->GetProductById($prod_id);
+			$data['products'][$prod_id] = $product;
+		}
+
+		$data['address'] = $this->session->userdata('shipping_address');
+		
+		$this->display('review', $data);
+	}
+
+	//Store the address in session as user can refresh the page
+	//Also makes sure that address passed is valid for current signed-in user
+	function save_address()
+	{
+		$address_id = $this->input->post('address_id');		
+		$address = $this->database->GetAddressById($address_id);
+
+		//We also need to make sure address belongs to the currently signed-in user		
+		$current_users_addresses = $this->database->GetAddressesForUser($this->tank_auth->get_user_id());
+		$address_valid = FALSE;
+		foreach ($current_users_addresses as $key => $address)
+		{
+			if($address['address_id'] == $address_id)
+			{
+				$address_valid = TRUE;
+				break;
+			}			
+		}
+
+		if($address_valid)
+		{
+			//We need to be here to show the review page, else we go again to address page
+			//to get correct address
+			$this->session->set_userdata('shipping_address',$address);
+			redirect('checkout/review');
+		}
+
+		redirect('checkout/address');
+	}
+
 	function payment()
 	{
 		if($this->input->post('address_id') != (string)FALSE)
-			$address_id = $this->input->post('address_id');			
+			$address_id = $this->input->post('address_id');
 		else
 		{			
 			redirect('checkout/address');
@@ -129,6 +177,7 @@ class checkout extends CI_controller
 
 	function success()
 	{
+		$this->ci->session->unset_userdata('shipping_address');
 		echo "Your order has been placed, Cheers !!";
 	}
 }

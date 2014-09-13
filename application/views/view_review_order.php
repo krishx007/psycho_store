@@ -2,21 +2,14 @@
 	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> 
-					<?php if($this->cart->total_items()): ?>						
-						<span class="col-md-5 pull-right play">
-							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
-					        	<div class="input-group">
-					          		<input type="text" name="coupon" class="form-control input" placeholder="Discount Coupon">
-					          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Discount</button></span>
-					        	</div>
-					      	</form>
-						</span>
-					<?php endif; ?>	
+				<h1>Confirm Order
+					<span class="col-md-5 pull-right play">
+					<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </a>
+					</span>
 				</h1>
 			</div>
 		</div>
-		<hr class="">
+		<hr>
 		<div class="well">
 			<div class="row">
 				<?php $num_plus = 0;
@@ -27,10 +20,7 @@
 				$image_properties = array(
 			          'src' => "$path",          
 			          'class' => 'img-responsive',);?>
-			        <div class="col-md-12">
-			        	<div class="pull-right">
-							<h4><a href= <?php echo site_url("cart/remove/{$items['rowid']}")?>> <i class="fa fa-times"></i></a></h4>
-						</div>
+			        <div class="col-md-12">			        	
 			        	<div class="col-md-2 col-lg-2 ">
 							<?php echo anchor("/product/$url", img($image_properties));?>
 						</div>
@@ -45,22 +35,18 @@
 											<?php endforeach; ?>
 											<?php endif; ?></strong>
 										</h4>								           
-									</li>
-									<div class="col-md-3 navbar-btn">
-										<li>
-										<form class="form" method="post" action=<?php echo site_url('cart/update/')?> >
-						                    <div class="input-group">
-						                      <input type="number" min ='0' name=<?php echo $items['rowid']?> class="form-control input-sm" value=<?php echo $items['qty']?> >
-						                      <span class="input-group-btn"><button class="btn btn-default btn-sm" type="submit">Update</button></span>
-						                    </div>
-				                  		</form>
+									</li>									
+										<li>										
+						                    <div class="nav-button">
+						                      <?php echo $items['qty']?>
+						                    </div>				                  		
 				                  	</li>
 									</div>
 									<li>
 										<h3 class="navbar-text play"><small><i class="fa fa-times"> <i class="fa fa-rupee"><?php echo $this->cart->format_number($items['price']); ?></i> </i> = </small><i class="fa fa-rupee"><strong><?php echo $this->cart->format_number($items['subtotal']); ?></i></strong></h3>                                    
 									</li>
 								</ul>
-							<h4 class="text-right text-primary"><?php echo $products[$items['rowid'].'stock_state'];?></h4>
+							
 							</nav>
 						</div>
 			        </div>
@@ -75,6 +61,26 @@
 			<br><br>
 			<hr>
 			<div class="row">
+				<div class="col-md-6 centered">
+					<h1>Shipping To</h1>
+					<?php $complete_add = $address['first_name'].' '.$address['last_name'].'<br>'.$address['address_1'] .',<br>';
+				if($address['address_2'] != NULL)
+				 	$complete_add = $complete_add.$address['address_2'].', ';
+				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
+				 ?>
+					<h4> <?php echo $complete_add;?> </h4>
+				</div>
+				<div class="col-md-6 centered">
+					<h1>Sub Total 
+						<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total()) ?> </i></h4>
+						<h4>Discount : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->discount()) ?> </i></h4>
+						<h4>Shipping : Always Free </h4>
+						<h4>Final Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price()) ?> </i></h4>
+					</h1>
+				</div>>
+			</div>
+			<hr>
+			<!-- <div class="row">
 				<div class="col-md-12">
 					<h1>Sub Total <span class="pull-right play"> 
 						<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total()) ?> </i></h4>
@@ -84,16 +90,7 @@
 					</span> </h1>
 					
 				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12">
-				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
-						<?php if($this->cart->total_items()): ?>
-							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > <strong>Checkout</strong> | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </a>
-						<?php endif; ?>
-				</span> </h1>
-			</div>
-		</div>
+			</div> -->
+		</div>		
 	</div>	
 </body>
