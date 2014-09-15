@@ -11,8 +11,7 @@
 				 	$complete_add = $complete_add.$address['address_2'].', ';
 				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
 			?>
-			<div class="col-md-3">
-				<td>
+			<div class="col-md-3">				
 				<input type = 'radio' name = 'address_id' checked value = <?php echo $address['address_id'] ?> >
 				<?php echo $complete_add ?>
 			</div>

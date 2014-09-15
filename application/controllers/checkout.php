@@ -57,6 +57,9 @@ class checkout extends CI_controller
 			case 'review':
 				$this->load->view('view_review_order', $data);
 			break;
+			case 'success':
+				$this->load->view('auth/general_message', $data);
+			break;
 			default:
 				show_404();
 			break;		
@@ -128,19 +131,25 @@ class checkout extends CI_controller
 	}
 
 	function payment()
-	{
-		if($this->input->post('address_id') != (string)FALSE)
-			$address_id = $this->input->post('address_id');
+	{		
+		if( ($this->input->post('payment_mode') != (string)FALSE) && ($this->input->post('payment_mode') === "cod" || $this->input->post('payment_mode') === "online") )
+		{
+
+			$payment_mode = $this->input->post('payment_mode');
+		}
 		else
 		{			
-			redirect('checkout/address');
+			redirect('checkout/review');
 		}
-			
+		
+		$address = $this->session->userdata('shipping_address');
 		
 		$order = array
 				(
-					'user_id'	=>	$this->tank_auth->get_user_id(),
-					'address_id' => $address_id,
+					'user_id'		=>	$this->tank_auth->get_user_id(),
+					'address_id' 	=> 	$address['address_id'],
+					'payment_mode'	=>	$payment_mode,
+					//'order_status'=>	Default set as pending
 				);
 
 		$this->database->AddOrder($order);
@@ -154,7 +163,7 @@ class checkout extends CI_controller
 							'order_id' 		=> $num_orders,
 							'product_id'	=> $item['id'],
 							'count'			=> $item['qty'],
-							'size'			=> $item['options']['Size']
+							'size'			=> $item['options']['Size'],
 						);
 
 			//Update product info
@@ -170,15 +179,17 @@ class checkout extends CI_controller
 		}
 
 		//Destroy the cart now
-		$this->cart->destroy();
-		$this->session->unset_userdata('discount_coupon');
+		$this->cart->destroy();		
 		redirect('checkout/success');
 	}
 
 	function success()
 	{
-		$this->ci->session->unset_userdata('shipping_address');
-		echo "Your order has been placed, Cheers !!";
+		$this->session->unset_userdata('shipping_address');
+		//Mail to be sent
+		$msg =sprintf("<h1>Thank you</h1> <br> Your order has been placed and is up for processing. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('')) ;		
+		$data = array('message' => $msg );
+		$this->display('success', $data);
 	}
 }
 ?>
