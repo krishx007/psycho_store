@@ -6,7 +6,7 @@ class Auth extends CI_Controller
 	{
 		parent::__construct();
 
-		$this->load->helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url', 'html'));
 		$this->load->library('form_validation');
 		$this->load->library('security');
 		$this->load->library('tank_auth');
@@ -392,7 +392,15 @@ class Auth extends CI_Controller
 		$data['total_price'] = $this->cart->total();
 
 		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();		
+		$data['supported_games'] = $this->database->GetAllSuportedGames();
+
+		//Meta tags
+		$data['url'] = current_url();	
+		$data['title'] = 'Psycho Store | Gaming merchandise brand';
+		$data['description'] = "We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)";
+		$data['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders,';
+		$data['image'] = site_url('images\ps.jpg');
+		
 	}
 
 	function display($page, $data)

@@ -282,15 +282,19 @@ class Pages extends CI_controller
 			//Title
 			$data['title'] = 'Psycho Store | '.$data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'];
 			//Description			
-			$data['description'] = 'Psycho Store | '.$data['product']['product_game'];
+			$data['description'] = 'Psycho Store | '.$data['product']['product_desc'];
 			//Keywords
 			$data['keywords'] = "t-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders, ".str_replace(' ', ', ', $data['product']['product_url']);
+
+			$data['image'] = site_url($data['product']['product_image_path']);
 		}
 		else
 		{
 			$data['title'] = 'Psycho Store | Gaming merchandise brand';
 			$data['description'] = "We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)";
 			$data['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders,';
+
+			$data['image'] = site_url('images\ps.jpg');
 		}			
 	}
 

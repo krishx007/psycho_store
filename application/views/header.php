@@ -3,12 +3,14 @@
 <meta property="fb:admins" content="100001096628321"/>
 <meta property="og:title" content= "Psycho Store | Game merchandising brand"/>
 <meta property="og:type" content="Clothing"/>
-<meta property="og:url" content=<?php echo $url ?>/>
-<meta property="og:image" content=""/>
+<meta property="og:url" content=<?php echo $url ?> />
+<meta property="og:image" content=<?php echo $image ?> />
 <meta property="og:description" content="We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)" />
 <meta name="viewport" content="width=device-width">
 <?php echo meta('description', $description) ?>
 <?php echo meta('keywords', $keywords) ?>
+<link rel="icon" type="image/png" href=<?php echo $image ?> >
+
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 
