@@ -105,10 +105,13 @@ class Pages extends CI_controller
 			
 			//Generate Suggestions
 			$data['suggested_products'] = $this->GenerateSuggestions($result, 6);
-			$this->display('product', $data);			
+			$this->display('product', $data);
 		}
 		else
-			echo "No product available";
+		{
+			$data['content'] = "No product found";
+			$this->display('basic', $data);
+		}
 	}
 
 	function latest()
@@ -270,7 +273,25 @@ class Pages extends CI_controller
 		$data['total_price'] = $this->cart->total();
 
 		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();		
+		$data['supported_games'] = $this->database->GetAllSuportedGames();
+
+		//Meta tags
+		$data['url'] = current_url();
+		if(isset($data['product']))
+		{			
+			//Title
+			$data['title'] = 'Psycho Store | '.$data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'];
+			//Description			
+			$data['description'] = 'Psycho Store | '.$data['product']['product_game'];
+			//Keywords
+			$data['keywords'] = "t-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders, ".str_replace(' ', ', ', $data['product']['product_url']);
+		}
+		else
+		{
+			$data['title'] = 'Psycho Store | Gaming merchandise brand';
+			$data['description'] = "We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)";
+			$data['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders,';
+		}			
 	}
 
 	function display($page, $data)

@@ -1,12 +1,14 @@
-<title>Psycho Store</title>
+<title><?php echo $title ?></title>
 <meta property="fb:app_id" content="601282446622582" />
 <meta property="fb:admins" content="100001096628321"/>
-<meta property="og:title" content="Psycho Store"/>
+<meta property="og:title" content= "Psycho Store | Game merchandising brand"/>
 <meta property="og:type" content="Clothing"/>
-<meta property="og:url" content="http://www.psychostore.in/"/>
+<meta property="og:url" content=<?php echo $url ?>/>
 <meta property="og:image" content=""/>
-<meta property="og:description" content="Clothing inspired by your favorite Video Games" />
+<meta property="og:description" content="We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)" />
 <meta name="viewport" content="width=device-width">
+<?php echo meta('description', $description) ?>
+<?php echo meta('keywords', $keywords) ?>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 
