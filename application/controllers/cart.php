@@ -43,11 +43,11 @@ class cart extends CI_controller
 
 		//Meta tags
 		$data['url'] = current_url();
-		$data['favico'] = site_url('images\ps.jpg');
+		$data['favico'] = site_url('images/ps.jpg');
 		$data['title'] = 'Psycho Store | Gaming merchandise brand';
 		$data['description'] = "We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)";
 		$data['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders,';
-		$data['image'] = site_url('images\ps.jpg');
+		$data['image'] = site_url('images/ps.jpg');
 	}
 
 	//make sure user cant enter more than available tshirts qty
