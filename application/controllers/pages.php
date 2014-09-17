@@ -277,6 +277,7 @@ class Pages extends CI_controller
 
 		//Meta tags
 		$data['url'] = current_url();
+		$data['favico'] = site_url('images\ps.jpg');
 		if(isset($data['product']))
 		{			
 			//Title

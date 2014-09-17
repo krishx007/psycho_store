@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width">
 <?php echo meta('description', $description) ?>
 <?php echo meta('keywords', $keywords) ?>
-<link rel="icon" type="image/png" href=<?php echo $image ?> >
+<link rel="icon" type="image/png" href=<?php echo $favico ?> >
 
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
