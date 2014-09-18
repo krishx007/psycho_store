@@ -38,12 +38,13 @@
 							<nav>				
 								<ul class='nav nav-pills navbar-left'>
 									<li>
-										<h4 class="navbar-text "> <strong><?php echo $items['name']; ?>
+										<h4 class="navbar-text ">
+											<?php echo $items['name']; ?>
 											<?php if ($this->cart->has_options($items['rowid']) == TRUE): ?>
 											<?php foreach ($this->cart->product_options($items['rowid']) as $option_name => $option_value): ?>
 											<small><?php echo $option_name; ?>: </small><?php echo $option_value; ?>
 											<?php endforeach; ?>
-											<?php endif; ?></strong>
+											<?php endif; ?>
 										</h4>								           
 									</li>
 									<div class="col-md-3 navbar-btn">
