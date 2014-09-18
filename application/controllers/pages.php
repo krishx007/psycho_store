@@ -104,9 +104,8 @@ class Pages extends CI_controller
 			$recently_viewed = array_reverse($recently_viewed);
 		}
 
-		$recently_viewed[$product['product_id']] = $product;
-
-		$this->session->set_userdata('recently_viewed', $recently_viewed);		
+		$recently_viewed[$product['product_id']] = $product;		
+		$this->session->set_userdata('recently_viewed', $recently_viewed);
 	}
 
 	function GetRecentlyViewed()
@@ -151,7 +150,8 @@ class Pages extends CI_controller
 		}
 		else
 		{
-			$data['content'] = "No product found";
+			$data['heading'] = 'No Products Found';
+			$data['content'] = "I am sure, this has something to do with G-Man, anyways just go somewhere else, try someother product";
 			$this->display('basic', $data);
 		}
 	}

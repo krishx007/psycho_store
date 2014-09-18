@@ -9,7 +9,7 @@ class checkout extends CI_controller
 	{
 		parent::__construct();
 		$this->load->library('tank_auth');
-		$this->load->library('cart');
+		$this->load->library('cart');		
 		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('html');
@@ -17,8 +17,7 @@ class checkout extends CI_controller
 	}
 
 	function index()
-	{
-		$this->session->set_userdata('checkout_in_progress', 'TRUE');
+	{		
 		$this->login();
 	}
 
@@ -83,14 +82,16 @@ class checkout extends CI_controller
 		$this->validate_cart();
 
 		if(!$this->tank_auth->is_logged_in())
-			redirect('auth');
+		{			
+			redirect('auth/login?redirect_url='.rawurlencode('checkout/address'));
+		}
 		else
 			redirect('checkout/address');
 	}
 
 	function address()
 	{
-		$this->validate_cart();
+		$this->validate_cart();		
 
 		$userid = $this->tank_auth->get_user_id();
 		

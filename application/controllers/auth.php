@@ -77,11 +77,13 @@ class Auth extends CI_Controller
 						$data['login_by_username'],
 						$data['login_by_email'])) 
 						{
-							// success, now check if we checking out or what
-							if($this->session->userdata('checkout_in_progress'))
-								redirect('checkout/');
-							else
-								redirect('');
+							// success, now redirect to proper page
+							$redirect_url = '';
+							if($this->input->get('redirect_url') != (string)FALSE)
+							{
+								$redirect_url = $this->input->get('redirect_url');							
+							}
+							redirect($redirect_url);
 				}
 				else
 				{				
@@ -121,10 +123,14 @@ class Auth extends CI_Controller
 		$this->tank_auth->logout();
 		
 		//Unset required session vars
-		$this->session->unset_userdata('shipping_address');
-		$this->session->unset_userdata('checkout_in_progress');
+		$this->session->unset_userdata('shipping_address');		
 		$this->cart->remove_discount();
-		redirect('');
+		$redirect_url = '';
+		if($this->input->get('redirect_url') != (string)FALSE)
+		{
+			$redirect_url = $this->input->get('redirect_url');							
+		}
+		redirect($redirect_url);
 		//$this->_show_message($this->lang->line('auth_message_logged_out'));
 	}
 

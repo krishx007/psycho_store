@@ -52,8 +52,9 @@
     	<?php endif; ?>
       </li>
       <li>
-      	<?php  if ( $user_id == 0 ): ?> <a href= <?php echo site_url('auth')?> > <h5 class="navbar-btn">Login </h5></a>
-      	<?php else: ?> <a href= <?php echo site_url('auth/logout')?> > <h5 class="navbar-btn">Logout </h5></a> <?php endif; ?>
+        <?php $redirect_url = rawurlencode(uri_string()); ?>
+      	<?php  if ( $user_id == 0 ): ?> <a href= <?php  echo site_url('auth/login').'?redirect_url='.$redirect_url; ?> > <h5 class="navbar-btn">Login </h5></a>
+      	<?php else: ?> <a href= <?php echo site_url('auth/logout').'?redirect_url='.$redirect_url; ?> > <h5 class="navbar-btn">Logout </h5></a> <?php endif; ?>
       </li>
       <li>
         <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>

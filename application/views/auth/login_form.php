@@ -15,7 +15,8 @@ $remember = array(
 );
 
 ?>
- <?php echo form_open($this->uri->uri_string()); ?>
+<?php $redirect_url =  rawurlencode($this->input->get('redirect_url'))?>
+ <?php echo form_open($this->uri->uri_string().'?redirect_url='.$redirect_url); ?>
  <div class="form-group">
     <?php echo $this->load->view('view_email') ?>
   </div>
