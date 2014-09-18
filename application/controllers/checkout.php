@@ -18,6 +18,7 @@ class checkout extends CI_controller
 
 	function index()
 	{
+		$this->session->set_userdata('checkout_in_progress', 'TRUE');
 		$this->login();
 	}
 
@@ -79,6 +80,8 @@ class checkout extends CI_controller
 
 	function login()
 	{
+		$this->validate_cart();
+
 		if(!$this->tank_auth->is_logged_in())
 			redirect('auth');
 		else
@@ -87,6 +90,8 @@ class checkout extends CI_controller
 
 	function address()
 	{
+		$this->validate_cart();
+
 		$userid = $this->tank_auth->get_user_id();
 		
 		$result = $this->database->GetAddressesForUser($userid);		
@@ -94,8 +99,19 @@ class checkout extends CI_controller
 		$this->display('address',$data);
 	}
 
+	function validate_cart()
+	{
+		if($this->cart->total_items() == 0)
+			redirect('cart/');
+	}
+
 	function review()
 	{
+		$this->validate_cart();
+
+		if($this->session->userdata('shipping_address') === false)
+			redirect('checkout/');		
+
 		foreach ($this->cart->contents() as $items)
 		{			
 			$prod_id = $items['id'];
@@ -139,7 +155,9 @@ class checkout extends CI_controller
 	}
 
 	function payment()
-	{		
+	{
+		$this->validate_cart();
+		
 		if( ($this->input->post('payment_mode') != (string)FALSE) && ($this->input->post('payment_mode') === "cod" || $this->input->post('payment_mode') === "online") )
 		{
 
