@@ -3,8 +3,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Confirm Order
-					<span class="col-md-5 pull-right play">					
-					</span>
+					<small><i class="fa fa-rupee"></i> <?php echo $this->cart->format_number($this->cart->final_price()) ?>
+					</small>
 				</h1>
 			</div>
 		</div>
