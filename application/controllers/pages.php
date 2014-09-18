@@ -57,12 +57,16 @@ class Pages extends CI_controller
 	function GetNextPreviousIds($current_id, &$next, &$prev, $total_products)
 	{		
 		$result = array();
-		$id = $current_id;		
+		$id = $current_id;
+		
 		while(count($result) < 1)
 		{
-			$id = $id + 1; if($id > $total_products ) $id = 1;
+			$id = $id + 1;
+			if($id > $total_products )
+				$id = 1;
 			$result = $this->database->GetProductById($id);						
-		}		
+		}
+
 		$next = $result['product_id'];		
 		
 		//reset
@@ -70,10 +74,44 @@ class Pages extends CI_controller
 		$id = $current_id;
 		while(count($result) < 1)
 		{
-			$id = $id - 1; if($id < 1 ) $id = $total_products;
-			$result = $this->database->GetProductById($id);		
+			$id = $id - 1;
+			if($id < 1 )
+				$id = $total_products;
+			$result = $this->database->GetProductById($id);
 		}
 		$prev = $result['product_id'];	
+	}
+
+	function AddToRecentlyViewed($product)
+	{
+		$recently_viewed = $this->session->userdata('recently_viewed');
+				
+		//Make sure no duplicate entries are there
+		if(is_array($recently_viewed))
+		{
+			foreach ($recently_viewed as $key => $value)
+			{
+				if($key == $product['product_id'])
+					return;
+			}
+		}
+
+		//Make sure at a time there are only 6 recent prods
+		if(count($recently_viewed) >= 6)
+		{
+			$recently_viewed = array_reverse($recently_viewed);
+			array_pop($recently_viewed);
+			$recently_viewed = array_reverse($recently_viewed);
+		}
+
+		$recently_viewed[$product['product_id']] = $product;
+
+		$this->session->set_userdata('recently_viewed', $recently_viewed);		
+	}
+
+	function GetRecentlyViewed()
+	{
+		return $this->session->userdata('recently_viewed');
 	}
 
 	function product($url)
@@ -104,7 +142,11 @@ class Pages extends CI_controller
 				$data['xl_stock'] = 'disabled';			
 			
 			//Generate Suggestions
-			$data['suggested_products'] = $this->GenerateSuggestions($result, 6);
+			$data['suggested_products'] = $this->GenerateSuggestions($result, 3);
+
+			$data['recently_viewed'] = $this->GetRecentlyViewed();
+			$this->AddToRecentlyViewed($result);
+
 			$this->display('product', $data);
 		}
 		else
