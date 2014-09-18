@@ -1,11 +1,11 @@
 <title><?php echo $title ?></title>
 <meta property="fb:app_id" content="601282446622582" />
 <meta property="fb:admins" content="100001096628321"/>
-<meta property="og:title" content= "Psycho Store | Game merchandising brand"/>
+<meta property="og:title" content= "<?php echo $title ?>" />
 <meta property="og:type" content="Clothing"/>
 <meta property="og:url" content=<?php echo $url ?> />
 <meta property="og:image" content=<?php echo $image ?> />
-<meta property="og:description" content="We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)" />
+<meta property="og:description" content="<?php echo $description ?>" />
 <meta name="viewport" content="width=device-width">
 <?php echo meta('description', $description) ?>
 <?php echo meta('keywords', $keywords) ?>
