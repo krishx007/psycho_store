@@ -1,10 +1,10 @@
  <body>
 	<div class="container top-bottom-space">
 		<div class="row">
-			<div class="col-md-12">			
+			<div class="col-md-12">
 				<h1>Confirm Order
-					<small><i class="fa fa-rupee"></i> <?php echo $this->cart->format_number($this->cart->final_price()) ?>
-					</small>
+					<span class="col-md-5 pull-right play">					
+					</span>
 				</h1>
 			</div>
 		</div>

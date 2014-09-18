@@ -3,7 +3,7 @@
         <div class="top-bottom-space">
         <div class="row">
           <div class="col-md-12">
-            <h1 class="text-left"><?php echo $product['product_name'] ?> <small><i class="fa fa-rupee"></i> <?php echo $product['product_price']?></small></h1>      
+            <h1 class="text-left"><?php echo $product['product_name'] ?> <small><i class="fa fa-rupee"></i> <?php echo $product['product_price']?></small></h1>            
             <hr>
           </div>
           <ul class="pager">
@@ -22,7 +22,6 @@
               <div class="col-md-12">
                 <p> <?php echo $product['product_desc']; ?> </p>
                 <p>Product description here</p>
-                <p>Product description here</p>                
                 <p>Product description here</p>
                 <hr>
               </div>
@@ -52,23 +51,6 @@
             <div class="row ">
               <div class="col-md-12">
                 <h5>Inspired by&nbsp;<span class="h4 molot"><a href=<?php $game = url_title($product['product_game'],'_'); echo site_url("search/$game")?>> <?php echo $product['product_game']?></a> </span></h5>
-              </div>
-              <div class="col-md-12">
-                <hr>                
-                <?php
-                foreach($suggested_products as $product_item): 
-                  $url = url_title($product_item['product_url'],'_');
-                  $path = "/".$product_item['product_image_path'];
-                  $image_properties = array(
-                          'src' => "$path",
-                          'class' => 'img-responsive',
-                );
-                ?>
-                  <div class="product-link-sm col-md-4">
-                      <?php echo anchor("/product/$url", img($image_properties));?>      
-                  </div>
-
-                <?php endforeach ?> 
               </div>              
             </div>            
           </div>
@@ -76,26 +58,24 @@
       </div>
         <div class="row">
           <div class="col-md-12">
-            <h3 class="text-left">Recently Viewed</h3>
+            <h3 class="text-left">Other Products</h3>
             <hr>
           </div>
           <div class="row">
-<?php
-if(is_array($recently_viewed) > 0):
-
-  foreach($recently_viewed as $key => $product_item): 
+<?php 
+foreach($suggested_products as $product_item): 
   $url = url_title($product_item['product_url'],'_');
   $path = "/".$product_item['product_image_path'];
   $image_properties = array(
-                            'src' => "$path",          
-                            'class' => 'img-responsive',
-                            );
+          'src' => "$path",          
+          'class' => 'img-responsive',
+);
 ?>
   <div class="product-link-sm col-md-2">
       <?php echo anchor("/product/$url", img($image_properties));?>      
   </div>
-  <?php endforeach ?>
-  <?php endif ?>
+
+<?php endforeach ?>            
           </div>
         </div>
       </div>
