@@ -456,6 +456,16 @@ class CI_Cart {
 	}
 
 	// --------------------------------------------------------------------
+	
+	//This gets called when user logs out
+
+	function remove_discount($discount)
+	{
+		$this->_cart_contents['discount'] = 0;
+		$this->_save_cart();
+	}
+
+	// --------------------------------------------------------------------
 
 	/* Returns the actual discounted amount, not %
 		Make sure you use this function only after you have set 'total' amount correctly
