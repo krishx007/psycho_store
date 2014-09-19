@@ -48,7 +48,7 @@
       </li>      
       <li>
       	<?php if($user_id > 0): ?>
-        	<h4 class="navbar-text"> <strong> <?php echo $user_name ?> </strong></h4>
+        	<h4 class="navbar-text"> <?php echo $user_name ?> </h4>
     	<?php endif; ?>
       </li>
       <li>
@@ -61,7 +61,7 @@
       </li>
     </ul>
     <ul class="nav nav-pills navbar-left">    	
-		<a href= <?php echo site_url('') ?> ><h4 class='molot'>Psycho Store</h4></a>    
+		<a href= <?php echo site_url('') ?> ><h4 class='molot navbar-text'>Psycho Store</h4></a>    
     </ul>
   </nav>
   
