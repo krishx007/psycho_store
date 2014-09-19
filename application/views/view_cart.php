@@ -23,7 +23,7 @@
 				foreach ($this->cart->contents() as $items):
 				$product = $products["{$items['id']}"];
 				$path = "/".$product['product_image_path'];
-				$url = url_title($product['product_url'],'_');
+				$url = url_title($product['product_url'],'_');				
 				$image_properties = array(
 			          'src' => "$path",          
 			          'class' => 'img-responsive',);?>
@@ -50,8 +50,8 @@
 									<div class="col-md-3 navbar-btn">
 										<li>
 										<form class="form" method="post" action=<?php echo site_url('cart/update/')?> >
-						                    <div class="input-group">
-						                      <input type="number" min ='0' name=<?php echo $items['rowid']?> class="form-control input-sm" value=<?php echo $items['qty']?> >
+						                    <div class="input-group">						                     
+						                      <input type="number" min ='0' max = <?php echo $product['product_count_'.strtolower($items['options']['Size'])] ?> name=<?php echo $items['rowid']?> class="form-control input-sm" value=<?php echo $items['qty']?> >
 						                      <span class="input-group-btn"><button class="btn btn-default btn-sm" type="submit">Update</button></span>
 						                    </div>
 				                  		</form>
