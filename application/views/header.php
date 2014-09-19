@@ -2,7 +2,7 @@
 <meta property="fb:app_id" content="601282446622582" />
 <meta property="fb:admins" content="100001096628321"/>
 <meta property="og:title" content= "<?php echo $title ?>" />
-<meta property="og:type" content="Clothing"/>
+<meta property="og:type" content="website"/>
 <meta property="og:url" content=<?php echo $url ?> />
 <meta property="og:image" content=<?php echo $image ?> />
 <meta property="og:description" content="<?php echo $description ?>" />
