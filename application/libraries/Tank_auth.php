@@ -297,7 +297,7 @@ class Tank_auth
 				return $data;
 
 			} else {
-				$this->error = array('login' => 'auth_incorrect_email_or_username');
+				$this->error = array('email' => 'auth_incorrect_email_or_username');
 			}
 		}
 		return NULL;
