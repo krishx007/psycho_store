@@ -3,7 +3,8 @@
         <div class="top-bottom-space">
         <div class="row">
           <div class="col-md-12">
-            <h1 class="text-left"><?php echo $product['product_name'] ?> <small><i class="fa fa-rupee"></i> <?php echo $product['product_price']?></small></h1>      
+            <h1 class="text-left"><?php echo $product['product_name'] ?> 
+            <span class="pull-right"> <i class="fa fa-rupee"></i> <?php echo $this->cart->format_number($product['product_price'])?> </span> </h1>
             <hr>
           </div>
           <ul class="pager">
