@@ -2,7 +2,7 @@
 	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Total : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> 
+				<h1>Total : <i class="fa fa-rupee"> </i> <?php echo $this->cart->format_number($this->cart->final_price());?>
 					<?php if($this->cart->total_items()): ?>						
 						<span class="col-md-5 pull-right play">
 							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
@@ -29,7 +29,7 @@
 			          'class' => 'img-responsive',);?>
 			        <div class="col-md-12">
 			        	<div class="pull-right">
-							<h4><a href= <?php echo site_url("cart/remove/{$items['rowid']}")?>> <i class="fa fa-times"></i></a></h4>
+							<h4><a href= <?php echo site_url("cart/remove/{$items['rowid']}")?>>Remove <i class="fa fa-times"></i></a></h4>
 						</div>
 			        	<div class="col-md-2 col-lg-2 ">
 							<?php echo anchor("/product/$url", img($image_properties));?>
