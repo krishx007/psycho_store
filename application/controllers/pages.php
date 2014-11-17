@@ -91,11 +91,11 @@ class Pages extends CI_controller
 		{
 			foreach ($recently_viewed as $key => $value)
 			{
-				if($key == $product['product_id'])
+				if($value['product_id'] == $product['product_id'])
 					return;
 			}
 		}
-
+		
 		//Make sure at a time there are only 6 recent prods
 		if(count($recently_viewed) >= 6)
 		{
@@ -104,7 +104,7 @@ class Pages extends CI_controller
 			$recently_viewed = array_reverse($recently_viewed);
 		}
 
-		$recently_viewed[$product['product_id']] = $product;		
+		$recently_viewed[] = $product;		
 		$this->session->set_userdata('recently_viewed', $recently_viewed);
 	}
 
@@ -236,7 +236,7 @@ class Pages extends CI_controller
 		$this->display('basic', $data);
 	}
 
-	function policies()
+	function shipping_and_returns()
 	{
 		$data['heading'] = "Shipping and Returns";
 
