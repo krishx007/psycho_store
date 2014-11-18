@@ -102,7 +102,7 @@ class checkout extends CI_controller
 
 	function validate_cart()
 	{
-		if($this->cart->total_items() == 0)
+		if($this->cart->total_items() <= 0)
 			redirect('cart/');
 	}
 
