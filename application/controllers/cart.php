@@ -50,20 +50,47 @@ class cart extends CI_controller
 		$data['image'] = site_url('images/ps.jpg');
 	}
 
-	//make sure user cant enter more than available tshirts qty
-	function setStockText(&$data)
-	{		
+	function start_checkout()
+	{
+		//Make sure no out of stock items are present
+		$data[] = 0;
+		$this->set_stock_info($data);
+
+		foreach ($this->cart->contents() as $items)
+		{			
+			if($data['products'][$items['rowid'].'stock_state'] == "Out Of Stock" )
+				redirect('cart');
+		}
+
+		//Everythings Ok
+		redirect('checkout');
+	}
+
+
+	//make sure user cant enter more than available stock qty
+	function set_stock_info(&$data)
+	{
 		foreach ($this->cart->contents() as $items)
 		{
 			$prod_id = $items['id'];
-			$product = $this->database->GetProductById($prod_id);				
-			//Check stock Size and set stock state					
+			$product = $this->database->GetProductById($prod_id);
+
+			//Check stock and set stock info
 			$data['products'][$items['rowid'].'stock_state'] = "";
-			$size = $items['options']['Size'];			
-			$size_in_stock = $product['product_count_'.strtolower($size)];
+
+			if( $product['product_type'] == "Tshirt" || $product['product_type'] == "Hoodie")
+			{
+				$size = $items['options']['Size'];
+				$size_in_stock = $product['product_count_'.strtolower($size)];
+			}
+			else
+			{
+				//For product woth no size info like action figures .. later on
+			}
+
+			
 			if($items['qty'] > $size_in_stock)
 				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";				
-				
 
 			$data['products'][$prod_id] = $product;
 		}
@@ -75,7 +102,7 @@ class cart extends CI_controller
 		$data[] = 0;
 		$num_items = $this->cart->total_items();		
 		$this->GenerateHeader($data);		
-		$this->setStockText($data);		
+		$this->set_stock_info($data);
 
 		$this->load->view('header',$data);
 		$this->load->view('view_cart',$data);
