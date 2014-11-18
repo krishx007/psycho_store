@@ -102,8 +102,37 @@ class checkout extends CI_controller
 
 	function validate_cart()
 	{
-		if($this->cart->total_items() <= 0)
+		$out_of_stock = false;		
+
+		foreach ($this->cart->contents() as $items)
+		{
+			$prod_id = $items['id'];
+			$product = $this->database->GetProductById($prod_id);
+
+			//Check stock and set stock info
+			$data['products'][$items['rowid'].'stock_state'] = "";
+
+			if( $product['product_type'] == "Tshirt" || $product['product_type'] == "Hoodie")
+			{
+				$size = $items['options']['Size'];
+				$size_in_stock = $product['product_count_'.strtolower($size)];
+			}
+			else
+			{
+				//For product woth no size info like action figures .. later on
+			}
+
+			
+			if($items['qty'] > $size_in_stock)
+			{
+				$out_of_stock = true;
+				break;
+			}
+		}
+
+		if($this->cart->total_items() <= 0 || $out_of_stock)
 			redirect('cart/');
+
 	}
 
 	function review()

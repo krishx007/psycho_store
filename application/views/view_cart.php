@@ -91,7 +91,7 @@
 			<div class="col-md-12">
 				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
 						<?php if($this->cart->total_items()): ?>
-							<a class="btn btn-primary pull-right" href=<?php echo site_url('cart/start_checkout')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </a>
+							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </a>
 						<?php endif; ?>
 				</span> </h1>
 			</div>
