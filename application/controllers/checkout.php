@@ -41,12 +41,12 @@ class checkout extends CI_controller
 		$data['supported_games'] = $this->database->GetAllSuportedGames();
 
 		//Meta tags
+		$data['title'] = $this->config->item('title');
+		$data['description'] = $this->config->item('description');
+		$data['keywords'] = $this->config->item('keywords');
+		$data['image'] = $this->config->item('favico');
 		$data['url'] = current_url();
-		$data['favico'] = site_url('images/ps.jpg');
-		$data['title'] = 'Psycho Store | Gaming merchandise brand';
-		$data['description'] = "We craft clothing/merchandises for the gaming community of earth(other planets can wait for now)";
-		$data['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders,';
-		$data['image'] = site_url('images/ps.jpg');
+		$data['favico'] = $this->config->item('favico');
 	}
 
 	function display($page, $data)
@@ -93,11 +93,19 @@ class checkout extends CI_controller
 	{
 		$this->validate_cart();		
 
-		$userid = $this->tank_auth->get_user_id();
+		$userid = $this->tank_auth->get_user_id();		
 		
-		$result = $this->database->GetAddressesForUser($userid);		
-		$data['addresses'] = $result;
-		$this->display('address',$data);
+		if(strlen($userid) > 0)
+		{
+			$result = $this->database->GetAddressesForUser($userid);
+			$data['addresses'] = $result;
+			$this->display('address',$data);
+		}
+		else
+		{
+			redirect('checkout/login');
+		}
+		
 	}
 
 	function validate_cart()
@@ -187,19 +195,111 @@ class checkout extends CI_controller
 	function payment()
 	{
 		$this->validate_cart();
-		
-		if( ($this->input->post('payment_mode') != (string)FALSE) && ($this->input->post('payment_mode') === "cod" || $this->input->post('payment_mode') === "online") )
-		{
 
-			$payment_mode = $this->input->post('payment_mode');
-		}
-		else
-		{			
-			redirect('checkout/review');
+		$payment_mode = $this->input->post('payment_mode');
+
+		//Check payment mode
+		switch ($payment_mode)
+		{
+			case 'cod':
+				redirect('checkout/success');
+				break;
+
+			case 'online':
+				redirect('checkout/payment_gateway');
+				break;
+			
+			default:
+				redirect('checkout/review');
+				break;
 		}
 		
+		
+		// if( ($this->input->post('payment_mode') != (string)FALSE) && ($this->input->post('payment_mode') === "cod" || $this->input->post('payment_mode') === "online") )
+		// {
+
+		// 	$payment_mode = $this->input->post('payment_mode');
+		// }
+		// else
+		// {			
+		// 	redirect('checkout/review');
+		// }
+	}
+
+	function payment_gateway()
+	{
+		$gateway_params = array();
+
+		//Gateway config
+		$gateway_params['key'] = $this->config->item('merchant_key');
+		$gateway_params['salt'] = $this->config->item('salt');			
+		$gateway_params['surl'] = $this->config->item('success_url');
+		$gateway_params['furl'] = $this->config->item('failure_url');
+		$gateway_params['txnid'] = $this->generate_txnid();
+		$gateway_params['service_provider'] = $this->config->item('service_provider');
+
+		//Site specific info
+		$address = $this->session->userdata('shipping_address');	//Should be there
+		$user_id = $this->tank_auth->get_user_id();
+		$user = $this->database->GetUserById($user_id);
+
+		$gateway_params['amount'] = $this->cart->final_price();
+		$gateway_params['firstname'] = $address['first_name'];
+		$gateway_params['lastname'] = $address['last_name'];
+		$gateway_params['address1'] = $address['address_1'];
+		$gateway_params['address2'] = $address['address_2'];
+		$gateway_params['city'] = $address['city'];
+		$gateway_params['state'] = $address['state'];
+		$gateway_params['country'] = $address['country'];
+		$gateway_params['zipcode'] = $address['pincode'];
+		$gateway_params['email'] = $user['email'];
+		$gateway_params['phone'] = $address['phone_number'];
+		$gateway_params['productinfo'] = "Psycho Store Merchandise";
+
+
+		//Generate hash		
+		//key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10
+		$hash_string = $gateway_params['key'].'|'.$gateway_params['txnid'].'|'.$gateway_params['amount'].'|'.$gateway_params['productinfo'].'|'.$gateway_params['firstname'].'|'.$gateway_params['email'].'|'.'||||||||||'.$gateway_params['salt'];
+
+		$gateway_params['hash'] = strtolower(hash('sha512', $hash_string));
+		
+		//Do a post request
+		$url = $this->config->item('gateway_url');	
+		
+		# Create a connection		
+		$ch = curl_init($url);
+
+		# Form post string
+		$postString = http_build_query($gateway_params);	
+
+		# Setting our options		
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);				
+
+		# Get the response
+		$res = curl_exec($ch);
+		$info = curl_getinfo($ch);		
+		curl_close($ch);		
+		
+
+		redirect($info['redirect_url']);
+
+		
+	}
+
+	function generate_txnid()
+	{
+		return substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+	}
+
+	function place_order()
+	{
+		$this->validate_cart();
+
+		//Check for payment mode and address
 		$address = $this->session->userdata('shipping_address');
-		
+
 		$order = array
 				(
 					'user_id'		=>	$this->tank_auth->get_user_id(),
@@ -224,26 +324,27 @@ class checkout extends CI_controller
 
 			//Update product info
 			$size = $item['options']['Size'];
-			$size = 'product_count_'.strtolower($size);			
-			$product = $this->database->GetProductById($item['id']);			
+			$size = 'product_count_'.strtolower($size);
+			$product = $this->database->GetProductById($item['id']);
 			$product['product_qty_sold'] += $item['qty'];
-			$product[$size] -= $item['qty'];			
+			$product[$size] -= $item['qty'];
 
 			//Update database
 			$this->database->ModifyProduct($product);
 			$this->database->AddOrderItem($order_item);
 		}
 
-		//Destroy the cart now
-		$this->cart->destroy();		
-		redirect('checkout/success');
+		//Destroy the cart/address now
+		$this->cart->destroy();
+		$this->session->unset_userdata('shipping_address');
 	}
 
 	function success()
 	{
-		$this->session->unset_userdata('shipping_address');
+		//$this->place_order();	
 		//Mail to be sent
-		$msg =sprintf("<h1>Thank you</h1> <br> Your order has been placed and is up for processing. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('')) ;		
+		//Verify checksum and note txnID and then place order
+		$msg =sprintf("<h1>Thank you</h1> <br> Your order has been placed and is up for processing. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('')) ;
 		$data = array('message' => $msg );
 		$this->display('success', $data);
 	}

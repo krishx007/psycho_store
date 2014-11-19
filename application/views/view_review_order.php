@@ -32,8 +32,8 @@
 					<h1>Payment Mode</h1>
 					<form  method = "post" action = <?php echo site_url('checkout/payment')?> role="form">
 						<select class="form-control" name="payment_mode">
-							<option value="cod">Cash On delivery (Free) </option>
-							<option value="online" disabled>Pay Online</option>
+							<option value="online" >Pay Online</option>
+							<option value="cod">Cash On delivery (Free) </option>							
 						</select>					
 				</div>
 			</div>			
