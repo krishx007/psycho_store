@@ -12,7 +12,7 @@ class checkout extends CI_controller
 		$this->load->library('cart');		
 		$this->load->library('session');
 		$this->load->helper('url');
-		$this->load->helper('html');
+		$this->load->helper('html');		
 		$this->load->model('database');
 	}
 
@@ -65,7 +65,7 @@ class checkout extends CI_controller
 			case 'review':
 				$this->load->view('view_review_order', $data);
 			break;
-			case 'success':
+			case 'message':
 				$this->load->view('auth/general_message', $data);
 			break;
 			default:
@@ -202,6 +202,7 @@ class checkout extends CI_controller
 		switch ($payment_mode)
 		{
 			case 'cod':
+				$this->session->set_flashdata('ok_to_order', true);
 				redirect('checkout/success');
 				break;
 
@@ -213,17 +214,6 @@ class checkout extends CI_controller
 				redirect('checkout/review');
 				break;
 		}
-		
-		
-		// if( ($this->input->post('payment_mode') != (string)FALSE) && ($this->input->post('payment_mode') === "cod" || $this->input->post('payment_mode') === "online") )
-		// {
-
-		// 	$payment_mode = $this->input->post('payment_mode');
-		// }
-		// else
-		// {			
-		// 	redirect('checkout/review');
-		// }
 	}
 
 	function payment_gateway()
@@ -235,7 +225,7 @@ class checkout extends CI_controller
 		$gateway_params['salt'] = $this->config->item('salt');			
 		$gateway_params['surl'] = $this->config->item('success_url');
 		$gateway_params['furl'] = $this->config->item('failure_url');
-		$gateway_params['txnid'] = $this->generate_txnid();
+		$gateway_params['txnid'] = $this->_generate_txnid();
 		$gateway_params['service_provider'] = $this->config->item('service_provider');
 
 		//Site specific info
@@ -261,39 +251,36 @@ class checkout extends CI_controller
 		//key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10
 		$hash_string = $gateway_params['key'].'|'.$gateway_params['txnid'].'|'.$gateway_params['amount'].'|'.$gateway_params['productinfo'].'|'.$gateway_params['firstname'].'|'.$gateway_params['email'].'|'.'||||||||||'.$gateway_params['salt'];
 
-		$gateway_params['hash'] = strtolower(hash('sha512', $hash_string));
+		$gateway_params['hash'] = strtolower(hash('sha512', $hash_string));		
 		
 		//Do a post request
 		$url = $this->config->item('gateway_url');	
 		
-		# Create a connection		
+		// Create a connection		
 		$ch = curl_init($url);
 
-		# Form post string
-		$postString = http_build_query($gateway_params);	
+		// Form post string
+		$postString = http_build_query($gateway_params);
 
-		# Setting our options		
+		// Setting our options		
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);				
 
-		# Get the response
+		// Get the response
 		$res = curl_exec($ch);
 		$info = curl_getinfo($ch);		
 		curl_close($ch);		
-		
 
 		redirect($info['redirect_url']);
-
-		
 	}
 
-	function generate_txnid()
+	function _generate_txnid()
 	{
 		return substr(hash('sha256', mt_rand() . microtime()), 0, 20);
 	}
 
-	function place_order()
+	function _place_order($order_info)
 	{
 		$this->validate_cart();
 
@@ -302,24 +289,24 @@ class checkout extends CI_controller
 
 		$order = array
 				(
+					'txn_id'		=>	$order_info['txnid'],
 					'user_id'		=>	$this->tank_auth->get_user_id(),
 					'address_id' 	=> 	$address['address_id'],
-					'payment_mode'	=>	$payment_mode,
+					'payment_mode'	=>	$order_info['payment_mode'],
+					'order_amount'	=>	$order_info['amount'],
 					//'order_status'=>	Default set as pending
 				);
 
 		$this->database->AddOrder($order);
 
-		$num_orders = $this->database->GetNumOrders();
-
 		foreach ($this->cart->contents() as $item)
 		{
 			$order_item = array
 						(
-							'order_id' 		=> $num_orders,
-							'product_id'	=> $item['id'],
-							'count'			=> $item['qty'],
-							'size'			=> $item['options']['Size'],
+							'txn_id'		=>	$order_info['txnid'],
+							'product_id'	=> 	$item['id'],
+							'count'			=> 	$item['qty'],
+							'size'			=> 	$item['options']['Size'],
 						);
 
 			//Update product info
@@ -327,7 +314,7 @@ class checkout extends CI_controller
 			$size = 'product_count_'.strtolower($size);
 			$product = $this->database->GetProductById($item['id']);
 			$product['product_qty_sold'] += $item['qty'];
-			$product[$size] -= $item['qty'];
+			$product[$size] -= $item['qty'];	//To be done for products with no size
 
 			//Update database
 			$this->database->ModifyProduct($product);
@@ -341,12 +328,91 @@ class checkout extends CI_controller
 
 	function success()
 	{
-		//$this->place_order();	
-		//Mail to be sent
-		//Verify checksum and note txnID and then place order
-		$msg =sprintf("<h1>Thank you</h1> <br> Your order has been placed and is up for processing. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('')) ;
-		$data = array('message' => $msg );
-		$this->display('success', $data);
+		//var_dump($this->input->post());
+
+		$ok_to_place_order = false;		
+
+		//Verify checksum (not sure abt this, might be unnecessary)
+		if($this->input->post( 'key' ) != (string)false )
+		{
+			//We came here through online transaction
+			$returned_hash	 	= $this->input->post( 'hash' );
+			$status 			= $this->input->post('status');
+			
+			//<SALT>|status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key
+			$hash_string = $this->input->post('salt').'|'.$status.'|'.'||||||||||'.'|'.$this->input->post('email').'|'.'ishkaran.singh@hotma'.'|'.$this->input->post('productinfo').'|'.$this->input->post('amount').'|'.$this->input->post('txnid').'|'.$this->input->post('key');
+
+			$hash = strtolower(hash('sha512', $hash_string));
+			
+			if($this->input->post( 'status' ) === "success")
+			{
+				$ok_to_place_order = true;
+			}
+		}
+		else
+		{
+			$ok_to_place_order = $this->session->flashdata('ok_to_order');
+		}
+
+		if($ok_to_place_order)
+		{
+			$order_info = $this->_generate_orderinfo($this->input->post());
+
+			$this->_place_order($order_info);
+			$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, psycho gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br>
+				For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('cart')) ;
+			$data = array('message' => $msg );
+			$this->display('message', $data);
+		}
+		else
+		{
+			redirect('checkout/');
+		}		
+	}
+
+	function failure()
+	{
+		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your transaction, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your transaction, due to which it failed. If you have been charged, dont worry we will auto-refund your your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
+			$data = array('message' => $msg );
+			$this->display('message', $data);
+	}
+
+	function _generate_orderinfo($post_back_params)
+	{		
+		$order_info = array();
+
+		//Payment Mode
+		if( isset($post_back_params['mode']) )
+		{
+			$order_info['payment_mode'] =	'online';
+		}
+		else
+		{
+			$order_info['payment_mode'] =	'cod';
+		}
+		
+		//Transaction ID
+		if( isset($post_back_params['txnid']) )
+		{
+			$order_info['txnid'] = $post_back_params['txnid'];
+		}
+		else
+		{
+			$order_info['txnid'] = $this->_generate_txnid();
+		}
+
+		//Order Amount
+		if( isset($post_back_params['amount']) )
+		{
+			$order_info['amount'] = $post_back_params['amount'];
+		}
+		else
+		{
+			$order_info['amount'] = $this->cart->final_price();
+		}
+
+
+		return $order_info;
 	}
 }
 ?>
