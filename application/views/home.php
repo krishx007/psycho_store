@@ -3,7 +3,7 @@
 		<div class="row">
   			<div class="col-md-12 text-center top-bottom-space-s">
   				<h1>Psycho Store</h1>
-            	<h4 class="molot"><small>We craft clothing/merchandise for the gaming community of earth</small></h4> 
+            	<h4 class="molot"><small>We make stuff for Gamers and Geeks</small></h4> 
   			</div>
 		</div>
 	</div>
