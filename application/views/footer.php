@@ -24,7 +24,7 @@
                 <a href=<?php echo site_url('about')?>>Who are We</a>
               </li>
               <li>
-                <a href= <?php echo site_url('shipping_and_returns')?> >Shipping and Returns</a>
+                <a href= <?php echo site_url('shipping_returns')?> >Shipping and Returns</a>
               </li>
               <li>
                 <a href="#">Media</a>

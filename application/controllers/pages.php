@@ -236,7 +236,7 @@ class Pages extends CI_controller
 		$this->display('basic', $data);
 	}
 
-	function shipping_and_returns()
+	function shipping_returns()
 	{
 		$data['heading'] = "Shipping and Returns";
 
