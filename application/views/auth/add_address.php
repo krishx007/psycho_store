@@ -80,7 +80,7 @@ $number = array(
 	'minlength'	=> 10,
 	'size'	=> 30,
 	'class' => "form-control",
-	'placeholder' => '+91 -',	
+	'placeholder' => '+91 - Enter 10 digit number',	
 );
 ?>
 <!--<?php echo form_open($this->uri->uri_string()); ?>-->
