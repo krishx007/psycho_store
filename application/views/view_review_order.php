@@ -35,7 +35,7 @@
 				</div>
 			</div>			
 		</div>
-		<a href = <?php echo site_url('shipping_returns') ?> >I agree to Terms and Conditions/Policies by placing the Order</a>
+		Note : Placing the order implies you agree to<a href = <?php echo site_url('shipping_returns') ?> > Terms and Conditions/Policies</a>
 		<button class="btn btn-primary pull-right" type="submit"> Place Order | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </button>
 		</form>
 	</div>	
