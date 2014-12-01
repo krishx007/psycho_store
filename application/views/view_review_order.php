@@ -2,10 +2,7 @@
 	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Confirm Order
-					<small><i class="fa fa-rupee"></i> <?php echo $this->cart->format_number($this->cart->final_price()) ?>
-					</small>
-				</h1>
+				<h1>Confirm Order</h1>
 			</div>
 		</div>
 		<hr>
@@ -38,6 +35,7 @@
 				</div>
 			</div>			
 		</div>
+		<a href = <?php echo site_url('shipping_returns') ?> >I agree to Terms and Conditions/Policies by placing the Order</a>
 		<button class="btn btn-primary pull-right" type="submit"> Place Order | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </button>
 		</form>
 	</div>	
