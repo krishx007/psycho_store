@@ -71,17 +71,12 @@ a
 
 .product-link:hover>.row>.col-md-12>p
 {	
-	
+	color: #fff;
 }
 
 .product-link:hover>.row>.col-md-12>h4
 {   
-    
-}
-
-.product-link:hover
-{   
-    opacity: 0.6;
+    color: #fff;
 }
 
 .product-link:hover
