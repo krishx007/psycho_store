@@ -25,7 +25,7 @@
 
 
 body {
-font-family: "playregular";
+font-family: "Carrois Gothic SC";
 font-size: 14px;
 line-height: 1.428571429;
 color: #fff;
@@ -71,17 +71,22 @@ a
 
 .product-link:hover>.row>.col-md-12>p
 {	
-	color: #fff;
+	
 }
 
 .product-link:hover>.row>.col-md-12>h4
 {   
-    color: #fff;
+    
+}
+
+.product-link:hover
+{   
+    opacity: 0.6;
 }
 
 .product-link:hover
 {	
-	color: #fff;
+	color: #fff;    
 }
 
 .product-link-sm
@@ -210,7 +215,7 @@ footer
 
 .play
 {
-font-family: "playregular";	
+font-family: "Carrois Gothic SC";	
 }
 
 .molot
@@ -221,7 +226,7 @@ letter-spacing: 1px;
 
 .catalog-desc
 {
-	color:#bababa;
+	color: #bababa;
 }
 
 h5,p
@@ -246,3 +251,4 @@ input
     
     margin-bottom: 40px;
 }
+Carrois Gothic SC
