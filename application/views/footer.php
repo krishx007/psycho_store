@@ -1,22 +1,49 @@
     <footer>      
       <div class="container">
         <div class="row">
-          <div class="col-md-4 footer-col">       
-            <h4 class="text-center molot">Social</h4>            
-            <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsychostorein&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
-            </iframe>
-            <a href="https://twitter.com/psychostorein" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="false" data-size="small">Follow</a>
-                                      
-            <h5><a target="_blank" href="https://github.com/codinpsycho/psycho_store">Source Code</a>            
-                <span>
-                  <iframe src="http://ghbtns.com/github-btn.html?user=mdo&repo=github-buttons&type=fork"allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
-                  <iframe src="http://ghbtns.com/github-btn.html?user=codinpsycho&type=follow&count=true"allowtransparency="true" frameborder="0" scrolling="0" width="190" height="20"></iframe>
-                </span>
-            </h5>    
+          <div class="col-md-4 footer-col">
+            <h4 class="text-center molot">Social</h4>
+            <ul class="nav nav-stacked text-center">
+              <li>
+                <h5>
+                  <span class=''>                  
+                    <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsychostorein&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
+                    </iframe>
+                  </span>
+                </h5>
+              </li>
+              <li>
+                <h5>
+                  <span class=''>
+                    <a href="https://twitter.com/psychostorein" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="true" data-size="small"></a>
+                  </span>
+                </h5>
+              </li>
+              <li>
+                <h5>
+                  <span class=''>
+                    <style>.ig-b- { display: inline-block; }
+                    .ig-b- img { visibility: hidden; }
+                    .ig-b-:hover { background-position: 0 -60px; } .ig-b-:active { background-position: 0 -120px; }
+                    .ig-b-v-24 { width: 137px; height: 24px; background: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24.png) no-repeat 0 0; }
+                    @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2 / 1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+                    .ig-b-v-24 { background-image: url(//badges.instagram.com/static/images/ig-badge-view-sprite-24@2x.png); background-size: 160px 178px; } }</style>
+                    <a href="http://instagram.com/psychostore.in?ref=badge" class="ig-b- ig-b-v-24"><img src="//badges.instagram.com/static/images/ig-badge-view-24.png" alt="Instagram" /></a>
+                  </span>
+                </h5>
+              </li>
+              <li>
+                <h5>
+                  <span class=''>
+                    <iframe src="http://ghbtns.com/github-btn.html?user=codinpsycho&type=follow&count=false"allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
+                  </span>
+                </h5>                
+              </li>            
+            </ul>        
           </div>
           <div class="col-md-5 footer-col">
             <h4 class="text-center molot">Company</h4>
-            <ul class="nav nav-pills ">
+            <ul class="nav nav-stacked text-center">
               <li>
                 <a href= <?php echo site_url('contact')?> >Contact</a>
               </li>
