@@ -2,8 +2,8 @@
       <div class="container">
         <div class="row">
           <div class="col-md-4 footer-col">
-            <h4 class="text-center molot">Social</h4>
-            <ul class="nav nav-stacked text-center">
+            <h4 class=" molot">Social</h4>
+            <ul class="nav nav-stacked ">
               <li>
                 <h5>
                   <span class=''>                  
@@ -15,7 +15,7 @@
               <li>
                 <h5>
                   <span class=''>
-                    <a href="https://twitter.com/psychostorein" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="true" data-size="small"></a>
+                    <a href="https://twitter.com/psychostorein" class="twitter-follow-button" data-show-count="true" data-lang="en" show-screen-name="true" data-size="small"></a>
                   </span>
                 </h5>
               </li>
@@ -41,9 +41,9 @@
               </li>            
             </ul>        
           </div>
-          <div class="col-md-5 footer-col">
-            <h4 class="text-center molot">Company</h4>
-            <ul class="nav nav-stacked text-center">
+          <div class="col-md-4 footer-col">
+            <h4 class=" molot">Company</h4>
+            <ul class="nav nav-stacked ">
               <li>
                 <a href= <?php echo site_url('contact')?> >Contact</a>
               </li>
@@ -58,11 +58,11 @@
               </li>            
             </ul>           
           </div>
-          <div class="col-md-3 footer-col">
-            <h4 class="text-center molot">Newsletter</h4>
+          <div class="col-md-4 footer-col">
+            <h4 class="molot">Newsletter</h4>
               <form class="form" method = "post" action=<?php echo site_url('subscribe')?>>
                 <div class="input-group">
-                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know">
+                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know ">
                   <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
                 </div>
               </form>
