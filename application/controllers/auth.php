@@ -361,7 +361,7 @@ class Auth extends CI_Controller
 			$this->form_validation->set_rules('address2', 'Address2', 'trim|xss_clean');
 			$this->form_validation->set_rules('city', 'City', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('state', 'State', 'trim|required|xss_clean');
-			$this->form_validation->set_rules('country', 'Country', 'trim|required|xss_clean');	//Its India for now
+			//$this->form_validation->set_rules('country', 'Country', 'trim|required|xss_clean');	//Its India for now
 			$this->form_validation->set_rules('pincode', 'Pin Code', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('number', 'Number', 'trim|required|xss_clean|min_length[10]|max_length[10]');
 
