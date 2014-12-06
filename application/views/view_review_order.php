@@ -2,7 +2,9 @@
 	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Confirm Order</h1>
+				<h1>Confirm Order
+				<span class="pull-right"> <i class="fa fa-rupee"></i> <?php echo $this->cart->format_number($this->cart->final_price())?></span> 
+				</h1>
 			</div>
 		</div>
 		<hr>
@@ -30,7 +32,7 @@
 					<form  method = "post" action = <?php echo site_url('checkout/payment')?> role="form">
 						<select class="form-control" name="payment_mode">
 							<option value="online" >Pay Online</option>
-							<option value="cod">Cash On delivery (Free) </option>							
+							<option value="cod">Cash On delivery</option>							
 						</select>					
 				</div>
 			</div>			
