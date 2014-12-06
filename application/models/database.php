@@ -221,7 +221,7 @@ class Database extends CI_Model
 	{		
 		$this->db->where('txn_id', $txn_id);
 		$this->db->delete('checkout_orders');
-		
+
 		$this->db->where('txn_id', $txn_id);
 		$this->db->delete('checkout_items');
 	}
@@ -257,6 +257,13 @@ class Database extends CI_Model
 		$this->db->set('address_id', $address_id);
 		$this->db->where('txn_id', $txn_id);
 		$this->db->update('checkout_orders');
+	}
+
+	function LockCheckoutOrder($txn_id)
+	{
+		$this->db->set('state', 'locked');
+		$this->db->where('txn_id', $txn_id);
+		$this->db->update('checkout_orders');	
 	}
 }
 ?>
