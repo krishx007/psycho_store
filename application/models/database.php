@@ -144,6 +144,22 @@ class Database extends CI_Model
 		return $this->db->count_all('orders');
 	}
 
+	//Gives count num of orders, ordered by date modifed
+	function GetOrders($start_id = '0', $count = '20')
+	{
+		if($start_id < 0 )
+			$start_id = 0;
+
+		$max_orders = $this->GetNumOrders();
+		if($start_id > $max_orders)
+			$start_id = $max_orders - $count;
+		
+		$this->db->order_by('date_modified', 'desc');
+
+		$query = $this->db->get('orders', $count, $start_id);		
+		return $query->result_array();
+	}
+
 	function GetOrdersForUser($userId)
 	{
 		$this->db->where('user_id', $userId);
@@ -155,7 +171,7 @@ class Database extends CI_Model
 	{
 		//make sure it isnt already present
 		$this->db->where('email', $email_id);
-		$query = $this->db->get('newsletter');		
+		$query = $this->db->get('newsletter');
 		if($query->num_rows() == 0)
 		{
 			$email = array('email' => $email_id);
@@ -179,6 +195,68 @@ class Database extends CI_Model
 		$this->db->where('coupon', $coupon);
 		$query = $this->db->get('discount_coupons');
 		return $query->row_array();
+	}
+
+	function GetCheckoutOrder($txn_id)
+	{
+		$this->db->where('txn_id', $txn_id);
+		$query = $this->db->get('checkout_orders');
+		return $query->row_array();	
+	}
+
+	function GetCheckoutOrderItems($txn_id)
+	{
+		$this->db->where('txn_id', $txn_id);
+		$query = $this->db->get('checkout_items');
+		return $query->result_array();	
+	}
+
+	function RemoveCheckoutItemsForTxnId($txn_id)
+	{
+		$this->db->where('txn_id', $txn_id);
+		$this->db->delete('checkout_items');
+	}
+
+	function CheckoutDone($txn_id)
+	{		
+		$this->db->where('txn_id', $txn_id);
+		$this->db->delete('checkout_orders');
+		
+		$this->db->where('txn_id', $txn_id);
+		$this->db->delete('checkout_items');
+	}
+
+	function SaveTxnIdOnCheckout($txn_id)
+	{
+		$this->db->set('txn_id', $txn_id);
+		$this->db->insert('checkout_orders');
+	}
+
+	function SaveAmountOnCheckout($amount, $txn_id)
+	{
+		$this->db->set('amount', $amount);
+		$this->db->where('txn_id', $txn_id);
+		$this->db->update('checkout_orders');
+	}
+
+	//It expects a single cart item
+	function SaveCartItemOnCheckout($item)
+	{
+		$this->db->insert('checkout_items',$item);
+	}
+
+	function SaveUserIdOnCheckout($user_id, $txn_id)
+	{
+		$this->db->set('user_id', $user_id);
+		$this->db->where('txn_id', $txn_id);
+		$this->db->update('checkout_orders');
+	}
+
+	function SaveAddressOnCheckout($address_id, $txn_id)
+	{
+		$this->db->set('address_id', $address_id);
+		$this->db->where('txn_id', $txn_id);
+		$this->db->update('checkout_orders');
 	}
 }
 ?>
