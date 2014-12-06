@@ -9,16 +9,11 @@ class checkout extends CI_controller
 	{
 		parent::__construct();
 		$this->load->library('tank_auth');
-		$this->load->library('cart');		
+		$this->load->library('cart');
 		$this->load->library('session');
 		$this->load->helper('url');
 		$this->load->helper('html');		
 		$this->load->model('database');
-	}
-
-	function index()
-	{		
-		$this->login();
 	}
 
 	function GenerateHeader(&$data)
@@ -77,12 +72,83 @@ class checkout extends CI_controller
 		$this->load->view('footer', $data);
 	}
 
+	function index()
+	{
+		$this->_start_checkout();
+	}
+
+	function _start_checkout()
+	{		
+		$txn_id = $this->session->userdata('txn_id');
+
+		if($txn_id == false)
+		{
+
+			$this->_create_checkout_order();
+		}
+
+		$checkout_order = $this->_get_active_checkout_order();
+
+		//Make sure active checkout_order is not locked
+		if($checkout_order['state'] == 'locked')
+		{
+			$this->_create_checkout_order();
+		}
+
+		$this->_save_cart_items();		
+	
+		$this->login();
+	}
+
+	function _create_checkout_order()
+	{
+		$txn_id = $this->_generate_txnid();
+
+		$this->database->SaveTxnIdOnCheckout($txn_id);
+		
+		//Set txn_id in session
+		$this->session->set_userdata('txn_id', $txn_id);		
+	}
+
+	function _save_cart_items()
+	{
+		$txn_id = $this->session->userdata('txn_id');
+
+		//Empty checkout_items for this txn_id		
+		$this->database->RemoveCheckoutItemsForTxnId($txn_id);
+
+		$this->database->SaveAmountOnCheckout($this->cart->final_price(), $txn_id);
+
+		//Save cart items
+		foreach ($this->cart->contents() as $item)
+		{
+			$checkout_item = array
+						(
+							'txn_id'		=>	$txn_id,
+							'product_id'	=> 	$item['id'],
+							'count'			=> 	$item['qty'],
+							'size'			=> 	$item['options']['Size'],
+						);			
+			
+			$this->database->SaveCartItemOnCheckout($checkout_item);
+		}
+	}
+
+	function _save_user_details()
+	{
+		//Save address and user id
+		$txn_id = $this->session->userdata('txn_id');
+		$this->database->SaveUserIdOnCheckout($this->tank_auth->get_user_id(), $txn_id);
+
+		//Address must be there else _validate_address() will fail
+	}	
+
 	function login()
 	{
-		$this->validate_cart();
+		$this->_validate_cart();
 
 		if(!$this->tank_auth->is_logged_in())
-		{			
+		{
 			redirect('auth/login?redirect_url='.rawurlencode('checkout/address'));
 		}
 		else
@@ -91,13 +157,15 @@ class checkout extends CI_controller
 
 	function address()
 	{
-		$this->validate_cart();		
+		$this->_validate_cart();		
 
-		$userid = $this->tank_auth->get_user_id();		
+		$user_id = $this->tank_auth->get_user_id();
 		
-		if(strlen($userid) > 0)
-		{
-			$result = $this->database->GetAddressesForUser($userid);
+		if(strlen($user_id) > 0)
+		{			
+			$this->_save_user_details();
+
+			$result = $this->database->GetAddressesForUser($user_id);
 			$data['addresses'] = $result;
 			$this->display('address',$data);
 		}
@@ -108,9 +176,20 @@ class checkout extends CI_controller
 		
 	}
 
-	function validate_cart()
+	function _validate_cart()
 	{
-		$out_of_stock = false;		
+		//Make sure txn_id is generated
+		$is_txn_id_valid = false;
+		$txn_id = $this->session->userdata('txn_id');
+		if($txn_id)
+		{
+			$checkout_order = $this->database->GetCheckoutOrder($txn_id);
+
+			if(count($checkout_order))
+				$is_txn_id_valid = true;
+		}
+
+		$out_of_stock = false;
 
 		foreach ($this->cart->contents() as $items)
 		{
@@ -138,63 +217,120 @@ class checkout extends CI_controller
 			}
 		}
 
-		if($this->cart->total_items() <= 0 || $out_of_stock)
-			redirect('cart/');
-
-	}
-
-	function review()
-	{
-		$this->validate_cart();
-
-		if($this->session->userdata('shipping_address') === false)
-			redirect('checkout/');		
-
-		foreach ($this->cart->contents() as $items)
+		if($this->cart->total_items() <= 0 || $out_of_stock || ($txn_id == false) )
 		{			
-			$prod_id = $items['id'];
-			$product = $this->database->GetProductById($prod_id);
-			$data['products'][$prod_id] = $product;
-		}
-
-		$data['address'] = $this->session->userdata('shipping_address');
-		
-		$this->display('review', $data);
+			redirect('cart/');
+		}		
 	}
 
-	//Store the address in session as user can refresh the page
-	//Also makes sure that address passed is valid for current signed-in user
-	function save_address()
+	function _validate_user()
 	{
-		$address_id = $this->input->post('address_id');		
+		if(!$this->tank_auth->is_logged_in())
+		{			
+			redirect('checkout/');
+		}
+	}
+
+	//makes sure an addrees_id is set in db and that it belongs to current signed-in user
+	function _validate_address()
+	{
+		$txn_id = $this->session->userdata('txn_id');
+		$checkout_order = $this->database->GetCheckoutOrder($txn_id);
+
+		$address_id = $checkout_order['address_id'];
+
+		if($this->_is_address_valid_for_current_user($address_id) == false)
+			redirect('checkout/');
+	}
+
+	function _is_address_valid_for_current_user($address_id)
+	{		
 		$address = $this->database->GetAddressById($address_id);
 
 		//We also need to make sure address belongs to the currently signed-in user		
 		$current_users_addresses = $this->database->GetAddressesForUser($this->tank_auth->get_user_id());
-		$address_valid = FALSE;
+		$address_valid = false;
 		foreach ($current_users_addresses as $key => $address)
 		{
 			if($address['address_id'] == $address_id)
-			{
-				$address_valid = TRUE;
+			{				
+				$address_valid = true;
 				break;
-			}			
+			}
 		}
+
+		return $address_valid;
+	}
+
+	function _get_active_checkout_order()
+	{
+		$txn_id = $this->session->userdata('txn_id');
+		return $this->database->GetCheckoutOrder($txn_id);
+	}
+
+	//It means we are going for online payment, dont modify me now
+	function _lock_active_checkout_order()
+	{
+		$checkout_order = $this->_get_active_checkout_order();		
+		$this->database->LockCheckoutOrder($checkout_order['txn_id']);
+	}
+
+	//Store the address in database
+	//Also makes sure that address passed is valid for current signed-in user
+	function save_address()
+	{
+		$address_id = $this->input->post('address_id');		
+
+		$address_valid = $this->_is_address_valid_for_current_user($address_id);
 
 		if($address_valid)
 		{
 			//We need to be here to show the review page, else we go again to address page
-			//to get correct address
-			$this->session->set_userdata('shipping_address',$address);
+			//to get correct address			
+			$this->database->SaveAddressOnCheckout($address_id,$this->session->userdata('txn_id'));			
 			redirect('checkout/review');
 		}
 
-		redirect('checkout/address');
+		redirect('checkout/');
+	}
+
+	function review()
+	{
+		$this->_validate_cart();
+		$this->_validate_address();
+
+		//make sure address is set in checkout_db
+		$checkout_order = $this->_get_active_checkout_order();				
+
+		if( is_null($checkout_order['address_id'] ))
+		{				
+			redirect('checkout/');
+		}
+
+		// foreach ($this->cart->contents() as $items)
+		// {			
+		// 	$prod_id = $items['id'];
+		// 	$product = $this->database->GetProductById($prod_id);
+		// 	$data['products'][$prod_id] = $product;
+		// }
+
+		$data['address'] = $this->database->GetAddressById($checkout_order['address_id']);
+		
+		$this->display('review', $data);
 	}
 
 	function payment()
 	{
-		$this->validate_cart();
+		$this->_validate_cart();
+		$this->_validate_user();
+		$this->_validate_address();
+
+		//Save stuff again on last step before leaving the site/placing order
+		$this->_save_cart_items();
+		$this->_save_user_details();
+
+		//Once everything is saved lock txn_id
+		$this->_lock_active_checkout_order();
 
 		$payment_mode = $this->input->post('payment_mode');
 
@@ -207,33 +343,84 @@ class checkout extends CI_controller
 				break;
 
 			case 'online':
-				redirect('checkout/payment_gateway');
+				$this->_payment_gateway();
 				break;
 			
 			default:
-				redirect('checkout/review');
+				redirect('checkout/');
 				break;
 		}
 	}
 
-	function payment_gateway()
+	function success()
+	{	
+		$ok_to_place_order = false;		
+
+		//Verify checksum (not sure abt this, might be unnecessary)
+		if($this->input->post( 'key' ) != (string)false )
+		{
+			//We came here through online transaction
+			$returned_hash	 	= $this->input->post( 'hash' );
+			$status 			= $this->input->post('status');
+			
+			//<SALT>|status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key
+			$hash_string = $this->input->post('additionalCharges').'|'.$this->input->post('salt').'|'.$status.'|'.'||||||||||'.'|'.$this->input->post('email').'|'.$this->input->post('firstname').'|'.$this->input->post('productinfo').'|'.$this->input->post('amount').'|'.$this->input->post('txnid').'|'.$this->input->post('key');
+
+			$hash = strtolower(hash('sha512', $hash_string));			
+			
+			if($this->input->post( 'status' ) === "success")
+			{
+				$ok_to_place_order = true;
+			}
+		}
+		else
+		{
+			$ok_to_place_order = $this->session->flashdata('ok_to_order');
+		}		
+
+		if($ok_to_place_order)
+		{
+			$order_info = $this->_generate_orderinfo($this->input->post());
+			
+			$this->_place_order($order_info);
+			$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br>
+				For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('cart')) ;
+			$data = array('message' => $msg );
+			$this->display('message', $data);
+		}
+		else
+		{
+			redirect('checkout/address');
+		}		
+	}
+
+	function failure()
+	{
+		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your transaction, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your transaction, due to which it failed. If you have been charged, dont worry we will auto-refund your your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
+			$data = array('message' => $msg );
+			$this->display('message', $data);
+	}
+
+	function _payment_gateway()
 	{
 		$gateway_params = array();
+		
+		$checkout_order = $this->_get_active_checkout_order();
 
 		//Gateway config
 		$gateway_params['key'] = $this->config->item('merchant_key');
 		$gateway_params['salt'] = $this->config->item('salt');			
 		$gateway_params['surl'] = $this->config->item('success_url');
 		$gateway_params['furl'] = $this->config->item('failure_url');
-		$gateway_params['txnid'] = $this->_generate_txnid();
+		$gateway_params['txnid'] = $checkout_order['txn_id'];
 		$gateway_params['service_provider'] = $this->config->item('service_provider');
 
 		//Site specific info
-		$address = $this->session->userdata('shipping_address');	//Should be there
-		$user_id = $this->tank_auth->get_user_id();
+		$address = $this->database->GetAddressById($checkout_order['address_id']);	//Should be there
+		$user_id = $checkout_order['user_id'];
 		$user = $this->database->GetUserById($user_id);
 
-		$gateway_params['amount'] = $this->cart->final_price();
+		$gateway_params['amount'] = $checkout_order['amount'];
 		$gateway_params['firstname'] = $address['first_name'];
 		$gateway_params['lastname'] = $address['last_name'];
 		$gateway_params['address1'] = $address['address_1'];
@@ -244,7 +431,7 @@ class checkout extends CI_controller
 		$gateway_params['zipcode'] = $address['pincode'];
 		$gateway_params['email'] = $user['email'];
 		$gateway_params['phone'] = $address['phone_number'];
-		$gateway_params['productinfo'] = "Psycho Store Merchandise";
+		$gateway_params['productinfo'] = "Psycho Store Merchandise";	//To be added
 
 
 		//Generate hash		
@@ -277,104 +464,51 @@ class checkout extends CI_controller
 
 	function _generate_txnid()
 	{
-		return substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+		return substr(hash('sha256', mt_rand() . microtime()), 0, 10);
 	}
 
 	function _place_order($order_info)
 	{
-		$this->validate_cart();
-
-		//Check for payment mode and address
-		$address = $this->session->userdata('shipping_address');
-
 		$order = array
 				(
-					'txn_id'		=>	$order_info['txnid'],
-					'user_id'		=>	$this->tank_auth->get_user_id(),
-					'address_id' 	=> 	$address['address_id'],
+					'txn_id'		=>	$order_info['txn_id'],
+					'user_id'		=>	$order_info['user_id'],
+					'address_id' 	=> 	$order_info['address_id'],
 					'payment_mode'	=>	$order_info['payment_mode'],
 					'order_amount'	=>	$order_info['amount'],
 					//'order_status'=>	Default set as pending
 				);
-
+		
 		$this->database->AddOrder($order);
 
-		foreach ($this->cart->contents() as $item)
+		$checkout_items = $this->database->GetCheckoutOrderItems($order_info['txn_id']);		
+
+		foreach ($checkout_items as $item)
 		{
 			$order_item = array
 						(
-							'txn_id'		=>	$order_info['txnid'],
-							'product_id'	=> 	$item['id'],
-							'count'			=> 	$item['qty'],
-							'size'			=> 	$item['options']['Size'],
+							'txn_id'		=>	$order_info['txn_id'],
+							'product_id'	=> 	$item['product_id'],
+							'count'			=> 	$item['count'],
+							'size'			=> 	$item['size'],
 						);
 
 			//Update product info
-			$size = $item['options']['Size'];
+			$size = $item['size'];
 			$size = 'product_count_'.strtolower($size);
-			$product = $this->database->GetProductById($item['id']);
-			$product['product_qty_sold'] += $item['qty'];
-			$product[$size] -= $item['qty'];	//To be done for products with no size
+			$product = $this->database->GetProductById($item['product_id']);
+			$product['product_qty_sold'] += $item['count'];
+			$product[$size] -= $item['count'];	//To be done for products with no size
 
 			//Update database
 			$this->database->ModifyProduct($product);
 			$this->database->AddOrderItem($order_item);
 		}
 
-		//Destroy the cart/address now
+		//Destroy stuff now
 		$this->cart->destroy();
-		$this->session->unset_userdata('shipping_address');
-	}
-
-	function success()
-	{
-		//var_dump($this->input->post());
-
-		$ok_to_place_order = false;		
-
-		//Verify checksum (not sure abt this, might be unnecessary)
-		if($this->input->post( 'key' ) != (string)false )
-		{
-			//We came here through online transaction
-			$returned_hash	 	= $this->input->post( 'hash' );
-			$status 			= $this->input->post('status');
-			
-			//<SALT>|status||||||udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key
-			$hash_string = $this->input->post('salt').'|'.$status.'|'.'||||||||||'.'|'.$this->input->post('email').'|'.'ishkaran.singh@hotma'.'|'.$this->input->post('productinfo').'|'.$this->input->post('amount').'|'.$this->input->post('txnid').'|'.$this->input->post('key');
-
-			$hash = strtolower(hash('sha512', $hash_string));
-			
-			if($this->input->post( 'status' ) === "success")
-			{
-				$ok_to_place_order = true;
-			}
-		}
-		else
-		{
-			$ok_to_place_order = $this->session->flashdata('ok_to_order');
-		}
-
-		if($ok_to_place_order)
-		{
-			$order_info = $this->_generate_orderinfo($this->input->post());
-
-			$this->_place_order($order_info);
-			$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, psycho gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br>
-				For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('cart')) ;
-			$data = array('message' => $msg );
-			$this->display('message', $data);
-		}
-		else
-		{
-			redirect('checkout/');
-		}		
-	}
-
-	function failure()
-	{
-		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your transaction, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your transaction, due to which it failed. If you have been charged, dont worry we will auto-refund your your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
-			$data = array('message' => $msg );
-			$this->display('message', $data);
+		$this->session->unset_userdata('txn_id');		
+		$this->database->CheckoutDone($order_info['txn_id']);
 	}
 
 	function _generate_orderinfo($post_back_params)
@@ -385,32 +519,22 @@ class checkout extends CI_controller
 		if( isset($post_back_params['mode']) )
 		{
 			$order_info['payment_mode'] =	'online';
-		}
-		else
-		{
-			$order_info['payment_mode'] =	'cod';
-		}
-		
-		//Transaction ID
-		if( isset($post_back_params['txnid']) )
-		{
-			$order_info['txnid'] = $post_back_params['txnid'];
-		}
-		else
-		{
-			$order_info['txnid'] = $this->_generate_txnid();
-		}
 
-		//Order Amount
-		if( isset($post_back_params['amount']) )
-		{
-			$order_info['amount'] = $post_back_params['amount'];
+			//Its v.v.imp to take txnid from post_back_params, because session txnid can be modified
+			//when coming back from payment gateway
+			$txn_id = $post_back_params['txnid'];
+			$checkout_order = $this->database->GetCheckoutOrder($txn_id);
 		}
 		else
 		{
-			$order_info['amount'] = $this->cart->final_price();
-		}
+			$order_info['payment_mode'] =	'cod';			
+			$checkout_order = $this->_get_active_checkout_order();
+		}		
 
+		$order_info['txn_id'] = $checkout_order['txn_id'];		
+		$order_info['amount'] = $checkout_order['amount'];
+		$order_info['address_id'] = $checkout_order['address_id'];
+		$order_info['user_id'] = $checkout_order['user_id'];
 
 		return $order_info;
 	}
