@@ -381,6 +381,8 @@ class checkout extends CI_controller
 		{
 			$order_info = $this->_generate_orderinfo($this->input->post());			
 			$this->_place_order($order_info);
+			$this->_reward_user($order_info);
+			$this->_send_order_mail($order_info);
 
 			redirect('checkout/success');
 		}
@@ -392,7 +394,7 @@ class checkout extends CI_controller
 
 	function success()
 	{	
-		$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br>
+		$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br><br>
 			For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('cart')) ;
 		$data = array('message' => $msg );
 		$this->display('message', $data);
@@ -400,7 +402,7 @@ class checkout extends CI_controller
 
 	function failure()
 	{
-		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your order, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your order, due to which it failed. If you have been charged, dont worry we will auto-refund your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
+		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your order, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br><br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your order, due to which it failed. If you have been charged, dont worry we will auto-refund your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
 			$data = array('message' => $msg );
 			$this->display('message', $data);
 	}
@@ -473,12 +475,7 @@ class checkout extends CI_controller
 		curl_close($ch);		
 
 		redirect($info['redirect_url']);
-	}
-
-	function _generate_txnid()
-	{
-		return substr(hash('sha256', mt_rand() . microtime()), 0, 10);
-	}
+	}	
 
 	function _place_order($order_info)
 	{
@@ -551,6 +548,11 @@ class checkout extends CI_controller
 		$order_info['checkout_items'] = $this->database->GetCheckoutOrderItems($order_info['txn_id']);
 
 		return $order_info;
+	}
+
+	function _generate_txnid()
+	{
+		return substr(hash('sha256', mt_rand() . microtime()), 0, 10);
 	}
 }
 ?>
