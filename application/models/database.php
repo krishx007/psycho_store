@@ -167,6 +167,13 @@ class Database extends CI_Model
 		return $query->result_array();
 	}
 
+	function RewardUser($user_id, $points)
+	{
+		$this->db->set('points', $points);
+		$this->db->where('id', $user_id);		
+		$this->db->update('users');
+	}
+
 	function Subscribe($email_id)
 	{
 		//make sure it isnt already present
