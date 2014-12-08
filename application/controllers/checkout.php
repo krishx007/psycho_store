@@ -83,7 +83,6 @@ class checkout extends CI_controller
 
 		if($txn_id == false)
 		{
-
 			$this->_create_checkout_order();
 		}
 
@@ -396,7 +395,7 @@ class checkout extends CI_controller
 
 	function failure()
 	{
-		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your transaction, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your transaction, due to which it failed. If you have been charged, dont worry we will auto-refund your your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
+		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your order, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your order, due to which it failed. If you have been charged, dont worry we will auto-refund your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
 			$data = array('message' => $msg );
 			$this->display('message', $data);
 	}
@@ -480,8 +479,8 @@ class checkout extends CI_controller
 				);
 		
 		$this->database->AddOrder($order);
-
-		$checkout_items = $this->database->GetCheckoutOrderItems($order_info['txn_id']);		
+		
+		$checkout_items = $order_info['checkout_items'];		
 
 		foreach ($checkout_items as $item)
 		{
@@ -507,9 +506,9 @@ class checkout extends CI_controller
 
 		//Destroy stuff now
 		$this->cart->destroy();
-		$this->session->unset_userdata('txn_id');		
+		$this->session->unset_userdata('txn_id');
 		$this->database->CheckoutDone($order_info['txn_id']);
-	}
+	}	
 
 	function _generate_orderinfo($post_back_params)
 	{		
@@ -518,7 +517,7 @@ class checkout extends CI_controller
 		//Payment Mode
 		if( isset($post_back_params['mode']) )
 		{
-			$order_info['payment_mode'] =	'online';
+			$order_info['payment_mode'] = 'online';
 
 			//Its v.v.imp to take txnid from post_back_params, because session txnid can be modified
 			//when coming back from payment gateway
@@ -535,6 +534,7 @@ class checkout extends CI_controller
 		$order_info['amount'] = $checkout_order['amount'];
 		$order_info['address_id'] = $checkout_order['address_id'];
 		$order_info['user_id'] = $checkout_order['user_id'];
+		$order_info['checkout_items'] = $this->database->GetCheckoutOrderItems($order_info['txn_id']);
 
 		return $order_info;
 	}
