@@ -12,7 +12,8 @@ class checkout extends CI_controller
 		$this->load->library('cart');
 		$this->load->library('session');
 		$this->load->helper('url');
-		$this->load->helper('html');		
+		$this->load->helper('html');
+		$this->load->helper('psycho_helper');
 		$this->load->model('database');
 	}
 
@@ -379,7 +380,7 @@ class checkout extends CI_controller
 
 		if($ok_to_place_order)
 		{
-			$order_info = $this->_generate_orderinfo($this->input->post());			
+			$order_info = $this->_generate_orderinfo($this->input->post());
 			$this->_place_order($order_info);
 			$this->_reward_user($order_info);
 			$this->_send_order_mail($order_info);
@@ -395,7 +396,7 @@ class checkout extends CI_controller
 	function success()
 	{	
 		$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br><br>
-			For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('cart')) ;
+			For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('')) ;
 		$data = array('message' => $msg );
 		$this->display('message', $data);
 	}
@@ -408,12 +409,36 @@ class checkout extends CI_controller
 	}
 
 	function _reward_user($order_info)
-	{}
+	{
+		$user = $order_info['user'];		
+		$points = $user['points'] + $order_info['amount']/10;
+		$this->database->RewardUser($order_info['user_id'], $points);
+	}
 
 	function _send_order_mail($order_info)
 	{
 		//Detects order num for a particular user and sends a mail accordingly
-		//For eg: First order send special mail
+		$user = $order_info['user'];
+		$orders = $this->database->GetOrdersForUser($order_info['user_id']);
+		$order_num = count($orders);		
+
+		$data['site_name'] = $this->config->item('website_name', 'tank_auth');
+		$data['username'] = $user['username'];
+
+		//For special mails
+		switch ($order_num)
+		{
+			case '1':
+				send_email($user['email'], 'ishkaran@psychostore.in', 'first_order', $data);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+
+		//This is to be sent for each order
+		send_email($user['email'], 'no-reply@psychostore.in','order', $data );		
 	}
 
 	function _payment_gateway()
@@ -430,10 +455,7 @@ class checkout extends CI_controller
 		$gateway_params['txnid'] = $checkout_order['txn_id'];
 		$gateway_params['service_provider'] = $this->config->item('service_provider');
 
-		//Site specific info
-		$address = $this->database->GetAddressById($checkout_order['address_id']);	//Should be there
-		$user_id = $checkout_order['user_id'];
-		$user = $this->database->GetUserById($user_id);
+		//Site specific info		
 
 		$gateway_params['amount'] = $checkout_order['amount'];
 		$gateway_params['firstname'] = $address['first_name'];
@@ -546,6 +568,8 @@ class checkout extends CI_controller
 		$order_info['address_id'] = $checkout_order['address_id'];
 		$order_info['user_id'] = $checkout_order['user_id'];
 		$order_info['checkout_items'] = $this->database->GetCheckoutOrderItems($order_info['txn_id']);
+		$order_info['user'] = $this->database->GetUserById($checkout_order['user_id']);
+		$order_info['address'] = $this->database->GetAddressById($checkout_order['address_id']);		
 
 		return $order_info;
 	}
