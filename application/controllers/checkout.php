@@ -52,7 +52,7 @@ class checkout extends CI_controller
 		//Show header
 		$this->load->view('header', $data);
 
-		//Show body		
+		//Show body
 		switch ($page)
 		{
 			case 'address':
@@ -424,8 +424,9 @@ class checkout extends CI_controller
 
 		$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 		$data['username'] = $user['username'];
+		$data['order_id'] = $order_info['txn_id'];
 		$data['product_table'] = generate_product_table_for_email($order_info);
-		$data['address'] = $order_info['address'];
+		$data['address'] = format_address($order_info['address']);
 		
 		//For special mails
 		switch ($order_num)
