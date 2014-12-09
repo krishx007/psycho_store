@@ -66,6 +66,31 @@ if(!function_exists('send_email'))
 	}	
 }
 
+if(!function_exists('generate_product_table_for_email'))
+{
+	function generate_product_table_for_email($order_info)
+	{
+		$ci =& get_instance();
+
+		$ci->load->library('table');
+		$ci->load->model('database');
+		$ci->table->set_heading('Name','Size','Qty','Unit Price', 'Total');
+
+		foreach ($order_info['checkout_items'] as $item)
+		{
+			$product = $ci->database->GetProductById($item['product_id']);
+			$name = $product['product_name'];
+			$size = $item['size'];
+			$qty = $item['count'];
+			$price = $product['product_price'];
+			$total = $price * $qty;
+			$ci->table->add_row($name,$size,$qty,$price,$total );
+		}
+
+		return $ci->table->generate();
+	}
+}
+
 	
 
 ?>
