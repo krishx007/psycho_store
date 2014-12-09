@@ -424,7 +424,9 @@ class checkout extends CI_controller
 
 		$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 		$data['username'] = $user['username'];
-
+		$data['product_table'] = generate_product_table_for_email($order_info);
+		$data['address'] = $order_info['address'];
+		
 		//For special mails
 		switch ($order_num)
 		{
@@ -569,7 +571,7 @@ class checkout extends CI_controller
 		$order_info['user_id'] = $checkout_order['user_id'];
 		$order_info['checkout_items'] = $this->database->GetCheckoutOrderItems($order_info['txn_id']);
 		$order_info['user'] = $this->database->GetUserById($checkout_order['user_id']);
-		$order_info['address'] = $this->database->GetAddressById($checkout_order['address_id']);		
+		$order_info['address'] = $this->database->GetAddressById($checkout_order['address_id']);
 
 		return $order_info;
 	}

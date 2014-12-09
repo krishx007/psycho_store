@@ -1,26 +1,29 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head><title><?php echo $username?>, your order has been placed!</title></head>
+<head><title>Psycho Store | Order Placed</title></head>
 <body>
-<div style="max-width: 800px; margin: 0; padding: 30px 0;">
-<table width="80%" border="0" cellpadding="0" cellspacing="0">
-<tr>
-<td width="5%"></td>
-<td align="left" width="95%" style="font: 13px/18px Arial, Helvetica, sans-serif;">
-<h2 style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;">Welcome to <?php echo $site_name; ?>!</h2>
-Thanks for shopping with <?php echo $site_name; ?>. Weare happy to serve you. <br />
-<br />
-<br />
-<nobr><a href="<?php echo site_url('/auth/login/'); ?>" style="color: #3366cc;"><?php echo site_url('/auth/login/'); ?></a></nobr><br />
-<br />
-<?php /* Your password: <?php echo $password; ?><br /> */ ?>
-<br />
-<br />
-Have fun!<br />
+<h1>Hey <?php echo $username?>, your order has been placed!</h1>
+<h3>Order Id : <?php echo $order_id; ?></h3>
+<p>Thank you for shopping at Psycho Store. Our very efficient minions are onto the task of processing your order. So sit back and relax. Orders are usually shipped within 3-5 days unless G-Man gets involved somehow.</p>
+
+<br>
+<br>
+<h2>Address</h2>
+<p><?php echo $address['first_name'].' '.$address['last_name'].'<br>'.$address['address_1'] .',<br>';
+				if($address['address_2'] != NULL)
+				 	$complete_add = $complete_add.$address['address_2'].', ';
+				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
+?> </p>
+<h2>Products</h2>
+<?php echo $product_table; ?>
+<br>
+<br>
+
+<p>Note : Please use the above order id in case of any communication/problem regarding this order.</p>
+<br>
+
+Stay Psycho!<br />
 The <?php echo $site_name; ?> Team
-</td>
-</tr>
-</table>
 </div>
 </body>
 </html>
