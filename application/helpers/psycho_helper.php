@@ -52,13 +52,26 @@ if(!function_exists('send_email'))
 	function send_email($to_email, $from_email, $type, $data)
 	{
 		$ci =& get_instance();
+
+		$subject_var = 'Psycho Store';
+
+		switch ($type) 
+		{
+			case 'order':
+				$subject_var = $data['order_id'];
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 		
 		$ci->load->library('email');
 		$ci->lang->load('tank_auth');
 		$ci->email->from($from_email, $ci->config->item('website_name', 'tank_auth'));
 		$ci->email->reply_to($from_email, $ci->config->item('website_name', 'tank_auth'));
 		$ci->email->to($to_email);
-		$ci->email->subject(sprintf($ci->lang->line('auth_subject_'.$type), $ci->config->item('website_name', 'tank_auth')));
+		$ci->email->subject(sprintf($ci->lang->line('auth_subject_'.$type), $subject_var));
 		$ci->email->message($ci->load->view('email/'.$type.'-html', $data, TRUE));
 		$ci->email->set_alt_message($ci->load->view('email/'.$type.'-txt', $data, TRUE));
 		if(!$ci->email->send())
@@ -88,6 +101,19 @@ if(!function_exists('generate_product_table_for_email'))
 		}
 
 		return $ci->table->generate();
+	}
+}
+
+if(!function_exists('format_address'))
+{
+	function format_address($address)
+	{
+		$complete_add = $address['first_name'].' '.$address['last_name'].'<br>'.$address['address_1'] .',<br>';
+				if($address['address_2'] != NULL)
+				 	$complete_add = $complete_add.$address['address_2'].', ';
+				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
+
+				 return $complete_add;
 	}
 }
 
