@@ -10,6 +10,6 @@
 		'placeholder'	=> 'your gaming name'
 	);
 ?>
-	<p>Gamername</label>
+	<p>Gamername</p>
 	<?php echo form_input($username) ?>
 	<?php echo form_error($username['name']); ?><?php echo isset($errors[$username['name']])?$errors[$username['name']]:''; ?>

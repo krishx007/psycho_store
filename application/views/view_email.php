@@ -11,6 +11,6 @@ $email = array(
 	'class' => 'form-control',
 );
 ?>
-<label>Email address</label>
+<p>Email address</p>
 <?php echo form_input($email); ?>
 <?php echo form_error($email['name']); ?><?php echo isset($errors[$email['name']])?$errors[$email['name']]:''; ?>
