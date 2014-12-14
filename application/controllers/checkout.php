@@ -381,8 +381,8 @@ class checkout extends CI_controller
 		if($ok_to_place_order)
 		{
 			$order_info = $this->_generate_orderinfo($this->input->post());
-			$this->_place_order($order_info);
-			$this->_reward_user($order_info);
+			//$this->_place_order($order_info);
+			//$this->_reward_user($order_info);
 			$this->_send_order_mail($order_info);
 
 			redirect('checkout/success');
@@ -427,6 +427,7 @@ class checkout extends CI_controller
 		$data['order_id'] = $order_info['txn_id'];
 		$data['product_table'] = generate_product_table_for_email($order_info);
 		$data['address'] = format_address($order_info['address']);
+		$data['payment_mode'] = $order_info['payment_mode'];
 		
 		//For special mails
 		switch ($order_num)
