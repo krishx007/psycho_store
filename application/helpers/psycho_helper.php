@@ -101,9 +101,9 @@ if(!function_exists('generate_product_table_for_email'))
 			$ci->table->add_row($name,$size,$qty,$price,$total );
 			$final_total += $total;
 		}
-
-		$tpl = array('border-collapse'=>'collapse', 'border'=>'1px black solid');
-		$ci->table->set_template($tpl);
+		
+		$tmpl = array ( 'table_open'  => '<table border="1" cellpadding="10" cellspacing="0" >' );
+		$ci->table->set_template($tmpl);
 
 		$cell = array('data'=>'Sub Total :', 'colspan'=>4, 'align'=>'right');
 		$ci->table->add_row($cell, $final_total );

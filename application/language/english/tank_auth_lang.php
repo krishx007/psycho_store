@@ -30,6 +30,7 @@ $lang['auth_message_unregistered'] = 'Your account has been deleted...';
 
 // Email subjects
 $lang['auth_subject_order'] = 'Psycho Store | Order ID : %s';
+$lang['auth_subject_first_order'] = '%s, Welcome to the Psycho family';
 $lang['auth_subject_subscribe'] = 'Welcome to %s!';
 $lang['auth_subject_welcome'] = 'Welcome to %s!';
 $lang['auth_subject_activate'] = 'Welcome to %s!';

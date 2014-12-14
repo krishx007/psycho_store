@@ -33,7 +33,7 @@
 						<select class="form-control" name="payment_mode">
 							<option value="online" >Pay Online</option>
 							<option value="cod">Cash On delivery</option>							
-						</select>					
+						</select>
 				</div>
 			</div>			
 		</div>
