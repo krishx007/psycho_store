@@ -102,7 +102,10 @@ if(!function_exists('generate_product_table_for_email'))
 			$final_total += $total;
 		}
 
-		$cell = array('data'=>'Sub Total :', 'colspan'=>4, 'class'=>'highlight', 'align'=>'right');
+		$tpl = array('border-collapse'=>'collapse', 'border'=>'1px black solid');
+		$ci->table->set_template($tpl);
+
+		$cell = array('data'=>'Sub Total :', 'colspan'=>4, 'align'=>'right');
 		$ci->table->add_row($cell, $final_total );
 
 		$cell = array('data'=>'Discount :', 'colspan'=>4, 'class'=>'highlight', 'align'=>'right');
@@ -127,7 +130,7 @@ if(!function_exists('format_address'))
 				 	$complete_add = $complete_add.$address['address_2'].', ';
 				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
 
-				 return $complete_add;
+		return $complete_add;
 	}
 }
 
