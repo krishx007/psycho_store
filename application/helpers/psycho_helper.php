@@ -102,7 +102,7 @@ if(!function_exists('generate_product_table_for_email'))
 			$final_total += $total;
 		}
 		
-		$tmpl = array ( 'table_open'  => '<table border="1" cellpadding="10" cellspacing="0" >' );
+		$tmpl = array ( 'table_open'  => '<table border="1" cellpadding="5" cellspacing="0" >' );
 		$ci->table->set_template($tmpl);
 
 		$cell = array('data'=>'Sub Total :', 'colspan'=>4, 'align'=>'right');
