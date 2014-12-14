@@ -5,13 +5,12 @@
 <h1>Hey <?php echo $username?>, your order has been placed!</h1>
 <h3>Order Id : <?php echo $order_id; ?></h3>
 <p>Thank you for shopping at Psycho Store. Our very efficient minions are onto the task of processing your order. So sit back and relax. Orders are usually shipped within 3-5 buisness days unless G-Man gets involved somehow.</p>
-
-<br>
 <br>
 <h2>Address</h2>
 <p> <?php echo $address; ?> </p>
 <h2>Products</h2>
 <?php echo $product_table; ?>
+<h3>Payment Mode : <?php echo $payment_mode; ?></h3>
 <br>
 <br>
 
