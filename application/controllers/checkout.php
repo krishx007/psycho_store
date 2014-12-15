@@ -75,7 +75,7 @@ class checkout extends CI_controller
 
 	function index()
 	{
-		$this->_start_checkout();
+		$this->_start_checkout();		
 	}
 
 	function _start_checkout()
@@ -475,33 +475,33 @@ class checkout extends CI_controller
 		$gateway_params['productinfo'] = "Psycho Store Merchandise";	//To be added
 
 
-		//Generate hash		
+		//Generate hash
 		//key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10
 		$hash_string = $gateway_params['key'].'|'.$gateway_params['txnid'].'|'.$gateway_params['amount'].'|'.$gateway_params['productinfo'].'|'.$gateway_params['firstname'].'|'.$gateway_params['email'].'|'.'||||||||||'.$gateway_params['salt'];
 
-		$gateway_params['hash'] = strtolower(hash('sha512', $hash_string));		
-		
+		$gateway_params['hash'] = strtolower(hash('sha512', $hash_string));
+
 		//Do a post request
-		$url = $this->config->item('gateway_url');	
+		$url = $this->config->item('gateway_url');
 		
-		// Create a connection		
+		// Create a connection
 		$ch = curl_init($url);
 
 		// Form post string
 		$postString = http_build_query($gateway_params);
 
-		// Setting our options		
+		// Setting our options
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);				
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
 
 		// Get the response
 		$res = curl_exec($ch);
-		$info = curl_getinfo($ch);		
-		curl_close($ch);		
+		$info = curl_getinfo($ch);
+		curl_close($ch);
 
 		redirect($info['redirect_url']);
-	}	
+	}
 
 	function _place_order($order_info)
 	{
@@ -517,7 +517,7 @@ class checkout extends CI_controller
 		
 		$this->database->AddOrder($order);
 		
-		$checkout_items = $order_info['checkout_items'];		
+		$checkout_items = $order_info['checkout_items'];
 
 		foreach ($checkout_items as $item)
 		{
@@ -545,10 +545,10 @@ class checkout extends CI_controller
 		$this->cart->destroy();
 		$this->session->unset_userdata('txn_id');
 		$this->database->CheckoutDone($order_info['txn_id']);
-	}	
+	}
 
 	function _generate_orderinfo($post_back_params)
-	{		
+	{
 		$order_info = array();
 
 		//Payment Mode
@@ -562,12 +562,12 @@ class checkout extends CI_controller
 			$checkout_order = $this->database->GetCheckoutOrder($txn_id);
 		}
 		else
-		{			
-			$order_info['payment_mode'] =	'cod';			
+		{
+			$order_info['payment_mode'] =	'cod';
 			$checkout_order = $this->_get_active_checkout_order();
 		}		
 
-		$order_info['txn_id'] = $checkout_order['txn_id'];		
+		$order_info['txn_id'] = $checkout_order['txn_id'];
 		$order_info['amount'] = $checkout_order['amount'];
 		$order_info['address_id'] = $checkout_order['address_id'];
 		$order_info['user_id'] = $checkout_order['user_id'];
@@ -580,7 +580,8 @@ class checkout extends CI_controller
 
 	function _generate_txnid()
 	{
-		return substr(hash('sha256', mt_rand() . microtime()), 0, 10);
+		//return substr(hash('sha256', mt_rand() . microtime()), 0, 10);
+		return dechex(time());	//makes the txnid smaller
 	}
 }
 ?>
