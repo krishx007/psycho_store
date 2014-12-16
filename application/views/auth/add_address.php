@@ -87,47 +87,47 @@ $number = array(
 <form method = 'post' action = <?php echo site_url('auth/register_address')?> role="form">
 <?php // echo form_open('auth/register_address'); ?>
 <div class="form-group">
-	<?php echo form_label('First Name', $first_name['id']); ?>
+	<?php echo ('First Name'); ?>
 		<?php echo form_input($first_name); ?>
 		<?php echo form_error($first_name['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('Last Name', $last_name['id']); ?>
+		<?php echo ('Last Name'); ?>
 		<?php echo form_input($last_name); ?>
 		<?php echo form_error($last_name['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('Address1', $address1['id']); ?>
+		<?php echo ('Address1'); ?>
 		<?php echo form_input($address1); ?>
 		<?php echo form_error($address1['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('Address2', $address2['id']); ?>
+		<?php echo ('Address2'); ?>
 		<?php echo form_input($address2); ?>
 		<?php echo form_error($address2['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('City', $city['id']); ?>
+		<?php echo ('City'); ?>
 		<?php echo form_input($city); ?>
 		<?php echo form_error($city['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('State', $state['id']); ?>
+		<?php echo ('State'); ?>
 		<?php echo form_input($state); ?>
 		<?php echo form_error($state['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('Country', $country['id']); ?>
+		<?php echo ('Country'); ?>
 		<?php echo form_input($country); ?>
 		<?php echo form_error($country['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('Pincode', $pincode['id']); ?>
+		<?php echo ('Pincode'); ?>
 		<?php echo form_input($pincode); ?>
 		<?php echo form_error($pincode['name']); ?>
 </div>
 <div class="form-group">
-		<?php echo form_label('Number', $number['id']); ?>
+		<?php echo ('Number'); ?>
 		<?php echo form_input($number); ?>
 		<?php echo form_error($number['name']); ?>		
 </div>
