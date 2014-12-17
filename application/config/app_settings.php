@@ -9,4 +9,7 @@ $config['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirt
 
 $config['favico'] = 'http://psychostore.in/images/ps.jpg';
 
+//Admin Panel
+$config['admin_email'] = 'ishkaran.fearme@gmail.com'
+
 ?>
