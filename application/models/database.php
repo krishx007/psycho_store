@@ -144,20 +144,39 @@ class Database extends CI_Model
 		return $this->db->count_all('orders');
 	}
 
-	//Gives count num of orders, ordered by date modifed
-	function GetOrders($start_id = '0', $count = '20')
+	//Returns both order and order_items
+	//order_items are stored in 'order_items' key;
+	function GetOrderById($txn_id)
 	{
-		if($start_id < 0 )
-			$start_id = 0;
+		$this->db->where('txn_id', $txn_id);
+		$query = $this->db->get('orders');		
 
-		$max_orders = $this->GetNumOrders();
-		if($start_id > $max_orders)
-			$start_id = $max_orders - $count;
-		
-		$this->db->order_by('date_modified', 'desc');
+		if($query->num_rows() > 0)	
+		{
+			//Get order_items for this txn_id			
+			$this->db->where('txn_id', $txn_id);
+			$items_query = $this->db->get('order_items');
 
-		$query = $this->db->get('orders', $count, $start_id);		
-		return $query->result_array();
+			$row = $query->row_array();
+			$row['order_items'] = $items_query->result_array();
+
+			$order = $row;
+		}	
+
+		return $order;
+	}
+
+	function GetPendingReturnedOrders()
+	{
+		$this->db->select('txn_id');
+		$this->db->where('order_status !=', 'shipped');
+		$query = $this->db->get('orders');		
+		foreach ($query->result_array() as $row)
+		{			
+			$orders[] = $this->GetOrderById($row['txn_id']);
+		}
+
+		return $orders;
 	}
 
 	function GetOrdersForUser($userId)
@@ -216,13 +235,7 @@ class Database extends CI_Model
 		$this->db->where('txn_id', $txn_id);
 		$query = $this->db->get('checkout_items');
 		return $query->result_array();	
-	}
-
-	function RemoveCheckoutItemsForTxnId($txn_id)
-	{
-		$this->db->where('txn_id', $txn_id);
-		$this->db->delete('checkout_items');
-	}
+	}	
 
 	function CheckoutDone($txn_id)
 	{		
