@@ -148,6 +148,7 @@ class Database extends CI_Model
 	//order_items are stored in 'order_items' key;
 	function GetOrderById($txn_id)
 	{
+		$order = null;
 		$this->db->where('txn_id', $txn_id);
 		$query = $this->db->get('orders');		
 
