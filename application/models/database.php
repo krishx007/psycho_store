@@ -266,6 +266,12 @@ class Database extends CI_Model
 		$this->db->insert('checkout_items',$item);
 	}
 
+	function RemoveCheckoutItemsForTxnId($txn_id)
+	{
+		$this->db->where('txn_id', $txn_id);
+		$this->db->delete('checkout_items');
+	}
+
 	function SaveUserIdOnCheckout($user_id, $txn_id)
 	{
 		$this->db->set('user_id', $user_id);
