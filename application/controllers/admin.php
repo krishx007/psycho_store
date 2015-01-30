@@ -107,7 +107,7 @@ class admin extends CI_controller
 		$num = 1;
 		foreach ($orders as $order)
 		{
-			$txn_id = "<a href= site_url('')>".$order['txn_id']."</a>";
+			$txn_id = $order['txn_id'];
 			$email = $order['email'];
 			$address = format_address($order['address']);
 			$date = $order['date_created'];
@@ -132,6 +132,9 @@ class admin extends CI_controller
 
 	function search()
 	{
+		$search_option = $this->input->post('search_option');
+		$search_query = trim($this->input->post('search_query'));
+
 		switch ($search_option)
 		{
 			case 'orders':
