@@ -24,13 +24,13 @@
   <nav class="panel collapse navbar-collapse">
     <ul class="nav nav-pills navbar-right ">
       <li>
-    	<a target="_blank" href="https://www.facebook.com/psychostorein">Orders</i></a>
+    	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Orders</i></a>
       </li>
       <li>
-    	<a target="_blank" href="https://twitter.com/psychostorein">Products</i></a>
+    	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Products</i></a>
       </li>
       <li>
-    	<a target="_blank" href="http://instagram.com/psychostore.in">Emails</i></a>
+    	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Emails</i></a>
       </li>      
       <li>
       	<?php if($user_id > 0): ?>
@@ -43,11 +43,24 @@
       	<?php else: ?> <a href= <?php echo site_url('auth/logout').'?redirect_url='.$redirect_url; ?> > <h5 class="navbar-btn">Logout </h5></a> <?php endif; ?>
       </li>
       <li>
-        <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
+        <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_orders ?></span></a>
       </li>
     </ul>
     <ul class="nav nav-pills navbar-left">    	
 		<a href= <?php echo site_url('') ?> ><h4 class='molot navbar-text'>Psycho Store</h4></a>    
+    </ul>
+    <ul class="nav nav-pills">
+      <form class='navbar-form' method = "post" action = <?php echo site_url("admin/search")?> role="form">
+        <select class="form-control navbar-btn" name="search_option">
+          <option value='orders'>Orders</option>
+          <option value ='products'>Products</option>
+          <option value='users'>Users</option>
+        </select>
+        <div class="form-group">
+          <input type="text" class="form-control" name="search_query" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
     </ul>
   </nav>
   
