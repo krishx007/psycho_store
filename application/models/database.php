@@ -159,9 +159,17 @@ class Database extends CI_Model
 			$items_query = $this->db->get('order_items');
 
 			$row = $query->row_array();
-			$row['order_items'] = $items_query->result_array();
 
-			$order = $row;
+			//Get the product id and add actual products in 'order_items' array
+			$order_items = $items_query->result_array();
+			foreach ($items_query->result_array() as $key => $item)
+			{				
+				$order_items[$key]['product'] = $this->GetProductById($item['product_id']);
+			}
+
+			$row['order_items'] = $order_items;
+
+			$order = $row;			
 		}	
 
 		return $order;
