@@ -90,6 +90,11 @@ class Database extends CI_Model
 		return $random_prods;
 	}
 
+	function AddProduct($product)
+	{
+		$this->db->insert('products',$product);
+	}
+
 	function ModifyProduct($product)
 	{
 		$this->db->where('product_id', $product['product_id']);
