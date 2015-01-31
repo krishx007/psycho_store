@@ -21,10 +21,7 @@
           <div class="col-md-4">
             <div class="row">
               <div class="col-md-12">
-                <p> <?php echo $product['product_desc']; ?> </p>
-                <p>Product description here</p>
-                <p>Product description here</p>                
-                <p>Product description here</p>
+                <p> <?php echo $product['product_desc']; ?> </p>                
                 <hr>
               </div>
             </div>
