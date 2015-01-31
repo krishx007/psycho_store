@@ -44,10 +44,10 @@ class admin extends CI_controller
 				$this->load->view('admin/admin_orders', $data);
 			break;
 			case 'products':
-				$this->load->view('view_review_order', $data);
+				$this->load->view('admin/admin_products', $data);
 			break;
-			case 'emails':
-				$this->load->view('auth/general_message', $data);
+			case 'product_add_edit':
+				$this->load->view('admin/product_add_edit', $data);
 			break;
 			default:
 				show_404();
@@ -85,8 +85,8 @@ class admin extends CI_controller
 			}
 			
 			$data['orders'] = $orders;	
-			$data['num_orders']	= count($orders);
-			$data['order_table'] = $this->_generate_orders_table($orders);
+			$data['num_items']	= count($orders);
+			$data['orders_table'] = $this->_generate_orders_table($orders);
 
 			$this->display('orders', $data);
 		}
@@ -94,6 +94,46 @@ class admin extends CI_controller
 			$this->display('404', null);
 	}
 
+	function products($product_id = null)
+	{
+		$this->_validate_user();
+		$products = null;		
+
+		if($product_id)
+		{
+			$products[] = $this->database->GetProductById($product_id);
+		}
+		else
+		{
+			$product_type = $this->input->post('product_type') != false ? $this->input->post('product_type') : 'all' ;
+			$game = $this->input->post('game') != false ? $this->input->post('game') : 'all' ;
+			$sort = $this->input->post('sort') != false ? $this->input->post('latest') : 'latest';
+			
+			$products = $this->database->GetProducts($product_type, $sort, $game);
+		}		
+
+		if($products[0] != null)
+		{
+			$data['products'] = $products;
+			$data['num_items'] = count($products);			
+			$data['products_table'] = $this->_generate_products_table($products);
+			$this->display('products', $data);
+		}
+		else
+		{
+			$this->display('404', null);
+		}
+	}
+
+	function add_product()
+	{
+		$this->display('product_add_edit', null);
+	}
+
+	function edit_product($product_id)
+	{
+
+	}
 
 	//code to be shifted to view for more flexibility
 	function _generate_orders_table($orders)
@@ -130,6 +170,22 @@ class admin extends CI_controller
 		return $this->table->generate();
 	}
 
+	function _generate_products_table($products)
+	{
+		$this->load->library('table');
+		$this->table->set_heading('id', 'type', 'game', 'name', 'url', 'description', 'image', 'price', 'small', 'med', 'lrg', 'xl', 'sold');
+
+		$tmpl = array ( 'table_open'  => '<table class="table " >' );
+		$this->table->set_template($tmpl);
+
+		foreach ($products as $key => $prod)
+		{
+			$this->table->add_row($prod['product_id'], $prod['product_type'], $prod['product_game'], $prod['product_name'], $prod['product_url'], $prod['product_desc'], $prod['product_image_path'], $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
+		}
+
+		return $this->table->generate();
+	}
+
 	function search()
 	{
 		$search_option = $this->input->post('search_option');
@@ -140,17 +196,17 @@ class admin extends CI_controller
 			case 'orders':
 				redirect("admin/orders/$search_query");
 				break;
+
+			case 'products':
+				redirect("admin/products/$search_query");
+				break;
 			
 			default:
 				# code...
 				break;
 		}
 	}
-
-	function products()
-	{
-
-	}
+	
 
 	function GenerateHeader(&$data)
 	{

@@ -27,7 +27,7 @@
     	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Orders</i></a>
       </li>
       <li>
-    	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Products</i></a>
+    	<a class='navbar-btn' href = <?php echo site_url('admin/products') ?> >Products</i></a>
       </li>
       <li>
     	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Emails</i></a>
@@ -43,7 +43,7 @@
       	<?php else: ?> <a href= <?php echo site_url('auth/logout').'?redirect_url='.$redirect_url; ?> > <h5 class="navbar-btn">Logout </h5></a> <?php endif; ?>
       </li>
       <li>
-        <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_orders ?></span></a>
+        <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
       </li>
     </ul>
     <ul class="nav nav-pills navbar-left">    	
