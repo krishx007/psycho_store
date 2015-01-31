@@ -8,6 +8,7 @@ class admin extends CI_controller
 		$this->load->library('cart');
 		$this->load->library('tank_auth');
 		$this->load->library('table');
+		$this->load->library('form_validation');
 		$this->load->model('database');
 		$this->load->helper('url');
 		$this->load->helper('html');
@@ -127,7 +128,40 @@ class admin extends CI_controller
 
 	function add_product()
 	{
-		$this->display('product_add_edit', null);
+		$this->form_validation->set_rules('type', 'Product type', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('game_name', 'Game Name', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('product_name', 'Product Name', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('url', 'URL Keywords', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('desc', 'Product Desc', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('image_path', 'Image Path', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('price', 'Product Price', 'is_numeric|trim|required|xss_clean');
+		$this->form_validation->set_rules('s_qty', 'Small Qty', 'is_numeric|trim|required|xss_clean');
+		$this->form_validation->set_rules('m_qty', 'Medium Qty', 'is_numeric|trim|required|xss_clean');
+		$this->form_validation->set_rules('l_qty', 'Large Qty', 'is_numeric|trim|required|xss_clean');
+		$this->form_validation->set_rules('xl_qty', 'XL Qty', 'is_numeric|trim|required|xss_clean');
+
+		if($this->form_validation->run())
+		{
+			//All data ok, add this product to database
+			$product['product_type'] = $this->input->post('type');
+			$product['product_game'] = $this->input->post('game_name');
+			$product['product_name'] = $this->input->post('product_name');
+			$product['product_url'] = strtolower($this->input->post('url'));
+			$product['product_desc'] = $this->input->post('desc');
+			$product['product_image_path'] = $this->input->post('image_path');
+			$product['product_price'] = $this->input->post('price');
+			$product['product_count_small'] = $this->input->post('s_qty');
+			$product['product_count_medium'] = $this->input->post('m_qty');
+			$product['product_count_large'] = $this->input->post('l_qty');
+			$product['product_count_xl'] = $this->input->post('xl_qty');
+
+			$this->database->AddProduct($product);
+			redirect('admin/products');
+		}
+		else
+		{
+			$this->display('product_add_edit', null);
+		}
 	}
 
 	function edit_product($product_id)

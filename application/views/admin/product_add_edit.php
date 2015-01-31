@@ -1,10 +1,11 @@
+<?php echo validation_errors(); ?>
 <div class="container top-bottom-space">
     <h1> Product Add/Edit </h1>
     <hr>
     <div class="well">
     	<div class="row ">
 	    	<div class="col-md-12">
-	    		<form class='form-horizontal'>
+	    		<form class='form-horizontal' method="post" action= <?php echo site_url('admin/add_product')?> >
 				<div class='form-group' >
 					
 						<div class='col-md-2'>
