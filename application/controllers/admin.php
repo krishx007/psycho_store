@@ -128,6 +128,74 @@ class admin extends CI_controller
 
 	function add_product()
 	{
+		$this->_set_product_form_rules();
+
+		if($this->form_validation->run())
+		{
+			$product = $this->_get_product_form_post($this->input->post());
+
+			$this->database->AddProduct($product);
+			redirect('admin/products');
+		}
+		else
+		{
+			$data = $this->_fill_data_var_for_view(null);
+			$data['action'] = site_url('admin/add_product');
+			$this->display('product_add_edit', $data);
+		}
+	}
+
+	function edit_product($product_id)
+	{
+		$product = $this->database->GetProductById($product_id);
+
+		if(count($product))
+		{
+			$this->_set_product_form_rules();
+
+			if($this->form_validation->run())
+			{
+				$product = $this->_get_product_form_post($this->input->post());
+				$product['product_id'] = $product_id;
+
+				$this->database->ModifyProduct($product);
+				redirect('admin/products');
+			}
+			else
+			{
+				$data = $this->_fill_data_var_for_view($product);
+				$data['action'] = site_url('admin/edit_product/'.$product_id);
+				$this->display('product_add_edit', $data);
+			}
+		}
+		else
+		{
+			$this->display('404', null);
+		}
+		
+	}
+
+	function _get_product_form_post($input)
+	{
+		//All data ok, add this product to database
+		$product['product_id'] = $input['id'];
+		$product['product_type'] =$input['type'];
+		$product['product_game'] = $input['game_name'];
+		$product['product_name'] = $input['product_name'];
+		$product['product_url'] = strtolower($input['url']);
+		$product['product_desc'] = $input['desc'];
+		$product['product_image_path'] = $input['image_path'];
+		$product['product_price'] = $input['price'];
+		$product['product_count_small'] = $input['s_qty'];
+		$product['product_count_medium'] = $input['m_qty'];
+		$product['product_count_large'] = $input['l_qty'];
+		$product['product_count_xl'] = $input['xl_qty'];
+
+		return $product;
+	}
+
+	function _set_product_form_rules()
+	{
 		$this->form_validation->set_rules('type', 'Product type', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('game_name', 'Game Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('product_name', 'Product Name', 'trim|required|xss_clean');
@@ -139,34 +207,23 @@ class admin extends CI_controller
 		$this->form_validation->set_rules('m_qty', 'Medium Qty', 'is_numeric|trim|required|xss_clean');
 		$this->form_validation->set_rules('l_qty', 'Large Qty', 'is_numeric|trim|required|xss_clean');
 		$this->form_validation->set_rules('xl_qty', 'XL Qty', 'is_numeric|trim|required|xss_clean');
-
-		if($this->form_validation->run())
-		{
-			//All data ok, add this product to database
-			$product['product_type'] = $this->input->post('type');
-			$product['product_game'] = $this->input->post('game_name');
-			$product['product_name'] = $this->input->post('product_name');
-			$product['product_url'] = strtolower($this->input->post('url'));
-			$product['product_desc'] = $this->input->post('desc');
-			$product['product_image_path'] = $this->input->post('image_path');
-			$product['product_price'] = $this->input->post('price');
-			$product['product_count_small'] = $this->input->post('s_qty');
-			$product['product_count_medium'] = $this->input->post('m_qty');
-			$product['product_count_large'] = $this->input->post('l_qty');
-			$product['product_count_xl'] = $this->input->post('xl_qty');
-
-			$this->database->AddProduct($product);
-			redirect('admin/products');
-		}
-		else
-		{
-			$this->display('product_add_edit', null);
-		}
 	}
 
-	function edit_product($product_id)
-	{
+	function _fill_data_var_for_view($product)
+	{		
+		$data['type'] = is_null($product) ? '' : $product['product_type'];
+		$data['game'] = is_null($product) ? '' : $product['product_game'];
+		$data['name'] = is_null($product) ? '' : $product['product_name'];
+		$data['product_url'] = is_null($product) ? '' : $product['product_url'];
+		$data['desc'] = is_null($product) ? '' : $product['product_desc'];		
+		$data['image_path'] = is_null($product) ? '' : $product['product_image_path'];
+		$data['price'] = is_null($product) ? '' : $product['product_price'];
+		$data['s_qty'] = is_null($product) ? '' : $product['product_count_small'];
+		$data['m_qty'] = is_null($product) ? '' : $product['product_count_medium'];
+		$data['l_qty'] = is_null($product) ? '' : $product['product_count_large'];
+		$data['xl_qty'] = is_null($product) ? '' : $product['product_count_xl'];
 
+		return $data;
 	}
 
 	//code to be shifted to view for more flexibility
