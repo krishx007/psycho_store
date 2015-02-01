@@ -271,7 +271,16 @@ class admin extends CI_controller
 
 		foreach ($products as $key => $prod)
 		{
-			$this->table->add_row($prod['product_id'], $prod['product_type'], $prod['product_game'], $prod['product_name'], $prod['product_url'], $prod['product_desc'], $prod['product_image_path'], $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
+			//Edit link
+			$product_id = $prod['product_id'];
+			$prod_edit_link = site_url('admin/edit_product/'.$product_id);
+			$prod_id_cell = "<a href=$prod_edit_link> $product_id </a>";
+
+			//Product Image
+			$img_path = site_url($prod['product_image_path']);
+			$image_cell = "<a href= $img_path><img class='img-responsive' src = $img_path></img></a>";
+
+			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod['product_name'], $prod['product_url'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
 		}
 
 		return $this->table->generate();
