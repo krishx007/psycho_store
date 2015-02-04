@@ -1,6 +1,6 @@
 <div class="container top-bottom-space">  
     <h1> Add/Edit Products
-        <span class="pull-right"> <small> <?php echo $num_prods?> Product(s) </small> </span>
+        <span class="pull-right navbar-text"> <small> <?php echo $num_prods?> Product(s) </small> </span>
     </h1>
     <hr>
     <div class="row">

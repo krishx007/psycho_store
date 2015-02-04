@@ -75,7 +75,7 @@ class admin extends CI_controller
 		}
 		
 		//As $orders is an array
-		if($orders[0] != null)
+		if(count($orders) && $orders[0] != null)
 		{
 			//Get user details and address in the array
 			foreach ($orders as $key => $value)
@@ -86,7 +86,7 @@ class admin extends CI_controller
 			}
 			
 			$data['orders'] = $orders;	
-			$data['num_items']	= count($orders);
+			$data['num_orders']	= count($orders);
 			$data['orders_table'] = $this->_generate_orders_table($orders);
 
 			$this->display('orders', $data);

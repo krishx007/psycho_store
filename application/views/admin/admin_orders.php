@@ -1,5 +1,7 @@
 <div class="container top-bottom-space">  
-    <h1> Pending/Returned Orders </h1>
+    <h1> Pending/Returned Orders 
+    	<span class="pull-right navbar-text"> <small><?php echo $num_orders?> order(s) </small></span>
+    </h1>
     <hr>
     <div class="well">
     	<div class="row ">
