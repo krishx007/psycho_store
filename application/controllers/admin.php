@@ -14,7 +14,7 @@ class admin extends CI_controller
 		$this->load->helper('html');
 		$this->load->helper('form');
 		$this->load->helper('psycho_helper');
-		$this->load->library('session');		
+		$this->load->library('session');
 	}
 
 	function index()
@@ -24,7 +24,7 @@ class admin extends CI_controller
 
 	function _validate_user()
 	{
-		$current_user = $this->database->GetUserById($this->tank_auth->get_user_id());		
+		$current_user = $this->database->GetUserById($this->tank_auth->get_user_id());
 		if( $current_user['email'] != $this->config->item('admin_email') )
 		{
 			redirect('');
@@ -98,7 +98,8 @@ class admin extends CI_controller
 	function products($product_id = null)
 	{
 		$this->_validate_user();
-		$products = null;		
+		$products = null;			
+		$data['supported_games'] = $this->database->GetAllSuportedGames();	
 
 		if($product_id)
 		{
@@ -106,17 +107,17 @@ class admin extends CI_controller
 		}
 		else
 		{
-			$product_type = $this->input->post('product_type') != false ? $this->input->post('product_type') : 'all' ;
+			$product_type = $this->input->post('type') != false ? $this->input->post('type') : 'all' ;
 			$game = $this->input->post('game') != false ? $this->input->post('game') : 'all' ;
-			$sort = $this->input->post('sort') != false ? $this->input->post('latest') : 'latest';
+			$sort = $this->input->post('sort') != false ? $this->input->post('sort') : 'latest';
 			
 			$products = $this->database->GetProducts($product_type, $sort, $game);
-		}		
-
-		if($products[0] != null)
+		}
+		
+		if( count($products) && ($products[0] != null) )
 		{
-			$data['products'] = $products;
-			$data['num_items'] = count($products);			
+			$data['products'] = $products;			
+			$data['num_prods'] = count($products);
 			$data['products_table'] = $this->_generate_products_table($products);
 			$this->display('products', $data);
 		}
@@ -229,7 +230,7 @@ class admin extends CI_controller
 	//code to be shifted to view for more flexibility
 	function _generate_orders_table($orders)
 	{		
-		$this->load->library('table');		
+		$this->load->library('table');
 		$this->table->set_heading('#','Txn_id','Date','Email','Address', 'Mode', 'Amount', 'Status');
 
 		$tmpl = array ( 'table_open'  => '<table class="table table-condensed" >' );
@@ -244,7 +245,7 @@ class admin extends CI_controller
 			$date = $order['date_created'];
 			$mode = $order['payment_mode'];
 			$amount = $order['order_amount'];
-			$status = $order['order_status'];			
+			$status = $order['order_status'];
 			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status);
 
 			foreach ($order['order_items'] as $key => $item) 
