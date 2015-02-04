@@ -114,19 +114,19 @@ class Pages extends CI_controller
 		return $this->session->userdata('recently_viewed');
 	}
 
-	function product($url)
+	function product($id, $url = null)
 	{
 		$total_products = $this->database->GetMaxProductID();
 		$url = $this->beautify($url,'_');
-		$result = $this->database->GetProductByURL($url);
+		$result = $this->database->GetProductById($id);		
 		if($result)
 		{
 			$next = $prev = 0;
 			$this->GetNextPreviousIds($result['product_id'], $next, $prev, $total_products);
 			$data['product'] = $result;
-			$data['total_products'] = $total_products;			
-			$data['next_id'] = url_title($this->database->GetProductById($next)['product_url'],'_');
-			$data['prev_id'] = url_title($this->database->GetProductById($prev)['product_url'],'_');
+			$data['total_products'] = $total_products;	
+			$data['next_id'] = product_url( $this->database->GetProductById($next), false );
+			$data['prev_id'] = product_url( $this->database->GetProductById($prev), false );
 			$data['small_stock']="";
 			$data['medium_stock']="";
 			$data['large_stock']="";

@@ -54,8 +54,8 @@
               <div class="col-md-12">
                 <hr>                
                 <?php
-                foreach($suggested_products as $product_item): 
-                  $url = url_title($product_item['product_url'],'_');
+                foreach($suggested_products as $product_item):
+                  $url = product_url($product_item); 
                   $path = "/".$product_item['product_image_path'];
                   $image_properties = array(
                           'src' => "$path",
@@ -63,7 +63,7 @@
                 );
                 ?>
                   <div class="product-link-sm col-md-4">
-                      <?php echo anchor("/product/$url", img($image_properties));?>      
+                      <?php echo anchor($url, img($image_properties));?>      
                   </div>
 
                 <?php endforeach ?> 
@@ -82,7 +82,7 @@
 if(is_array($recently_viewed) > 0):
 
   foreach($recently_viewed as $key => $product_item): 
-  $url = url_title($product_item['product_url'],'_');
+  $url = product_url($product_item);
   $path = "/".$product_item['product_image_path'];
   $image_properties = array(
                             'src' => "$path",          
@@ -90,7 +90,7 @@ if(is_array($recently_viewed) > 0):
                             );
 ?>
   <div class="product-link-sm col-md-2">
-      <?php echo anchor("/product/$url", img($image_properties));?>      
+      <?php echo anchor($url, img($image_properties));?>      
   </div>
   <?php endforeach ?>
   <?php endif ?>

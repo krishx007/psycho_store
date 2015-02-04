@@ -134,6 +134,21 @@ if(!function_exists('format_address'))
 	}
 }
 
+if(!function_exists('product_url'))
+{
+	function product_url($product, $append_product = true)
+	{		
+		$id = $product['product_id'];
+		$url = url_title($product['product_url'],'_');
+		$final_url = "$id/$url";
+		
+		if($append_product)
+			$final_url = "product/".$final_url;
+
+		return $final_url;
+	}
+}
+
 	
 
 ?>

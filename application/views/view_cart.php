@@ -23,7 +23,7 @@
 				foreach ($this->cart->contents() as $items):
 				$product = $products["{$items['id']}"];
 				$path = "/".$product['product_image_path'];
-				$url = url_title($product['product_url'],'_');				
+				$url = product_url($product);
 				$image_properties = array(
 			          'src' => "$path",          
 			          'class' => 'img-responsive',);?>
@@ -32,7 +32,7 @@
 							<h4><a href= <?php echo site_url("cart/remove/{$items['rowid']}")?>>Remove <i class="fa fa-times"></i></a></h4>
 						</div>
 			        	<div class="col-md-2 col-lg-2 ">
-							<?php echo anchor("/product/$url", img($image_properties));?>
+							<?php echo anchor($url, img($image_properties));?>
 						</div>
 						<div class="col-md-10">
 							<nav>				

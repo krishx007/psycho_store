@@ -11,8 +11,9 @@ class cart extends CI_controller
 		$this->load->library('cart');
 		$this->load->model('database');
 		$this->load->helper('url');
-		$this->load->helper('html');
+		$this->load->helper('html');		
 		$this->load->helper('form');
+		$this->load->helper('psycho_helper');
 		$this->load->library('session');
 		$this->load->library('tank_auth');
 	}
