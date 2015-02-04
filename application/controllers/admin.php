@@ -43,13 +43,13 @@ class admin extends CI_controller
 		{
 			case 'orders':
 				$this->load->view('admin/admin_orders', $data);
-			break;
+				break;
 			case 'products':
 				$this->load->view('admin/admin_products', $data);
-			break;
+				break;
 			case 'product_add_edit':
 				$this->load->view('admin/product_add_edit', $data);
-			break;
+				break;
 			default:
 				show_404();
 			break;		
@@ -244,7 +244,7 @@ class admin extends CI_controller
 			$date = $order['date_created'];
 			$mode = $order['payment_mode'];
 			$amount = $order['order_amount'];
-			$status = $order['order_status'];
+			$status = $order['order_status'];			
 			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status);
 
 			foreach ($order['order_items'] as $key => $item) 
@@ -280,7 +280,11 @@ class admin extends CI_controller
 			$img_path = site_url($prod['product_image_path']);
 			$image_cell = "<a href= $img_path><img class='img-responsive' src = $img_path></img></a>";
 
-			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod['product_name'], $prod['product_url'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
+			//Product Link			
+			$prod_url = product_url($prod);
+			$prod_name_cell = anchor($prod_url, $prod['product_name']);
+
+			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod_name_cell, $prod['product_url'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
 		}
 
 		return $this->table->generate();
