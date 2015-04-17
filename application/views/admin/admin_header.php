@@ -24,6 +24,9 @@
   <nav class="panel collapse navbar-collapse">
     <ul class="nav nav-pills navbar-right ">
       <li>
+      <a class='navbar-btn' href = <?php echo site_url('admin/insights') ?> >Insights</i></a>
+      </li>
+      <li>
     	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Orders</i></a>
       </li>
       <li>

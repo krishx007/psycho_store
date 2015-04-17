@@ -41,6 +41,9 @@ class admin extends CI_controller
 		//Show body
 		switch ($page)
 		{
+			case 'insights':
+				$this->load->view('admin/admin_insights', $data);
+				break;
 			case 'orders':
 				$this->load->view('admin/admin_orders', $data);
 				break;
@@ -57,6 +60,341 @@ class admin extends CI_controller
 
 		//Show footer
 		$this->load->view('footer', $data);
+	}
+
+	function insights()
+	{
+		$month = $this->input->post('month');
+		
+		if($month === false)
+		{
+			$month = date("M");
+		}
+
+		$data['heading'] = "Insights";
+		
+		$all_orders = $this->database->GetAllOrders();
+		
+		//Get this months orders data
+		$month_info = $this->GetOrdersDataForMonth($month);
+
+		$data['month'] = $month;
+		$data['sales_data'] = $month_info['orders'];
+		$data['num_orders'] = $month_info['num_orders'];
+		$data['dates'] = $month_info['dates'];
+		$data['revenue_data'] = $month_info['revenue'];
+		$data['total_revenue'] = $month_info['total_revenue'];
+		$data['cod_orders'] = $this->GetNumCodOrders($all_orders);
+		$data['online_orders'] = $this->GetNumOnlineOrders($all_orders);		
+
+		
+		//Get Statewise Orders data
+		$state_info = $this->GetStateWiseOrderData();
+
+		$data['states'] = $state_info['states'];
+		$data['states_sales'] = $state_info['states_sales'];
+
+		//Get Game Sepcific Sales Data
+		$games_data = $this->database->GetDataForGameSalesChart();
+		foreach ($games_data as $key => $value)
+		{
+			$data['game_sales_data'][] = (int)$value['product_qty_sold'];
+		}
+
+		$all_games = $this->database->GetAllSuportedGames();
+		foreach ($all_games as $key => $value)
+		{
+			$data['all_games'][] = $value['product_game'];
+		}
+
+		$this->display('insights', $data);
+	}
+
+	function GetNumCodOrders($orders)
+	{
+		$count = 0;
+		foreach ($orders as $key => $value)
+		{
+			if($value['payment_mode'] == "cod")
+			{
+				$count++;
+			}
+		}
+
+		return $count;
+	}
+
+	function GetNumOnlineOrders($orders)
+	{
+		$count = 0;
+		foreach ($orders as $key => $value)
+		{
+			if($value['payment_mode'] == "online")
+			{
+				$count++;
+			}
+		}
+
+		return $count;	
+	}
+
+	function GetNumOrdersForDate($date, $orders)
+	{
+		$start_date = $date. " 00:00:00";
+		$end_date = $date. " 23:59:59";
+		$sales = 0;
+		if($orders != null)
+		{
+			foreach ($orders as $key => $value)
+			{			
+				if(strtotime($value['date_created']) >= strtotime($start_date) && strtotime($value['date_created']) <= strtotime($end_date))
+				{
+					$sales++;
+				}
+			}
+		}
+
+		return $sales;
+	}
+
+	function GetRevenueForDate($date, $orders)
+	{
+		$start_date = $date. " 00:00:00";
+		$end_date = $date. " 23:59:59";
+		$revenue = 0;
+		if($orders != null)
+		{
+			foreach ($orders as $key => $value)
+			{			
+				if(strtotime($value['date_created']) >= strtotime($start_date) && strtotime($value['date_created']) <= strtotime($end_date))
+				{
+					$revenue += $value['order_amount'];
+				}
+			}
+		}
+
+		return $revenue;
+	}
+
+	//Expects month as date("M");
+	function GetOrdersDataForMonth($month)
+	{
+		$month_orders = null;
+		$month_revenue = null;
+		$month_dates = null;
+		$year = date("Y");
+		switch ($month)
+		{
+			case 'Jan':
+				$mon = 	"01";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);				
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Feb':
+				$mon = "02";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);				
+				for($i = 1; $i<=28; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+
+				break;
+			
+			case 'Mar':
+				$mon = "03";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Apr':
+				$mon = "04";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=30; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'May':
+				$mon = "05";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+
+			case 'Jun':
+				$mon = "06";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=30; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Jul':
+				$mon = "07";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Aug':
+				$mon = "08";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Sep':
+				$mon = "09";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=30; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Oct':
+				$mon = "10";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Nov':
+				$mon = "11";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=30; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			case 'Dec':
+				$mon = "12";
+				$start_date = $year."-$mon-01";
+				$end_date = $year."-$mon-31";
+				$orders = $this->database->GetOrdersForDate($start_date, $end_date);
+				for($i = 1; $i<=31; $i++)
+				{
+					$date = $year."-$mon-$i";
+					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_dates[] = $i;
+				}
+				
+				break;
+
+			default:
+				# code...
+				break;
+		}
+
+		$month_info['orders'] = $month_orders;
+		$month_info['num_orders'] = array_sum($month_orders);
+		$month_info['dates'] = $month_dates;
+		$month_info['revenue'] = $month_revenue;
+		$month_info['total_revenue'] = array_sum($month_revenue);
+		
+		return $month_info;
+	}
+
+	function GetStateWiseOrderData()
+	{
+		$states_data = $this->database->GetDataForStatesChart();		
+		$states = null;
+		$states_sales = null;
+		foreach ($states_data as $key => $value)
+		{
+			$states[] = $value['state'];
+			$states_sales[] = $value["Count('state')"];
+		}
+
+		$state_info['states'] = $states;
+		$state_info['states_sales'] = $states_sales;
+		
+		return $state_info;		
 	}
 
 	function orders($order_id = null)
