@@ -307,14 +307,17 @@ class checkout extends CI_controller
 			redirect('checkout/');
 		}
 
-		// foreach ($this->cart->contents() as $items)
-		// {			
-		// 	$prod_id = $items['id'];
-		// 	$product = $this->database->GetProductById($prod_id);
-		// 	$data['products'][$prod_id] = $product;
-		// }
+		$address = $this->database->GetAddressById($checkout_order['address_id']);		
+		$shipping_details = $this->database->GetShippingDetails($address['pincode']);
+		
+		$cod_available = false;
+		if($shipping_details['cod'] === 'Y')
+		{
+			$cod_available = true;
+		}
 
-		$data['address'] = $this->database->GetAddressById($checkout_order['address_id']);
+		$data['cod_available'] = $cod_available;
+		$data['address'] = $address;
 		
 		$this->display('review', $data);
 	}
@@ -381,8 +384,8 @@ class checkout extends CI_controller
 		if($ok_to_place_order)
 		{
 			$order_info = $this->_generate_orderinfo($this->input->post());
-			//$this->_place_order($order_info);
-			//$this->_reward_user($order_info);
+			$this->_place_order($order_info);
+			$this->_reward_user($order_info);
 			$this->_send_order_mail($order_info);
 
 			redirect('checkout/success');
