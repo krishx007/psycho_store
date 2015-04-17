@@ -53,6 +53,42 @@ $state = array(
 	'size'	=> 30,
 	'class' => "form-control"
 );
+$states = array(				  
+                  'Anadaman and Nicobar Islands'  => 'Anadaman and Nicobar Islands',
+                  'Andhra Pradesh'    => 'Andhra Pradesh',
+                  'Arunachal Pradesh'   => 'Arunachal Pradesh',
+                  'Chandigarh' => 'Chandigarh',
+                  'Chhattisgarh' => 'Chhattisgarh',
+                  'Dadra and Nagar Haveli' => 'Dadra and Nagar Haveli',
+                  'Daman and Diu' => 'Daman and Diu',                  
+                  'Goa' => 'Goa',
+                  'Gujarat' => 'Gujarat',
+                  'Haryana' => 'Haryana',
+                  'Himachal Pradesh' => 'Himachal Pradesh',
+                  'Jammu and Kashmir' => 'Jammu and Kashmir',
+                  'Jharkhand' => 'Jharkhand',
+                  'Karnatka' => 'Karnatka',
+                  'Kerala' => 'Kerala',
+                  'Lakshadweep' => 'Lakshadweep',
+                  'Maharashtra' => 'Maharashtra',
+                  'Madhya Pradesh' => 'Madhya Pradesh',
+                  'Manipur' => 'Manipur',
+                  'Meghalaya' => 'Meghalaya',
+                  'Mizoram' => 'Mizoram',
+                  'Nagaland' => 'Nagaland',
+                  'New Delhi' => 'New Delhi',
+                  'Orissa' => 'Orissa',
+                  'Pondicherry' => 'Pondicherry',
+                  'Punjab' => 'Punjab',
+                  'Rajashthan' => 'Rajashthan',
+                  'Sikkim' => 'Sikkim',
+                  'Tamil Nadu' => 'Tamil Nadu',
+                  'Telangana' => 'Telangana',
+                  'Tripura' => 'Tripura',
+                  'Uttar Pradesh' => 'Uttar Pradesh',
+                  'Uttarakhand' => 'Uttarakhand',
+                  'West Bengal' => 'West Bengal',
+                );
 $country = array(
 	'name'	=> 'country',
 	'id'	=> 'country',
@@ -113,7 +149,42 @@ $number = array(
 </div>
 <div class="form-group">
 		<?php echo ('State'); ?>
-		<?php echo form_input($state); ?>
+		<select name="state" class='form-control'>
+			<option value="Anadaman and Nicobar Islands" <?php echo set_select('state', 'Anadaman and Nicobar Islands'); ?>>Anadaman and Nicobar Islands</option>
+			<option value="Andhra Pradesh" <?php echo set_select('state', 'Andhra Pradesh'); ?> >Andhra Pradesh</option>
+			<option value="Arunachal Pradesh" <?php echo set_select('state', 'Arunachal Pradesh'); ?> >Arunachal Pradesh</option>
+			<option value="Chandigarh" <?php echo set_select('state', 'Chandigarh'); ?> >Chandigarh</option>
+			<option value="Chhattisgarh" <?php echo set_select('state', 'Chhattisgarh'); ?> >Chhattisgarh</option>
+			<option value="Dadra and Nagar Haveli" <?php echo set_select('state', 'Dadra and Nagar Haveli'); ?> >Dadra and Nagar Haveli</option>
+			<option value="Daman and Diu" <?php echo set_select('state', 'Daman and Diu'); ?> >Daman and Diu</option>
+			<option value="Goa" <?php echo set_select('state', 'Goa'); ?> >Goa</option>
+			<option value="Gujarat" <?php echo set_select('state', 'Gujarat'); ?> >Gujarat</option>
+			<option value="Haryana" <?php echo set_select('state', 'Haryana'); ?> >Haryana</option>
+			<option value="Himachal Pradesh" <?php echo set_select('state', 'Himachal Pradesh'); ?> >Himachal Pradesh</option>
+			<option value="Jammu and Kashmir" <?php echo set_select('state', 'Jammu and Kashmir'); ?> >Jammu and Kashmir</option>
+			<option value="Jharkhand" <?php echo set_select('state', 'Jharkhand'); ?> >Jharkhand</option>
+			<option value="Karnatka" <?php echo set_select('state', 'Karnatka'); ?> >Karnatka</option>
+			<option value="Kerala" <?php echo set_select('state', 'Kerala'); ?> >Kerala</option>
+			<option value="Lakshadweep" <?php echo set_select('state', 'Lakshadweep'); ?> >Lakshadweep</option>
+			<option value="Maharashtra" <?php echo set_select('state', 'Maharashtra'); ?> >Maharashtra</option>
+			<option value="Madhya Pradesh" <?php echo set_select('state', 'Madhya Pradesh'); ?> >Madhya Pradesh</option>
+			<option value="Manipur" <?php echo set_select('state', 'Manipur'); ?> >Manipur</option>
+			<option value="Meghalaya" <?php echo set_select('state', 'Meghalaya'); ?> >Meghalaya</option>
+			<option value="Mizoram" <?php echo set_select('state', 'Mizoram'); ?> >Mizoram</option>
+			<option value="Nagaland" <?php echo set_select('state', 'Nagaland'); ?> >Nagaland</option>
+			<option value="New Delhi" <?php echo set_select('state', 'New Delhi', TRUE); ?> >New Delhi</option>
+			<option value="Orissa" <?php echo set_select('state', 'Orissa'); ?> >Orissa</option>
+			<option value="Pondicherry" <?php echo set_select('state', 'Pondicherry'); ?> >Pondicherry</option>
+			<option value="Punjab" <?php echo set_select('state', 'Punjab'); ?> >Punjab</option>
+			<option value="Rajashthan" <?php echo set_select('state', 'Rajashthan'); ?> >Rajashthan</option>
+			<option value="Sikkim" <?php echo set_select('state', 'Sikkim'); ?> >Sikkim</option>
+			<option value="Tamil Nadu" <?php echo set_select('state', 'Tamil Nadu'); ?> >Tamil Nadu</option>
+			<option value="Telangana" <?php echo set_select('state', 'Telangana'); ?> >Telangana</option>
+			<option value="Tripura" <?php echo set_select('state', 'Tripura'); ?> >Tripura</option>
+			<option value="Uttar Pradesh" <?php echo set_select('state', 'Uttar Pradesh'); ?> >Uttar Pradesh</option>
+			<option value="Uttarakhand" <?php echo set_select('state', 'Uttarakhand'); ?> >Uttarakhand</option>
+			<option value="West Bengal" <?php echo set_select('state', 'West Bengal'); ?> >West Bengal</option>
+		</select>		
 		<?php echo form_error($state['name']); ?>
 </div>
 <div class="form-group">
