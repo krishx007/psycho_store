@@ -11,7 +11,7 @@
 <?php echo meta('keywords', $keywords) ?>
 <link rel="icon" type="image/jpg" href=<?php echo $favico ?> >
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href=<?php echo site_url('scripts/bootstrap.min.css') ?> rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
