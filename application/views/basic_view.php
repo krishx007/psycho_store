@@ -1,5 +1,5 @@
-<div class="container top-bottom-space">      
-    <h1><?php echo $heading ?> </h1>      
+<div class="container top-bottom-space">
+    <h1><?php echo $heading ?> </h1>
     <hr> 
     <div class="well">
     	<div class="row ">

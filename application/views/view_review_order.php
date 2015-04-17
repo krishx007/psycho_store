@@ -32,12 +32,17 @@
 					<form  method = "post" action = <?php echo site_url('checkout/payment')?> role="form">
 						<select class="form-control" name="payment_mode">
 							<option value="online" >Pay Online</option>
-							<option value="cod">Cash On delivery</option>							
+							<?php if($cod_available == true): ?>
+							<option value="cod">Cash On delivery</option>
+							<?php endif; ?>
 						</select>
+					<?php if($cod_available == false): ?>
+							<p> Note: Cash On Delivery Service not available for your address</p>
+					<?php endif; ?>
 				</div>
 			</div>			
 		</div>
-		Note : Placing the order implies you agree to<a href = <?php echo site_url('shipping_returns') ?> > Terms and Conditions/Policies</a>
+		Note : Placing the order implies you agree to<a href = <?php echo site_url('shipping_returns') ?> > Terms and Conditions </a> / <a href = <?php echo site_url('shipping_returns')?> > Policies</a>
 		<button class="btn btn-primary pull-right" type="submit"> Place Order | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </button>
 		</form>
 	</div>	
