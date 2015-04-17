@@ -133,6 +133,8 @@ class Database extends CI_Model
 		$this->db->delete('address');
 	}
 
+	//-------------------------- Order Specific Functions -------------------------- 
+
 	function AddOrder($order)
 	{
 		$this->db->insert('orders',$order);
@@ -168,7 +170,7 @@ class Database extends CI_Model
 			//Get the product id and add actual products in 'order_items' array
 			$order_items = $items_query->result_array();
 			foreach ($items_query->result_array() as $key => $item)
-			{				
+			{
 				$order_items[$key]['product'] = $this->GetProductById($item['product_id']);
 			}
 
@@ -184,13 +186,72 @@ class Database extends CI_Model
 	{
 		$this->db->select('txn_id');
 		$this->db->where('order_status !=', 'shipped');
-		$query = $this->db->get('orders');		
+		$query = $this->db->get('orders');
 		foreach ($query->result_array() as $row)
-		{			
+		{
 			$orders[] = $this->GetOrderById($row['txn_id']);
 		}
 
 		return $orders;
+	}
+
+	function GetAllOrders()
+	{
+		$this->db->select('txn_id');	
+		$query = $this->db->get('orders');
+		foreach ($query->result_array() as $row)
+		{
+			$orders[] = $this->GetOrderById($row['txn_id']);
+		}
+
+		return $orders;
+	}
+
+	//Format is "y-m-d"
+	function GetOrdersForDate($start_date, $end_date)
+	{
+		$start_date = $start_date." 00:00:00";
+		$end_date = $end_date." 23:59:59";		
+		
+		$this->db->select(array('txn_id', 'date_created'));
+		$this->db->having(array('date_created >= ' => $start_date, 'date_created <= ' => $end_date));
+		$query = $this->db->get('orders');		
+		if($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$orders[] = $this->GetOrderById($row['txn_id']);
+			}
+			return $orders;
+		}
+
+		return null;
+	}
+
+	//-------------------------- XXX -------------------------- 
+
+	function GetDataForGameSalesChart()
+	{		
+		$this->db->select_sum('product_qty_sold');
+		$this->db->group_by('product_game');
+		$query = $this->db->get('products');
+		return $query->result_array();
+	}
+
+	function GetDataForStatesChart()
+	{
+		$sql = "Select *,Count('state') From ( SELECT address.state
+		FROM address
+		INNER JOIN orders
+		ON orders.address_id=address.address_id ) as t
+		Group By `state`";
+
+		$query = $this->db->query($sql);
+
+		// $this->db->select_count('product_qty_sold');
+		// $this->db->group_by('product_game');
+		// $query = $this->db->get('products');
+		return $query->result_array();
 	}
 
 	function GetOrdersForUser($userId)
@@ -230,11 +291,21 @@ class Database extends CI_Model
 		return $this->db->count_all('newsletter');
 	}
 
+	//-------------------------- Checkout Specific Functions -------------------------- 
+
 	function GetDiscountCoupon($coupon)
 	{
 		$this->db->where('coupon', $coupon);
 		$query = $this->db->get('discount_coupons');
 		return $query->row_array();
+	}
+
+	//For now its only Aramex
+	function GetShippingDetails($pincode)
+	{
+		$this->db->where('pincode', $pincode);
+		$query = $this->db->get('aramex');
+		return $query->row_array();	
 	}
 
 	function GetCheckoutOrder($txn_id)
@@ -305,5 +376,6 @@ class Database extends CI_Model
 		$this->db->where('txn_id', $txn_id);
 		$this->db->update('checkout_orders');	
 	}
+	//-------------------------- XXX -------------------------- 
 }
 ?>
