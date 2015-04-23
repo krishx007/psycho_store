@@ -13,6 +13,7 @@ class Auth extends CI_Controller
 		$this->lang->load('tank_auth');		
 		$this->load->model('database');
 		$this->load->library('cart');
+		$this->load->helper('psycho_helper');
 	}
 
 	function index()

@@ -15,6 +15,7 @@ class checkout extends CI_controller
 		$this->load->helper('html');
 		$this->load->helper('psycho_helper');
 		$this->load->model('database');
+		$this->config->load('gateway_settings');
 	}
 
 	function display($page, $data)
