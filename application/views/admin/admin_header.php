@@ -11,21 +11,16 @@
 <?php echo meta('keywords', $keywords) ?>
 <link rel="icon" type="image/jpg" href=<?php echo $favico ?> >
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href=<?php echo site_url('css/bootstrap.min.css') ?> rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.js"></script>
-<link rel="stylesheet" href=<?php echo site_url('manual.css')?>>
+<link rel="stylesheet" href= <?php echo site_url('css/font-awesome.min.css') ?> >
+<link rel="stylesheet" href=<?php echo site_url('css/manual.css')?>>
 </head>
 
 <header>
   <nav class="panel collapse navbar-collapse">
     <ul class="nav nav-pills navbar-right ">
-      <li>
-      <a class='navbar-btn' href = <?php echo site_url('admin/insights') ?> >Insights</i></a>
-      </li>
       <li>
     	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Orders</i></a>
       </li>
