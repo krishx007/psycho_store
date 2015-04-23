@@ -30,7 +30,7 @@ class insights extends CI_Controller
 		$all_orders = $this->database->GetAllOrders();
 		
 		//Get this months orders data
-		$month_info = $this->GetOrdersDataForMonth($month);
+		$month_info = $this->_getOrdersDataForMonth($month);
 
 		$data['month'] = $month;
 		$data['sales_data'] = $month_info['orders'];
@@ -38,12 +38,12 @@ class insights extends CI_Controller
 		$data['dates'] = $month_info['dates'];
 		$data['revenue_data'] = $month_info['revenue'];
 		$data['total_revenue'] = $month_info['total_revenue'];
-		$data['cod_orders'] = $this->GetNumCodOrders($all_orders);
-		$data['online_orders'] = $this->GetNumOnlineOrders($all_orders);		
+		$data['cod_orders'] = $this->_getNumCodOrders($all_orders);
+		$data['online_orders'] = $this->_getNumOnlineOrders($all_orders);		
 		$data['is_admin'] = $is_admin;
 		
 		//Get Statewise Orders data
-		$state_info = $this->GetStateWiseOrderData();
+		$state_info = $this->_getStateWiseOrderData();
 
 		$data['states'] = $state_info['states'];
 		$data['states_sales'] = $state_info['states_sales'];
@@ -62,7 +62,7 @@ class insights extends CI_Controller
 		}
 
 
-		$this->GenerateHeader($data);
+		$this->_generateHeader($data);
 
 		//Show header
 		$this->load->view('header', $data);
@@ -76,8 +76,8 @@ class insights extends CI_Controller
 	{
 		$current_user = $this->database->GetUserById($this->tank_auth->get_user_id());		
 		$admin = false;
-		$admin_emails[] = $this->config->item('admin_email');
-
+		$admin_emails = $this->config->item('admin_email');
+		
 		foreach ($admin_emails as $key => $email)
 		{
 			if($current_user)
@@ -92,7 +92,7 @@ class insights extends CI_Controller
 		return $admin;
 	}
 
-	function _GenerateHeader(&$data)
+	function _generateHeader(&$data)
 	{
 		//Login Info
 		$data['user_id'] = 0;
@@ -134,7 +134,7 @@ class insights extends CI_Controller
 		}
 	}
 
-	function _GetNumCodOrders($orders)
+	function _getNumCodOrders($orders)
 	{
 		$count = 0;
 		foreach ($orders as $key => $value)
@@ -148,7 +148,7 @@ class insights extends CI_Controller
 		return $count;
 	}
 
-	function _GetNumOnlineOrders($orders)
+	function _getNumOnlineOrders($orders)
 	{
 		$count = 0;
 		foreach ($orders as $key => $value)
@@ -162,7 +162,7 @@ class insights extends CI_Controller
 		return $count;	
 	}
 
-	function _GetNumOrdersForDate($date, $orders)
+	function _getNumOrdersForDate($date, $orders)
 	{
 		$start_date = $date. " 00:00:00";
 		$end_date = $date. " 23:59:59";
@@ -181,7 +181,7 @@ class insights extends CI_Controller
 		return $sales;
 	}
 
-	function _GetRevenueForDate($date, $orders)
+	function _getRevenueForDate($date, $orders)
 	{
 		$start_date = $date. " 00:00:00";
 		$end_date = $date. " 23:59:59";
@@ -201,7 +201,7 @@ class insights extends CI_Controller
 	}
 
 	//Expects month as date("M");
-	function _GetOrdersDataForMonth($month)
+	function _getOrdersDataForMonth($month)
 	{
 		$month_orders = null;
 		$month_revenue = null;
@@ -217,8 +217,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -232,8 +232,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=28; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_GetRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 
@@ -247,8 +247,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -262,8 +262,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=30; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -277,8 +277,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -293,8 +293,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=30; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -308,8 +308,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -323,8 +323,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -338,8 +338,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=30; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -353,8 +353,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -368,8 +368,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=30; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -383,8 +383,8 @@ class insights extends CI_Controller
 				for($i = 1; $i<=31; $i++)
 				{
 					$date = $year."-$mon-$i";
-					$month_orders[] = $this->GetNumOrdersForDate($date, $orders);
-					$month_revenue[] = $this->GetRevenueForDate($date, $orders);
+					$month_orders[] = $this->_getNumOrdersForDate($date, $orders);
+					$month_revenue[] = $this->_getRevenueForDate($date, $orders);
 					$month_dates[] = $i;
 				}
 				
@@ -404,7 +404,7 @@ class insights extends CI_Controller
 		return $month_info;
 	}
 
-	function _GetStateWiseOrderData()
+	function _getStateWiseOrderData()
 	{
 		$states_data = $this->database->GetDataForStatesChart();		
 		$states = null;
