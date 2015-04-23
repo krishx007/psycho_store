@@ -62,7 +62,7 @@ class insights extends CI_Controller
 		}
 
 
-		$this->_generateHeader($data);
+		generate_header($data);
 
 		//Show header
 		$this->load->view('header', $data);
@@ -90,48 +90,6 @@ class insights extends CI_Controller
 		}
 
 		return $admin;
-	}
-
-	function _generateHeader(&$data)
-	{
-		//Login Info
-		$data['user_id'] = 0;
-		$data['user_name'] = null;
-
-		if($this->tank_auth->is_logged_in())
-		{
-			$data['user_id'] 	= $this->tank_auth->get_user_id();
-			$data['user_name'] 	= $this->tank_auth->get_username();
-		}
-
-		//Cart Info
-		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();
-
-		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();
-
-		//Meta tags
-		$data['url'] = current_url();
-		$data['favico'] = $this->config->item('favico');
-		if(isset($data['product']))
-		{			
-			//Title
-			$data['title'] = 'Psycho Store | '.$data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'];
-			//Description			
-			$data['description'] = 'Psycho Store | '.$data['product']['product_desc'];
-			//Keywords
-			$data['keywords'] = "t-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders, ".str_replace(' ', ', ', $data['product']['product_url']);
-
-			$data['image'] = site_url($data['product']['product_image_path']);
-		}
-		else
-		{
-			$data['title'] = $this->config->item('title');
-			$data['description'] = $this->config->item('description');
-			$data['keywords'] = $this->config->item('keywords');
-			$data['image'] = $this->config->item('favico');
-		}
 	}
 
 	function _getNumCodOrders($orders)

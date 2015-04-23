@@ -1,51 +1,56 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-// if(!function_exists('generate_header'))
-// {
-// 	function generate_header(&$data)
-// 	{
-// 		//Login Info
-// 		$data['user_id'] = 0;
-// 		$data['user_name'] = null;
+if(!function_exists('generate_header'))
+{
+	function generate_header(&$data)
+	{
+		$ci = &get_instance();
+		$ci->load->model('database');
+		$ci->load->library('tank_auth');
+		$ci->load->library('cart');
+		$ci->load->helper('url');
 
-// 		if($this->tank_auth->is_logged_in())
-// 		{
-// 			$data['user_id'] 	= $this->tank_auth->get_user_id();
-// 			$data['user_name'] 	= $this->tank_auth->get_username();
-// 		}
+		//Login Info
+		$data['user_id'] = 0;
+		$data['user_name'] = null;
 
-// 		//Cart Info
-// 		$data['num_items'] = $this->cart->total_items();
-// 		$data['total_price'] = $this->cart->total();
+		if($ci->tank_auth->is_logged_in())
+		{
+			$data['user_id'] 	= $ci->tank_auth->get_user_id();
+			$data['user_name'] 	= $ci->tank_auth->get_username();
+		}
 
-// 		//Game search Links
-// 		$data['supported_games'] = $this->database->GetAllSuportedGames();
+		//Cart Info
+		$data['num_items'] = $ci->cart->total_items();
+		$data['total_price'] = $ci->cart->total();
 
-// 		//Meta tags
-// 		$data['url'] = current_url();
-// 		$data['favico'] = $this->config->item('favico');
-// 		if(isset($data['product']))
-// 		{			
-// 			//Title
-// 			$data['title'] = 'Psycho Store | '.$data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'];
-// 			//Description			
-// 			$data['description'] = 'Psycho Store | '.$data['product']['product_desc'];
-// 			//Keywords
-// 			$data['keywords'] = "t-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders, ".str_replace(' ', ', ', $data['product']['product_url']);
+		//Game search Links
+		$data['supported_games'] = $ci->database->GetAllSuportedGames();
 
-// 			$data['image'] = site_url($data['product']['product_image_path']);
-// 		}
-// 		else
-// 		{
-// 			$data['title'] = $this->config->item('title');
-		
-// 		{}	$data['description'] = $this->config->item('description');
-// 			$data['keywords'] = $this->config->item('keywords');
-// 			$data['image'] = base_url($this->config->item('favico'));
-// 		}
-// 	}
+		//Meta tags
+		$data['url'] = current_url();
+		$data['favico'] = $ci->config->item('favico');
+		if(isset($data['product']))
+		{			
+			//Title
+			$data['title'] = 'Psycho Store | '.$data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'];
+			//Description			
+			$data['description'] = 'Psycho Store | '.$data['product']['product_desc'];
+			//Keywords
+			$data['keywords'] = $ci->config->item('keywords').str_replace(' ', ', ', $data['product']['product_url']);
 
-// }
+			$data['image'] = site_url($data['product']['product_image_path']);
+		}
+		else
+		{
+			$data['title'] = $ci->config->item('title');
+			$data['description'] = $ci->config->item('description');
+			$data['keywords'] = $ci->config->item('keywords');
+			$data['image'] = base_url($ci->config->item('favico'));
+		}
+	}
+
+}
 
 if(!function_exists('send_email'))
 {

@@ -391,38 +391,9 @@ class Auth extends CI_Controller
 		}
 	}
 
-	function GenerateHeader(&$data)
-	{
-		//Login Info
-		$data['user_id'] = 0;
-		$data['user_name'] = null;
-
-		if($this->tank_auth->is_logged_in())
-		{
-			$data['user_id'] 	= $this->tank_auth->get_user_id();
-			$data['user_name'] 	= $this->tank_auth->get_username();
-		}
-
-		//Cart Info
-		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();
-
-		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();
-
-		//Meta tags				
-		$data['title'] = $this->config->item('title');
-		$data['description'] = $this->config->item('description');
-		$data['keywords'] = $this->config->item('keywords');
-		$data['image'] = $this->config->item('favico');
-		$data['url'] = current_url();
-		$data['favico'] = $this->config->item('favico');
-		
-	}
-
 	function display($page, $data)
 	{
-		$this->GenerateHeader($data);
+		generate_header($data);
 
 		//Show header
 		$this->load->view('header', $data);
