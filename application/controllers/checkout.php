@@ -332,20 +332,20 @@ class checkout extends CI_controller
 		$this->_save_cart_items();
 		$this->_save_user_details();
 
-		//Once everything is saved lock txn_id
-		$this->_lock_active_checkout_order();
-
 		$payment_mode = $this->input->post('payment_mode');
 
-		//Check payment mode
+		//Once we get the correct payment mode, then lock and fire
+		//Locking inside switch is imp.
 		switch ($payment_mode)
-		{
+		{			
 			case 'cod':
+				$this->_lock_active_checkout_order();
 				$this->session->set_flashdata('ok_to_order', true);
 				redirect('checkout/place_order');
 				break;
 
 			case 'online':
+				$this->_lock_active_checkout_order();
 				$this->_payment_gateway();
 				break;
 			
