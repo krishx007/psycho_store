@@ -1,11 +1,11 @@
 /* Make something awesome! */
 @font-face {
     font-family: 'molotregular';
-    src: url('typeface/molot/Molot-webfont.eot');
-    src: url('typeface/molot/Molot-webfont.eot?#iefix') format('embedded-opentype'),
-         url('typeface/molot/Molot-webfont.woff') format('woff'),
-         url('typeface/molot/Molot-webfont.ttf') format('truetype'),
-         url('typeface/molot/Molot-webfont.svg#molotregular') format('svg');
+    src: url('../typeface/molot/Molot-webfont.eot');
+    src: url('../typeface/molot/Molot-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../typeface/molot/Molot-webfont.woff') format('woff'),
+         url('../typeface/molot/Molot-webfont.ttf') format('truetype'),
+         url('../typeface/molot/Molot-webfont.svg#molotregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -13,11 +13,11 @@
 
 @font-face {
     font-family: 'playregular';
-    src: url('typeface/play/play-regular-webfont.eot');
-    src: url('typeface/play/play-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('typeface/play/play-regular-webfont.woff') format('woff'),
-         url('typeface/play/play-regular-webfont.ttf') format('truetype'),
-         url('typeface/play/play-regular-webfont.svg#playregular') format('svg');
+    src: url('../typeface/play/play-regular-webfont.eot');
+    src: url('../typeface/play/play-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../typeface/play/play-regular-webfont.woff') format('woff'),
+         url('../typeface/play/play-regular-webfont.ttf') format('truetype'),
+         url('../typeface/play/play-regular-webfont.svg#playregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
