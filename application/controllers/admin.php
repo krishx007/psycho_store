@@ -25,7 +25,21 @@ class admin extends CI_controller
 	function _validate_user()
 	{
 		$current_user = $this->database->GetUserById($this->tank_auth->get_user_id());
-		if( $current_user['email'] != $this->config->item('admin_email') )
+		$valid_user = false;
+		$admin_emails[] = $this->config->item('admin_email');
+
+		foreach ($admin_emails as $key => $email)
+		{
+			if($current_user)
+			{
+				if( $current_user['email'] == $email )
+				{
+					$valid_user = true;
+				}
+			}
+		}
+
+		if($valid_user == false)
 		{
 			redirect('');
 		}
