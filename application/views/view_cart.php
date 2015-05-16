@@ -7,8 +7,8 @@
 						<span class="col-md-5 pull-right play">
 							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
 					        	<div class="input-group">
-					          		<input type="text" name="coupon" class="form-control input" placeholder="Discount Coupon">
-					          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Discount</button></span>
+					          		<input type="text" name="coupon" class="form-control input" placeholder="Cheat Code">
+					          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Cheat Code</button></span>
 					        	</div>
 					      	</form>
 						</span>
