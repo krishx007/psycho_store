@@ -158,10 +158,10 @@ class Pages extends CI_controller
 	}
 
 	function latest()
-	{		
+	{
 		$data['products'] = $this->database->GetProducts('all', 'latest', 'all');
 		$data['latest_link_state'] = 'active';
-		$data['popular_link_state'] = 'none';
+		$data['popular_link_state'] = 'none';		
 		$this->display('browse', $data);
 	}
 
