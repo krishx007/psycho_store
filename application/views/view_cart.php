@@ -58,7 +58,7 @@
 				                  	</li>
 									</div>
 									<li>
-										<h3 class="navbar-text play"><small><i class="fa fa-times"> <i class="fa fa-rupee"> <?php echo $items['price']; ?></i> </i> = </small><i class="fa fa-rupee"><strong> <?php echo $items['subtotal']; ?></i></strong></h3>                                    
+										<h3 class="navbar-text play"><small><i class="fa fa-times"> <i class="fa fa-rupee"> </i> </i> <?php echo $items['price']; ?> = </small><i class="fa fa-rupee"> </i> <?php echo $items['subtotal']; ?></h3>
 									</li>
 								</ul>
 							<h4 class="text-right text-primary"><?php echo $products[$items['rowid'].'stock_state'];?></h4>
@@ -78,10 +78,10 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h1>Sub Total <span class="pull-right play"> 
-						<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->total() ?> </i></h4>
-						<h4>Discount : <i class="fa fa-rupee"> <?php echo $this->cart->discount() ?> </i></h4>
+						<h4>Actual Price : <i class="fa fa-rupee"></i> <?php echo $this->cart->total() ?> </h4>
+						<h4>Discount : <i class="fa fa-rupee"></i> <?php echo $this->cart->discount() ?> </h4>
 						<h4>Shipping : Always Free </h4>
-						<h4>Final Price : <i class="fa fa-rupee"> <?php echo $this->cart->final_price() ?> </i></h4>
+						<h4>Final Price : <i class="fa fa-rupee"></i> <?php echo $this->cart->final_price() ?></h4>
 					</span> </h1>
 					
 				</div>

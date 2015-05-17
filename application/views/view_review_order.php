@@ -21,10 +21,10 @@
 			</div>
 			<div class="col-md-4">
 				<h1>Pricing
-					<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->total() ?> </i></h4>
-					<h4>Discount : <i class="fa fa-rupee"> <?php echo $this->cart->discount() ?> </i></h4>
+					<h4>Actual Price : <i class="fa fa-rupee"></i> <?php echo $this->cart->total() ?></h4>
+					<h4>Discount : <i class="fa fa-rupee"></i> <?php echo $this->cart->discount() ?> </h4>
 					<h4>Shipping : Always Free </h4>
-					<h4>Final Price : <i class="fa fa-rupee"> <?php echo $this->cart->final_price() ?> </i></h4>
+					<h4>Final Price : <i class="fa fa-rupee"></i> <?php echo $this->cart->final_price() ?> </h4>
 				</h1>
 			</div>
 			<div class="col-md-4">
@@ -43,7 +43,7 @@
 		</div>
 	</div>
 	Note : Placing the order implies you agree to our <a href = <?php echo site_url('shipping_returns') ?> > Shipping and Returns policy </a>
-	<button class="btn btn-primary pull-right" type="submit"> Place Order | <i class="fa fa-rupee"> <?php echo $this->cart->final_price();?> </i> <i class="fa fa-arrow-right"></i> </button>
+	<button class="btn btn-primary pull-right" type="submit"> Place Order | <i class="fa fa-rupee"></i>  <?php echo $this->cart->final_price();?> <i class="fa fa-arrow-right"></i></button>
 	</form>
 </div>
 </body>

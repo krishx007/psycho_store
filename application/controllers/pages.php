@@ -227,7 +227,7 @@ class Pages extends CI_controller
 	{
 		$data['heading'] = "Shipping and Returns";
 
-		$data['content'] = "<p>At Psycho Store our aim is to always provide you with unique and highest quality gaming stuff that you have always desired for.</p>
+		$data['content'] = "<p>At Psycho Store our aim is to always provide you with unique and highest quality merchandises that you have always desired for.</p>
 							<h3>Free Shipping all over India</h3>
 							<p>Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
 							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
