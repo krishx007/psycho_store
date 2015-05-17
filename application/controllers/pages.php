@@ -152,7 +152,7 @@ class Pages extends CI_controller
 		else
 		{
 			$data['heading'] = 'No Products Found';
-			$data['content'] = "I am sure, this has something to do with G-Man, anyways just go somewhere else, try someother product";
+			$data['content'] = "I am sure, this has something to do with G-Man, anyways just go somewhere else, try some other product";
 			$this->display('basic', $data);
 		}
 	}
@@ -264,12 +264,12 @@ class Pages extends CI_controller
 	function about()
 	{
 		$data['heading'] = "Who are We";
-		$data['content'] = "<h3>Our belief</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Apparell store.Well it actually has to do with a problem that we have, \"Our Belief\" that is getting increasingly obsessed with something that we are passionate about.
+		$data['content'] = "<h3>Our belief</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Merchandise store. Well it actually has to do with a problem that we have, \"Our Belief\" that is getting increasingly obsessed with something that we are passionate about.
 							Giving it all that we have and actually going that exrtra mile when everyone else's common sense says that its the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which kept knocking on the back door of your mind.
-							We call that being in a state of psychoness, in which you feel about something so deep from your heart that you take absurd decisions to get it through, no matter what it takes and whats the cost. If you can relate, then just give us a shout I am sure our frequency would match.
+							We call that being in a state of psychoness, in which you feel about something so deep from your heart that you take absurd decisions to get it through, no matter what it takes and whats the cost. If you can relate, then just give us a shout I am sure our frequencies would match.
 							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez k liye\". We just replaced Keeda with psycho and we are proud to say that we have that in us<br>
 							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
-							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass clothing/merchandise brand for the gaming community of earth(other planets can wait for now). So that you gamers can have stuff from your favorite games that you have always wanted.<br></p>
+							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass merchandise brand for the gaming/geek community of earth (other planets can wait for now).<br></p>
 							<h3><small>What is</small> <> by Codinpsycho ?</h3>
 							<p>It means all this crazy stuff was thought,designed and programmed by a single guy alone, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br></p>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://twitter.com/codinpsycho\">Twitter </a></h5>
