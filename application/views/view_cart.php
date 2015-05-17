@@ -2,7 +2,7 @@
 	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
-				<h1>Total : <i class="fa fa-rupee"> </i> <?php echo $this->cart->format_number($this->cart->final_price());?>
+				<h1>Total : <i class="fa fa-rupee"> </i> <?php echo $this->cart->final_price();?>
 					<?php if($this->cart->total_items()): ?>						
 						<span class="col-md-5 pull-right play">
 							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
@@ -58,7 +58,7 @@
 				                  	</li>
 									</div>
 									<li>
-										<h3 class="navbar-text play"><small><i class="fa fa-times"> <i class="fa fa-rupee"><?php echo $this->cart->format_number($items['price']); ?></i> </i> = </small><i class="fa fa-rupee"><strong><?php echo $this->cart->format_number($items['subtotal']); ?></i></strong></h3>                                    
+										<h3 class="navbar-text play"><small><i class="fa fa-times"> <i class="fa fa-rupee"> <?php echo $items['price']; ?></i> </i> = </small><i class="fa fa-rupee"><strong> <?php echo $items['subtotal']; ?></i></strong></h3>                                    
 									</li>
 								</ul>
 							<h4 class="text-right text-primary"><?php echo $products[$items['rowid'].'stock_state'];?></h4>
@@ -78,10 +78,10 @@
 			<div class="row">
 				<div class="col-md-12">
 					<h1>Sub Total <span class="pull-right play"> 
-						<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->total()) ?> </i></h4>
-						<h4>Discount : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->discount()) ?> </i></h4>
+						<h4>Actual Price : <i class="fa fa-rupee"> <?php echo $this->cart->total() ?> </i></h4>
+						<h4>Discount : <i class="fa fa-rupee"> <?php echo $this->cart->discount() ?> </i></h4>
 						<h4>Shipping : Always Free </h4>
-						<h4>Final Price : <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price()) ?> </i></h4>
+						<h4>Final Price : <i class="fa fa-rupee"> <?php echo $this->cart->final_price() ?> </i></h4>
 					</span> </h1>
 					
 				</div>
@@ -91,7 +91,7 @@
 			<div class="col-md-12">
 				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
 						<?php if($this->cart->total_items()): ?>
-							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->format_number($this->cart->final_price());?> </i> <i class="fa fa-arrow-right"></i> </a>
+							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->final_price();?> </i> <i class="fa fa-arrow-right"></i> </a>
 						<?php endif; ?>
 				</span> </h1>
 			</div>
