@@ -35,7 +35,7 @@
       <li>
        <form class="navbar-form" method = "post" action=<?php echo site_url("search");?>>
         <div class="btn-group">
-          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select A Game <span class="caret"></span>  </a>
+          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">What do you like <span class="caret"></span>  </a>
           <ul class="dropdown-menu">
             <?php foreach ($supported_games as $key => $game):?>
               <li>

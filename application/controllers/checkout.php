@@ -397,7 +397,7 @@ class checkout extends CI_controller
 		//Detects order num for a particular user and sends a mail accordingly
 		$user = $order_info['user'];
 		$orders = $this->database->GetOrdersForUser($order_info['user_id']);
-		$order_num = count($orders);		
+		$order_num = count($orders);
 
 		$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 		$data['username'] = $user['username'];
