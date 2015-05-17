@@ -472,8 +472,9 @@ class CI_Cart {
 	*/
 	function discount()
 	{
-		$discount_percent = $this->_cart_contents['discount'];		
-		return ($discount_percent/100) * $this->total();	
+		$discount_percent = $this->_cart_contents['discount'];
+		$discount_amt = ($discount_percent/100) * $this->total();
+		return round($discount_amt);
 	}
 
 	// --------------------------------------------------------------------
