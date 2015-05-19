@@ -23,7 +23,7 @@
 
 
 <div class="container top-bottom-space">
-	<h1 class=""> Psycho Store <span class="pull-right navbar-text"><small><?php echo 88 + $num_of_gamers?> Gamers Found</small></h1>
+	<h1 class=""> Psycho Store <span class="pull-right navbar-text"><small><?php echo 88 + $num_of_gamers?> Gamers/Geeks Found</small></h1>
 	<hr>
 	<div class="well row">
 		<div class="col-md-12">
