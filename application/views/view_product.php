@@ -9,10 +9,10 @@
           </div>
           <ul class="pager">
             <li class="previous">
-          <?php echo anchor("product/$prev_id", "Previous");?>
+          <?php echo anchor("$prev_id", "Previous");?>
             </li>
             <li class="next">
-              <?php echo anchor("product/$next_id", "Next");?>
+              <?php echo anchor("$next_id", "Next");?>
             </li>
           </ul>
           <div class="col-md-6 text-center">
@@ -21,7 +21,7 @@
           <div class="col-md-4">
             <div class="row">
               <div class="col-md-12">
-                <p> <?php echo $product['product_desc']; ?> </p>                
+                <p> <?php echo $product['product_desc']; ?> </p>
                 <hr>
               </div>
             </div>
