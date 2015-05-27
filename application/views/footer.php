@@ -6,7 +6,7 @@
             <ul class="nav nav-stacked ">
               <li>
                 <h5>
-                  <span class=''>                  
+                  <span class=''>
                     <iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsychostorein&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
                     </iframe>
                   </span>
@@ -37,9 +37,9 @@
                   <span class=''>
                     <iframe src="http://ghbtns.com/github-btn.html?user=codinpsycho&type=follow&count=false"allowtransparency="true" frameborder="0" scrolling="0" width="150" height="30"></iframe>
                   </span>
-                </h5>                
-              </li>            
-            </ul>        
+                </h5>
+              </li>
+            </ul>
           </div>
           <div class="col-md-4 footer-col">
             <h4 class=" molot">Company</h4>
@@ -55,21 +55,22 @@
               </li>
               <li>
                 <a href="#">Media</a>
-              </li>            
-            </ul>           
+              </li>
+            </ul>
           </div>
           <div class="col-md-4 footer-col">
             <h4 class="molot">Newsletter</h4>
               <form class="form" method = "post" action=<?php echo site_url('subscribe')?>>
                 <div class="input-group">
-                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know">
+                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know when loot arrives">
                   <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
                 </div>
               </form>
-          </div>          
+          </div>
         </div>
         <div class="row">
           <div class="col-md-12">
+            <a target="_blank" class="molot pull-right" href= <?php echo site_url('wtf') ?> ><small>wtf.</small></a>
             <hr>
             <h5><i class="fa fa-angle-left"></i> <i class="fa fa-angle-right"></i> by Codinpsycho <span class='pull-right'>Psycho Store <?php echo date('Y') ?> &copy; All rights reserved. Product of Psychonet Solutions Opc Pvt. Ltd.</span><h5>
             <p><small>All artwork posted on this website is intended as fan art and is not purported to be official merchandise. If you have any issues regarding the artwork, please write in to us at contact@psychostore.in</small></p>
