@@ -12,8 +12,7 @@ Thanks for joining <?php echo $site_name; ?>. We listed your sign in details bel
 To open your <?php echo $site_name; ?> homepage, please follow this link:<br />
 <br />
 <br />
-Have fun!<br />
-The <?php echo $site_name; ?> Team
+<?php  echo $this->load->view('email/signature') ?>;
 </td>
 </tr>
 </table>

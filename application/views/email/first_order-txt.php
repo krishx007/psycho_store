@@ -16,5 +16,4 @@ Your email address: <?php echo $email; ?>
 
 */ ?>
 
-Have fun!
-The <?php echo $site_name; ?> Team
+<?php  echo $this->load->view('email/signature') ?>;
