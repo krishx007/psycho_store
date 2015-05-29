@@ -1,4 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+		require APPPATH.'third_party\mailgun-php\vendor\autoload.php';
+		use Mailgun\Mailgun;
 
 if(!function_exists('generate_header'))
 {
@@ -50,38 +52,6 @@ if(!function_exists('generate_header'))
 		}
 	}
 
-}
-
-if(!function_exists('send_email'))
-{
-	function send_email($to_email, $from_email, $type, $data)
-	{
-		$ci =& get_instance();
-
-		$subject_var = 'Psycho Store';
-
-		switch ($type) 
-		{
-			case 'order':
-				$subject_var = $data['order_id'];
-				break;
-			
-			default:
-				# code...
-				break;
-		}
-		
-		$ci->load->library('email');
-		$ci->lang->load('tank_auth');
-		$ci->email->from($from_email, $ci->config->item('website_name', 'tank_auth'));
-		$ci->email->reply_to($from_email, $ci->config->item('website_name', 'tank_auth'));
-		$ci->email->to($to_email);
-		$ci->email->subject(sprintf($ci->lang->line('auth_subject_'.$type), $subject_var));
-		$ci->email->message($ci->load->view('email/'.$type.'-html', $data, TRUE));
-		$ci->email->set_alt_message($ci->load->view('email/'.$type.'-txt', $data, TRUE));
-		if(!$ci->email->send())
-			show_error($ci->email->print_debugger());
-	}	
 }
 
 if(!function_exists('generate_product_table_for_email'))
