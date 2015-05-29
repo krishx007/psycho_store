@@ -411,8 +411,8 @@ class checkout extends CI_controller
 		switch ($order_num)
 		{
 			case '1':
-				$params = mg_create_mail_params('first_order', $data)
-				mg_send_mail($user['email'], , $params);
+				$params = mg_create_mail_params('first_order', $data);
+				mg_send_mail($user['email'], $params);
 				break;
 			
 			default:
@@ -421,7 +421,7 @@ class checkout extends CI_controller
 		}
 
 		//This is to be sent for each order
-		$params = mg_create_mail_params('order', $data)
+		$params = mg_create_mail_params('order', $data);
 		mg_send_mail($user['email'], $params);
 	}
 
