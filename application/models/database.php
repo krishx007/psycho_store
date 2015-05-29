@@ -270,6 +270,7 @@ class Database extends CI_Model
 
 	function Subscribe($email_id)
 	{
+		$ret = false;
 		//make sure it isnt already present
 		$this->db->where('email', $email_id);
 		$query = $this->db->get('newsletter');
@@ -277,7 +278,10 @@ class Database extends CI_Model
 		{
 			$email = array('email' => $email_id);
 			$this->db->insert('newsletter',$email);
+			$ret = true;
 		}
+
+		return $ret;
 	}
 
 	function Unsubscribe($email)
