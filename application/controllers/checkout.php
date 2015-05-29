@@ -14,6 +14,7 @@ class checkout extends CI_controller
 		$this->load->helper('url');
 		$this->load->helper('html');
 		$this->load->helper('psycho_helper');
+		$this->load->helper('mailgun_helper');
 		$this->load->model('database');
 		$this->config->load('gateway_settings');
 	}
@@ -410,7 +411,8 @@ class checkout extends CI_controller
 		switch ($order_num)
 		{
 			case '1':
-				send_email($user['email'], 'ishkaran@psychostore.in', 'first_order', $data);
+				$params = mg_create_mail_params('first_order', $data)
+				mg_send_mail($user['email'], , $params);
 				break;
 			
 			default:
@@ -419,7 +421,8 @@ class checkout extends CI_controller
 		}
 
 		//This is to be sent for each order
-		send_email($user['email'], 'no-reply@psychostore.in','order', $data );		
+		$params = mg_create_mail_params('order', $data)
+		mg_send_mail($user['email'], $params);
 	}
 
 	function _payment_gateway()
