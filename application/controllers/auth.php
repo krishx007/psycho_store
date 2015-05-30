@@ -14,6 +14,7 @@ class Auth extends CI_Controller
 		$this->load->model('database');
 		$this->load->library('cart');
 		$this->load->helper('psycho_helper');
+		$this->load->helper('mailgun_helper');
 	}
 
 	function index()
@@ -715,15 +716,8 @@ class Auth extends CI_Controller
 	 */
 	function _send_email($type, $email, &$data)
 	{
-		$this->load->library('email');
-		$this->email->from($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
-		$this->email->reply_to($this->config->item('webmaster_email', 'tank_auth'), $this->config->item('website_name', 'tank_auth'));
-		$this->email->to($email);
-		$this->email->subject(sprintf($this->lang->line('auth_subject_'.$type), $this->config->item('website_name', 'tank_auth')));
-		$this->email->message($this->load->view('email/'.$type.'-html', $data, TRUE));
-		$this->email->set_alt_message($this->load->view('email/'.$type.'-txt', $data, TRUE));
-		if(!$this->email->send())
-			show_error($this->email->print_debugger());
+		$params = mg_create_mail_params($type, $data);
+		mg_send_mail($email, $params);		
 	}
 
 	/**
