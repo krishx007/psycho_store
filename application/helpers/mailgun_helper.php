@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-require APPPATH.'third_party\mailgun-php\vendor\autoload.php';
+require APPPATH.'third_party/mailgun-php/vendor/autoload.php';
 use Mailgun\Mailgun;
 
 if(!function_exists('mg_create_mail_params'))
@@ -44,7 +44,8 @@ if(!function_exists('mg_send_mail'))
 {
 	function mg_send_mail($to_email, $params)
 	{
-		$mg = new Mailgun('key-c02fdb3b3ae25a6c91dc222ff814fe0f');
+		$key = get_instance()->config->item('mailgun_key');
+		$mg = new Mailgun($key);
 		$domain = 'mails.psychostore.in';
 	
 		$mg->sendMessage($domain, array(
@@ -60,7 +61,8 @@ if(!function_exists('mg_add_subscriber'))
 {
 	function mg_add_subscriber($email_id, $name = NULL)
 	{
-		$mg = new Mailgun('key-c02fdb3b3ae25a6c91dc222ff814fe0f');
+		$key = get_instance()->config->item('mailgun_key');
+		$mg = new Mailgun($key);
 		$list_address = 'newsletter@mails.psychostore.in';
 
 		# Issue the call to the client.
@@ -76,7 +78,8 @@ if(!function_exists('mg_umg_get_subscriber'))
 {
 	function mg_get_subscriber($email)
 	{
-		$mg = new Mailgun('key-c02fdb3b3ae25a6c91dc222ff814fe0f');
+		$key = get_instance()->config->item('mailgun_key');
+		$mg = new Mailgun($key);
 		$list_address = 'newsletter@mails.psychostore.in';
 
 		$res = $mg->get("lists/$list_address/members/$email");
