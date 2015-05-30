@@ -57,7 +57,7 @@ class Auth extends CI_Controller
 			if ($this->config->item('login_count_attempts', 'tank_auth') AND
 					($login = $this->input->post('login'))) {
 				$login = $this->security->xss_clean($login);
-			} else {
+			} else {			
 				$login = '';
 			}
 
@@ -69,9 +69,10 @@ class Auth extends CI_Controller
 					$this->form_validation->set_rules('captcha', 'Confirmation Code', 'trim|xss_clean|required|callback__check_captcha');
 			}
 			$data['errors'] = array();
-
+						
 			if ($this->form_validation->run()) 
-			{								// validation ok
+			{			
+				// validation ok
 				if ($this->tank_auth->login(
 						$this->form_validation->set_value('email'),
 						$this->form_validation->set_value('password'),
@@ -88,7 +89,7 @@ class Auth extends CI_Controller
 							redirect($redirect_url);
 				}
 				else
-				{				
+				{					
 					$errors = $this->tank_auth->get_error_message();
 					if (isset($errors['banned'])) {								// banned user
 						$this->_show_message($this->lang->line('auth_message_banned').' '.$errors['banned']);
@@ -100,7 +101,8 @@ class Auth extends CI_Controller
 						foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 					}					
 				}
-			}
+			}			
+			
 			$data['show_captcha'] = FALSE;
 			if ($this->tank_auth->is_max_login_attempts_exceeded($login)) {
 				$data['show_captcha'] = TRUE;
@@ -479,11 +481,19 @@ class Auth extends CI_Controller
 		$new_email_key	= $this->uri->segment(4);
 
 		// Activate user
-		if ($this->tank_auth->activate_user($user_id, $new_email_key)) {		// success
+		if ($this->tank_auth->activate_user($user_id, $new_email_key))
+		{
+			// success
+			//Add it into newletter
+			$user = $this->database->GetUserById($user_id);
+			mg_add_subscriber($user['email'], $user['username']);
+			
 			$this->tank_auth->logout();
 			$this->_show_message($this->lang->line('auth_message_activation_completed').' '.anchor('/auth/login/', 'Login'));
-
-		} else {																// fail
+		}
+		else
+		{
+			// fail
 			$this->_show_message($this->lang->line('auth_message_activation_failed'));
 		}
 	}
