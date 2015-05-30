@@ -11,6 +11,7 @@ class Pages extends CI_controller
 		$this->load->helper('url');
 		$this->load->helper('html');
 		$this->load->helper('psycho_helper');
+		$this->load->helper('mailgun_helper');
 		$this->load->library('tank_auth');
 		$this->load->library('cart');
 		$this->load->helper('email');
@@ -39,10 +40,11 @@ class Pages extends CI_controller
 		$data = array();
 
 		if(valid_email($email_id))
-		{			
+		{
 			$this->database->Subscribe($email_id);
 			$data['site_name'] = 'Psycho Store';
-			send_email($email_id,'no-reply@psychostore.in', 'subscribe' , $data);			
+			$params = mg_create_mail_params('subscribe', $data);
+			mg_send_mail($email_id, $params);
 		}		
 
 		redirect('');
@@ -207,11 +209,21 @@ class Pages extends CI_controller
 
 		if(valid_email($email_id))
 		{			
-			$this->database->Subscribe($email_id);
-			$data['site_name'] = 'Psycho Store';
-			//$this->_send_email('subscribe', $email_id, $data);			
-			$data['heading'] = "<small>Greetings</small> ".$email_id;
-			$data['content'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you we dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";
+			if($this->database->Subscribe($email_id))
+			{
+				$data['site_name'] = 'Psycho Store';
+				mg_add_subscriber($email_id);
+				$params = mg_create_mail_params('subscribe', $data);
+				mg_send_mail($email_id, $params);
+
+				$data['heading'] = "<small>Greetings</small> ".$email_id;
+				$data['content'] = "We dont know who you are. We dont know what you want. If you are looking for toilet brushes, We can tell you we dont have any. But what we do have are a very particular set of gaming stuff. Stuff that we have made with a lot of hardwork. Stuff that can make people like you very happy. If you buy that stuff from us, that will be the end of it. We will not look for you, We will not pursue you. But if you dont, we will look for you, we will find you, and we will keep updating you.";
+			}
+			else
+			{
+				$data['heading'] = $email_id;
+				$data['content'] = "We understand you love us, and you love playing around our website and subscribing to Psycho Store newsletter. But you are already in our list you know. Dont fret we wont forget you, you know. Adding your name once is enough you know. Just so you know.";
+			}
 		}
 		else
 		{
