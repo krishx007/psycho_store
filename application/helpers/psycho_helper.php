@@ -1,6 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-		require APPPATH.'third_party\mailgun-php\vendor\autoload.php';
-		use Mailgun\Mailgun;
+
 
 if(!function_exists('generate_header'))
 {
