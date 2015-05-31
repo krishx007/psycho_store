@@ -19,4 +19,4 @@
 			<?php $data['products'] = $products; $this->load->view('catalog',$data);?>
 		</div>
 	</div>
-</
+</div>
