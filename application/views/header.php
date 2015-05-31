@@ -39,7 +39,7 @@
           <ul class="dropdown-menu">
             <?php foreach ($supported_games as $key => $game):?>
               <li>
-                <a href=<?php $url = url_title($game['product_game'],'_'); echo site_url("search/$url")?>> <?php echo $game['product_game'] ?></a>
+                <a href=<?php $game_url = url_title($game['product_game'],'_'); echo site_url("search/$game_url")?>> <?php echo $game['product_game'] ?></a>
               </li>
             <?php endforeach ?>
           </ul>
@@ -69,6 +69,12 @@
 
 <body>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+<script type="text/javascript">  
+  var disqus_shortname = 'psychostore';
+  var disqus_url = '<?php echo $url; ?>';
+</script>
+
 </body>
 
 

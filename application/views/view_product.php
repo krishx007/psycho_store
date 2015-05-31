@@ -38,7 +38,7 @@
                       <option <?php echo $xl_stock; ?> value ="XL">XL <?php if($xl_stock == 'disabled') echo '(Out Of Stock)';?> </option>
                   </select>
                 </div>  
-                <div class="col-md-8">                  
+                <div class="col-md-8">
                   <button type="submit" name = "add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
                 </div>
               </form> 
@@ -72,12 +72,15 @@
           </div>
         </div>
       </div>
-        <div class="row">
-          <div class="col-md-12">
-            <h3 class="text-left">Recently Viewed</h3>
-            <hr>
-          </div>
-          <div class="row">
+      
+      <?php $data['product_name'] = $product['product_name']; echo $this->load->view('view_disqus', $data); ?>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="text-left">Recently Viewed</h3>
+          <hr>
+      </div>
+      <div class="row">
 <?php
 if(is_array($recently_viewed) > 0):
 
