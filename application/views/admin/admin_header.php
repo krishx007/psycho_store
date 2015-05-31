@@ -30,8 +30,16 @@
     	<a class='navbar-btn' href = <?php echo site_url('admin/products') ?> >Products</i></a>
       </li>
       <li>
-    	<a class='navbar-btn' href = <?php echo site_url('admin/orders') ?> >Emails</i></a>
-      </li>      
+        <div class="btn-group">
+          <a class="btn navbar-btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Other <span class="caret"></span>  </a>
+            <ul class="dropdown-menu">
+                <li>
+                  <a class='navbar-btn' href = <?php echo site_url('admin/feedback') ?> >Feedback</a>
+                  <a class='navbar-btn' href = <?php echo site_url('admin/email') ?> >Emails</a>
+                </li>
+            </ul>          
+        </div>
+      </li>
       <li>
       	<?php if($user_id > 0): ?>
         	<h4 class="navbar-text"> <?php echo $user_name ?> </h4>

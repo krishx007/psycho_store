@@ -116,6 +116,14 @@ class Pages extends CI_controller
 		return $this->session->userdata('recently_viewed');
 	}
 
+	function feedback()
+	{
+		$feedback = $this->database->GetFeedback(TRUE);
+		$data['feedbacks'] = $feedback;
+		
+		$this->display('feedback', $data);
+	}
+
 	function product($id, $url = null)
 	{
 		$total_products = $this->database->GetMaxProductID();
@@ -312,12 +320,15 @@ class Pages extends CI_controller
 			case 'browse':
 				$this->load->view('home', $data);	
 			break;
-			case 'product': 				
+			case 'product':	
 				$this->load->view('view_product', $data);
-			break;		
-			case 'basic':			
+			break;
+			case 'feedback':
+				$this->load->view('feedback_wall', $data);
+				break;
+			case 'basic':
 				$this->load->view('basic_view', $data);
-				break;			
+				break;
 			default:
 				show_404();
 			break;		

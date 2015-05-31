@@ -64,6 +64,9 @@ class admin extends CI_controller
 			case 'product_add_edit':
 				$this->load->view('admin/product_add_edit', $data);
 				break;
+			case 'feedback':
+				$this->load->view('admin/admin_feedbacks', $data);
+				break;
 			default:
 				show_404();
 			break;		
@@ -71,6 +74,23 @@ class admin extends CI_controller
 
 		//Show footer
 		$this->load->view('footer', $data);
+	}
+
+	function feedback()
+	{
+		//Get all feedbacks from the user, since a certain time
+		$feedbacks = $this->database->GetFeedback(false);
+		$data['feedbacks_table'] = $this->_generate_feedback_table($feedbacks);
+		$data['num_feedbacks'] = count($feedbacks);
+
+		$this->display('feedback', $data);
+
+	}
+
+	function publish_state($id, $value)
+	{
+		$this->database->SetPublishState($id,$value);
+		redirect('admin/feedback');
 	}
 	
 	function orders($order_id = null)
@@ -86,7 +106,7 @@ class admin extends CI_controller
 		{
 			//If no order_id is given show pending/returned orders
 			$orders = $this->database->GetPendingReturnedOrders();
-		}
+		}		
 		
 		//As $orders is an array
 		if(count($orders) && $orders[0] != null)
@@ -94,25 +114,24 @@ class admin extends CI_controller
 			//Get user details and address in the array
 			foreach ($orders as $key => $value)
 			{
-				$user = $this->database->GetUserById($value['user_id']);
+				$user = $this->database->GetUserById($value['user_id']);				
 				$orders[$key]['email'] = $user['email'];
 				$orders[$key]['address'] = $this->database->GetAddressById($value['address_id']);
 			}
-			
-			$data['orders'] = $orders;	
-			$data['num_orders']	= count($orders);
-			$data['orders_table'] = $this->_generate_orders_table($orders);
-
-			$this->display('orders', $data);
 		}
-		else
-			$this->display('404', null);
+		
+		$data['orders'] = $orders;	
+		$data['num_orders']	= count($orders);
+		$data['orders_table'] = $this->_generate_orders_table($orders);
+
+		$this->display('orders', $data);
+
 	}
 
 	function products($product_id = null)
 	{
 		$this->_validate_user();
-		$products = null;			
+		$products = null;
 		$data['supported_games'] = $this->database->GetAllSuportedGames();	
 
 		if($product_id)
@@ -300,6 +319,39 @@ class admin extends CI_controller
 			$prod_name_cell = anchor($prod_url, $prod['product_name']);
 
 			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod_name_cell, $prod['product_url'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
+		}
+
+		return $this->table->generate();
+	}
+
+	function _generate_feedback_table($feedbacks)
+	{
+		$this->load->library('table');
+		$this->table->set_heading('id', 'name', 'email', 'message', 'Publish');
+
+		$tmpl = array ( 'table_open'  => '<table class="table " >' );
+		$this->table->set_template($tmpl);
+
+		foreach ($feedbacks as $key => $fb)
+		{
+			//Edit link
+			$fb_id = $fb['id'];			
+			$pub_val = !$fb['publish'];
+
+			if($fb['publish'])
+			{
+				$publish_link = site_url('admin/publish_state/'.$fb_id.'/0');
+				$fb_pub_link = "<a class ='btn btn-warning' href=$publish_link> Unpublish </a>";
+			}
+			else
+			{
+				$publish_link = site_url('admin/publish_state/'.$fb_id.'/1');
+				$fb_pub_link = "<a class ='btn btn-primary' href=$publish_link> Publish </a>";
+			}
+			
+
+			
+			$this->table->add_row($fb_id, $fb['name'], $fb['email'], $fb['message'], $fb_pub_link);
 		}
 
 		return $this->table->generate();

@@ -41,8 +41,11 @@
     <h1> Say Something</h1>
     <hr> 
     <div class="well">
-    	<div class="row ">
-	    	<div class="col-md-12">
+    	<div class="row">
+    		<div class="col-md-12 top-bottom-space-s">
+				<p>We might publish your feedback on the <a href="<?php echo site_url('feedback')?>">Feedback Wall</a>. But anyway don't hold back in whatever you want to say. </p>		
+    		</div>
+	    	<div class="col-md-6">
 	    		<?php echo form_open($this->uri->uri_string()); ?>
 				<div class="form-group">
 					<p>Name</p>

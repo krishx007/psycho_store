@@ -144,6 +144,24 @@ class Database extends CI_Model
 		$this->db->delete('feedback');
 	}
 
+	function GetFeedback($published_only)
+	{
+		if($published_only)
+		{
+			$this->db->where('publish', 1);
+		}
+
+		$query = $this->db->get('feedback');
+		return $query->result_array();
+	}
+
+	function SetPublishState($id, $value)
+	{
+		$this->db->set('publish', $value);
+		$this->db->where('id', $id);		
+		$this->db->update('feedback');
+	}
+
 	//-------------------------- Order Specific Functions -------------------------- 
 
 	function AddOrder($order)
@@ -198,6 +216,8 @@ class Database extends CI_Model
 		$this->db->select('txn_id');
 		$this->db->where('order_status !=', 'shipped');
 		$query = $this->db->get('orders');
+		$orders = array();
+
 		foreach ($query->result_array() as $row)
 		{
 			$orders[] = $this->GetOrderById($row['txn_id']);
