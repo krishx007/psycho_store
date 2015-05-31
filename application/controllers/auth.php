@@ -138,7 +138,8 @@ class Auth extends CI_Controller
 		{
 			//validation done, add feedback to db
 			$feedback['name'] = $this->form_validation->set_value('username');
-			$feedback['message'] = $name = $this->form_validation->set_value('msg');			
+			$feedback['email'] = $name = $this->form_validation->set_value('email');
+			$feedback['message'] = $name = $this->form_validation->set_value('msg');
 			$this->database->AddFeedback($feedback);
 			$this->_show_message($this->lang->line('auth_message_got_feedback').heading(anchor('feedback', 'Feedback Wall'),3));
 		}
