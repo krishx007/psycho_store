@@ -133,6 +133,17 @@ class Database extends CI_Model
 		$this->db->delete('address');
 	}
 
+	function AddFeedback($feedback)
+	{
+		$this->db->insert('feedback', $feedback);
+	}
+
+	function RemoveFeedback($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete('feedback');
+	}
+
 	//-------------------------- Order Specific Functions -------------------------- 
 
 	function AddOrder($order)
@@ -246,11 +257,7 @@ class Database extends CI_Model
 		ON orders.address_id=address.address_id ) as t
 		Group By `state`";
 
-		$query = $this->db->query($sql);
-
-		// $this->db->select_count('product_qty_sold');
-		// $this->db->group_by('product_game');
-		// $query = $this->db->get('products');
+		$query = $this->db->query($sql);		
 		return $query->result_array();
 	}
 

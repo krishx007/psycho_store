@@ -117,6 +117,36 @@ class Auth extends CI_Controller
 		}
 	}
 
+	function saysomething()
+	{
+		//Form validation
+		$this->form_validation->set_rules('username', 'Username', 'trim|required|xss_clean|min_length['.$this->config->item('username_min_length', 'tank_auth').']|max_length['.$this->config->item('username_max_length', 'tank_auth').']');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('msg', 'Message', 'trim|required|xss_clean');
+		
+		$data['def_username'] = '';
+		$data['def_email'] = '';
+
+		if($this->tank_auth->is_logged_in())
+		{
+			$user = $this->database->GetUserById($this->tank_auth->get_user_id());
+			$data['def_username'] = $user['username'];
+			$data['def_email'] = $user['email'];
+		}
+
+		if($this->form_validation->run())
+		{
+			//validation done, add feedback to db
+			$feedback['name'] = $this->form_validation->set_value('username');
+			$feedback['message'] = $name = $this->form_validation->set_value('msg');			
+			$this->database->AddFeedback($feedback);
+			$this->_show_message($this->lang->line('auth_message_got_feedback'));
+		}
+
+		$this->display('feedback', $data);
+	}
+
+
 	/**
 	 * Logout user
 	 *
@@ -423,7 +453,9 @@ class Auth extends CI_Controller
 			case 'reset_password':
 				$this->load->view('auth/reset_password_form', $data);
 			break;
-			
+			case 'feedback':
+				$this->load->view('auth/feedback_form', $data);
+			break;		
 			default:
 				show_404();
 			break;		
