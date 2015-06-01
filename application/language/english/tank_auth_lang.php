@@ -11,7 +11,7 @@ $lang['auth_incorrect_captcha'] = 'Your confirmation code does not match the one
 $lang['auth_captcha_expired'] = 'Your confirmation code has expired. Please try again.';
 
 // Notifications
-$lang['auth_message_got_feedback'] = 'Thanks for the feedback. Meanwhile see what other think about us.';
+$lang['auth_message_got_feedback'] = 'Thanks for the feedback. Also check out what others think about us.';
 $lang['auth_message_logged_out'] = 'You have been successfully logged out.';
 $lang['auth_message_registration_disabled'] = 'Registration is disabled.';
 $lang['auth_message_registration_completed_1'] = 'You have successfully registered with us, but our minions are refusing to process your orders, they are scared of you, they think you are some scary monster who is here to frighten them and eat their bananas. But all you have to do is prove them wrong. <br/> Hint : Check your email id.';
