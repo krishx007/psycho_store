@@ -20,7 +20,7 @@
 		'minlength'	=> 2,
 		'size'	=> 30,
 		'class'	=> 'form-control',
-		'placeholder'	=> 'Say Something, anything. Praise us, criticize us, which game\'s merchandise you want, anything from the top of your head or you just want a special date with me. Anything will do, speak your heart out.'
+		'placeholder'	=> 'Say Something, anything. Praise us, criticize us, some particular request, anything from the top of your head or you just want a special date with codinpsycho(girls only). Anything will do, speak your heart out.'
 	);
 ?>
 
