@@ -1,19 +1,16 @@
-<?php
-$email = array(
-	'name'	=> 'email',
-	'id'	=> 'email',
-	'value'	=> set_value('email'),
-	'maxlength'	=> 80,
-	'size'	=> 30,
-);
-?>
-<?php echo form_open($this->uri->uri_string()); ?>
-<table>
-	<tr>
-		<td><?php echo form_label('Email Address', $email['id']); ?></td>
-		<td><?php echo form_input($email); ?></td>
-		<td style="color: red;"><?php echo form_error($email['name']); ?><?php echo isset($errors[$email['name']])?$errors[$email['name']]:''; ?></td>
-	</tr>
-</table>
-<?php echo form_submit('send', 'Send'); ?>
-<?php echo form_close(); ?>
+<div class="container top-bottom-space">
+    <h1>Send Activation Mail </h1>
+    <hr> 
+    <div class="well">
+    	<div class="row ">
+	    	<div class="col-md-12">
+	    	 	<?php echo form_open($this->uri->uri_string()); ?>
+	    		<div class="form-group">
+					<?php echo $this->load->view('view_email') ?>
+				</div>
+			</div>
+		</div>	
+	</div>
+	<button class="btn btn-primary" type="submit">Login</button>
+	<?php echo form_close(); ?>
+</div>

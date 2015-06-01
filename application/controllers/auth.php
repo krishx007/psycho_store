@@ -440,9 +440,9 @@ class Auth extends CI_Controller
 				$this->load->view('auth/login_form', $data);
 			break;
 			case 'register_user_address':
-				$this->load->view('auth/register', $data);	
+				$this->load->view('auth/register', $data);
 			break;
-			case 'forgot_password': 				
+			case 'forgot_password':
 				$this->load->view('auth/forgot_password_form', $data);
 			break;		
 			case 'add_address':
@@ -454,13 +454,16 @@ class Auth extends CI_Controller
 			case 'reset_password':
 				$this->load->view('auth/reset_password_form', $data);
 			break;
+			case 'send_again':
+				$this->load->view('auth/send_again_form', $data);
+			break;
 			case 'feedback':
 				$this->load->view('auth/feedback_form', $data);
-			break;		
+			break;
 			default:
 				show_404();
-			break;		
-		}		
+			break;
+		}
 
 		//Show footer
 		$this->load->view('footer', $data);
@@ -497,7 +500,7 @@ class Auth extends CI_Controller
 					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 				}
 			}
-			$this->load->view('auth/send_again_form', $data);
+			$this->display('send_again', $data);			
 		}
 	}
 
