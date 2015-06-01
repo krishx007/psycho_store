@@ -230,6 +230,7 @@ class Database extends CI_Model
 	{
 		$this->db->select('txn_id');	
 		$query = $this->db->get('orders');
+		$orders = array();
 		foreach ($query->result_array() as $row)
 		{
 			$orders[] = $this->GetOrderById($row['txn_id']);

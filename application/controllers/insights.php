@@ -192,8 +192,8 @@ class insights extends CI_Controller
 	function _getStateWiseOrderData()
 	{
 		$states_data = $this->database->GetDataForStatesChart();		
-		$states = null;
-		$states_sales = null;
+		$states = array();
+		$states_sales = array();
 		foreach ($states_data as $key => $value)
 		{
 			$states[] = $value['state'];
