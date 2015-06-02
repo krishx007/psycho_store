@@ -190,7 +190,7 @@ class Pages extends CI_controller
 	}
 
 
-	function search($game = "")
+	function like($game = "")
 	{
 		$name = ($this->input->post('search_query') != false) ? trim($this->input->post('search_query')) : $this->beautify($game,'_');
 
@@ -250,7 +250,7 @@ class Pages extends CI_controller
 
 		if(valid_email($email_id))
 		{			
-			$this->database->Unsubscribe($email_id)
+			$this->database->Unsubscribe($email_id);
 			mg_unsubscribe($email_id);
 			$data['email_id'] = $email_id;
 			$data['heading'] = "You have been Unsubscribed";

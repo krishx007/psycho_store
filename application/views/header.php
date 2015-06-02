@@ -33,13 +33,13 @@
     	<a target="_blank" href="http://instagram.com/psychostore.in"><i class="navbar-btn fa fa-instagram"></i></a>
       </li>
       <li>
-       <form class="navbar-form" method = "post" action=<?php echo site_url("search");?>>
+       <form class="navbar-form" method = "post" action=<?php echo site_url("like");?>>
         <div class="btn-group">
           <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">What do you like <span class="caret"></span>  </a>
           <ul class="dropdown-menu">
             <?php foreach ($supported_games as $key => $game):?>
               <li>
-                <a href=<?php $game_url = url_title($game['product_game'],'_'); echo site_url("search/$game_url")?>> <?php echo $game['product_game'] ?></a>
+                <a href=<?php $game_url = url_title($game['product_game'],'_'); echo site_url("like/$game_url")?>> <?php echo $game['product_game'] ?></a>
               </li>
             <?php endforeach ?>
           </ul>
