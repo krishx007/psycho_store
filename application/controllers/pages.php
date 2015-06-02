@@ -263,24 +263,20 @@ class Pages extends CI_controller
 	function shipping_returns()
 	{
 		$data['heading'] = "Shipping and Returns";
+		$ret_address = $this->load->view('return_address',null, TRUE);
 
 		$data['content'] = "<p>At Psycho Store our aim is to always provide you with unique and highest quality merchandises that you have always desired for.</p>
 							<h3>Free Shipping all over India</h3>
 							<p>Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
 							Your product will reach you in about 5-10 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
 							<h3> 365 days Return Policy</h3>
-							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want but most importantly notify us along with your order ID at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> within 2 days and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and will do a refund or excahnge as you desire.
+							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want but most importantly notify us along with your order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> within 2 days and send us the product back whenever you can (literally 365 days) with its original packing. We will inspect the product and will do a refund or excahnge as you desire.
 							We will bear the shipping charges as well if its our fault.
 							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
-							<br><br> Note : In both the cases, problem should be notified withing 2 days along with order ID at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
-							<br><br>Email us with your product id at <a href=\"mailto:returns@psychostore.in\">returns@psychostore.in</a> and ship the product to given address
-							<br><br> Return Address :
-							<br>
-							F5, Ganraj Heights,<br>
-							Sainikwadi, Wadgaon Sheri,<br>
-							Pune - 411014,<br>
-							Maharashtra
-							<br><br>For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a></p>";
+							<br><br> Note : In both the cases, problem should be notified withing 2 days along with order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
+							<br><br>Email us with your product id at <a href=\"mailto:contact@psychostore.in\">returns@psychostore.in</a> and ship the product to given address
+							<br><br> $ret_address
+							For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a></p>";
 							
 							
 
@@ -289,12 +285,7 @@ class Pages extends CI_controller
 
 	function contact()
 	{
-		$data['heading'] = "Psycho Store <small>designed and developed by</small> Psycho Corporation";
-		$data['content'] = "<h3>Head office</h3>55/2 Nanak Nagar,<br> Lane 1,<br> Jammu - 180004,<br> Jammu and Kashmir<br><br>Phone : +917387045828<br>Email : <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a>
-							<br><br><h4>Address for Refunds and Returns</h4>
-							F5, Ganraj Height,<br> Sainikwadi, Wadgaon sheri,<br> Pune - 411014,<br> Maharashtra";
-
-		$this->display('basic', $data);
+		$this->display('contact', null);
 	}
 
 
@@ -343,6 +334,9 @@ class Pages extends CI_controller
 			case 'feedback':
 				$this->load->view('feedback_wall', $data);
 				break;
+			case 'contact':
+				$this->load->view('view_contact', $data);
+				break;				
 			case 'basic':
 				$this->load->view('basic_view', $data);
 				break;
