@@ -243,6 +243,23 @@ class Pages extends CI_controller
 		$this->display('basic', $data);
 	}
 
+	function unsubscribe()
+	{
+		$email_id = strtolower($this->input->post('subscribe_email'));
+		$data = array();
+
+		if(valid_email($email_id))
+		{			
+			$this->database->Unsubscribe($email_id)
+			mg_unsubscribe($email_id);
+			$data['email_id'] = $email_id;
+			$data['heading'] = "You have been Unsubscribed";
+			$data['content'] = "So this is the end of us. Take care and stay Psycho anyways.";
+		}
+
+		$this->display('basic', $data);
+	}
+
 	function shipping_returns()
 	{
 		$data['heading'] = "Shipping and Returns";

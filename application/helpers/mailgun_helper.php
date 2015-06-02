@@ -70,11 +70,40 @@ if(!function_exists('mg_add_subscriber'))
 		    'address'   => $email_id,
 		    'name'      => $name,
 		    'upsert'	=> 'true'
-		));		
+		));
+	}
+}
+
+if(!function_exists('mg_delete_subscriber'))
+{
+	function mg_delete_subscriber($email_id)
+	{
+		$key = get_instance()->config->item('mailgun_key');
+		$mg = new Mailgun($key);
+		$list_address = 'newsletter@mails.psychostore.in';
+
+		# Issue the call to the client.
+		$result = $mg->delete("lists/$list_address/members/$email_id");
 	}	
 }
 
-if(!function_exists('mg_umg_get_subscriber'))
+if(!function_exists('mg_unsubscribe'))
+{
+	function mg_unsubscribe($email_id)
+	{
+		$key = get_instance()->config->item('mailgun_key');
+		$mg = new Mailgun($key);
+		$domain = 'mails.psychostore.in';
+
+		# Issue the call to the client.
+		$result = $mg->post("$domain/unsubscribes/",array(
+		    'address'  => $email_id,
+		    'tag'      => '*',		    
+		));
+	}	
+}
+
+if(!function_exists('mg_get_subscriber'))
 {
 	function mg_get_subscriber($email)
 	{
