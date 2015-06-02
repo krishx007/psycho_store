@@ -522,6 +522,7 @@ class Auth extends CI_Controller
 			// success
 			//Add it into newletter
 			$user = $this->database->GetUserById($user_id);
+			$this->database->Subscribe($user['email']);
 			mg_add_subscriber($user['email'], $user['username']);
 			
 			$this->tank_auth->logout();
