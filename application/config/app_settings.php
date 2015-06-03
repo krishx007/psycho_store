@@ -11,5 +11,7 @@ $config['favico'] = 'http://psychostore.in/images/ps.jpg';
 
 //Admin Panel
 $config['admin_email'] = array('ishkaran.fearme@gmail.com', 'ishkaran.singh@hotmail.com');
+$config['mailgun_key'] = 'key-0f80f2f05eb0cc5a7f733be72c8fb5**';	//old one
+$config['newsletter_address'] = 'updates@news.psychostore.in';
 
 ?>

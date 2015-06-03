@@ -14,23 +14,27 @@ if(!function_exists('mg_create_mail_params'))
 		{
 			case 'first_order':
 				$subject_var = $data['username'];
-				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
-				break;
+				$data['from'] = 'Psycho Store<email@news.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
+			break;
 
 			case 'order':
 				$subject_var = $data['order_id'];
-				$data['from'] = 'Psycho Store Orders <email@mails.psychostore.in>';
-				break;			
+				$data['from'] = 'Psycho Store Orders <email@news.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
+			break;			
 
 			case 'activate':
 				$subject_var = $data['username'];
-				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
+				$data['from'] = 'Psycho Store<email@news.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
 			break;
 			
 			default:
 				$subject_var = 'Psycho Store';
-				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
-				break;
+				$data['from'] = 'Psycho Store<email@news.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
+			break;
 		}
 
 		$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
@@ -46,8 +50,8 @@ if(!function_exists('mg_send_mail'))
 	{
 		$key = get_instance()->config->item('mailgun_key');
 		$mg = new Mailgun($key);
-		$domain = 'mails.psychostore.in';
-	
+		$domain = $params['domain'];
+
 		$mg->sendMessage($domain, array(
 			'from' 		=> 	$params['from'],
 			'to'		=>	$to_email,
@@ -63,12 +67,13 @@ if(!function_exists('mg_add_subscriber'))
 	{
 		$key = get_instance()->config->item('mailgun_key');
 		$mg = new Mailgun($key);
-		$list_address = 'newsletter@mails.psychostore.in';
+		$list_address = get_instance()->config->item('newsletter_address');
 
 		# Issue the call to the client.
 		$result = $mg->post("lists/$list_address/members",array(
 		    'address'   => $email_id,
 		    'name'      => $name,
+		    'subscribed'=> 'yes',
 		    'upsert'	=> 'true'
 		));
 	}
@@ -80,7 +85,7 @@ if(!function_exists('mg_delete_subscriber'))
 	{
 		$key = get_instance()->config->item('mailgun_key');
 		$mg = new Mailgun($key);
-		$list_address = 'newsletter@mails.psychostore.in';
+		$list_address = get_instance()->config->item('newsletter_address');
 
 		# Issue the call to the client.
 		$result = $mg->delete("lists/$list_address/members/$email_id");
@@ -93,12 +98,12 @@ if(!function_exists('mg_unsubscribe'))
 	{
 		$key = get_instance()->config->item('mailgun_key');
 		$mg = new Mailgun($key);
-		$domain = 'mails.psychostore.in';
+		$list_address = get_instance()->config->item('newsletter_address');
 
 		# Issue the call to the client.
-		$result = $mg->post("$domain/unsubscribes/",array(
+		$result = $mg->put("lists/$list_address/members",array(
 		    'address'  => $email_id,
-		    'tag'      => '*',		    
+		    'subscribed'=> 'no',
 		));
 	}	
 }
@@ -109,7 +114,7 @@ if(!function_exists('mg_get_subscriber'))
 	{
 		$key = get_instance()->config->item('mailgun_key');
 		$mg = new Mailgun($key);
-		$list_address = 'newsletter@mails.psychostore.in';
+		$list_address = get_instance()->config->item('newsletter_address');
 
 		$res = $mg->get("lists/$list_address/members/$email");
 	}
