@@ -217,6 +217,7 @@ class admin extends CI_controller
 		$product['product_game'] = $input['game_name'];
 		$product['product_name'] = $input['product_name'];
 		$product['product_url'] = strtolower($input['url']);
+		$product['product_intro'] = $input['intro'];
 		$product['product_desc'] = $input['desc'];
 		$product['product_image_path'] = $input['image_path'];
 		$product['product_price'] = $input['price'];
@@ -234,6 +235,7 @@ class admin extends CI_controller
 		$this->form_validation->set_rules('game_name', 'Game Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('product_name', 'Product Name', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('url', 'URL Keywords', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('intro', 'Product Intro', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('desc', 'Product Desc', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('image_path', 'Image Path', 'trim|required|xss_clean');
 		$this->form_validation->set_rules('price', 'Product Price', 'is_numeric|trim|required|xss_clean');
@@ -249,6 +251,7 @@ class admin extends CI_controller
 		$data['game'] = is_null($product) ? '' : $product['product_game'];
 		$data['name'] = is_null($product) ? '' : $product['product_name'];
 		$data['product_url'] = is_null($product) ? '' : $product['product_url'];
+		$data['intro'] = is_null($product) ? '' : $product['product_intro'];
 		$data['desc'] = is_null($product) ? '' : $product['product_desc'];		
 		$data['image_path'] = is_null($product) ? '' : $product['product_image_path'];
 		$data['price'] = is_null($product) ? '' : $product['product_price'];
@@ -298,7 +301,7 @@ class admin extends CI_controller
 	function _generate_products_table($products)
 	{
 		$this->load->library('table');
-		$this->table->set_heading('id', 'type', 'game', 'name', 'url', 'description', 'image', 'price', 'small', 'med', 'lrg', 'xl', 'sold');
+		$this->table->set_heading('id', 'type', 'game', 'name', 'url', 'intro', 'description', 'image', 'price', 'small', 'med', 'lrg', 'xl', 'sold');
 
 		$tmpl = array ( 'table_open'  => '<table class="table " >' );
 		$this->table->set_template($tmpl);
@@ -318,7 +321,7 @@ class admin extends CI_controller
 			$prod_url = product_url($prod);
 			$prod_name_cell = anchor($prod_url, $prod['product_name']);
 
-			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod_name_cell, $prod['product_url'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
+			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod_name_cell, $prod['product_url'], $prod['product_intro'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
 		}
 
 		return $this->table->generate();

@@ -18,7 +18,7 @@
                         <option value="tshirt"> Tshirt </option>
                         <option value="hoodie"> Hoodie </option>
                     </select>
-                    <label>Game Name </label>
+                    <label>Like </label>
                     <select class="form-control" name="game">
                         <option value="all"> All </option>
                         <?php foreach ($supported_games as $game):?>
