@@ -25,7 +25,7 @@
 				</div>
 				<div class='form-group '>
 					<div class="col-md-12">
-						<textarea class='form-control' name='desc' placeholder='Product Description'><?php echo $desc ?></textarea>
+						<textarea rows='8' class='form-control' name='desc' placeholder='Product Description'><?php echo $desc ?></textarea>
 					</div>
 				</div>
 				<div class='form-group '>
