@@ -14,31 +14,32 @@ if(!function_exists('mg_create_mail_params'))
 		{
 			case 'first_order':
 				$subject_var = $data['username'];
-				$data['from'] = 'Psycho Store<email@news.psychostore.in>';
+				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 			break;
 
 			case 'order':
 				$subject_var = $data['order_id'];
-				$data['from'] = 'Psycho Store Orders <email@news.psychostore.in>';
+				$data['from'] = 'Psycho Store Orders <email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 			break;			
 
 			case 'activate':
 				$subject_var = $data['username'];
-				$data['from'] = 'Psycho Store<email@news.psychostore.in>';
+				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 			break;
 			
 			default:
 				$subject_var = 'Psycho Store';
-				$data['from'] = 'Psycho Store<email@news.psychostore.in>';
+				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 			break;
 		}
 
 		$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
-		$data['msg'] = $ci->load->view('email/'.$type.'-html', $data, TRUE);
+		$data['txt'] = $ci->load->view('email/'.$type.'-txt', $data, TRUE);
+		$data['html'] = $ci->load->view('email/'.$type.'-html', $data, TRUE);
 
 		return $data;
 	}
@@ -56,7 +57,8 @@ if(!function_exists('mg_send_mail'))
 			'from' 		=> 	$params['from'],
 			'to'		=>	$to_email,
 			'subject'	=>	$params['subject'],
-			'html'		=>	$params['msg']
+			'html'		=>	$params['html'],
+			'text'		=>	$params['txt']
 			));		
 	}	
 }
