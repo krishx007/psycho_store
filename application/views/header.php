@@ -39,7 +39,7 @@
           <ul class="dropdown-menu">
             <?php foreach ($supported_games as $key => $game):?>
               <li>
-                <a href=<?php $game_url = url_title($game['product_game'],'_'); echo site_url("like/$game_url")?>> <?php echo $game['product_game'] ?></a>
+                <a href=<?php $game_url = url_title($game['product_game']); echo site_url("like/$game_url")?>> <?php echo $game['product_game'] ?></a>
               </li>
             <?php endforeach ?>
           </ul>

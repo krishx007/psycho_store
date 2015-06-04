@@ -192,7 +192,7 @@ class Pages extends CI_controller
 
 	function like($game = "")
 	{
-		$name = ($this->input->post('search_query') != false) ? trim($this->input->post('search_query')) : $this->beautify($game,'_');
+		$name = ($this->input->post('search_query') != false) ? trim($this->input->post('search_query')) : $this->beautify($game,'-');
 
 		$data['search_result'] = 0;
 		$data['search_text'] = $name;

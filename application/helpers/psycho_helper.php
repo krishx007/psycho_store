@@ -113,7 +113,7 @@ if(!function_exists('product_url'))
 	function product_url($product)
 	{		
 		$id = $product['product_id'];
-		$url = url_title($product['product_url'],'_');
+		$url = url_title($product['product_url']);
 		$final_url = "product/"."$id/$url";
 		return $final_url;
 	}
