@@ -14,6 +14,7 @@ class admin extends CI_controller
 		$this->load->helper('html');
 		$this->load->helper('form');
 		$this->load->helper('psycho_helper');
+		$this->load->helper('mailgun_helper');
 		$this->load->library('session');
 	}
 
@@ -67,6 +68,9 @@ class admin extends CI_controller
 			case 'feedback':
 				$this->load->view('admin/admin_feedbacks', $data);
 				break;
+			case 'mail':
+				$this->load->view('admin/admin_mails', $data);
+				break;				
 			default:
 				show_404();
 			break;		
@@ -74,6 +78,58 @@ class admin extends CI_controller
 
 		//Show footer
 		$this->load->view('footer', $data);
+	}
+
+	function mails()
+	{
+		$data['site_name'] = "Psycho Store";
+		$data['username'] = 'codinpsycho';
+		$data['order_id'] = '5XTGH567';
+		$type = $this->input->post('mail_type');
+
+		if($this->input->post('email') != false)
+		{
+			$params = mg_create_mail_params($type, $data);
+			mg_send_mail($this->input->post('email'), $params);
+		}
+		
+		if($this->input->post('secret_text') != false && $this->input->post('subject') != false)
+		{
+			$secret_text = $this->input->post('secret_text');
+
+			if(strcmp('abra ka dabra', $secret_text) == 0)
+			{
+				$params['subject'] = $this->input->post('subject');
+				$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
+				$params['domain'] = 'news.psychostore.in';
+				$params['campaign_id'] = 'psycho_campaign';
+				$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
+				$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);
+
+				mg_send_mail($this->config->item('newsletter_address'), $params);				
+			}			
+		}
+
+		$this->display('mail', null);
+	}
+
+	function webhooks()
+	{
+		//Manage mailgun callbacks
+		$mailgun_post = $this->input->post();
+
+		switch ($mailgun_post['event'])
+		{
+			case 'unsubscribed':
+				$email = $mailgun_post['recipient'];
+				$this->database->Unsubscribe($email);
+				mg_unsubscribe($email);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 	}
 
 	function feedback()

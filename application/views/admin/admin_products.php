@@ -11,7 +11,7 @@
                     <select class="form-control" name="sort">
                         <option value="latest"> Latest </option>
                         <option value="popular"> Popularity </option>
-                    </select>                
+                    </select>
                     <label>Type </label>
                     <select class="form-control" name="type">
                         <option value="all"> All </option>

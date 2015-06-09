@@ -35,7 +35,7 @@
             <ul class="dropdown-menu">
                 <li>
                   <a class='navbar-btn' href = <?php echo site_url('admin/feedback') ?> >Feedback</a>
-                  <a class='navbar-btn' href = <?php echo site_url('admin/email') ?> >Emails</a>
+                  <a class='navbar-btn' href = <?php echo site_url('admin/mails') ?> >Emails</a>
                 </li>
             </ul>          
         </div>
