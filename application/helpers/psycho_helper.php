@@ -34,7 +34,7 @@ if(!function_exists('generate_header'))
 		if(isset($data['product']))
 		{			
 			//Title
-			$data['title'] = 'Psycho Store | '.$data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'];
+			$data['title'] = $data['product']['product_game'].' '.$data['product']['product_type'].' '.$data['product']['product_name'].' | Psycho Store';
 			//Description			
 			$data['description'] = 'Psycho Store | '.$data['product']['product_desc'];
 			//Keywords
