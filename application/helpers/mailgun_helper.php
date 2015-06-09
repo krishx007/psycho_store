@@ -16,24 +16,28 @@ if(!function_exists('mg_create_mail_params'))
 				$subject_var = $data['username'];
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
+				$data['campaign_id'] = null;
 			break;
 
 			case 'order':
 				$subject_var = $data['order_id'];
 				$data['from'] = 'Psycho Store Orders <email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
-			break;			
+				$data['campaign_id'] = null;
+			break;
 
 			case 'activate':
 				$subject_var = $data['username'];
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
+				$data['campaign_id'] = null;
 			break;
 			
 			default:
 				$subject_var = 'Psycho Store';
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
+				$data['campaign_id'] = null;
 			break;
 		}
 
@@ -57,9 +61,10 @@ if(!function_exists('mg_send_mail'))
 			'from' 		=> 	$params['from'],
 			'to'		=>	$to_email,
 			'subject'	=>	$params['subject'],
+			'o:campaign'=>	$params['campaign_id'],
 			'html'		=>	$params['html'],
 			'text'		=>	$params['txt']
-			));		
+			));
 	}	
 }
 
