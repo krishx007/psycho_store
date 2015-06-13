@@ -36,7 +36,7 @@ if(!function_exists('generate_header'))
 			//Title
 			$data['title'] = $data['product']['product_name'].' '.$data['product']['product_game'].' '.$data['product']['product_type'].' | Psycho Store';
 			//Description			
-			$data['description'] = 'Psycho Store | '.$data['product']['product_desc'];
+			$data['description'] = 'Psycho Store | '.$data['product']['product_intro'];
 			//Keywords
 			$data['keywords'] = $ci->config->item('keywords').str_replace(' ', ', ', $data['product']['product_url']);
 
