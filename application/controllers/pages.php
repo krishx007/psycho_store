@@ -19,8 +19,8 @@ class Pages extends CI_controller
 
 	function index()
 	{
-		$this->signup();
-		//$this->latest('all');
+		//$this->signup();
+		$this->latest('all');
 	}
 
 	function signup()
