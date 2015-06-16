@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width">
 <?php echo meta('description', $description) ?>
 <?php echo meta('keywords', $keywords) ?>
-<link rel="icon" type="image/jpg" href=<?php echo $favico ?> >
+<link rel="icon" type="image/png" href=<?php echo $favico ?> >
 
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href=<?php echo site_url('css/bootstrap.min.css') ?> >
