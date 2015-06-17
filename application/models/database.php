@@ -312,6 +312,29 @@ class Database extends CI_Model
 		return $ret;
 	}
 
+	function SubscriberUpdated($email)
+	{		
+		$this->db->set('last_update', date('Y-m-d H:i:s'));
+		$this->db->where('email', $email);
+		$this->db->update('newsletter');
+	}
+	
+	function GetSubscribers($to_update, $update_threshold = '60*5')
+	{
+		if($to_update)
+		{
+			//Get only those who havent been updated recently
+			$this->db->where('UNIX_TIMESTAMP(last_update) >', time() - $update_threshold);
+			$query = $this->db->get('newsletter');
+		}
+		else
+		{			
+			$query = $this->db->get('newsletter');		
+		}
+
+		return $query->result_array();
+	}
+
 	function Unsubscribe($email)
 	{
 		$this->db->where('email_id', $email);
