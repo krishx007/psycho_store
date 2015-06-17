@@ -17,6 +17,7 @@ if(!function_exists('mg_create_mail_params'))
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
 			break;
 
 			case 'order':
@@ -24,6 +25,7 @@ if(!function_exists('mg_create_mail_params'))
 				$data['from'] = 'Psycho Store Orders <email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
 			break;
 
 			case 'activate':
@@ -31,6 +33,7 @@ if(!function_exists('mg_create_mail_params'))
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
 			break;
 			
 			default:
@@ -38,6 +41,7 @@ if(!function_exists('mg_create_mail_params'))
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
 			break;
 		}
 
@@ -62,6 +66,7 @@ if(!function_exists('mg_send_mail'))
 			'to'		=>	$to_email,
 			'subject'	=>	$params['subject'],
 			'o:campaign'=>	$params['campaign_id'],
+			'h:Reply-To'=>	$params['reply_to'],
 			'html'		=>	$params['html'],
 			'text'		=>	$params['txt']
 			));
