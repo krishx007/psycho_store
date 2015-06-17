@@ -150,7 +150,7 @@ class admin extends CI_controller
 	function _create_params_for_newsletter($subject)
 	{		
 		$params = null;
-				
+
 		if(file_exists(APPPATH."views/email/$subject-html.php"))
 		{
 			//Mail params
@@ -159,8 +159,8 @@ class admin extends CI_controller
 			$params['domain'] = 'news.psychostore.in';
 			$params['campaign_id'] = 'psycho_campaign';
 			$params['reply_to'] = 'contact@psychostore.in';
-			$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
-			$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);	
+			$params['txt'] = $this->load->view("email/$subject-txt", $data, TRUE);
+			$params['html'] = $this->load->view("email/$subject-html", $data, TRUE);	
 		}
 
 		return $params;
