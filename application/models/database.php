@@ -335,6 +335,12 @@ class Database extends CI_Model
 		return $query->result_array();
 	}
 
+	function GetTestEmails()
+	{
+		$query = $this->db->get('test_mails');
+		return $query->result_array();	
+	}
+
 	function Unsubscribe($email)
 	{
 		$this->db->where('email_id', $email);

@@ -20,12 +20,17 @@
 			</div>
             <div class="col-md-12">
                 <p>Newsletter</p>
-                <form class='form-inline' method="post" action= <?php echo site_url('admin/mails') ?> >
+                <form class='form-inline' method="post" action= <?php echo site_url('admin/test_mass_mail') ?> >
                     <div class="form-group">
                         <input type="text" class="form-control" name="subject" placeholder="Subject">
-                        <input type="text" class="form-control" name="secret_text" placeholder="Type 'Secret text' to ">
                     </div>
-                    <button type="submit" class="btn btn-primary">Send Newsletter</button>
+                    <button type="submit" class="btn btn-primary">Test Newsletter</button>                    
+                </form>
+                <form class='form-inline' method="post" action= <?php echo site_url('admin/mass_mail') ?> >
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="subject" placeholder="Subject">
+                    </div>                    
+                    <button disabled type="submit" class="btn btn-primary">Send Newsletter</button>
                 </form>
             </div>
 		</div>        
