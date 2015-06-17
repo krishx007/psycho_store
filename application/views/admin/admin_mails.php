@@ -29,7 +29,7 @@
                 <form class='form-inline' method="post" action= <?php echo site_url('admin/mass_mail') ?> >
                     <div class="form-group">
                         <input type="text" class="form-control" name="subject" placeholder="Subject">
-                    </div>                    
+                    </div>
                     <button disabled type="submit" class="btn btn-primary">Send Newsletter</button>
                 </form>
             </div>

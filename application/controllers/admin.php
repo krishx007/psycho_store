@@ -103,19 +103,9 @@ class admin extends CI_controller
 			$data['site_name'] = "Psycho Store";
 			$data['subscribers'] = $this->database->GetTestEmails();
 			$data['num_subscribers'] = count($data['subscribers']);
-
-			//Mail params				
-			$params['subject'] = $this->input->post('subject');
-			$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
-			$params['domain'] = 'news.psychostore.in';
-			$params['campaign_id'] = 'psycho_campaign';
-			$params['reply_to'] = 'contact@psychostore.in';
-			$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
-			$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);
-
-			$data['params'] = $params;	
-
-			$this->load->view('admin/mass_mail', $data);
+			$data['subject'] = $this->input->post('subject');
+		
+			$this->_send_mass_mail($data);
 		}
 		else
 		{
@@ -129,25 +119,51 @@ class admin extends CI_controller
 		{
 			$data['site_name'] = "Psycho Store";
 			$data['subscribers'] = $this->database->GetSubscribers(false);
-			$data['num_subscribers'] = count($data['subscribers']);
+			$data['num_subscribers'] = count($data['subscribers']);			
 
-			//Mail params
-			$params['subject'] = $this->input->post('subject');;
-			$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
-			$params['domain'] = 'news.psychostore.in';
-			$params['campaign_id'] = 'psycho_campaign';
-			$params['reply_to'] = 'contact@psychostore.in';
-			$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
-			$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);
-
-			$data['params'] = $params;
-
-			$this->load->view('admin/mass_mail', $data);			
+			$data['subject'] = $this->input->post('subject');
+		
+			$this->_send_mass_mail($data);
 		}
 		else
 		{
 			echo "At least enter something dumbass.";
 		}
+	}
+
+	function _send_mass_mail($data)
+	{
+		$params = $this->_create_params_for_newsletter($data['subject']);
+		
+		if($params)
+		{
+			$data['params'] = $params;
+		}
+		else
+		{
+			die("No such file exists. Please check subject");
+		}
+
+		$this->load->view('admin/mass_mail', $data);
+	}
+
+	function _create_params_for_newsletter($subject)
+	{		
+		$params = null;
+				
+		if(file_exists(APPPATH."views/email/$subject-html.php"))
+		{
+			//Mail params
+			$params['subject'] = $subject;
+			$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
+			$params['domain'] = 'news.psychostore.in';
+			$params['campaign_id'] = 'psycho_campaign';
+			$params['reply_to'] = 'contact@psychostore.in';
+			$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
+			$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);	
+		}
+
+		return $params;
 	}
 
 	function webhooks()
