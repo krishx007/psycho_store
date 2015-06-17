@@ -70,7 +70,7 @@ class admin extends CI_controller
 				break;
 			case 'mail':
 				$this->load->view('admin/admin_mails', $data);
-				break;				
+				break;
 			default:
 				show_404();
 			break;		
@@ -93,24 +93,61 @@ class admin extends CI_controller
 			mg_send_mail($this->input->post('email'), $params);
 		}
 		
-		if($this->input->post('secret_text') != false && $this->input->post('subject') != false)
-		{
-			$secret_text = $this->input->post('secret_text');
-
-			if(strcmp('abra ka dabra', $secret_text) == 0)
-			{
-				$params['subject'] = $this->input->post('subject');
-				$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
-				$params['domain'] = 'news.psychostore.in';
-				$params['campaign_id'] = 'psycho_campaign';
-				$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
-				$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);
-
-				mg_send_mail($this->config->item('newsletter_address'), $params);				
-			}			
-		}
-
 		$this->display('mail', null);
+	}
+
+	function test_mass_mail()
+	{
+		if($this->input->post('subject') != false)
+		{			
+			$data['site_name'] = "Psycho Store";
+			$data['subscribers'] = $this->database->GetTestEmails();
+			$data['num_subscribers'] = count($data['subscribers']);
+
+			//Mail params				
+			$params['subject'] = $this->input->post('subject');
+			$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
+			$params['domain'] = 'news.psychostore.in';
+			$params['campaign_id'] = 'psycho_campaign';
+			$params['reply_to'] = 'contact@psychostore.in';
+			$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
+			$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);
+
+			$data['params'] = $params;	
+
+			$this->load->view('admin/mass_mail', $data);
+		}
+		else
+		{
+			echo "At least enter somethigng dumbass.";
+		}
+	}
+
+	function mass_mail()
+	{
+		if($this->input->post('subject') != false)
+		{
+			$data['site_name'] = "Psycho Store";
+			$data['subscribers'] = $this->database->GetSubscribers(false);
+			$data['num_subscribers'] = count($data['subscribers']);
+
+			//Mail params
+			$params['subject'] = $this->input->post('subject');;
+			$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
+			$params['domain'] = 'news.psychostore.in';
+			$params['campaign_id'] = 'psycho_campaign';
+			$params['reply_to'] = 'contact@psychostore.in';
+			$params['txt'] = $this->load->view('email/newsletter-txt', $data, TRUE);
+			$params['html'] = $this->load->view('email/newsletter-html', $data, TRUE);
+
+			$data['params'] = $params;
+
+			$this->load->view('admin/mass_mail', $data);			
+		}
+		else
+		{
+			echo "At least enter something dumbass.";
+		}
 	}
 
 	function webhooks()
