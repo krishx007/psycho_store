@@ -143,7 +143,7 @@ class admin extends CI_controller
 		{
 			die("No such file exists. Please check subject");
 		}
-
+		
 		$this->load->view('admin/mass_mail', $data);
 	}
 
@@ -200,6 +200,30 @@ class admin extends CI_controller
 	{
 		$this->database->SetPublishState($id,$value);
 		redirect('admin/feedback');
+	}
+
+	function ship_it($id, $state)
+	{
+
+		switch ($state)
+		{
+			case '1':
+				$this->database->UpdateOrderStatus($id, 'processing');
+				$wb = $this->database->GetWaybills();	//Returns an array
+				$this->database->AssignWaybill($id, $wb[0]);
+				break;
+			
+			case '0':
+				$order = $this->database->GetOrderById($id);
+				$this->database->SetWaybillState($order['waybill'], 'alive');
+				$this->database->UpdateOrderStatus($id, 'pending');
+				$this->database->RemoveWaybill($id);				
+
+				break;
+		}
+
+		redirect('admin/orders');
+		
 	}
 	
 	function orders($order_id = null)
@@ -376,14 +400,14 @@ class admin extends CI_controller
 	function _generate_orders_table($orders)
 	{		
 		$this->load->library('table');
-		$this->table->set_heading('#','Txn_id','Date','Email','Address', 'Mode', 'Amount', 'Status');
+		$this->table->set_heading('#','Txn_id','Date','Email','Address', 'Mode', 'Amount', 'Status', 'Waybill', 'Process');
 
 		$tmpl = array ( 'table_open'  => '<table class="table table-condensed" >' );
 		$this->table->set_template($tmpl);
 
 		$num = 1;
 		foreach ($orders as $order)
-		{
+		{			
 			$txn_id = $order['txn_id'];
 			$email = $order['email'];
 			$address = format_address($order['address']);
@@ -391,7 +415,20 @@ class admin extends CI_controller
 			$mode = $order['payment_mode'];
 			$amount = $order['order_amount'];
 			$status = $order['order_status'];
-			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status);
+			$waybill = $order['waybill'];
+
+			if($order['order_status'] == 'processing')
+			{
+				$process_link = site_url('admin/ship_it/'.$txn_id.'/0');
+				$order_process_link = "<a class ='btn btn-warning' href=$process_link> Don't Ship </a>";
+			}
+			else
+			{
+				$process_link = site_url('admin/ship_it/'.$txn_id.'/1');
+				$order_process_link = "<a class ='btn btn-default' href=$process_link> Ship Today </a>";
+			}
+
+			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link );
 
 			foreach ($order['order_items'] as $key => $item) 
 			{
@@ -447,7 +484,7 @@ class admin extends CI_controller
 		foreach ($feedbacks as $key => $fb)
 		{
 			//Edit link
-			$fb_id = $fb['id'];			
+			$fb_id = $fb['id'];
 			$pub_val = !$fb['publish'];
 
 			if($fb['publish'])
