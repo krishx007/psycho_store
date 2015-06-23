@@ -361,12 +361,12 @@ class Database extends CI_Model
 		return $query->row_array();
 	}
 
-	//For now its only Aramex
+	//For now its only Delhivery
 	function GetShippingDetails($pincode)
 	{
 		$this->db->where('pincode', $pincode);
-		$query = $this->db->get('aramex');
-		return $query->row_array();	
+		$query = $this->db->get('delhivery');
+		return $query->row_array();
 	}
 
 	function GetCheckoutOrder($txn_id)
