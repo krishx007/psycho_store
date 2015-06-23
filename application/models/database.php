@@ -211,8 +211,45 @@ class Database extends CI_Model
 		return $order;
 	}
 
+	function UpdateOrderStatus($txn_id, $status)
+	{
+		$this->db->set('order_status', $status);
+		$this->db->where_in('txn_id', $txn_id);
+		$query = $this->db->update('orders');
+	}
+
+	function AssignWaybill($txn_id, $waybill)
+	{
+		$this->db->set('waybill', $waybill);
+		$this->db->where('txn_id', $txn_id);
+		$query = $this->db->update('orders');
+	}
+
+	function RemoveWaybill($txn_id)
+	{
+		$this->db->set('waybill', null);
+		$this->db->where('txn_id', $txn_id);
+		$query = $this->db->update('orders');		
+	}	
+
+	function GetOrdersByStatus($status)
+	{
+		$this->db->select('txn_id');
+		$this->db->where_in('order_status ==', $status);
+		$query = $this->db->get('orders');
+		$orders = array();
+
+		foreach ($query->result_array() as $row)
+		{
+			$orders[] = $this->GetOrderById($row['txn_id']);
+		}
+
+		return $orders;
+	}
+
 	function GetPendingReturnedOrders()
 	{
+
 		$this->db->select('txn_id');
 		$this->db->where('order_status !=', 'shipped');
 		$query = $this->db->get('orders');
@@ -352,6 +389,30 @@ class Database extends CI_Model
 		return $this->db->count_all('newsletter');
 	}
 
+	function SetWaybillState($waybill, $state)
+	{
+		$this->db->set('state', $state);
+		$this->db->where_in('waybill', $waybill);
+		$this->db->update('delhivery_waybills');
+	}
+
+	function GetWaybills($count = 1)
+	{
+		$this->db->where('state !=', 'dead');
+		$this->db->limit($count);
+		$query = $this->db->get('delhivery_waybills');
+		$result = $query->result_array();
+
+		foreach ($result as $key => $waybill)
+		{
+			$wb[] = $waybill['waybill'];
+		}
+
+		$this->SetWaybillState($wb, 'dead');
+
+		return $wb;
+	}
+
 	//-------------------------- Checkout Specific Functions -------------------------- 
 
 	function GetDiscountCoupon($coupon)
@@ -384,7 +445,7 @@ class Database extends CI_Model
 	}	
 
 	function CheckoutDone($txn_id)
-	{		
+	{
 		$this->db->where('txn_id', $txn_id);
 		$this->db->delete('checkout_orders');
 
