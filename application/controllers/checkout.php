@@ -283,15 +283,22 @@ class checkout extends CI_controller
 
 		$address = $this->database->GetAddressById($checkout_order['address_id']);		
 		$shipping_details = $this->database->GetShippingDetails($address['pincode']);
-		
+		$shipping_available = false;
 		$cod_available = false;
-		if($shipping_details['cod'] === 'Y')
+
+		if($shipping_details)
 		{
-			$cod_available = true;
+			$shipping_available = true;
+			
+			if($shipping_details['cod'] === 'Y')
+			{
+				$cod_available = true;
+			}	
 		}
 
+		$data['shipping_available'] = $shipping_available;
 		$data['cod_available'] = $cod_available;
-		$data['address'] = $address;
+		$data['address'] = format_address($address);
 		
 		$this->display('review', $data);
 	}
@@ -318,7 +325,7 @@ class checkout extends CI_controller
 				redirect('checkout/place_order');
 				break;
 
-			case 'online':
+			case 'pre-paid':
 				$this->_lock_active_checkout_order();
 				$this->_payment_gateway();
 				break;
@@ -534,7 +541,7 @@ class checkout extends CI_controller
 		//Payment Mode
 		if( isset($post_back_params['mode']) )
 		{
-			$order_info['payment_mode'] = 'online';
+			$order_info['payment_mode'] = 'pre-paid';
 
 			//Its v.v.imp to take txnid from post_back_params, because session txnid can be modified
 			//when coming back from payment gateway
@@ -543,7 +550,7 @@ class checkout extends CI_controller
 		}
 		else
 		{
-			$order_info['payment_mode'] =	'cod';
+			$order_info['payment_mode'] = 'cod';
 			$checkout_order = $this->_get_active_checkout_order();
 		}		
 
