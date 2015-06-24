@@ -50,9 +50,6 @@
       	<?php  if ( $user_id == 0 ): ?> <a href= <?php  echo site_url('auth/login').'?redirect_url='.$redirect_url; ?> > <h5 class="navbar-btn">Login </h5></a>
       	<?php else: ?> <a href= <?php echo site_url('auth/logout').'?redirect_url='.$redirect_url; ?> > <h5 class="navbar-btn">Logout </h5></a> <?php endif; ?>
       </li>
-      <li>
-        <a class="" href= <?php echo site_url('cart')?> ><i class="navbar-btn fa fa-shopping-cart"></i><span class="badge"><?php echo $num_items ?></span></a>
-      </li>
     </ul>
     <ul class="nav nav-pills navbar-left">    	
 		<a href= <?php echo site_url('') ?> ><h4 class='molot navbar-text'>Psycho Store</h4></a>    
