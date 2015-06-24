@@ -235,7 +235,7 @@ class Database extends CI_Model
 	function GetOrdersByStatus($status)
 	{
 		$this->db->select('txn_id');
-		$this->db->where_in('order_status ==', $status);
+		$this->db->where('order_status =', $status);
 		$query = $this->db->get('orders');
 		$orders = array();
 
