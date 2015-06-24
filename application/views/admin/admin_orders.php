@@ -4,6 +4,14 @@
     </h1>
     <hr>
     <div class="well">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-primary" href= <?php echo site_url('admin/shipments') ?> >Process Shipments</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="well">        
     	<div class="row ">
 	    	<div class="col-md-12">
 	    		<?php echo $orders_table; ?>
