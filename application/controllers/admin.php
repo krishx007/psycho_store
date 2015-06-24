@@ -15,6 +15,7 @@ class admin extends CI_controller
 		$this->load->helper('form');
 		$this->load->helper('psycho_helper');
 		$this->load->helper('mailgun_helper');
+		$this->load->helper('shipping_helper');
 		$this->load->library('session');
 	}
 
@@ -71,6 +72,9 @@ class admin extends CI_controller
 			case 'mail':
 				$this->load->view('admin/admin_mails', $data);
 				break;
+			case 'shipments':
+				$this->load->view('admin/admin_shipments', $data);
+				break;				
 			default:
 				show_404();
 			break;		
@@ -187,6 +191,7 @@ class admin extends CI_controller
 
 	function feedback()
 	{
+		$this->_validate_user();
 		//Get all feedbacks from the user, since a certain time
 		$feedbacks = $this->database->GetFeedback(false);
 		$data['feedbacks_table'] = $this->_generate_feedback_table($feedbacks);
@@ -198,13 +203,42 @@ class admin extends CI_controller
 
 	function publish_state($id, $value)
 	{
+		$this->_validate_user();
 		$this->database->SetPublishState($id,$value);
 		redirect('admin/feedback');
 	}
 
+	function request_pickup()
+	{
+		$this->_validate_user();
+		$proc_shipemts = $this->session->flashdata('shipments');		
+		
+		//Run delhivery script
+		request_delhivery_pickup($proc_shipemts);
+	}
+
+	function shipments()
+	{
+		always_refresh();
+
+		$this->_validate_user();
+
+		//Get all procesing orders
+		$processing_shipments = $this->database->GetOrdersByStatus('processing');		
+		$processing_shipments = $this->_add_email_address_to_orders($processing_shipments);
+
+		$this->session->set_flashdata('shipments', $processing_shipments);
+
+		$data['date'] = date('d-m-y');
+		$data['num_shipments'] = count($processing_shipments);
+		$data['orders_table'] = $this->_generate_orders_table($processing_shipments);
+		
+		$this->display('shipments', $data);		
+	}
+
 	function ship_it($id, $state)
 	{
-
+		$this->_validate_user();
 		switch ($state)
 		{
 			case '1':
@@ -223,7 +257,19 @@ class admin extends CI_controller
 		}
 
 		redirect('admin/orders');
-		
+	}
+
+	function _add_email_address_to_orders(&$orders)
+	{
+		//Get user details and address in the array
+		foreach ($orders as $key => $value)
+		{
+			$user = $this->database->GetUserById($value['user_id']);				
+			$orders[$key]['email'] = $user['email'];
+			$orders[$key]['address'] = $this->database->GetAddressById($value['address_id']);
+		}
+
+		return $orders;
 	}
 	
 	function orders($order_id = null)
@@ -244,15 +290,9 @@ class admin extends CI_controller
 		//As $orders is an array
 		if(count($orders) && $orders[0] != null)
 		{
-			//Get user details and address in the array
-			foreach ($orders as $key => $value)
-			{
-				$user = $this->database->GetUserById($value['user_id']);				
-				$orders[$key]['email'] = $user['email'];
-				$orders[$key]['address'] = $this->database->GetAddressById($value['address_id']);
-			}
+			$this->_add_email_address_to_orders($orders);
 		}
-		
+
 		$data['orders'] = $orders;	
 		$data['num_orders']	= count($orders);
 		$data['orders_table'] = $this->_generate_orders_table($orders);
