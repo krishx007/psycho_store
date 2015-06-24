@@ -122,12 +122,11 @@ if(!function_exists('product_url'))
 if(!function_exists('always_refresh'))
 {
 	function always_refresh()
-	{		
+	{
 		header("Cache-Control: no-store, no-cache, must-revalidate"); 
  		header("Cache-Control: post-check=0, pre-check=0", false);
  	}
 }
-
 	
 
 ?>
