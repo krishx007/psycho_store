@@ -222,15 +222,21 @@ class Database extends CI_Model
 	{
 		$this->db->set('waybill', $waybill);
 		$this->db->where('txn_id', $txn_id);
-		$query = $this->db->update('orders');
+		$this->db->update('orders');
 	}
 
-	function RemoveWaybill($txn_id)
+	function RemoveWaybillFromOrder($txn_id)
 	{
 		$this->db->set('waybill', null);
 		$this->db->where('txn_id', $txn_id);
-		$query = $this->db->update('orders');		
-	}	
+		$this->db->delete('orders');
+	}
+
+	function DeleteWaybill($waybill)
+	{		
+		$this->db->where_in('waybill', $waybill);
+		$this->db->update('orders');
+	}
 
 	function GetOrdersByStatus($status)
 	{
