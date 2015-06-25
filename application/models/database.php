@@ -229,13 +229,7 @@ class Database extends CI_Model
 	{
 		$this->db->set('waybill', null);
 		$this->db->where('txn_id', $txn_id);
-		$this->db->delete('orders');
-	}
-
-	function DeleteWaybill($waybill)
-	{		
-		$this->db->where_in('waybill', $waybill);
-		$this->db->delete('orders');
+		$this->db->update('orders');
 	}
 
 	function GetOrdersByStatus($status)
@@ -400,6 +394,12 @@ class Database extends CI_Model
 		$this->db->set('state', $state);
 		$this->db->where_in('waybill', $waybill);
 		$this->db->update('delhivery_waybills');
+	}
+
+	function DeleteWaybill($waybill)
+	{		
+		$this->db->where_in('waybill', $waybill);
+		$this->db->delete('delhivery_waybills');
 	}
 
 	function GetWaybills($count = 1)
