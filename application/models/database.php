@@ -235,7 +235,7 @@ class Database extends CI_Model
 	function DeleteWaybill($waybill)
 	{		
 		$this->db->where_in('waybill', $waybill);
-		$this->db->update('orders');
+		$this->db->delete('orders');
 	}
 
 	function GetOrdersByStatus($status)
