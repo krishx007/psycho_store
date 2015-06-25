@@ -446,7 +446,9 @@ class checkout extends CI_controller
 		$gateway_params['txnid'] = $checkout_order['txn_id'];
 		$gateway_params['service_provider'] = $this->config->item('service_provider');
 
-		//Site specific info		
+		//Site specific info				
+		$address = $this->database->GetAddressById($checkout_order['address_id']);
+		$user = $this->database->GetUserById($checkout_order['user_id']);
 
 		$gateway_params['amount'] = $checkout_order['amount'];
 		$gateway_params['firstname'] = $address['first_name'];
