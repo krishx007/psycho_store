@@ -14,6 +14,7 @@ if(!function_exists('mg_create_mail_params'))
 		{
 			case 'first_order':
 				$subject_var = $data['username'];
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
@@ -22,6 +23,7 @@ if(!function_exists('mg_create_mail_params'))
 
 			case 'order':
 				$subject_var = $data['order_id'];
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
 				$data['from'] = 'Psycho Store Orders <email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
@@ -30,7 +32,18 @@ if(!function_exists('mg_create_mail_params'))
 
 			case 'activate':
 				$subject_var = $data['username'];
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
+				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
+			break;
+
+			case 'shipped':
+				$subject_var_1 = $data['username'];
+				$subject_var_2 = $data['order_id'];
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var_1, $subject_var_2);
+				$data['from'] = 'Psycho Store Orders<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
 				$data['reply_to'] = 'contact@psychostore.in';
@@ -38,6 +51,7 @@ if(!function_exists('mg_create_mail_params'))
 			
 			default:
 				$subject_var = 'Psycho Store';
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
 				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
 				$data['domain'] = 'mails.psychostore.in';
 				$data['campaign_id'] = null;
@@ -45,7 +59,7 @@ if(!function_exists('mg_create_mail_params'))
 			break;
 		}
 
-		$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
+		
 		$data['txt'] = $ci->load->view('email/'.$type.'-txt', $data, TRUE);
 		$data['html'] = $ci->load->view('email/'.$type.'-html', $data, TRUE);
 
