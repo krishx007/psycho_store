@@ -30,6 +30,7 @@ $lang['auth_message_banned'] = 'You are banned.';
 $lang['auth_message_unregistered'] = 'Your account has been deleted...';
 
 // Email subjects
+$lang['auth_subject_shipped'] = '%s, Order ID : %s has been shipped';
 $lang['auth_subject_order'] = 'Order ID : %s';
 $lang['auth_subject_first_order'] = '%s, so it begins';
 $lang['auth_subject_subscribe'] = 'Stuff for Gamers and Geeks';
