@@ -1,5 +1,14 @@
 <?php 
 
+class OrderState 
+{
+	const Pending = 'pending';
+	const Packaging = 'packaging';
+	const Shipped = 'shipped';
+	const Requested = 'requested';
+	const Returned = 'returned';
+}
+
 class admin extends CI_controller
 {
 	function __construct()
@@ -211,10 +220,19 @@ class admin extends CI_controller
 	function request_pickup()
 	{
 		$this->_validate_user();
-		$proc_shipemts = $this->session->flashdata('shipments');		
-		
+		$packaged_shipments = $this->session->flashdata('packaged_shipments');
+
 		//Run delhivery script
-		request_delhivery_pickup($proc_shipemts);
+		//request_delhivery_pickup($packaged_shipemts);
+
+		foreach ($packaged_shipments as $key => $shipment)
+		{
+			//Update order status to 'requested'
+			$txn_id[] = $shipment['txn_id'];
+		}
+
+		$this->database->UpdateOrderStatus($txn_id, OrderState::Requested);		
+		redirect('admin/shipments');
 	}
 
 	function shipments()
@@ -223,49 +241,135 @@ class admin extends CI_controller
 
 		$this->_validate_user();
 
-		//Get all procesing orders
-		$processing_shipments = $this->database->GetOrdersByStatus('processing');		
-		$processing_shipments = $this->_add_email_address_to_orders($processing_shipments);
+		//Get all packaged and requested orders
+		$packaged_shipments = $this->database->GetOrdersByStatus(OrderState::Packaging);
+		$packaged_shipments = $this->_add_address_and_user_to_orders($packaged_shipments);
 
-		$this->session->set_flashdata('shipments', $processing_shipments);
+		$this->session->set_flashdata('packaged_shipments', $packaged_shipments);
 
+		$requested_shipments = $this->database->GetOrdersByStatus(OrderState::Requested);
+		$requested_shipments = $this->_add_address_and_user_to_orders($requested_shipments);
+
+		$final_shipments = array_merge($packaged_shipments, $requested_shipments);
+
+		$data['pickup_btn_state'] = count($packaged_shipments) > 0 ? '' : 'disabled';
+		$data['pickup_requested'] = count($requested_shipments) > 0 ? true : false;
+		$data['num_pcikup_shipments'] = count($requested_shipments);
 		$data['date'] = date('d-m-y');
-		$data['num_shipments'] = count($processing_shipments);
-		$data['orders_table'] = $this->_generate_orders_table($processing_shipments);
+		$data['num_pkg_shipments'] = count($packaged_shipments);
+		$data['orders_table'] = $this->_generate_orders_table($final_shipments);
 		
-		$this->display('shipments', $data);		
+		$this->display('shipments', $data);
 	}
 
-	function ship_it($id, $state)
+	function update_order($id, $status)
 	{
 		$this->_validate_user();
-		switch ($state)
+
+		switch ($status)
 		{
-			case '1':
-				$this->database->UpdateOrderStatus($id, 'processing');
-				$wb = $this->database->GetWaybills();	//Returns an array
-				$this->database->AssignWaybill($id, $wb[0]);
+			case OrderState::Packaging:		
+				$this->_package($id);
 				break;
 			
-			case '0':
-				$order = $this->database->GetOrderById($id);
-				$this->database->SetWaybillState($order['waybill'], 'alive');
-				$this->database->UpdateOrderStatus($id, 'pending');
-				$this->database->RemoveWaybill($id);				
-
+			case OrderState::Pending:
+				$this->_pending($id);
 				break;
+
+			case OrderState::Shipped:
+				$this->_shipped($id);
+				break;
+
+			case OrderState::Returned:
+				$this->_returned($id);
+				break;				
 		}
 
 		redirect('admin/orders');
 	}
 
-	function _add_email_address_to_orders(&$orders)
+	function _package($txn_id)
+	{
+		if(is_array($txn_id) == false)
+		{
+			$txn_id = array($txn_id);
+		}
+		
+		foreach ($txn_id as $key => $id)
+		{			
+			$this->database->UpdateOrderStatus($id, OrderState::Packaging);
+			$wb = $this->database->GetWaybills();	//Returns an array
+			$this->database->AssignWaybill($id, $wb[0]);
+		}
+	}
+
+	function _pending($txn_id)
+	{
+		if(is_array($txn_id) == false)
+		{
+			$txn_id = array($txn_id);
+		}
+
+		foreach ($txn_id as $key => $id)
+		{
+			$order = $this->database->GetOrderById($id);
+			$this->database->SetWaybillState($order['waybill'], 'alive');
+			$this->database->UpdateOrderStatus($id, OrderState::Pending);
+			$this->database->RemoveWaybillFromOrder($id);
+		}
+	}
+
+	function _shipped($txn_id)
+	{
+		if(is_array($txn_id) == false)
+		{
+			$txn_id = array($txn_id);
+		}
+
+		foreach ($txn_id as $key => $id)
+		{
+			$order[] = $this->database->GetOrderById($id);			
+			$this->_add_address_and_user_to_orders($order);
+			$order = $order[0];
+			//Mark as shipped
+			$this->database->UpdateOrderStatus($id, OrderState::Shipped);
+			
+			//Collect waybills
+			$dead_waybills[] = $order['waybill'];
+
+			//Mail User
+			$data['order_id'] = $order['txn_id'];
+			$data['username'] = $order['user']['username'];
+			$params = mg_create_mail_params('shipped', $data);
+			mg_send_mail($order['user']['email'], $params);
+		}
+
+		$this->database->DeleteWaybill($dead_waybills);
+
+		redirect('admin/shipments');
+	}
+
+	function _returned($txn_id)
+	{
+		if(is_array($txn_id) == false)
+		{
+			$txn_id = array($txn_id);
+		}
+		
+		foreach ($txn_id as $key => $id)
+		{			
+			$this->database->UpdateOrderStatus($id, OrderState::Returned);
+			$this->database->RemoveWaybillFromOrder($id);
+		}
+	}
+
+	function _add_address_and_user_to_orders(&$orders)
 	{
 		//Get user details and address in the array
 		foreach ($orders as $key => $value)
 		{
 			$user = $this->database->GetUserById($value['user_id']);				
-			$orders[$key]['email'] = $user['email'];
+			$orders[$key]['user'] = $user;
 			$orders[$key]['address'] = $this->database->GetAddressById($value['address_id']);
 		}
 
@@ -290,7 +394,7 @@ class admin extends CI_controller
 		//As $orders is an array
 		if(count($orders) && $orders[0] != null)
 		{
-			$this->_add_email_address_to_orders($orders);
+			$this->_add_address_and_user_to_orders($orders);
 		}
 
 		$data['orders'] = $orders;	
@@ -449,7 +553,7 @@ class admin extends CI_controller
 		foreach ($orders as $order)
 		{			
 			$txn_id = $order['txn_id'];
-			$email = $order['email'];
+			$email = $order['user']['email'];
 			$address = format_address($order['address']);
 			$date = $order['date_created'];
 			$mode = $order['payment_mode'];
@@ -457,16 +561,37 @@ class admin extends CI_controller
 			$status = $order['order_status'];
 			$waybill = $order['waybill'];
 
-			if($order['order_status'] == 'processing')
+			switch ($status)
 			{
-				$process_link = site_url('admin/ship_it/'.$txn_id.'/0');
-				$order_process_link = "<a class ='btn btn-warning' href=$process_link> Don't Ship </a>";
-			}
-			else
-			{
-				$process_link = site_url('admin/ship_it/'.$txn_id.'/1');
-				$order_process_link = "<a class ='btn btn-default' href=$process_link> Ship Today </a>";
-			}
+				case OrderState::Pending:
+					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Packaging);
+					$order_process_link = "<a class ='btn btn-default' href=$process_link> Ship Today </a>";
+					break;
+				
+				case OrderState::Packaging:
+					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Pending);
+					$order_process_link = "<a class ='btn btn-warning' href=$process_link> Don't Ship </a>";
+					break;
+				
+				case OrderState::Returned:
+					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Packaging);
+					$order_process_link = "<a class ='btn btn-default' href=$process_link> Ship Today </a>";
+					break;
+
+				case OrderState::Requested:
+					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Shipped);
+					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Shipped</a>";
+					break;
+
+				case OrderState::Shipped:
+					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Returned);
+					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Returned</a>";
+					break;
+
+				default:
+					# code...
+					break;
+			}			
 
 			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link );
 
