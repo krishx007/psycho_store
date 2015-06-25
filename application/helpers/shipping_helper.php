@@ -2,7 +2,7 @@
 
 if(!function_exists('request_delhivery_pickup'))
 {
-	function request_delhivery_pickup($processing_shipments)
+	function request_delhivery_pickup($packaged_shipemts)
 	{
 		$ci = &get_instance();
 		$ci->config->load('shipping_settings');
@@ -18,7 +18,7 @@ if(!function_exists('request_delhivery_pickup'))
 		$pickup_location = array();
 
 		/////////////start: building the package feed/////////////////////
-		foreach ($processing_shipments as $key => $value)
+		foreach ($packaged_shipemts as $key => $value)
 		{			
 			$ship['waybill'] = $value['waybill']; // waybill number			
 			$ship['order'] = $value['txn_id']; // client order number
@@ -64,7 +64,7 @@ if(!function_exists('request_delhivery_pickup'))
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		//print_r($result);
+		print_r($result);
 		echo "--------------- result ------------";
 		var_dump($error);
 		echo "--------------- Info ------------";
