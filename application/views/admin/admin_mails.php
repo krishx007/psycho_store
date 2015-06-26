@@ -1,5 +1,7 @@
 <div class="container top-bottom-space">  
-    <h1>Emails</h1>
+    <h1>Emails
+       <span class="pull-right navbar-text"> <small><?php echo $num_subscribers?> subscribers </small></span>
+    </h1>
     <hr>
     <div class="well">
     	<div class="row ">

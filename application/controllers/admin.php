@@ -99,6 +99,7 @@ class admin extends CI_controller
 		$data['username'] = 'codinpsycho';
 		$data['order_id'] = '5XTGH567';
 		$type = $this->input->post('mail_type');
+		$data['num_subscribers'] = $this->database->GetNumOfSubscribers();
 
 		if($this->input->post('email') != false)
 		{
@@ -106,7 +107,7 @@ class admin extends CI_controller
 			mg_send_mail($this->input->post('email'), $params);
 		}
 		
-		$this->display('mail', null);
+		$this->display('mail', $data);
 	}
 
 	function test_mass_mail()
