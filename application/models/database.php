@@ -276,6 +276,13 @@ class Database extends CI_Model
 		return $orders;
 	}
 
+	function NumShippedOrders()
+	{
+		$this->db->where('order_status', 'shipped');
+		$this->db->from('orders');
+		return $this->db->count_all_results();
+	}
+
 	//Format is "y-m-d"
 	function GetOrdersForDate($start_date, $end_date)
 	{
@@ -400,6 +407,11 @@ class Database extends CI_Model
 	{		
 		$this->db->where_in('waybill', $waybill);
 		$this->db->delete('delhivery_waybills');
+	}
+
+	function NumWaybills()
+	{
+		return $this->db->count_all('delhivery_waybills');
 	}
 
 	function GetWaybills($count = 1)
