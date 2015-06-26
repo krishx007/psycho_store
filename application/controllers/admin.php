@@ -95,6 +95,8 @@ class admin extends CI_controller
 
 	function mails()
 	{
+		$this->_validate_user();
+		
 		$data['site_name'] = "Psycho Store";
 		$data['username'] = 'codinpsycho';
 		$data['order_id'] = '5XTGH567';
