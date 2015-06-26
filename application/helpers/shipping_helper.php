@@ -10,12 +10,14 @@ if(!function_exists('request_delhivery_pickup'))
 		$token = $ci->config->item('delhivery_token');
 		$warehouse = $ci->config->item('delhivery_warehouse');
 
-		$url = $api_url."/cmu/push/json/?token=".$token;		
+		$url = $api_url."/cmu/push/json/?token=".$token;
 		
 		$params = array(); // this will contain request meta and the package feed
 		$package_data = array(); // package data feed
 		$shipments = array();
 		$pickup_location = array();
+
+		var_dump($packaged_shipemts);
 
 		/////////////start: building the package feed/////////////////////
 		foreach ($packaged_shipemts as $key => $value)
@@ -59,17 +61,36 @@ if(!function_exists('request_delhivery_pickup'))
 		curl_setopt($ch, CURLOPT_POST, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
+		
 		$result = curl_exec($ch);
-		$info = curl_getinfo($ch);
-		$error = curl_error($ch);
+		
 		curl_close($ch);
-
-		print_r($result);
-		echo "--------------- result ------------";
-		var_dump($error);
-		echo "--------------- Info ------------";
-		var_dump($info);
  	}
+}
+
+
+function fetch_delhivery_waybills($count)
+{
+	$ci = &get_instance();
+	$ci->config->load('shipping_settings');
+	$api_url = $ci->config->item('delhivery_url');
+	$token = $ci->config->item('delhivery_token');
+	$warehouse = $ci->config->item('delhivery_warehouse');
+
+	$url = $api_url."/waybill/api/bulk/json/?token=$token&count=$count";
+	var_dump($url);
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+	$result = curl_exec($ch);
+	$info = curl_getinfo($ch);
+	$error = curl_error($ch);
+	curl_close($ch);
+	$result = json_decode($result, TRUE);
+	print_r($result);
+
+	return $result;
 }
 
 

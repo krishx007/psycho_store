@@ -65,7 +65,7 @@ class admin extends CI_controller
 
 		//Show body
 		switch ($page)
-		{			
+		{
 			case 'orders':
 				$this->load->view('admin/admin_orders', $data);
 				break;
@@ -83,20 +83,70 @@ class admin extends CI_controller
 				break;
 			case 'shipments':
 				$this->load->view('admin/admin_shipments', $data);
+				break;
+			case 'logistics':
+				$this->load->view('admin/admin_logistics', $data);
 				break;				
 			default:
 				show_404();
-			break;		
-		}		
+			break;
+		}
 
 		//Show footer
 		$this->load->view('footer', $data);
 	}
 
+	function logistics()
+	{
+		$this->_validate_user();
+
+		$data['delhivery_waybills'] = $this->database->NumWaybills();
+
+		$this->_check_for_new_waybills();
+
+		$this->display('logistics', $data);
+	}
+
+	function _check_for_new_waybills()
+	{
+		//Are we fetching new waybills
+		$log_partner = $this->input->post('logistic_partner');
+		$num_waybills = $this->input->post('num_waybills');
+		
+		if($log_partner != false && $num_waybills != false)
+		{
+			switch ($log_partner)
+			{
+				case 'delhivery':
+					$delhivery_waybills = fetch_delhivery_waybills($num_waybills);					
+					$this->_insert_new_waybills($delhivery_waybills);					
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+		}
+	}
+
+	function _insert_new_waybills($waybills)
+	{
+		//Package waybills first
+		$waybills = explode(',', $waybills);
+
+		foreach ($waybills as $key => $waybill)
+		{			
+			$delhivery_waybills[$key]['waybill'] = $waybill;
+		}
+		
+
+		$this->database->InsertWaybills($delhivery_waybills);
+	}
+
 	function mails()
 	{
 		$this->_validate_user();
-		
+
 		$data['site_name'] = "Psycho Store";
 		$data['username'] = 'codinpsycho';
 		$data['order_id'] = '5XTGH567';
@@ -224,9 +274,14 @@ class admin extends CI_controller
 	{
 		$this->_validate_user();
 		$packaged_shipments = $this->session->flashdata('packaged_shipments');
+		
+		if(is_null($packaged_shipments))
+		{
+			redirect('admin/shipments');
+		}
 
 		//Run delhivery script
-		//request_delhivery_pickup($packaged_shipemts);
+		request_delhivery_pickup($packaged_shipments);
 
 		foreach ($packaged_shipments as $key => $shipment)
 		{
@@ -234,7 +289,8 @@ class admin extends CI_controller
 			$txn_id[] = $shipment['txn_id'];
 		}
 
-		$this->database->UpdateOrderStatus($txn_id, OrderState::Requested);		
+		$this->database->UpdateOrderStatus($txn_id, OrderState::Requested);
+
 		redirect('admin/shipments');
 	}
 
@@ -249,7 +305,7 @@ class admin extends CI_controller
 		$packaged_shipments = $this->_add_address_and_user_to_orders($packaged_shipments);
 
 		$this->session->set_flashdata('packaged_shipments', $packaged_shipments);
-
+		
 		$requested_shipments = $this->database->GetOrdersByStatus(OrderState::Requested);
 		$requested_shipments = $this->_add_address_and_user_to_orders($requested_shipments);
 
@@ -405,7 +461,8 @@ class admin extends CI_controller
 			$this->_add_address_and_user_to_orders($orders);
 		}
 
-		$data['orders'] = $orders;	
+		$data['orders'] = $orders;
+		$data['num_shipped_orders'] = $this->database->NumShippedOrders();
 		$data['num_orders']	= count($orders);
 		$data['orders_table'] = $this->_generate_orders_table($orders);
 

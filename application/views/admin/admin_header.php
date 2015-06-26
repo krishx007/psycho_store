@@ -36,6 +36,7 @@
                 <li>
                   <a class='navbar-btn' href = <?php echo site_url('admin/feedback') ?> >Feedback</a>
                   <a class='navbar-btn' href = <?php echo site_url('admin/mails') ?> >Emails</a>
+                  <a class='navbar-btn' href = <?php echo site_url('admin/logistics') ?> >Logistics</a>
                 </li>
             </ul>          
         </div>

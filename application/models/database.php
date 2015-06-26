@@ -414,6 +414,18 @@ class Database extends CI_Model
 		return $this->db->count_all('delhivery_waybills');
 	}
 
+	function InsertWaybills($waybills)
+	{
+		if(is_array($waybills))
+		{
+			$this->db->insert_batch('delhivery_waybills', $waybills);
+		}
+		else
+		{
+			$this->db->insert('delhivery_waybills', $waybills);
+		}
+	}
+
 	function GetWaybills($count = 1)
 	{
 		$this->db->where('state !=', 'dead');
