@@ -379,20 +379,25 @@ class admin extends CI_controller
 	function orders($order_id = null)
 	{
 		$this->_validate_user();
-		$orders = null;
-
+		$orders = array();
+		
 		if($order_id)
 		{
-			$orders[] = $this->database->GetOrderById($order_id);
+			$ord = $this->database->GetOrderById($order_id);
+			if($ord)
+			{
+				$orders = array($ord);
+			}			
 		}
 		else
 		{
 			//If no order_id is given show pending/returned orders
 			$orders = $this->database->GetPendingReturnedOrders();
-		}		
+		}
+		
 		
 		//As $orders is an array
-		if(count($orders) && $orders[0] != null)
+		if(count($orders))
 		{
 			$this->_add_address_and_user_to_orders($orders);
 		}
@@ -551,7 +556,12 @@ class admin extends CI_controller
 
 		$num = 1;
 		foreach ($orders as $order)
-		{			
+		{
+			if(is_null($order))
+			{
+				continue;
+			}
+
 			$txn_id = $order['txn_id'];
 			$email = $order['user']['email'];
 			$address = format_address($order['address']);
@@ -589,6 +599,7 @@ class admin extends CI_controller
 					break;
 
 				default:
+					$order_process_link = null;
 					# code...
 					break;
 			}			
@@ -602,8 +613,8 @@ class admin extends CI_controller
 				$size = array('data' => $item['size'], 'colspan'=>2, 'align'=>'right');
 				$count = array('data' => $item['count'], 'colspan'=>2, 'align'=>'right');
 				$this->table->add_row( $product_name, $size, $count);
-			}			
-			++$num;
+			}
+			++$num;	
 		}
 		
 		return $this->table->generate();
