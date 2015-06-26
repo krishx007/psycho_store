@@ -251,7 +251,8 @@ class Database extends CI_Model
 	{
 
 		$this->db->select('txn_id');
-		$this->db->where('order_status !=', 'shipped');
+		$this->db->where('order_status =', 'pending');
+		$this->db->or_where('order_status =', 'returned');
 		$query = $this->db->get('orders');
 		$orders = array();
 
