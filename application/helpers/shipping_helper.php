@@ -15,16 +15,24 @@ if(!function_exists('request_delhivery_pickup'))
 		$params = array(); // this will contain request meta and the package feed
 		$package_data = array(); // package data feed
 		$shipments = array();
-		$pickup_location = array();
+		$pickup_location = array();		
 
-		var_dump($packaged_shipemts);
 
 		/////////////start: building the package feed/////////////////////
 		foreach ($packaged_shipemts as $key => $value)
 		{			
 			$ship['waybill'] = $value['waybill']; // waybill number			
 			$ship['order'] = $value['txn_id']; // client order number
-			$ship['products_desc'] = 'Merchandise for Gamers/Geeks';
+
+			//ToDo Actual weight to be set up
+			$ship['weight'] = '0.3'*$value['order_items']['count'];	//In kgs * count
+
+			foreach ($value['order_items'] as $key => $item)
+			{				
+				$prod = $item['product'];
+				$ship['products_desc'][] = $prod['product_name']." {".$item['count'].", ".$item['size']."}";
+			}
+			
 			$ship['order_date'] = $value['date_created']; // ISO Format
 			$ship['payment_mode'] = $value['payment_mode'];
 			$ship['total_amount'] = $value['order_amount']; // in INR
