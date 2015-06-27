@@ -6,7 +6,7 @@
     <div class="well">
         <div class="row">
             <div class="col-md-12">
-                <a class="navbar-btn btn btn-primary" href= <?php echo site_url('admin/shipments') ?> >Pending Shipments</a>
+                <a class="navbar-btn btn btn-primary" href= <?php echo site_url('admin/shipments') ?> >Process Shipments</a>
                 <h3 class="play text-danger navbar-text pull-right"><?php echo $num_orders?> pending shipment(s)</h3>
             </div>
         </div>
