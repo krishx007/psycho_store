@@ -86,6 +86,9 @@ class admin extends CI_controller
 				break;
 			case 'logistics':
 				$this->load->view('admin/admin_logistics', $data);
+				break;
+			case 'users':
+				$this->load->view('admin/admin_users', $data);
 				break;				
 			default:
 				show_404();
@@ -138,9 +141,32 @@ class admin extends CI_controller
 		{			
 			$delhivery_waybills[$key]['waybill'] = $waybill;
 		}
-		
 
 		$this->database->InsertWaybills($delhivery_waybills);
+	}
+
+	function users($id = null)
+	{
+		$this->_validate_user();
+				
+		if(is_null($id) == false)
+		{
+			$user = $this->database->GetUserById($id);			
+			$points = $this->input->post('points');
+			if($points != false)
+			{
+				$points = $points > 500 ? 500 : $points;
+				$points += $user['points'];
+				$this->database->RewardUser($id, $points);
+			}
+			redirect('admin/users');
+		}
+
+		$all_users = $this->database->GetAllUsers();
+		$data['num_users'] = count($all_users);
+		$data['users_table'] = $this->_generate_users_table($all_users);
+
+		$this->display('users', $data);
 	}
 
 	function mails()
@@ -737,6 +763,33 @@ class admin extends CI_controller
 
 			
 			$this->table->add_row($fb_id, $fb['name'], $fb['email'], $fb['message'], $fb_pub_link);
+		}
+
+		return $this->table->generate();
+	}
+
+	function _generate_users_table($users)
+	{
+		$this->load->library('table');
+		$this->table->set_heading('id', 'name', 'email', 'points', 'Reward');
+
+		$tmpl = array ( 'table_open'  => '<table class="table " >' );
+		$this->table->set_template($tmpl);
+
+		foreach ($users as $key => $user)
+		{
+			$id = $user['id'];
+			$form_url = site_url("admin/users/$id");
+			//Reward Link
+			$reward_link = "<form class='form-inline' method=\"post\" action= $form_url >
+				<div class=\"form-group\">
+
+					<input type='number' name=points  class=\"form-control\" placeholder=\"Points\">
+					<button type=\"submit\" class=\"btn btn-primary\">Reward</button>
+				</div>
+			</form>";
+
+			$this->table->add_row($user['id'], $user['username'], $user['email'], $user['points'],$reward_link);
 		}
 
 		return $this->table->generate();

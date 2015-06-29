@@ -30,6 +30,9 @@
     	<a class='navbar-btn' href = <?php echo site_url('admin/products') ?> >Products</i></a>
       </li>
       <li>
+      <a class='navbar-btn' href = <?php echo site_url('admin/users') ?> >Users</i></a>
+      </li>      
+      <li>
         <div class="btn-group">
           <a class="btn navbar-btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Other <span class="caret"></span>  </a>
             <ul class="dropdown-menu">
