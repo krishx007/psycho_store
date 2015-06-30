@@ -217,7 +217,7 @@ class Auth extends CI_Controller
 						$email_activation)))
 				{
 					//success					
-					$data['site_name'] = $this->config->item('website_name', 'tank_auth');					
+					$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 					if ($email_activation)
 					{									// send "activate" email
 						$data['activation_period'] = $this->config->item('email_activation_expire', 'tank_auth') / 3600;

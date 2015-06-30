@@ -24,8 +24,9 @@ class admin extends CI_controller
 		$this->load->helper('form');
 		$this->load->helper('psycho_helper');
 		$this->load->helper('mailgun_helper');
-		$this->load->helper('shipping_helper');
+		$this->load->helper('shipping_helper');		
 		$this->load->library('session');
+		$this->config->load('shipping_settings');
 	}
 
 	function index()
@@ -413,7 +414,7 @@ class admin extends CI_controller
 
 		foreach ($txn_id as $key => $id)
 		{
-			$order[] = $this->database->GetOrderById($id);			
+			$order[] = $this->database->GetOrderById($id);
 			$this->_add_address_and_user_to_orders($order);
 			$order = $order[0];
 			//Mark as shipped
@@ -425,6 +426,9 @@ class admin extends CI_controller
 			//Mail User
 			$data['order_id'] = $order['txn_id'];
 			$data['username'] = $order['user']['username'];
+			$data['waybill'] = $order['waybill'];
+			$data['tracking_address'] = $this->config->item('delhivery_url')."/p/{$order['waybill']}";
+			$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 			$params = mg_create_mail_params('shipped', $data);
 			mg_send_mail($order['user']['email'], $params);
 		}
