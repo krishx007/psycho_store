@@ -1,10 +1,10 @@
 <div class="container top-bottom-space">  
     <h1> Logistic Partners
         <span class='pull-right play'>
-            <form class='form-inline' method="post" action= <?php echo site_url('admin/logistics') ?> >                
+            <form class='form-inline' method="post" action= <?php echo site_url('admin/logistics') ?> >
                 <div class="form-group">
                     <select class="form-control" name="logistic_partner">
-                        <option value="delhivery"> Delhivery </option>                            
+                        <option value="delhivery"> Delhivery </option>
                     </select>
                     <input type='number' name="num_waybills" class="form-control" placeholder="Num of Waybills">
                     <button type="submit" class="btn btn-primary">Fetch Waybills</button>
