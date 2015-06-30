@@ -62,10 +62,11 @@
             <h4 class="molot">Newsletter</h4>
               <form class="form" method = "post" action=<?php echo site_url('subscribe')?>>
                 <div class="input-group">
-                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="Be the first to know when loot arrives">
+                  <input type="email" name="subscribe_email" class="form-control input-sm" placeholder="you@email.com">
                   <span class="input-group-btn"><button class="btn btn-primary btn-sm" type="submit">Subscribe</button></span>
                 </div>
               </form>
+              <p><small>Be the first to know when new loot arrives</small></p>
           </div>
         </div>
         <div class="row">
