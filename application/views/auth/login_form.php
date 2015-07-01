@@ -1,3 +1,10 @@
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})	
+</script>
+
+
 <div class="container top-bottom-space ">
 	<h1>Login</h1>
 	<hr>
@@ -13,6 +20,7 @@ $remember = array(
 	'type'	=> 'checkbox',
 	'class'	=>	'checkbox'
 );
+
 
 ?>
 <?php $redirect_url =  rawurlencode($this->input->get('redirect_url'))?>
@@ -33,6 +41,6 @@ $remember = array(
   	<?php echo anchor('/auth/forgot_password/', 'Forgot password'); ?>
 </div>
 
-<button class="btn btn-primary" type="submit">Login</button>
+<button class="btn btn-primary" data-toggle="tooltip" title="No need to insert coins !" data-placement="right" type="submit">Start the game!</button>
 <?php echo form_close(); ?>
 </div>
