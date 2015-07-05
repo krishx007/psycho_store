@@ -55,7 +55,7 @@ if(!function_exists('generate_header'))
 
 if(!function_exists('generate_product_table_for_email'))
 {
-	function generate_product_table_for_email($order_info)
+	function generate_product_table_for_order($order_id)
 	{
 		$ci =& get_instance();
 
@@ -63,10 +63,11 @@ if(!function_exists('generate_product_table_for_email'))
 		$ci->load->model('database');
 		$ci->table->set_heading('Name','Size','Qty','Price', 'Total');
 		$final_total = 0;
+		$order = $ci->database->GetOrderById($order_id);
 
-		foreach ($order_info['checkout_items'] as $item)
+		foreach ($order['order_items'] as $item)
 		{
-			$product = $ci->database->GetProductById($item['product_id']);
+			$product = $item['product'];
 			$name = $product['product_name'];
 			$size = $item['size'];
 			$qty = $item['count'];
@@ -83,13 +84,13 @@ if(!function_exists('generate_product_table_for_email'))
 		$ci->table->add_row($cell, $final_total );
 
 		$cell = array('data'=>'Discount :', 'colspan'=>4, 'class'=>'highlight', 'align'=>'right');
-		$ci->table->add_row($cell, $final_total - $order_info['amount'] );
+		$ci->table->add_row($cell, $final_total - $order['order_amount'] );
 
 		$cell = array('data'=>'Shipping :', 'colspan'=>4, 'class'=>'highlight', 'align'=>'right');
 		$ci->table->add_row($cell, 'Always Free' );
 
 		$cell = array('data'=>'Final Price :', 'colspan'=>4, 'class'=>'highlight', 'align'=>'right');
-		$ci->table->add_row($cell, $order_info['amount'] );			
+		$ci->table->add_row($cell, $order['order_amount'] );			
 
 		return $ci->table->generate();
 	}

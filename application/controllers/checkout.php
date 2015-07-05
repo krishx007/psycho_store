@@ -410,7 +410,7 @@ class checkout extends CI_controller
 		$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 		$data['username'] = $user['username'];
 		$data['order_id'] = $order_info['txn_id'];
-		$data['product_table'] = generate_product_table_for_email($order_info);
+		$data['product_table'] = generate_product_table_for_order($order_info['txn_id']);
 		$data['address'] = format_address($order_info['address']);
 		$data['payment_mode'] = $order_info['payment_mode'];
 		
