@@ -4,7 +4,8 @@
 $config['delhivery_url'] = 'http://test.delhivery.com';
 $config['delhivery_token'] = 'd553fe2a0286484c51f01e809d5e5ae27c285960';
 $config['delhivery_warehouse'] = 'PSYCHONETSOLUTIONS - DFS';
-
+$config['delhivery_logo'] ='images/shipping/delhivery.png';
+$config['company_logo'] ='images/shipping/ps.png';
 
 //Pickup Location
 $config['pickup_location'] = array(
