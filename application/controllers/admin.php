@@ -90,7 +90,7 @@ class admin extends CI_controller
 				break;
 			case 'users':
 				$this->load->view('admin/admin_users', $data);
-				break;				
+				break;
 			default:
 				show_404();
 			break;
@@ -98,6 +98,47 @@ class admin extends CI_controller
 
 		//Show footer
 		$this->load->view('footer', $data);
+	}
+
+	function labels($waybill)
+	{
+		$this->_validate_user();
+
+		$waybill = trim($waybill);
+		$data = null;
+		
+		$requested_shipments = $this->database->GetOrdersByState(OrderState::Requested);
+		$this->_add_address_and_user_to_orders($requested_shipments);
+		
+		//Get this particular shipment
+		$required_shipment = null;
+		foreach ($requested_shipments as $key => $shipment)
+		{
+			if($waybill == $shipment['waybill'])
+			{
+				$required_shipment = $shipment;
+				break;
+			}
+		}
+		
+		$label = create_shipping_label($waybill);
+		$label = $label['packages'][0];
+		$shipping_details = $this->database->GetShippingDetails($shipment['address']['pincode']);
+
+		$data['company_logo'] = site_url($this->config->item('company_logo'));
+		$data['courier_logo'] = site_url($this->config->item('delhivery_logo'));
+		$data['wb_barcode'] = $label['barcode'];
+		$data['oid_barcode'] = $label['oid_barcode'];
+		$data['address'] = format_address($shipment['address']);
+		$data['city'] = $shipment['address']['city'];
+		$data['pin'] = $shipment['address']['pincode'];
+		$data['coc_code'] = $shipping_details['coc_code'];
+		$data['dispatch_center'] = $shipping_details['dispatch_center'];
+		$data['payment_mode'] = strtoupper($shipment['payment_mode']);		
+		$data['return_address'] = format_address($this->config->item('return_address'));		
+		$data['prod_desc_table'] = generate_product_table_for_order($shipment['txn_id']);
+
+		$this->load->view('admin/label', $data);
 	}
 
 	function logistics()
@@ -306,19 +347,39 @@ class admin extends CI_controller
 		{
 			redirect('admin/shipments');
 		}
+		
+		$pickup_requested = $this->_request_pickup($packaged_shipments);
 
-		//Run delhivery script
-		request_delhivery_pickup($packaged_shipments);
-
-		foreach ($packaged_shipments as $key => $shipment)
+		if($pickup_requested)
 		{
-			//Update order status to 'requested'
-			$txn_id[] = $shipment['txn_id'];
-		}
+			foreach ($packaged_shipments as $key => $shipment)
+			{
+				//Update order status to 'requested'
+				$txn_id[] = $shipment['txn_id'];
+				$dead_waybills[] =$shipment['waybill'];
+			}
 
-		$this->database->UpdateOrderStatus($txn_id, OrderState::Requested);
+			$this->database->UpdateOrderStatus($txn_id, OrderState::Requested);
+
+			//Remove dead waybills once they are manifested
+			$this->database->DeleteWaybill($dead_waybills);
+		}		
 
 		redirect('admin/shipments');
+	}
+
+	function _request_pickup($shipments)
+	{
+		//Run delhivery script
+		$result = request_delhivery_pickup($shipments);
+		
+		if($result['success'] == false)
+		{
+			print_r($result);
+			die('Pick up request failed');
+		}
+
+		return $result['success'];
 	}
 
 	function shipments()
@@ -328,13 +389,13 @@ class admin extends CI_controller
 		$this->_validate_user();
 
 		//Get all packaged and requested orders
-		$packaged_shipments = $this->database->GetOrdersByStatus(OrderState::Packaging);
-		$packaged_shipments = $this->_add_address_and_user_to_orders($packaged_shipments);
-
-		$this->session->set_flashdata('packaged_shipments', $packaged_shipments);
+		$packaged_shipments = $this->database->GetOrdersByState(OrderState::Packaging);
+		$packaged_shipments = $this->_add_address_and_user_to_orders($packaged_shipments);		
 		
-		$requested_shipments = $this->database->GetOrdersByStatus(OrderState::Requested);
+		$requested_shipments = $this->database->GetOrdersByState(OrderState::Requested);
 		$requested_shipments = $this->_add_address_and_user_to_orders($requested_shipments);
+
+		$this->session->set_flashdata('packaged_shipments', $packaged_shipments);		
 
 		$final_shipments = array_merge($packaged_shipments, $requested_shipments);
 
@@ -431,9 +492,7 @@ class admin extends CI_controller
 			$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 			$params = mg_create_mail_params('shipped', $data);
 			mg_send_mail($order['user']['email'], $params);
-		}
-
-		$this->database->DeleteWaybill($dead_waybills);
+		}		
 
 		redirect('admin/shipments');
 	}
@@ -639,7 +698,7 @@ class admin extends CI_controller
 	function _generate_orders_table($orders)
 	{		
 		$this->load->library('table');
-		$this->table->set_heading('#','Txn_id','Date','Email','Address', 'Mode', 'Amount', 'Status', 'Waybill', 'Process');
+		$this->table->set_heading('#','Txn_id','Date','Email','Address', 'Mode', 'Amount', 'Status', 'Waybill', 'Process', 'Label');
 
 		$tmpl = array ( 'table_open'  => '<table class="table table-condensed" >' );
 		$this->table->set_template($tmpl);
@@ -658,8 +717,10 @@ class admin extends CI_controller
 			$date = $order['date_created'];
 			$mode = $order['payment_mode'];
 			$amount = $order['order_amount'];
-			$status = $order['order_status'];
+			$status = $order['order_state'];
 			$waybill = $order['waybill'];
+			$order_process_link = null;
+			$view_label_link = null;		
 
 			switch ($status)
 			{
@@ -680,6 +741,8 @@ class admin extends CI_controller
 
 				case OrderState::Requested:
 					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Shipped);
+					$label_link = site_url('admin/labels/'.$waybill);
+					$view_label_link = "<a target='_blank' class ='btn btn-default' href=$label_link> View label</a>";
 					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Shipped</a>";
 					break;
 
@@ -690,11 +753,12 @@ class admin extends CI_controller
 
 				default:
 					$order_process_link = null;
+					$view_label_link = null;
 					# code...
 					break;
-			}			
+			}	
 
-			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link );
+			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link, $view_label_link);
 
 			foreach ($order['order_items'] as $key => $item) 
 			{
@@ -822,3 +886,4 @@ class admin extends CI_controller
 }
 
 ?>
+

@@ -12,16 +12,9 @@
                 <?php else: ?>
                 <h3 class="navbar-text text-danger pull-right play"> No Pickup has been requested. </h3>
                 <?php endif; ?>
-            </div>            
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-12">
-
             </div>
         </div>
-    </div>
+    </div>    
     <hr>
     <div class="well">        
     	<div class="row ">
