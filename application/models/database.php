@@ -238,10 +238,10 @@ class Database extends CI_Model
 		$this->db->update('orders');
 	}
 
-	function GetOrdersByStatus($status)
+	function GetOrdersByState($state)
 	{
 		$this->db->select('txn_id');
-		$this->db->where('order_status =', $status);
+		$this->db->where('order_state =', $state);
 		$query = $this->db->get('orders');
 		$orders = array();
 
