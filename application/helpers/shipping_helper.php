@@ -15,14 +15,14 @@ if(!function_exists('request_delhivery_pickup'))
 		$params = array(); // this will contain request meta and the package feed
 		$package_data = array(); // package data feed
 		$shipments = array();
-		$pickup_location = array();		
+		$pickup_location = array();
 		
 		/////////////start: building the package feed/////////////////////
 		foreach ($packaged_shipemts as $key => $value)
-		{			
-			$ship['waybill'] = $value['waybill']; // waybill number			
-			$ship['order'] = $value['txn_id']; // client order number			
-			//ToDo Actual weight to be set up			
+		{
+			$ship['waybill'] = $value['waybill']; // waybill number
+			$ship['order'] = $value['txn_id']; // client order number
+			//ToDo Actual weight to be set up
 			$ship['weight'] = 0;
 			foreach ($value['order_items'] as $key => $item)
 			{
@@ -65,15 +65,59 @@ if(!function_exists('request_delhivery_pickup'))
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($params));
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded'));
 		
 		$result = curl_exec($ch);
 		
-		curl_close($ch);
+		curl_close($ch);		
+
+		return json_decode($result, TRUE);
  	}
 }
 
+function fetch_shipping_label_info($waybills)
+{
+	$ci = &get_instance();
+	$ci->config->load('shipping_settings');
+	$api_url = $ci->config->item('delhivery_url');
+	$token = $ci->config->item('delhivery_token');
+	if(is_array($waybills) == false)
+	{
+		$waybills = array($waybills);
+	}
+
+	$waybill_string = null;
+
+	//Create HTTP Get Request URL
+	foreach ($waybills as $key => $waybill)
+	{
+		$waybill_string += "$waybill,";
+	}
+	
+	$url = $api_url."/api/p/packing_slip/?wbns=$waybill_string";
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);	
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);	
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array("Authorization: Token $token"));
+	
+	$result = curl_exec($ch);
+	
+	curl_close($ch);
+
+	$result = json_decode($result, TRUE);
+
+	return $result;	
+}
+
+function create_shipping_label($waybills)
+{
+	$labels = fetch_shipping_label_info($waybills);	
+
+	return $labels;
+}
 
 function fetch_delhivery_waybills($count)
 {
