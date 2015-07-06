@@ -18,4 +18,16 @@ $config['pickup_location'] = array(
 									'state' 	=> 'Karnataka'
 									);
 
+$config['return_address'] = array(
+									'first_name' => 'Ishkaran',
+									'last_name' => 'Singh',
+									'address_1' 	=> '#35, Mane Building, 7th Main Road',
+									'address_2' => 'ST Bed Layout,',
+									'city' 	=> 'Bangaluru',
+									'country' => 'India',									
+									'phone_number' 	=> '7387045828',
+									'pincode' 	=> '560034',
+									'state' 	=> 'Karnataka'
+									);
+
 ?>
