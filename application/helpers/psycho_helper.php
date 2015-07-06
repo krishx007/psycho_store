@@ -101,8 +101,10 @@ if(!function_exists('format_address'))
 	function format_address($address)
 	{
 		$complete_add = $address['first_name'].' '.$address['last_name'].'<br>'.$address['address_1'] .',<br>';
-				if($address['address_2'] != NULL)
-				 	$complete_add = $complete_add.$address['address_2'].', ';
+				if(isset($address['address_2']) &&  $address['address_2'] != NULL)
+				{
+					$complete_add = $complete_add.$address['address_2'].', ';
+				}				 	
 				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
 
 		return $complete_add;
