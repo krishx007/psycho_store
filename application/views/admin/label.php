@@ -9,7 +9,7 @@
 </tr>
 <tr>
     <td >
-        <img width='200px' src="<?php echo $wb_barcode ?>">
+        <img src="<?php echo $wb_barcode ?>">
     </td>
     <td align="right">
         <p><?php echo $pin ?></p>
@@ -31,12 +31,10 @@
     </td>
 </tr>
 <tr>
-    <td colspan="2" border="0">
+    <td>
         <img  src="<?php echo $oid_barcode ?>">
     </td>
-</tr>
-<tr>
-    <td colspan="2" border="0">
+    <td>
         <small><small> Return address: <?php echo $return_address ?></small></small>
     </td>
 </tr>
