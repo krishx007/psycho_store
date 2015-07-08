@@ -90,7 +90,7 @@ if(!function_exists('generate_product_table_for_email'))
 		$ci->table->add_row($cell, 'Always Free' );
 
 		$cell = array('data'=>'Final Price :', 'colspan'=>4, 'class'=>'highlight', 'align'=>'right');
-		$ci->table->add_row($cell, $order['order_amount'] );			
+		$ci->table->add_row($cell, $order['order_amount'] );
 
 		return $ci->table->generate();
 	}

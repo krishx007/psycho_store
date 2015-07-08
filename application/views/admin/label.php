@@ -9,7 +9,7 @@
 </tr>
 <tr>
     <td >
-        <img src="<?php echo $wb_barcode ?>">
+        <img width="150" src="<?php echo $wb_barcode ?>">
     </td>
     <td align="right">
         <p><?php echo $pin ?></p>
@@ -18,16 +18,21 @@
 </tr>
 <tr>
     <td>
+        <small>
         <p>Shipping address: <?php echo $address ?></p>
         <p><?php echo $city."<br>".$dispatch_center."<br>".$pin ?></p>
+        </small>
     </td>
     <td align="center">
         <h1><?php echo $payment_mode ?></h1>
     </td>
 </tr>
 <tr>
-    <td align="center" colspan="2" cellpadding="0px">
-        <?php echo $prod_desc_table ?>
+    <td>
+        <p>Gaming/Geek Merchandise</p>
+    </td>
+    <td align="center">
+        <p>Total : <?php echo $order_amount ?></p>
     </td>
 </tr>
 <tr>
