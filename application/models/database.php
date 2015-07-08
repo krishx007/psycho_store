@@ -217,9 +217,9 @@ class Database extends CI_Model
 		return $order;
 	}
 
-	function UpdateOrderStatus($txn_id, $status)
+	function UpdateOrderStatus($txn_id, $state)
 	{
-		$this->db->set('order_status', $status);
+		$this->db->set('order_state', $state);
 		$this->db->where_in('txn_id', $txn_id);
 		$query = $this->db->update('orders');
 	}
@@ -257,8 +257,8 @@ class Database extends CI_Model
 	{
 
 		$this->db->select('txn_id');
-		$this->db->where('order_status =', 'pending');
-		$this->db->or_where('order_status =', 'returned');
+		$this->db->where('order_state =', 'pending');
+		$this->db->or_where('order_state =', 'returned');
 		$query = $this->db->get('orders');
 		$orders = array();
 
@@ -285,7 +285,7 @@ class Database extends CI_Model
 
 	function NumShippedOrders()
 	{
-		$this->db->where('order_status', 'shipped');
+		$this->db->where('order_state', 'shipped');
 		$this->db->from('orders');
 		return $this->db->count_all_results();
 	}
