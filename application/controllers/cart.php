@@ -56,7 +56,7 @@ class cart extends CI_controller
 	function view()
 	{
 		$data[] = 0;
-		$num_items = $this->cart->total_items();		
+		$num_items = $this->cart->total_items();
 		generate_header($data);		
 		$this->set_stock_info($data);
 
@@ -116,7 +116,7 @@ class cart extends CI_controller
 		redirect('cart');
 	}
 
-	function getDiscount($coupon)
+	function _getDiscount($coupon)
 	{		
 		$discount = $this->database->GetDiscountCoupon($coupon);
 		
@@ -136,7 +136,7 @@ class cart extends CI_controller
 		if($this->input->post('coupon') != (string)FALSE)
 		{
 			$coupon = trim($this->input->post('coupon'));
-			$this->cart->apply_discount($this->getDiscount($coupon));
+			$this->cart->apply_discount($this->_getDiscount($coupon));
 		}
 
 		redirect('cart');
