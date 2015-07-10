@@ -40,6 +40,7 @@
                   <a class='navbar-btn' href = <?php echo site_url('admin/feedback') ?> >Feedback</a>
                   <a class='navbar-btn' href = <?php echo site_url('admin/mails') ?> >Emails</a>
                   <a class='navbar-btn' href = <?php echo site_url('admin/logistics') ?> >Logistics</a>
+                  <a class='navbar-btn' href = <?php echo site_url('admin/discount_domains') ?> >Discount Domains</a>
                 </li>
             </ul>          
         </div>
