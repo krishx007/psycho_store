@@ -536,5 +536,38 @@ class Database extends CI_Model
 		$this->db->update('checkout_orders');	
 	}
 	//-------------------------- XXX -------------------------- 
+
+	//----------------- Discount Domains related functions -----------------
+
+	function AddDiscountDomain($domain_info)
+	{
+		$this->db->insert('discount_domains',$domain_info);
+	}
+
+	function RemoveDiscountDomain($domain_name)
+	{
+		$this->db->where('domain', $domain_name);
+		$this->db->delete('discount_domains');
+	}
+
+	function GetDiscountDomain($domain_name = null)
+	{
+		if(is_null($domain_name) == false)
+		{
+			$this->db->where('domain', $domain_name);
+		}
+
+		$query = $this->db->get('discount_domains');
+		return $query->result_array();
+	}
+
+	function SetDiscountForDomain($domain, $discount_percentage)
+	{
+		$this->db->set('how_much', $discount_percentage);
+		$this->db->like('domain', $domain);
+		$this->db->update('discount_domains');
+	}
+
+	//-------------------------- XXX --------------------------------------- 
 }
 ?>
