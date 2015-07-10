@@ -558,7 +558,8 @@ class Database extends CI_Model
 		}
 
 		$query = $this->db->get('discount_domains');
-		return $query->result_array();
+
+		return is_null($domain_name) == false ? $query->row_array() : $query->result_array();
 	}
 
 	function SetDiscountForDomain($domain, $discount_percentage)
