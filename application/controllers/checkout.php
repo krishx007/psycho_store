@@ -53,7 +53,7 @@ class checkout extends CI_controller
 	}
 
 	function _start_checkout()
-	{		
+	{
 		$txn_id = $this->session->userdata('txn_id');
 
 		if($txn_id == false)
@@ -69,7 +69,7 @@ class checkout extends CI_controller
 			$this->_create_checkout_order();
 		}
 
-		$this->_save_cart_items();		
+		$this->_save_cart_items();
 	
 		$this->login();
 	}
@@ -81,11 +81,14 @@ class checkout extends CI_controller
 		$this->database->SaveTxnIdOnCheckout($txn_id);
 		
 		//Set txn_id in session
-		$this->session->set_userdata('txn_id', $txn_id);		
+		$this->session->set_userdata('txn_id', $txn_id);
 	}
 
 	function _save_cart_items()
 	{
+		//Try applying domain based discount before saving
+		try_domain_discount();
+
 		$txn_id = $this->session->userdata('txn_id');
 
 		//Empty checkout_items for this txn_id		
@@ -123,20 +126,22 @@ class checkout extends CI_controller
 
 		if(!$this->tank_auth->is_logged_in())
 		{
-			redirect('auth/login?redirect_url='.rawurlencode('checkout/address'));
+			redirect('auth/login?redirect_url='.rawurlencode('checkout/'));
 		}
 		else
+		{
 			redirect('checkout/address');
+		}
 	}
 
 	function address()
 	{
-		$this->_validate_cart();		
+		$this->_validate_cart();
 
 		$user_id = $this->tank_auth->get_user_id();
 		
 		if(strlen($user_id) > 0)
-		{			
+		{
 			$this->_save_user_details();
 
 			$result = $this->database->GetAddressesForUser($user_id);
@@ -145,7 +150,7 @@ class checkout extends CI_controller
 		}
 		else
 		{
-			redirect('checkout/login');
+			redirect('checkout/');
 		}
 		
 	}

@@ -24,7 +24,7 @@ class cart extends CI_controller
 	}
 
 	//make sure user cant enter more than available stock qty
-	function set_stock_info(&$data)
+	function _set_stock_info(&$data)
 	{
 		foreach ($this->cart->contents() as $items)
 		{
@@ -58,7 +58,8 @@ class cart extends CI_controller
 		$data[] = 0;
 		$num_items = $this->cart->total_items();
 		generate_header($data);		
-		$this->set_stock_info($data);
+		$this->_set_stock_info($data);
+		try_domain_discount();
 
 		$this->load->view('header',$data);
 		$this->load->view('view_cart',$data);
