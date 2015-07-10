@@ -130,6 +130,31 @@ if(!function_exists('always_refresh'))
  		header("Cache-Control: post-check=0, pre-check=0", false);
  	}
 }
+
+if(!function_exists('try_domain_discount'))
+{
+	function try_domain_discount()
+	{
+		$ci = &get_instance();
+		$ci->load->model('database');
+		$ci->load->library('tank_auth');
+		$ci->load->library('cart');
+
+		$user = $ci->database->GetUserById($ci->tank_auth->get_user_id());		
+		if(count($user))
+		{
+			$user_email = $user['email'];
+			$email_info = explode('@', $user_email);
+			$domain = $email_info[1];
+			$discount_domain = $ci->database->GetDiscountDomain($domain);
+			
+			if(count($discount_domain))
+			{
+				$ci->cart->apply_discount($discount_domain['how_much']);
+			}
+		}	
+ 	}
+}
 	
 
 ?>
