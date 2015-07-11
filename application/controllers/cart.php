@@ -60,10 +60,8 @@ class cart extends CI_controller
 		generate_header($data);		
 		$this->_set_stock_info($data);
 		try_domain_discount();
-
-		$this->load->view('header',$data);
-		$this->load->view('view_cart',$data);
-		$this->load->view('footer');
+		
+		display('cart',$data);		
 	}	
 
 	function add($productID)

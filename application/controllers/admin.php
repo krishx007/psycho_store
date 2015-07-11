@@ -57,52 +57,6 @@ class admin extends CI_controller
 		}
 	}
 
-	function display($page, $data)
-	{
-		generate_header($data);
-
-		//Show header
-		$this->load->view('admin/admin_header', $data);
-
-		//Show body
-		switch ($page)
-		{
-			case 'orders':
-				$this->load->view('admin/admin_orders', $data);
-				break;
-			case 'products':
-				$this->load->view('admin/admin_products', $data);
-				break;
-			case 'product_add_edit':
-				$this->load->view('admin/product_add_edit', $data);
-				break;
-			case 'feedback':
-				$this->load->view('admin/admin_feedbacks', $data);
-				break;
-			case 'mail':
-				$this->load->view('admin/admin_mails', $data);
-				break;
-			case 'shipments':
-				$this->load->view('admin/admin_shipments', $data);
-				break;
-			case 'logistics':
-				$this->load->view('admin/admin_logistics', $data);
-				break;
-			case 'users':
-				$this->load->view('admin/admin_users', $data);
-				break;
-			case 'discount_domains':
-				$this->load->view('admin/admin_discount_domains', $data);
-				break;				
-			default:
-				show_404();
-			break;
-		}
-
-		//Show footer
-		$this->load->view('footer', $data);
-	}
-
 	function labels($waybill)
 	{
 		$this->_validate_user();
@@ -152,7 +106,7 @@ class admin extends CI_controller
 
 		$this->_check_for_new_waybills();
 
-		$this->display('logistics', $data);
+		display('admin_logistics', $data);
 	}
 
 	function _check_for_new_waybills()
@@ -211,7 +165,7 @@ class admin extends CI_controller
 		$data['num_users'] = count($all_users);
 		$data['users_table'] = $this->_generate_users_table($all_users);
 
-		$this->display('users', $data);
+		display('admin_users', $data);
 	}
 
 	function discount_domains($id = null)
@@ -223,7 +177,7 @@ class admin extends CI_controller
 
 		$data['discount_domains_table'] = $discount_domains_table;
 		$data['num_domains'] = count($discount_domains);
-		$this->display('discount_domains', $data);
+		display('admin_discount_domains', $data);
 	}
 
 	function add_discount_domains()
@@ -288,7 +242,7 @@ class admin extends CI_controller
 			mg_send_mail($this->input->post('email'), $params);
 		}
 		
-		$this->display('mail', $data);
+		display('admin_mail', $data);
 	}
 
 	function test_mass_mail()
@@ -388,7 +342,7 @@ class admin extends CI_controller
 		$data['feedbacks_table'] = $this->_generate_feedback_table($feedbacks);
 		$data['num_feedbacks'] = count($feedbacks);
 
-		$this->display('feedback', $data);
+		display('admin_feedback', $data);
 
 	}
 
@@ -467,7 +421,7 @@ class admin extends CI_controller
 		$data['num_pkg_shipments'] = count($packaged_shipments);
 		$data['orders_table'] = $this->_generate_orders_table($final_shipments);
 		
-		$this->display('shipments', $data);
+		display('admin_shipments', $data);
 	}
 
 	function update_order($id, $status)
@@ -616,7 +570,7 @@ class admin extends CI_controller
 		$data['num_orders']	= count($orders);
 		$data['orders_table'] = $this->_generate_orders_table($orders);
 
-		$this->display('orders', $data);
+		display('admin_orders', $data);
 
 	}
 
@@ -644,11 +598,11 @@ class admin extends CI_controller
 			$data['products'] = $products;			
 			$data['num_prods'] = count($products);
 			$data['products_table'] = $this->_generate_products_table($products);
-			$this->display('products', $data);
+			display('admin_products', $data);
 		}
 		else
 		{
-			$this->display('404', null);
+			display('404', null);
 		}
 	}
 
@@ -667,7 +621,7 @@ class admin extends CI_controller
 		{
 			$data = $this->_fill_data_var_for_view(null);
 			$data['action'] = site_url('admin/add_product');
-			$this->display('product_add_edit', $data);
+			display('admin_product_add_edit', $data);
 		}
 	}
 
@@ -691,12 +645,12 @@ class admin extends CI_controller
 			{
 				$data = $this->_fill_data_var_for_view($product);
 				$data['action'] = site_url('admin/edit_product/'.$product_id);
-				$this->display('product_add_edit', $data);
+				display('admin_product_add_edit', $data);
 			}
 		}
 		else
 		{
-			$this->display('404', null);
+			display('404', null);
 		}
 		
 	}

@@ -23,7 +23,7 @@ class Auth extends CI_Controller
 		{
 			$data['message'] = $message;
 			//$this->load->view('auth/general_message', array('message' => );
-			$this->display('message',$data);
+			display('message',$data);
 		} 
 		else
 		{
@@ -71,7 +71,7 @@ class Auth extends CI_Controller
 			$data['errors'] = array();
 						
 			if ($this->form_validation->run()) 
-			{			
+			{
 				// validation ok
 				if ($this->tank_auth->login(
 						$this->form_validation->set_value('email'),
@@ -80,16 +80,16 @@ class Auth extends CI_Controller
 						$data['login_by_username'],
 						$data['login_by_email'])) 
 						{
-							// success, now redirect to proper page
 							$redirect_url = '';
 							if($this->input->get('redirect_url') != (string)FALSE)
 							{
-								$redirect_url = $this->input->get('redirect_url');							
+								$redirect_url = $this->input->get('redirect_url');
 							}
-							redirect($redirect_url);
+
+							$this->_post_login($redirect_url);
 				}
 				else
-				{					
+				{
 					$errors = $this->tank_auth->get_error_message();
 					if (isset($errors['banned'])) {								// banned user
 						$this->_show_message($this->lang->line('auth_message_banned').' '.$errors['banned']);
@@ -113,7 +113,22 @@ class Auth extends CI_Controller
 				}
 			}
 			//$this->load->view('auth/login_form', $data);
-			$this->display('login',$data);
+			display('login',$data);
+		}
+	}
+
+	function _post_login($redirect_url)
+	{
+		$discount_user = is_current_user_on_discount_domain();
+		if($discount_user)
+		{
+			//Inform him the same
+			$data['redirect_url'] = $redirect_url;
+			display('post_login', $data);
+		}
+		else
+		{
+			redirect($redirect_url);
 		}
 	}
 
@@ -144,7 +159,7 @@ class Auth extends CI_Controller
 			$this->_show_message($this->lang->line('auth_message_got_feedback').heading(anchor('feedback', 'Feedback Wall'),3));
 		}
 
-		$this->display('feedback', $data);
+		display('feedback', $data);
 	}
 
 
@@ -258,7 +273,7 @@ class Auth extends CI_Controller
 			$data['use_username'] = $use_username;
 			$data['captcha_registration'] = $captcha_registration;
 			$data['use_recaptcha'] = $use_recaptcha;
-			$this->display('register_user_address', $data);
+			display('register_user_address', $data);
 		}
 	}
 
@@ -372,7 +387,7 @@ class Auth extends CI_Controller
 			$data['captcha_registration'] = $captcha_registration;
 			$data['use_recaptcha'] = $use_recaptcha;
 			//$this->load->view('auth/register_user_address', $data);
-			$this->display('register_user_address', $data);
+			display('register_user_address', $data);
 		}
 	}
 
@@ -422,51 +437,8 @@ class Auth extends CI_Controller
 			}
 			//$this->load->view('auth/add_address');
 			$data = array();
-			$this->display('add_address',$data);
+			display('add_address',$data);
 		}
-	}
-
-	function display($page, $data)
-	{
-		generate_header($data);
-
-		//Show header
-		$this->load->view('header', $data);
-
-		//Show body		
-		switch ($page)
-		{
-			case 'login':
-				$this->load->view('auth/login_form', $data);
-			break;
-			case 'register_user_address':
-				$this->load->view('auth/register', $data);
-			break;
-			case 'forgot_password':
-				$this->load->view('auth/forgot_password_form', $data);
-			break;		
-			case 'add_address':
-				$this->load->view('auth/add_address', $data);
-			break;
-			case 'message':
-				$this->load->view('auth/general_message', $data);
-			break;
-			case 'reset_password':
-				$this->load->view('auth/reset_password_form', $data);
-			break;
-			case 'send_again':
-				$this->load->view('auth/send_again_form', $data);
-			break;
-			case 'feedback':
-				$this->load->view('auth/feedback_form', $data);
-			break;
-			default:
-				show_404();
-			break;
-		}
-
-		//Show footer
-		$this->load->view('footer', $data);
 	}
 
 	/**
@@ -500,7 +472,7 @@ class Auth extends CI_Controller
 					foreach ($errors as $k => $v)	$data['errors'][$k] = $this->lang->line($v);
 				}
 			}
-			$this->display('send_again', $data);			
+			display('send_again', $data);			
 		}
 	}
 
@@ -570,7 +542,7 @@ class Auth extends CI_Controller
 				}
 			}
 			//$this->load->view('auth/forgot_password_form', $data);
-			$this->display('forgot_password', $data);
+			display('forgot_password', $data);
 		}
 	}
 
@@ -618,7 +590,7 @@ class Auth extends CI_Controller
 			}
 		}
 		//$this->load->view('auth/reset_password_form', $data);
-		$this->display('reset_password', $data);
+		display('reset_password', $data);
 	}
 
 	/**

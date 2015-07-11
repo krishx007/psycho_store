@@ -19,34 +19,6 @@ class checkout extends CI_controller
 		$this->config->load('gateway_settings');
 	}
 
-	function display($page, $data)
-	{
-		generate_header($data);
-
-		//Show header
-		$this->load->view('header', $data);
-
-		//Show body
-		switch ($page)
-		{
-			case 'address':
-				$this->load->view('view_address', $data);
-			break;
-			case 'review':
-				$this->load->view('view_review_order', $data);
-			break;
-			case 'message':
-				$this->load->view('basic_view', $data);
-			break;
-			default:
-				show_404();
-			break;		
-		}		
-
-		//Show footer
-		$this->load->view('footer', $data);
-	}
-
 	function index()
 	{
 		$this->_start_checkout();		
@@ -146,7 +118,7 @@ class checkout extends CI_controller
 
 			$result = $this->database->GetAddressesForUser($user_id);
 			$data['addresses'] = $result;
-			$this->display('address',$data);
+			display('address',$data);
 		}
 		else
 		{
@@ -305,7 +277,7 @@ class checkout extends CI_controller
 		$data['cod_available'] = $cod_available;
 		$data['address'] = format_address($address);
 		
-		$this->display('review', $data);
+		display('review', $data);
 	}
 
 	function payment()
@@ -387,7 +359,7 @@ class checkout extends CI_controller
 		$success = $this->load->view("success", null, TRUE);
 		$data = array('heading' => "Minions Assemble Now" );
 		$data['content'] = $success;
-		$this->display('message', $data);
+		display('message', $data);
 	}
 
 	function failure()
@@ -395,7 +367,7 @@ class checkout extends CI_controller
 		$fail = $this->load->view("failure", null, TRUE);
 		$data = array('heading' => "Uh Oh ... Damnit" );
 		$data['content'] = $fail;
-		$this->display('message', $data);
+		display('message', $data);
 	}
 
 	function _reward_user($order_info)

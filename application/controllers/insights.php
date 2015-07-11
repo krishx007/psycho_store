@@ -61,15 +61,7 @@ class insights extends CI_Controller
 			$data['all_games'][] = $value['product_game'];
 		}
 
-
-		generate_header($data);
-
-		//Show header
-		$this->load->view('header', $data);
-
-		$this->load->view('view_insights', $data);
-
-		$this->load->view('footer', $data);
+		display('insights', $data);
 	}
 
 	function _is_user_admin()

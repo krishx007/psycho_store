@@ -121,7 +121,7 @@ class Pages extends CI_controller
 		$feedback = $this->database->GetFeedback(TRUE);
 		$data['feedbacks'] = $feedback;
 		
-		$this->display('feedback', $data);
+		display('feedback', $data);
 	}
 
 	function product($id, $url = null)
@@ -157,13 +157,13 @@ class Pages extends CI_controller
 			$data['recently_viewed'] = $this->GetRecentlyViewed();
 			$this->AddToRecentlyViewed($result);
 
-			$this->display('product', $data);
+			display('product', $data);
 		}
 		else
 		{
 			$data['heading'] = 'No Products Found';
 			$data['content'] = "I am sure, this has something to do with G-Man, anyways just go somewhere else, try some other product";
-			$this->display('basic', $data);
+			display('basic', $data);
 		}
 	}
 
@@ -172,7 +172,7 @@ class Pages extends CI_controller
 		$data['products'] = $this->database->GetProducts('all', 'latest', 'all');
 		$data['latest_link_state'] = 'active';
 		$data['popular_link_state'] = 'none';		
-		$this->display('browse', $data);
+		display('browse', $data);
 	}
 
 	function popular()
@@ -180,7 +180,7 @@ class Pages extends CI_controller
 		$data['products'] = $this->database->GetProducts('all', 'popular', 'all');
 		$data['popular_link_state'] = 'active';
 		$data['latest_link_state'] = 'none';
-		$this->display('browse', $data);
+		display('browse', $data);
 	}
 	
 	//Removes spaces from a url
@@ -207,7 +207,7 @@ class Pages extends CI_controller
 				$data['products'] = $result;			
 		}		
 
-		$this->display('search', $data);
+		display('search', $data);
 	}
 
 	function subscribe()
@@ -240,7 +240,7 @@ class Pages extends CI_controller
 			$data['content'] = "Just dont disappoint this time, try again";
 		}
 
-		$this->display('basic', $data);
+		display('basic', $data);
 	}
 
 	function unsubscribe()
@@ -257,7 +257,7 @@ class Pages extends CI_controller
 			$data['content'] = "So this is the end of us. Take care and stay Psycho anyways.";
 		}
 
-		$this->display('basic', $data);
+		display('basic', $data);
 	}
 
 	function shipping_returns()
@@ -280,12 +280,12 @@ class Pages extends CI_controller
 							
 							
 
-		$this->display('basic', $data);
+		display('basic', $data);
 	}
 
 	function contact()
 	{
-		$this->display('contact', null);
+		display('contact', null);
 	}
 
 
@@ -310,43 +310,7 @@ class Pages extends CI_controller
 							<p><br><br><br>P.S : He also wrote all that stuff you just read, including this line.</p>
 							";
 
-		$this->display('basic', $data);
-	}
-
-	function display($page, $data)
-	{
-		generate_header($data);		
-		//Show header
-		$this->load->view('header', $data);
-
-		//Show body		
-		switch ($page)
-		{
-			case 'search':
-			$this->load->view('view_search', $data);
-			break;
-			case 'browse':
-				$this->load->view('home', $data);	
-			break;
-			case 'product':	
-				$this->load->view('view_product', $data);
-			break;
-			case 'feedback':
-				$this->load->view('feedback_wall', $data);
-				break;
-			case 'contact':
-				$this->load->view('view_contact', $data);
-				break;				
-			case 'basic':
-				$this->load->view('basic_view', $data);
-				break;
-			default:
-				show_404();
-			break;		
-		}		
-
-		//Show footer
-		$this->load->view('footer', $data);
+		display('basic', $data);
 	}
 }
 ?>

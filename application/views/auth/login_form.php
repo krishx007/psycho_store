@@ -41,6 +41,6 @@ $remember = array(
   	<?php echo anchor('/auth/forgot_password/', 'Forgot password'); ?>
 </div>
 
-<button class="btn btn-primary" data-toggle="tooltip" title="No need to insert coins !" data-placement="right" type="submit">Start the game!</button>
+<button class="btn btn-primary" data-toggle="tooltip" title="No need to insert coins!" data-placement="right" type="submit">Start the game!</button>
 <?php echo form_close(); ?>
 </div>
