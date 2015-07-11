@@ -119,8 +119,8 @@ class Auth extends CI_Controller
 
 	function _post_login($redirect_url)
 	{
-		$this->session->set_flashdata('post_login', TRUE);
-		redirect($redirect_url);		
+		$this->session->set_userdata('login_done', TRUE);
+		redirect($redirect_url);
 	}
 
 	function saysomething()

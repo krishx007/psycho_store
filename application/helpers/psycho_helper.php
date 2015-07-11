@@ -292,8 +292,9 @@ if(!function_exists('display'))
 		$data['show_discount_popup'] = false;
 
 		//Check for post_login work
-		if($ci->session->flashdata('post_login'))
+		if($ci->session->userdata('login_done'))
 		{
+			$ci->session->unset_userdata('login_done');
 			$discount_domain = get_current_user_discount_domain_info();		
 			if(count($discount_domain))
 			{
