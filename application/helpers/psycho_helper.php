@@ -156,14 +156,13 @@ if(!function_exists('try_domain_discount'))
  	}
 }
 
-if(!function_exists('is_current_user_on_discount_domain'))
+if(!function_exists('get_current_user_discount_domain_info'))
 {
-	function is_current_user_on_discount_domain()
+	function get_current_user_discount_domain_info()
 	{		
 		$ci = &get_instance();
 		$ci->load->model('database');
 		$ci->load->library('tank_auth');		
-		$is_it_true = false;
 
 		$user = $ci->database->GetUserById($ci->tank_auth->get_user_id());		
 		if(count($user))
@@ -172,14 +171,9 @@ if(!function_exists('is_current_user_on_discount_domain'))
 			$email_info = explode('@', $user_email);
 			$domain = $email_info[1];
 			$discount_domain = $ci->database->GetDiscountDomain($domain);
-			
-			if(count($discount_domain))
-			{
-				$is_it_true = true;
-			}
 		}
 
-		return $is_it_true;
+		return $discount_domain;
 	}
 }
 
@@ -188,101 +182,102 @@ if(!function_exists('display'))
 	function display($page, $data)
 	{
 		$ci = &get_instance();
+		$ci->load->library('session');
 
 		generate_header($data);
 		
 		//Show header based on page
-		stristr($page, 'admin') ? $ci->load->view('admin/admin_header', $data) : $ci->load->view('header', $data);		
+		$header = stristr($page, 'admin') ? $ci->load->view('admin/admin_header', $data, true) : $ci->load->view('header', $data, true);
 
 		//Show body		
 		switch ($page)
 		{
 			case 'search':
-				$ci->load->view('view_search', $data);
+				$body = $ci->load->view('view_search', $data, true);
 			break;
 			case 'browse':
-				$ci->load->view('home', $data);	
+				$body = $ci->load->view('home', $data, true);	
 			break;
 			case 'product':	
-				$ci->load->view('view_product', $data);
+				$body = $ci->load->view('view_product', $data, true);
 			break;
 			case 'feedback_wall':
-				$ci->load->view('feedback_wall', $data);
+				$body = $ci->load->view('feedback_wall', $data, true);
 				break;
 			case 'contact':
-				$ci->load->view('view_contact', $data);
+				$body = $ci->load->view('view_contact', $data, true);
 				break;
 			case 'cart':
-				$ci->load->view('view_cart',$data);
+				$body = $ci->load->view('view_cart',$data, true);
 				break;
 			case 'login':
-				$ci->load->view('auth/login_form', $data);
+				$body = $ci->load->view('auth/login_form', $data, true);
 				break;
 			case 'post_login':
-				$ci->load->view('auth/surprise', $data);
+				$body = $ci->load->view('auth/surprise', $data, true);
 				break;
 			case 'register_user_address':
-				$ci->load->view('auth/register', $data);
+				$body = $ci->load->view('auth/register', $data, true);
 				break;
 			case 'forgot_password':
-				$ci->load->view('auth/forgot_password_form', $data);
+				$body = $ci->load->view('auth/forgot_password_form', $data, true);
 				break;
 			case 'add_address':
-				$ci->load->view('auth/add_address', $data);
+				$body = $ci->load->view('auth/add_address', $data, true);
 				break;
 			case 'message':
-				$ci->load->view('auth/general_message', $data);
+				$body = $ci->load->view('auth/general_message', $data, true);
 				break;
 			case 'reset_password':
-				$ci->load->view('auth/reset_password_form', $data);
+				$body = $ci->load->view('auth/reset_password_form', $data, true);
 				break;
 			case 'send_again':
-				$ci->load->view('auth/send_again_form', $data);
+				$body = $ci->load->view('auth/send_again_form', $data, true);
 				break;
 			case 'feedback_form':
-				$ci->load->view('auth/feedback_form', $data);
+				$body = $ci->load->view('auth/feedback_form', $data, true);
 				break;
 			case 'admin_orders':
-				$ci->load->view('admin/admin_orders', $data);
+				$body = $ci->load->view('admin/admin_orders', $data, true);
 				break;
 			case 'admin_products':
-				$ci->load->view('admin/admin_products', $data);
+				$body = $ci->load->view('admin/admin_products', $data, true);
 				break;
 			case 'admin_product_add_edit':
-				$ci->load->view('admin/product_add_edit', $data);
+				$body = $ci->load->view('admin/product_add_edit', $data, true);
 				break;
 			case 'admin_feedback':
-				$ci->load->view('admin/admin_feedbacks', $data);
+				$body = $ci->load->view('admin/admin_feedbacks', $data, true);
 				break;
 			case 'admin_mail':
-				$ci->load->view('admin/admin_mails', $data);
+				$body = $ci->load->view('admin/admin_mails', $data, true);
 				break;
 			case 'admin_shipments':
-				$ci->load->view('admin/admin_shipments', $data);
+				$body = $ci->load->view('admin/admin_shipments', $data, true);
 				break;
 			case 'admin_logistics':
-				$ci->load->view('admin/admin_logistics', $data);
+				$body = $ci->load->view('admin/admin_logistics', $data, true);
 				break;
 			case 'admin_users':
-				$ci->load->view('admin/admin_users', $data);
+				$body = $ci->load->view('admin/admin_users', $data, true);
 				break;
 			case 'admin_discount_domains':
-				$ci->load->view('admin/admin_discount_domains', $data);
+				$body = $ci->load->view('admin/admin_discount_domains', $data, true);
 				break;
 			case 'address':
-				$ci->load->view('view_address', $data);
+				$body = $ci->load->view('view_address', $data, true);
 				break;
 			case 'review':
-				$ci->load->view('view_review_order', $data);
+				$body = $ci->load->view('view_review_order', $data, true);
 				break;
 			case 'message':
-				$ci->load->view('basic_view', $data);
+				$body = $ci->load->view('basic_view', $data, true);
 				break;
 			case 'insights':
-				$ci->load->view('view_insights', $data);
+				$body = $ci->load->view('view_insights', $data, true);
 				break;
 			case 'basic':
-				$ci->load->view('basic_view', $data);
+				$body = $ci->load->view('basic_view', $data, true);
 				break;
 			default:
 				show_404();
@@ -290,7 +285,24 @@ if(!function_exists('display'))
 		}		
 
 		//Show footer
-		$ci->load->view('footer', $data);
+		$footer = $ci->load->view('footer', $data, true);
+		$data['header'] = $header;
+		$data['body'] = $body;
+		$data['footer'] = $footer;
+		$data['show_discount_popup'] = false;
+
+		//Check for post_login work
+		if($ci->session->flashdata('post_login'))
+		{
+			$discount_domain = get_current_user_discount_domain_info();		
+			if(count($discount_domain))
+			{
+				$data['show_discount_popup'] = true;
+				$data['domain']	= $discount_domain['domain'];			
+			}
+		}		
+
+		$ci->load->view('main_view', $data);
 	}
 }
 	
