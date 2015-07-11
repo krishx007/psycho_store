@@ -152,8 +152,146 @@ if(!function_exists('try_domain_discount'))
 			{
 				$ci->cart->apply_discount($discount_domain['how_much']);
 			}
-		}	
+		}
  	}
+}
+
+if(!function_exists('is_current_user_on_discount_domain'))
+{
+	function is_current_user_on_discount_domain()
+	{		
+		$ci = &get_instance();
+		$ci->load->model('database');
+		$ci->load->library('tank_auth');		
+		$is_it_true = false;
+
+		$user = $ci->database->GetUserById($ci->tank_auth->get_user_id());		
+		if(count($user))
+		{
+			$user_email = $user['email'];
+			$email_info = explode('@', $user_email);
+			$domain = $email_info[1];
+			$discount_domain = $ci->database->GetDiscountDomain($domain);
+			
+			if(count($discount_domain))
+			{
+				$is_it_true = true;
+			}
+		}
+
+		return $is_it_true;
+	}
+}
+
+if(!function_exists('display'))
+{
+	function display($page, $data)
+	{
+		$ci = &get_instance();
+
+		generate_header($data);
+		
+		//Show header based on page
+		stristr($page, 'admin') ? $ci->load->view('admin/admin_header', $data) : $ci->load->view('header', $data);		
+
+		//Show body		
+		switch ($page)
+		{
+			case 'search':
+				$ci->load->view('view_search', $data);
+			break;
+			case 'browse':
+				$ci->load->view('home', $data);	
+			break;
+			case 'product':	
+				$ci->load->view('view_product', $data);
+			break;
+			case 'feedback':
+				$ci->load->view('feedback_wall', $data);
+				break;
+			case 'contact':
+				$ci->load->view('view_contact', $data);
+				break;
+			case 'cart':
+				$ci->load->view('view_cart',$data);
+				break;
+			case 'login':
+				$ci->load->view('auth/login_form', $data);
+				break;
+			case 'post_login':
+				$ci->load->view('auth/surprise', $data);
+				break;
+			case 'register_user_address':
+				$ci->load->view('auth/register', $data);
+				break;
+			case 'forgot_password':
+				$ci->load->view('auth/forgot_password_form', $data);
+				break;
+			case 'add_address':
+				$ci->load->view('auth/add_address', $data);
+				break;
+			case 'message':
+				$ci->load->view('auth/general_message', $data);
+				break;
+			case 'reset_password':
+				$ci->load->view('auth/reset_password_form', $data);
+				break;
+			case 'send_again':
+				$ci->load->view('auth/send_again_form', $data);
+				break;
+			case 'feedback':
+				$ci->load->view('auth/feedback_form', $data);
+				break;
+			case 'admin_orders':
+				$ci->load->view('admin/admin_orders', $data);
+				break;
+			case 'admin_products':
+				$ci->load->view('admin/admin_products', $data);
+				break;
+			case 'admin_product_add_edit':
+				$ci->load->view('admin/product_add_edit', $data);
+				break;
+			case 'admin_feedback':
+				$ci->load->view('admin/admin_feedbacks', $data);
+				break;
+			case 'admin_mail':
+				$ci->load->view('admin/admin_mails', $data);
+				break;
+			case 'admin_shipments':
+				$ci->load->view('admin/admin_shipments', $data);
+				break;
+			case 'admin_logistics':
+				$ci->load->view('admin/admin_logistics', $data);
+				break;
+			case 'admin_users':
+				$ci->load->view('admin/admin_users', $data);
+				break;
+			case 'admin_discount_domains':
+				$ci->load->view('admin/admin_discount_domains', $data);
+				break;
+			case 'address':
+				$ci->load->view('view_address', $data);
+				break;
+			case 'review':
+				$ci->load->view('view_review_order', $data);
+				break;
+			case 'message':
+				$ci->load->view('basic_view', $data);
+				break;
+			case 'insights':
+				$ci->load->view('view_insights', $data);
+				break;
+			case 'basic':
+				$ci->load->view('basic_view', $data);
+				break;
+			default:
+				show_404();
+			break;
+		}		
+
+		//Show footer
+		$ci->load->view('footer', $data);
+	}
 }
 	
 
