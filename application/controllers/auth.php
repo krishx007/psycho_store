@@ -159,7 +159,7 @@ class Auth extends CI_Controller
 			$this->_show_message($this->lang->line('auth_message_got_feedback').heading(anchor('feedback', 'Feedback Wall'),3));
 		}
 
-		display('feedback', $data);
+		display('feedback_form', $data);
 	}
 
 

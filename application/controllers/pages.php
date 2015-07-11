@@ -121,7 +121,7 @@ class Pages extends CI_controller
 		$feedback = $this->database->GetFeedback(TRUE);
 		$data['feedbacks'] = $feedback;
 		
-		display('feedback', $data);
+		display('feedback_wall', $data);
 	}
 
 	function product($id, $url = null)

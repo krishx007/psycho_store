@@ -206,7 +206,7 @@ if(!function_exists('display'))
 			case 'product':	
 				$ci->load->view('view_product', $data);
 			break;
-			case 'feedback':
+			case 'feedback_wall':
 				$ci->load->view('feedback_wall', $data);
 				break;
 			case 'contact':
@@ -239,7 +239,7 @@ if(!function_exists('display'))
 			case 'send_again':
 				$ci->load->view('auth/send_again_form', $data);
 				break;
-			case 'feedback':
+			case 'feedback_form':
 				$ci->load->view('auth/feedback_form', $data);
 				break;
 			case 'admin_orders':
