@@ -119,17 +119,8 @@ class Auth extends CI_Controller
 
 	function _post_login($redirect_url)
 	{
-		$discount_user = is_current_user_on_discount_domain();
-		if($discount_user)
-		{
-			//Inform him the same
-			$data['redirect_url'] = $redirect_url;
-			display('post_login', $data);
-		}
-		else
-		{
-			redirect($redirect_url);
-		}
+		$this->session->set_flashdata('post_login', TRUE);
+		redirect($redirect_url);		
 	}
 
 	function saysomething()
