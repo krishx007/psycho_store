@@ -450,14 +450,7 @@ class Database extends CI_Model
 		return $wb;
 	}
 
-	//-------------------------- Checkout Specific Functions -------------------------- 
-
-	function GetDiscountCoupon($coupon)
-	{
-		$this->db->where('coupon', $coupon);
-		$query = $this->db->get('discount_coupons');
-		return $query->row_array();
-	}
+	//-------------------------- Checkout Specific Functions -------------------------- 	
 
 	//For now its only Delhivery
 	function GetShippingDetails($pincode)
@@ -537,7 +530,7 @@ class Database extends CI_Model
 	}
 	//-------------------------- XXX -------------------------- 
 
-	//----------------- Discount Domains related functions -----------------
+	//----------------- Discount related functions -----------------
 
 	function AddDiscountDomain($domain_info)
 	{
@@ -559,7 +552,7 @@ class Database extends CI_Model
 
 		$query = $this->db->get('discount_domains');
 
-		return is_null($domain_name) == false ? $query->row_array() : $query->result_array();
+		return is_null($domain_name)  ? $query->result_array() : $query->row_array() ;
 	}
 
 	function SetDiscountForDomain($domain, $discount_percentage)
@@ -567,6 +560,29 @@ class Database extends CI_Model
 		$this->db->set('how_much', $discount_percentage);
 		$this->db->like('domain', $domain);
 		$this->db->update('discount_domains');
+	}
+
+	function AddDiscountCoupon($coupon)
+	{
+		$this->db->insert('discount_coupons', $coupon);
+	}
+
+	function RemoveDiscountCoupon($coupon)
+	{
+		$this->db->where('coupon', $coupon);
+		$this->db->delete('discount_coupons');
+	}
+
+	function GetDiscountCoupon($coupon = null)
+	{
+		if(is_null($coupon) == false)
+		{
+			$this->db->where('coupon', $coupon);
+		}
+		
+		$query = $this->db->get('discount_coupons');
+
+		return is_null($coupon) ? $query->result_array() : $query->row_array();
 	}
 
 	//-------------------------- XXX --------------------------------------- 
