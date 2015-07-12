@@ -168,43 +168,90 @@ class admin extends CI_controller
 		display('admin_users', $data);
 	}
 
-	function discount_domains($id = null)
+	function discounts($id = null)
 	{
 		$this->_validate_user();
 
-		$discount_domains = $this->database->GetDiscountDomain();		
-		$discount_domains_table = $this->_generate_discount_domains_table($discount_domains);
+		/*Two type of discounts : 
+		1. Domain discounts
+		2. Discount Coupons
+		*/
 
-		$data['discount_domains_table'] = $discount_domains_table;
+		$discount_domains = $this->database->GetDiscountDomain();
+		$discount_coupons = $this->database->GetDiscountCoupon();
+		$discounts['domains'] = $discount_domains;
+		$discounts['coupons'] = $discount_coupons;
+
+		$discount_table = $this->_generate_discount_table($discounts);
+
+		$data['discount_table'] = $discount_table;
 		$data['num_domains'] = count($discount_domains);
-		display('admin_discount_domains', $data);
+		$data['num_coupons'] = count($discount_coupons);
+		display('admin_discounts', $data);
 	}
 
-	function add_discount_domains()
+	function add_discount()
 	{
-		$domain = trim($this->input->post('domain'));
-		$discount_percentage = trim($this->input->post('discount_percentage'));
-
-		if($domain != false)
+		$discount_type = $this->input->post('discount_type');
+		if($discount_type)
 		{
-			$domain_info['domain'] = $domain;
-			if($discount_percentage != false)
-			{
-				$domain_info['how_much'] = $discount_percentage;
-			}
+			$name = trim($this->input->post('discount_name'));
+			$discount_percentage = trim($this->input->post('discount_percentage'));
 
-			$this->database->AddDiscountDomain($domain_info );
+			switch ($discount_type)
+			{
+				case 'coupon':
+					$expiry_date = $this->input->post('expiry_date');
+					if($name != false && $discount_percentage != false && $expiry_date != false)
+					{
+						$coupon['coupon'] = $name;
+						$coupon['how_much'] = $discount_percentage;
+						$coupon['expiry'] = $expiry_date;
+						$this->database->AddDiscountCoupon($coupon);
+					}
+					break;
+				case 'domain':
+					if($name != false)
+					{
+						$domain_info['domain'] = $name;
+						if($discount_percentage != false)
+						{
+							$domain_info['how_much'] = $discount_percentage;
+						}
+
+						$this->database->AddDiscountDomain($domain_info );
+					}
+					break;			
+				default:
+					# code...
+					break;
+			}
 		}
 
-		redirect('admin/discount_domains');
+		
+
+		redirect('admin/discounts');
 	}
 
-	function remove_discount_domain($domain_name)
+	function remove_discount($name, $type)
 	{
-		$domain_name = trim($domain_name);
-		$this->database->RemoveDiscountDomain($domain_name);
+		$name = trim($name);
+		switch ($type)
+		{
+			case 'domain':
+				$this->database->RemoveDiscountDomain($name);
+				break;
 
-		redirect('admin/discount_domains');
+			case 'coupon':
+				$this->database->RemoveDiscountCoupon($name);
+				break;
+
+			default:
+				# code...
+				break;
+		}		
+
+		redirect('admin/discounts');
 	}
 
 	function update_discount_domain($domain)
@@ -216,7 +263,7 @@ class admin extends CI_controller
 			$this->database->SetDiscountForDomain($domain, $discount_percentage);
 		}
 
-		redirect('admin/discount_domains');
+		redirect('admin/discounts');
 	}	
 
 	function _set_discount_for_domain($domain, $discount_percentage)
@@ -878,20 +925,22 @@ class admin extends CI_controller
 		return $this->table->generate();
 	}
 
-	function _generate_discount_domains_table($domains)
+	function _generate_discount_table($discounts)
 	{
+		$domains = $discounts['domains'];
+		$coupons = $discounts['coupons'];
 		$this->load->library('table');
-		$this->table->set_heading('id', 'Domain', 'Discount Percentage', 'Update', 'Delete');
+		$this->table->set_heading('id', 'Domain', 'Discount Percentage', 'Update', 'Delete', 'Expiry Date');
 
 		$tmpl = array ( 'table_open'  => '<table class="table " >' );
 		$this->table->set_template($tmpl);
-
+		$i = 1;
 		foreach ($domains as $key => $domain)
 		{
-			$id = $domain['id'];
+			$id = $i;
 			$discount_percentage = $domain['how_much'];
 			$domain_name = $domain['domain'];
-			$update_url = site_url("admin/update_discount_domain/$domain_name");
+			$update_url = site_url("admin/update_discount/$domain_name/domain");
 
 			$discount_link = "<form class='form-inline' method=\"post\" action=$update_url >
 				<div class=\"form-group\">
@@ -901,10 +950,24 @@ class admin extends CI_controller
 				</div>
 			</form>";
 
-			$remove_url = site_url("admin/remove_discount_domain/$domain_name");
+			$remove_url = site_url("admin/remove_discount_domain/$domain_name/domain");
 			$remove_link = "<a class=\"btn btn-danger\" href=$remove_url>Delete</a>";
 
-			$this->table->add_row($domain['id'], $domain_name, $discount_percentage, $discount_link, $remove_link);
+			$this->table->add_row($id, $domain_name, $discount_percentage, $discount_link, $remove_link);
+			$i++;
+		}
+
+		foreach ($coupons as $key => $coupon)
+		{
+			$id = $i;
+			$discount_percentage = $coupon['how_much'];
+			$coupon_name = $coupon['coupon'];
+			$remove_url = site_url("admin/remove_discount/$coupon_name/coupon");
+			$remove_link = "<a class=\"btn btn-danger\" href=$remove_url>Delete</a>";
+			$expiry_date = $coupon['expiry'];
+
+			$this->table->add_row($id,$coupon_name, $discount_percentage, null, $remove_link, $expiry_date);
+			$i++;
 		}
 
 		return $this->table->generate();

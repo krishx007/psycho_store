@@ -315,8 +315,8 @@ if(!function_exists('display'))
 			case 'admin_users':
 				$body = $ci->load->view('admin/admin_users', $data, true);
 				break;
-			case 'admin_discount_domains':
-				$body = $ci->load->view('admin/admin_discount_domains', $data, true);
+			case 'admin_discounts':
+				$body = $ci->load->view('admin/admin_discounts', $data, true);
 				break;
 			case 'address':
 				$body = $ci->load->view('view_address', $data, true);
