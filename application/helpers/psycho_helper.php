@@ -177,15 +177,15 @@ if(!function_exists('get_current_user_discount_domain_info'))
 	}
 }
 
-if(!function_exists('trigger_event'))
+if(!function_exists('notify_event'))
 {
-	function notify_event($event_name)
+	function notify_event($event_name, $params = null)
 	{
 		echo "Trigerring event";
 		$ci = &get_instance();
 		$ci->load->library('session');
 		$events = $ci->session->userdata('events');
-		$events[] = $event_name;
+		$events[$event_name] = $params;
 		$ci->session->set_userdata('events', $events);
  	}
 }
@@ -199,33 +199,35 @@ if(!function_exists('execute_events'))
 		$events = $ci->session->userdata('events');
 		if($events)
 		{
-			foreach ($events as $key => $event)
+			foreach ($events as $event_name => $params)
 			{
-				switch ($event)
+				switch ($event_name)
 				{
 					case 'login_done':
 						$discount_domain = get_current_user_discount_domain_info();
 						if(count($discount_domain))
 						{
-							$data['show_modal'] = true;
-							$data['domain']	= $discount_domain['domain'];
-							$data['scripts'][] = 'events/modal';
+							$domain = $discount_domain['domain'];
+							$discount = $discount_domain['how_much'];
+							$modal_params['modal_title'] = $params['title'];
+							$modal_params['modal_body']  = "We noticed that you hail from the lands of <strong>$domain.</strong> We have huge respect for creatures hailing from that land, because of which we will be giving you <strong>$discount%</strong> off on each and every purchase that you make from us.";
+
+							$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						}
 						break;
 
 					case 'apply_discount':
-						$data['show_modal'] = true;
-						$data['modal_title'] = 'title';
-						$data['modal_body'] = 'body';						
-						$data['scripts'][] = 'events/modal';
+						$modal_params['modal_title'] = $params['title'];
+						$modal_params['modal_body']  = $params['body'];
+						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						break;
 					default:
 						# code...
 						break;
 				}
-			}			
+			}
 			$ci->session->set_userdata('events', null);
-		}
+		}		
  	}
 }
 
@@ -344,7 +346,6 @@ if(!function_exists('display'))
 		$data['show_discount_popup'] = false;
 
 		execute_events($data);
-		
 
 		$ci->load->view('main_view', $data);
 	}

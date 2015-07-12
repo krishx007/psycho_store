@@ -128,19 +128,47 @@ class cart extends CI_controller
 			}
 		}
 		return 0;	
-	}
+	}	
 
 	function applyDiscount()
 	{
 		$coupon = trim($this->input->post('coupon'));
 		if($coupon != (string)FALSE)
-		{
-			notify_event('apply_discount');
+		{			
 			$coupon = trim($this->input->post('coupon'));
-			$this->cart->apply_discount($this->_getDiscount($coupon));
+			$discount_percentage = $this->_getDiscount($coupon);
+			$this->cart->apply_discount($discount_percentage);
+			$this->_notify_discount_applied($discount_percentage);
 		}
 
 		redirect('cart');
+	}
+
+	function _notify_discount_applied($discount_percentage)
+	{
+		$username = $this->tank_auth->get_username() ? $this->tank_auth->get_username() : 'creature';
+		$domain_discount = get_current_user_discount_domain_info();
+		
+		//Notify event for modal pop up
+		if($discount_percentage == 0)
+		{
+			$params['title'] = "wrong cheat code";
+
+			$params['body'] = "<strong>$username</strong>, No such cheat code exists.<br>Anyway, we stronly encourage playing games with no cheat codes applied.<br>Happy gaming!" ;
+		}
+		else if(count($domain_discount))
+		{
+			$params['title'] = $username;
+
+			$params['body'] = "We already gave you <strong>{$domain_discount['how_much']}%</strong> off because you belong to the lands of <strong>{$domain_discount['domain']}</strong>. Now dont push us, we cannot afford to give you anymore discount, that would be unfair for our people. Hope you understand.";
+		}
+		else
+		{
+			$params['title'] = "Cheat Code Applied $discount_percentage% off";
+
+			$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But it looks like this game is  too tough for you. So just for you we have made this game <strong>$discount_percentage%</strong> easier.<br>Happy gaming!" ;
+		}
+		notify_event('apply_discount', $params);
 	}
 }
 ?>

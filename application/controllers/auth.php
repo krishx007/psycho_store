@@ -119,7 +119,9 @@ class Auth extends CI_Controller
 
 	function _post_login($redirect_url)
 	{
-		notify_event('login_done');		
+		$username = $this->tank_auth->get_username();
+		$params['title'] = "Greetings $username";		
+		notify_event('login_done', $params);	
 		redirect($redirect_url);
 	}
 
