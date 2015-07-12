@@ -14,7 +14,7 @@
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href=<?php echo site_url('css/bootstrap.min.css') ?> >
 <link rel="stylesheet" href= <?php echo site_url('css/font-awesome.min.css') ?> >
-<link rel="stylesheet" href=<?php echo site_url('css/manual.css')?>>
+<link rel="stylesheet" href=<?php echo site_url('css/manual.css?v1')?>>
 <script type="text/javascript" src= <?php echo site_url('scripts/jquery-2.1.3.min.js') ?> ></script>
 <script type="text/javascript" src= <?php echo site_url('scripts/bootstrap.min.js') ?> ></script>
 
