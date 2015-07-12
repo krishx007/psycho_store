@@ -940,7 +940,7 @@ class admin extends CI_controller
 			$id = $i;
 			$discount_percentage = $domain['how_much'];
 			$domain_name = $domain['domain'];
-			$update_url = site_url("admin/update_discount/$domain_name/domain");
+			$update_url = site_url("admin/update_discount_domain/$domain_name");
 
 			$discount_link = "<form class='form-inline' method=\"post\" action=$update_url >
 				<div class=\"form-group\">
