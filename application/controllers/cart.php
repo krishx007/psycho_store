@@ -132,8 +132,10 @@ class cart extends CI_controller
 
 	function applyDiscount()
 	{
-		if($this->input->post('coupon') != (string)FALSE)
+		$coupon = trim($this->input->post('coupon'));
+		if($coupon != (string)FALSE)
 		{
+			notify_event('apply_discount');
 			$coupon = trim($this->input->post('coupon'));
 			$this->cart->apply_discount($this->_getDiscount($coupon));
 		}

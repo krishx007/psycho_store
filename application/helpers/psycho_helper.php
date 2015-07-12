@@ -177,6 +177,58 @@ if(!function_exists('get_current_user_discount_domain_info'))
 	}
 }
 
+if(!function_exists('trigger_event'))
+{
+	function notify_event($event_name)
+	{
+		echo "Trigerring event";
+		$ci = &get_instance();
+		$ci->load->library('session');
+		$events = $ci->session->userdata('events');
+		$events[] = $event_name;
+		$ci->session->set_userdata('events', $events);
+ 	}
+}
+
+if(!function_exists('execute_events'))
+{
+	function execute_events(&$data)
+	{
+		$ci = &get_instance();
+		$ci->load->library('session');
+		$events = $ci->session->userdata('events');
+		if($events)
+		{
+			foreach ($events as $key => $event)
+			{
+				switch ($event)
+				{
+					case 'login_done':
+						$discount_domain = get_current_user_discount_domain_info();
+						if(count($discount_domain))
+						{
+							$data['show_modal'] = true;
+							$data['domain']	= $discount_domain['domain'];
+							$data['scripts'][] = 'events/modal';
+						}
+						break;
+
+					case 'apply_discount':
+						$data['show_modal'] = true;
+						$data['modal_title'] = 'title';
+						$data['modal_body'] = 'body';						
+						$data['scripts'][] = 'events/modal';
+						break;
+					default:
+						# code...
+						break;
+				}
+			}			
+			$ci->session->set_userdata('events', null);
+		}
+ 	}
+}
+
 if(!function_exists('display'))
 {
 	function display($page, $data)
@@ -291,21 +343,11 @@ if(!function_exists('display'))
 		$data['footer'] = $footer;
 		$data['show_discount_popup'] = false;
 
-		//Check for post_login work
-		if($ci->session->userdata('login_done'))
-		{
-			$ci->session->unset_userdata('login_done');
-			$discount_domain = get_current_user_discount_domain_info();		
-			if(count($discount_domain))
-			{
-				$data['show_discount_popup'] = true;
-				$data['domain']	= $discount_domain['domain'];			
-			}
-		}		
+		execute_events($data);
+		
 
 		$ci->load->view('main_view', $data);
 	}
-}
-	
+}	
 
 ?>
