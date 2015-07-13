@@ -105,7 +105,7 @@ if(!function_exists('format_address'))
 				{
 					$complete_add = $complete_add.$address['address_2'].', ';
 				}				 	
-				 $complete_add = $complete_add.$address['city'].'<br>'.$address['state'].' '.$address['pincode'].', '.$address['country'].'<br>'. $address['phone_number'];
+				 $complete_add = $complete_add.$address['city'].' '.$address['pincode'].',<br>'.$address['state'].', '.$address['country'].'<br>'. $address['phone_number'];
 
 		return $complete_add;
 	}

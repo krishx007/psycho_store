@@ -11,8 +11,22 @@ $config['favico'] = 'http://psychostore.in/images/ps.png';
 
 //Admin Panel
 $config['admin_email'] = array('ishkaran.fearme@gmail.com', 'ishkaran.singh@hotmail.com');
+
+//Mailgun and Newsletter
 $config['mailgun_key'] = 'key-0f80f2f05eb0cc5a7f733be72c8fb5**';	//old one
 $config['newsletter_address'] = 'updates@news.psychostore.in';
 $config['campaign_id'] = 'psycho_campaign';
+
+$config['return_address'] = array(
+									'first_name' => 'Ishkaran',
+									'last_name' => 'Singh',
+									'address_1' 	=> '#35, Mane Building, 7th Main Road',
+									'address_2' => 'ST Bed Layout',
+									'city' 	=> 'Bangaluru',
+									'country' => 'India',									
+									'phone_number' 	=> '7387045828',
+									'pincode' 	=> '560034',
+									'state' 	=> 'Karnataka'
+									);
 
 ?>

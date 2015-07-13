@@ -92,7 +92,7 @@ class admin extends CI_controller
 		$data['coc_code'] = $shipping_details['coc_code'];
 		$data['dispatch_center'] = $shipping_details['dispatch_center'];
 		$data['payment_mode'] = strtoupper($shipment['payment_mode']);		
-		$data['return_address'] = format_address($this->config->item('return_address'));		
+		$data['return_address'] = format_address($this->config->item('return_address'));
 		$data['order_amount'] = $shipment['order_amount'];
 
 		$this->load->view('admin/label', $data);
