@@ -899,9 +899,9 @@ class admin extends CI_controller
 	}
 
 	function _generate_users_table($users)
-	{
+	{		
 		$this->load->library('table');
-		$this->table->set_heading('id', 'name', 'email', 'points', 'Reward');
+		$this->table->set_heading('id', 'Date', 'Name', 'Email', 'Points', 'Reward');
 
 		$tmpl = array ( 'table_open'  => '<table class="table " >' );
 		$this->table->set_template($tmpl);
@@ -917,9 +917,9 @@ class admin extends CI_controller
 					<input type='number' name=points  class=\"form-control\" placeholder=\"Points\">
 					<button type=\"submit\" class=\"btn btn-primary\">Reward</button>
 				</div>
-			</form>";
+			</form>";			
 
-			$this->table->add_row($user['id'], $user['username'], $user['email'], $user['points'],$reward_link);
+			$this->table->add_row($user['id'], $user['created'], $user['username'], $user['email'], $user['points'],$reward_link);
 		}
 
 		return $this->table->generate();
