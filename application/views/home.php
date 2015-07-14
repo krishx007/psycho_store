@@ -1,8 +1,7 @@
 <div class="container">	
 	<div class="row">
 		<div class="col-md-12 text-center top-bottom-space-s">
-			<h1>Psycho Store</h1>
-    	<h4 class="molot"><small>Stuff for Gamers and Geeks</small></h4> 
+		<img src=<?php echo site_url("images/logo.png") ?>>
 		</div>
 	</div>
 	<div class="row">
