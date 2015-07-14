@@ -19,8 +19,8 @@ class Pages extends CI_controller
 
 	function index()
 	{
-		//$this->signup();
-		$this->latest('all');
+		$this->signup();
+		//$this->latest('all');
 	}
 
 	function signup()
@@ -274,7 +274,7 @@ class Pages extends CI_controller
 							We will bear the shipping charges as well if its our fault.
 							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
 							<br><br> Note : In both the cases, problem should be notified withing 2 days along with order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
-							<br><br>Email us with your product id at <a href=\"mailto:contact@psychostore.in\">returns@psychostore.in</a> and ship the product to given address
+							<br><br>Email us with your product id at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and ship the product to given address
 							<br><br>
 							<h4 class=\"molot\">Address for returns</h4>
 							$ret_address
