@@ -11,6 +11,6 @@
 			</div>
 		</div>	
 	</div>
-	<button class="btn btn-primary" type="submit">Login</button>
+	<button class="btn btn-primary" type="submit">Send Again</button>
 	<?php echo form_close(); ?>
 </div>
