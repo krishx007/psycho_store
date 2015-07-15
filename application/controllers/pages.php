@@ -141,6 +141,7 @@ class Pages extends CI_controller
 			$data['medium_stock']="";
 			$data['large_stock']="";
 			$data['xl_stock']="";
+			$data['size_chart'] = site_url($this->config->item('size_chart'));
 
 			if($result['product_count_small'] <= 0)
 				$data['small_stock'] = 'disabled';

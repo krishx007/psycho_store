@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-body">
-        <img class='img-responsive' src= <?php echo site_url('images/size_chart.jpg')?> >
+        <img class='img-responsive' src= <?php echo $size_chart ?> >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default text-center" data-dismiss="modal">Got it!</button>

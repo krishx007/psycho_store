@@ -7,7 +7,8 @@ $config['title'] = 'Psycho Store | Stuff for Gamers and Geeks';
 $config['description'] = 'We make stuff for the gaming and geek community of earth(other planets can wait for now)';
 $config['keywords'] = 't-shirt, tshirt, t shirt, shirt, tee, t, t-shirts, tshirts, t shirts, shirts, tees, ts, clothing, clothes, threads, wear, gift, gifts, hats, hat, beanies, beanie, gear, sweatshirt, hoodie, sweatshirts, hoodies, gamer, geek, hacker, nerd, computer, gamers, geeks, hackers, nerds, coder, coders, psychostore, psycho, store, psycho store, india, ';
 
-$config['favico'] = 'http://psychostore.in/images/ps.png';
+$config['favico'] = 'images/favico.png';
+$config['size_chart'] = 'images/size_chart.jpg';
 
 //Admin Panel
 $config['admin_email'] = array('ishkaran.fearme@gmail.com', 'ishkaran.singh@hotmail.com');
@@ -23,7 +24,7 @@ $config['return_address'] = array(
 									'address_1' 	=> '#35, Mane Building, 7th Main Road',
 									'address_2' => 'ST Bed Layout',
 									'city' 	=> 'Bengaluru',
-									'country' => 'India',									
+									'country' => 'India',
 									'phone_number' 	=> '7387045828',
 									'pincode' 	=> '560034',
 									'state' 	=> 'Karnataka'

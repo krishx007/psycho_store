@@ -30,7 +30,7 @@ if(!function_exists('generate_header'))
 
 		//Meta tags
 		$data['url'] = current_url();
-		$data['favico'] = $ci->config->item('favico');
+		$data['favico'] = site_url($ci->config->item('favico'));
 		if(isset($data['product']))
 		{			
 			//Title
