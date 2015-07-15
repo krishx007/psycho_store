@@ -772,7 +772,7 @@ class admin extends CI_controller
 			{
 				continue;
 			}
-
+						
 			$txn_id = $order['txn_id'];
 			$email = $order['user']['email'];
 			$address = format_address($order['address']);
@@ -868,7 +868,7 @@ class admin extends CI_controller
 	function _generate_feedback_table($feedbacks)
 	{
 		$this->load->library('table');
-		$this->table->set_heading('id', 'name', 'email', 'message', 'Publish');
+		$this->table->set_heading('id', 'date', 'name', 'email', 'message', 'Publish');
 
 		$tmpl = array ( 'table_open'  => '<table class="table " >' );
 		$this->table->set_template($tmpl);
@@ -892,7 +892,7 @@ class admin extends CI_controller
 			
 
 			
-			$this->table->add_row($fb_id, $fb['name'], $fb['email'], $fb['message'], $fb_pub_link);
+			$this->table->add_row($fb_id, $fb['time'], $fb['name'], $fb['email'], $fb['message'], $fb_pub_link);
 		}
 
 		return $this->table->generate();
