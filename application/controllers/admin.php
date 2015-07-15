@@ -115,6 +115,7 @@ class admin extends CI_controller
 		//Are we fetching new waybills
 		$log_partner = $this->input->post('logistic_partner');
 		$num_waybills = $this->input->post('num_waybills');
+		$redirect = false;	//To refresh the count
 		
 		if($log_partner != false && $num_waybills != false)
 		{
@@ -123,12 +124,18 @@ class admin extends CI_controller
 				case 'delhivery':
 					$delhivery_waybills = fetch_delhivery_waybills($num_waybills);
 					$this->_insert_new_waybills($delhivery_waybills);
+					$redirect = true;
 					break;
 				
 				default:
 					# code...
 					break;
 			}
+		}
+
+		if($redirect)
+		{
+			redirect('admin/logistics');
 		}
 	}
 
