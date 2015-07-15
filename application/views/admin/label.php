@@ -1,7 +1,7 @@
 <table border="1" cellpadding="5px" cellspacing="0">
 <tr>
     <td align="left">
-        <img width='50px' src="<?php echo $company_logo ?>">
+        <img  src="<?php echo $company_logo ?>">
     </td>
     <td align='center' >
         <img width='100px' src="<?php echo $courier_logo ?>">
