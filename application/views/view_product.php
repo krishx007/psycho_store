@@ -1,3 +1,16 @@
+<div class="modal fade" id="size_chart" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img class='img-responsive' src= <?php echo site_url('images/size_chart.jpg')?> >
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default text-center" data-dismiss="modal">Got it!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="section">
     <div class="top-bottom-space">
@@ -27,7 +40,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <p><a class="inline" href="#"><small>Whats my </small><strong> size</strong> ?</a> </p>
+            <p><a class="inline" href='#size_chart' data-toggle='modal' data-target="#size_chart"><small>Whats my </small><strong> size</strong> ?</a> </p>
           </div>             
           <div class="col-md-4">
             <form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
