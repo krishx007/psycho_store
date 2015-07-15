@@ -103,6 +103,7 @@ class admin extends CI_controller
 		$this->_validate_user();
 
 		$data['delhivery_waybills'] = $this->database->NumWaybills();
+		$data['delhivery_pincodes'] = $this->database->NumPincodes();
 
 		$this->_check_for_new_waybills();
 
@@ -120,8 +121,8 @@ class admin extends CI_controller
 			switch ($log_partner)
 			{
 				case 'delhivery':
-					$delhivery_waybills = fetch_delhivery_waybills($num_waybills);					
-					$this->_insert_new_waybills($delhivery_waybills);					
+					$delhivery_waybills = fetch_delhivery_waybills($num_waybills);
+					$this->_insert_new_waybills($delhivery_waybills);
 					break;
 				
 				default:
@@ -772,7 +773,7 @@ class admin extends CI_controller
 			{
 				continue;
 			}
-						
+
 			$txn_id = $order['txn_id'];
 			$email = $order['user']['email'];
 			$address = format_address($order['address']);

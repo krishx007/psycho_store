@@ -128,7 +128,6 @@ function fetch_delhivery_waybills($count)
 	$warehouse = $ci->config->item('delhivery_warehouse');
 
 	$url = $api_url."/waybill/api/bulk/json/?token=$token&count=$count";
-	var_dump($url);
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -137,9 +136,31 @@ function fetch_delhivery_waybills($count)
 	$info = curl_getinfo($ch);
 	$error = curl_error($ch);
 	curl_close($ch);
-	$result = json_decode($result, TRUE);
-	print_r($result);
+	$result = json_decode($result, TRUE);	
 
+	return $result;
+}
+
+//Active pincodes since $date
+function fetch_delhivery_pincodes($date)
+{
+	$ci = &get_instance();
+	$ci->config->load('shipping_settings');
+	$ci->load->model('database');
+	$api_url = $ci->config->item('delhivery_url');
+	$token = $ci->config->item('delhivery_token');
+
+	$url = $api_url."/c/api/pin-codes/json/?token=$token&dt=$date";	
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+	$result = curl_exec($ch);
+	$info = curl_getinfo($ch);
+	$error = curl_error($ch);
+	curl_close($ch);
+	$result = json_decode($result, TRUE);	
+	
 	return $result;
 }
 

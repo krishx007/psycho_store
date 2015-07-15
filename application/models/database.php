@@ -450,6 +450,11 @@ class Database extends CI_Model
 		return $wb;
 	}
 
+	function NumPincodes()
+	{
+		return $this->db->count_all('delhivery');
+	}
+	
 	//-------------------------- Checkout Specific Functions -------------------------- 	
 
 	//For now its only Delhivery
