@@ -375,7 +375,7 @@ class Database extends CI_Model
 		if($to_update)
 		{
 			//Get only those who havent been updated recently
-			$this->db->where('UNIX_TIMESTAMP(last_update) >', time() - $update_threshold);
+			$this->db->where('UNIX_TIMESTAMP(last_update) <', time() - $update_threshold);
 			$query = $this->db->get('newsletter');
 		}
 		else
