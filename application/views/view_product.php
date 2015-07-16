@@ -34,7 +34,8 @@
       <div class="col-md-4">
         <div class="row">
           <div class="col-md-12">
-            <p> <?php echo $product['product_intro']; ?> <a href="#prod_desc"><i class="fa fa-caret-down"></i> read more</a></p>
+            <p> <?php echo $product['product_intro']; ?></p>
+            <a href="#prod_desc"><i class="fa fa-caret-down"></i> read more</a>
             <hr>
           </div>
         </div>
