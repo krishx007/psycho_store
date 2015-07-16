@@ -34,7 +34,7 @@
       <div class="col-md-4">
         <div class="row">
           <div class="col-md-12">
-            <p> <?php echo $product['product_intro']; ?> </p>
+            <p> <?php echo $product['product_intro']; ?> <a href="#prod_desc"><i class="fa fa-caret-down"></i> read more</a></p>
             <hr>
           </div>
         </div>
@@ -85,8 +85,9 @@
       </div>
     </div>
   </div>
-
-  <?php echo $this->load->view('view_product_desc'); ?>
+  <div id='prod_desc'>
+    <?php echo $this->load->view('view_product_desc'); ?>
+  </div>  
   
   <?php $data['product_name'] = $product['product_name']; echo $this->load->view('view_disqus', $data); ?>
 
