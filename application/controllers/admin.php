@@ -322,8 +322,8 @@ class admin extends CI_controller
 		if($this->input->post('subject') != false)
 		{
 			$data['site_name'] = "Psycho Store";
-			$data['subscribers'] = $this->database->GetSubscribers(false);
-			$data['num_subscribers'] = count($data['subscribers']);			
+			$data['subscribers'] = $this->database->GetSubscribers(true);
+			$data['num_subscribers'] = count($data['subscribers']);
 
 			$data['subject'] = $this->input->post('subject');
 		
@@ -338,7 +338,7 @@ class admin extends CI_controller
 	function _send_mass_mail($data)
 	{
 		$params = $this->_create_params_for_newsletter($data['subject']);
-		
+
 		if($params)
 		{
 			$data['params'] = $params;
@@ -347,15 +347,15 @@ class admin extends CI_controller
 		{
 			die("No such file exists. Please check subject");
 		}
-		
+
 		$this->load->view('admin/mass_mail', $data);
 	}
 
 	function _create_params_for_newsletter($subject)
-	{		
+	{
 		$params = null;
 
-		if(file_exists(APPPATH."views/email/$subject-html.php"))
+		if(file_exists(APPPATH."views/email/newsletter/$subject-html.php"))
 		{
 			//Mail params
 			$params['subject'] = $subject;
@@ -363,8 +363,8 @@ class admin extends CI_controller
 			$params['domain'] = 'news.psychostore.in';
 			$params['campaign_id'] = 'psycho_campaign';
 			$params['reply_to'] = 'contact@psychostore.in';
-			$params['txt'] = $this->load->view("email/$subject-txt", $data, TRUE);
-			$params['html'] = $this->load->view("email/$subject-html", $data, TRUE);	
+			$params['txt'] = $this->load->view("email/newsletter/$subject-txt", $data, TRUE);
+			$params['html'] = $this->load->view("email/newsletter/$subject-html", $data, TRUE);	
 		}
 
 		return $params;
