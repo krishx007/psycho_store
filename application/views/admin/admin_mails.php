@@ -34,6 +34,12 @@
                     </div>
                     <button disabled type="submit" class="btn btn-primary">Send Newsletter</button>
                 </form>
+            </div>            
+            <div class="col-md-12">
+                <h3>Latest Subscribers</h3>
+                <?php foreach ($latest_subscribers as $key => $subscriber): ?>
+                    <p> <?php echo $subscriber['email']?></p>
+                <?php endforeach; ?>
             </div>
 		</div>        
 	</div>

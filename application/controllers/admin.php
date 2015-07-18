@@ -290,6 +290,8 @@ class admin extends CI_controller
 		$data['order_id'] = '5XTGH567';
 		$type = $this->input->post('mail_type');
 		$data['num_subscribers'] = $this->database->GetNumOfSubscribers();
+		//Show some latest registered emails
+		$data['latest_subscribers'] = $this->database->GetSubscribers(10);
 
 		if($this->input->post('email') != false)
 		{
@@ -322,7 +324,7 @@ class admin extends CI_controller
 		if($this->input->post('subject') != false)
 		{
 			$data['site_name'] = "Psycho Store";
-			$data['subscribers'] = $this->database->GetSubscribers(true);
+			$data['subscribers'] = $this->database->GetSubscribersForUpdate();
 			$data['num_subscribers'] = count($data['subscribers']);
 
 			$data['subject'] = $this->input->post('subject');

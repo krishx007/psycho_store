@@ -369,20 +369,23 @@ class Database extends CI_Model
 		$this->db->where('email', $email);
 		$this->db->update('newsletter');
 	}
-	
-	function GetSubscribers($to_update, $update_threshold = '60*5')
-	{
-		if($to_update)
-		{
-			//Get only those who havent been updated recently
-			$this->db->where('UNIX_TIMESTAMP(last_update) <', time() - $update_threshold);
-			$query = $this->db->get('newsletter');
-		}
-		else
-		{			
-			$query = $this->db->get('newsletter');		
-		}
 
+	function GetSubscribersForUpdate($update_threshold = '60*5')
+	{
+		//Get only those who havent been updated recently
+		$this->db->where('UNIX_TIMESTAMP(last_update) <', time() - $update_threshold);
+		$query = $this->db->get('newsletter');
+	}
+	
+	//null means get all subscribers
+	function GetSubscribers($num = null)
+	{
+		if($num)
+		{
+			$this->db->limit($num);
+		}
+		$this->db->order_by('register_time', 'desc');
+		$query = $this->db->get('newsletter');
 		return $query->result_array();
 	}
 
