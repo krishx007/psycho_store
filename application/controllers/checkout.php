@@ -59,7 +59,7 @@ class checkout extends CI_controller
 	function _save_cart_items()
 	{
 		//Try applying domain based discount before saving
-		try_domain_discount();
+		check_domain_discount();
 
 		$txn_id = $this->session->userdata('txn_id');
 

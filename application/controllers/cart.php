@@ -59,7 +59,7 @@ class cart extends CI_controller
 		$num_items = $this->cart->total_items();
 		generate_header($data);		
 		$this->_set_stock_info($data);
-		try_domain_discount();
+		check_domain_discount();
 		
 		display('cart',$data);		
 	}	

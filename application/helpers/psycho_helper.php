@@ -133,7 +133,7 @@ if(!function_exists('always_refresh'))
 
 if(!function_exists('try_domain_discount'))
 {
-	function try_domain_discount()
+	function check_domain_discount()
 	{
 		$ci = &get_instance();
 		$ci->load->model('database');
