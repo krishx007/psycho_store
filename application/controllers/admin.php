@@ -940,7 +940,7 @@ class admin extends CI_controller
 		$domains = $discounts['domains'];
 		$coupons = $discounts['coupons'];
 		$this->load->library('table');
-		$this->table->set_heading('id', 'Domain', 'Discount Percentage', 'Update', 'Delete', 'Expiry Date');
+		$this->table->set_heading('id', 'Domain', 'Discount Percentage', 'Update', 'Expiry Date', 'Delete');
 
 		$tmpl = array ( 'table_open'  => '<table class="table " >' );
 		$this->table->set_template($tmpl);
@@ -948,7 +948,7 @@ class admin extends CI_controller
 		foreach ($domains as $key => $domain)
 		{
 			$id = $i;
-			$discount_percentage = $domain['how_much'];
+			$discount_percentage = $domain['how_much']."%";
 			$domain_name = $domain['domain'];
 			$update_url = site_url("admin/update_discount_domain/$domain_name");
 
@@ -963,20 +963,20 @@ class admin extends CI_controller
 			$remove_url = site_url("admin/remove_discount/$domain_name/domain");
 			$remove_link = "<a class=\"btn btn-danger\" href=$remove_url>Delete</a>";
 
-			$this->table->add_row($id, $domain_name, $discount_percentage, $discount_link, $remove_link);
+			$this->table->add_row($id, $domain_name, $discount_percentage, $discount_link, null, $remove_link);
 			$i++;
 		}
 
 		foreach ($coupons as $key => $coupon)
 		{
 			$id = $i;
-			$discount_percentage = $coupon['how_much'];
+			$discount_percentage = $coupon['how_much']."%";
 			$coupon_name = $coupon['coupon'];
 			$remove_url = site_url("admin/remove_discount/$coupon_name/coupon");
 			$remove_link = "<a class=\"btn btn-danger\" href=$remove_url>Delete</a>";
 			$expiry_date = $coupon['expiry'];
 
-			$this->table->add_row($id,$coupon_name, $discount_percentage, null, $remove_link, $expiry_date);
+			$this->table->add_row($id,$coupon_name, $discount_percentage, null, $expiry_date, $remove_link);
 			$i++;
 		}
 
