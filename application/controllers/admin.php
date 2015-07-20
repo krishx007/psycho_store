@@ -960,7 +960,7 @@ class admin extends CI_controller
 				</div>
 			</form>";
 
-			$remove_url = site_url("admin/remove_discount_domain/$domain_name/domain");
+			$remove_url = site_url("admin/remove_discount/$domain_name/domain");
 			$remove_link = "<a class=\"btn btn-danger\" href=$remove_url>Delete</a>";
 
 			$this->table->add_row($id, $domain_name, $discount_percentage, $discount_link, $remove_link);
