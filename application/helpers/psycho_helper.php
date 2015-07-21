@@ -227,7 +227,7 @@ if(!function_exists('execute_events'))
 				}
 			}
 			$ci->session->set_userdata('events', null);
-		}		
+		}
  	}
 }
 
@@ -343,7 +343,6 @@ if(!function_exists('display'))
 		$data['header'] = $header;
 		$data['body'] = $body;
 		$data['footer'] = $footer;
-		$data['show_discount_popup'] = false;
 
 		execute_events($data);
 
