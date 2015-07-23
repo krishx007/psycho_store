@@ -84,7 +84,7 @@ if(!function_exists('mg_send_mail'))
 			'html'		=>	$params['html'],
 			'text'		=>	$params['txt']
 			));
-	}	
+	}
 }
 
 if(!function_exists('mg_add_subscriber'))
@@ -115,7 +115,7 @@ if(!function_exists('mg_delete_subscriber'))
 
 		# Issue the call to the client.
 		$result = $mg->delete("lists/$list_address/members/$email_id");
-	}	
+	}
 }
 
 if(!function_exists('mg_unsubscribe'))
@@ -146,4 +146,4 @@ if(!function_exists('mg_get_subscriber'))
 	}
 }
 
-?>		
+?>
