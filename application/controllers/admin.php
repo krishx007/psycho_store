@@ -851,9 +851,9 @@ class admin extends CI_controller
 	function _generate_products_table($products)
 	{
 		$this->load->library('table');
-		$this->table->set_heading('id', 'type', 'game', 'name', 'url', 'intro', 'description', 'image', 'price', 'small', 'med', 'lrg', 'xl', 'sold');
+		$this->table->set_heading('id', 'type', 'game', 'name', 'url', 'intro', 'image', 'price', 'small', 'med', 'lrg', 'xl', 'sold');
 
-		$tmpl = array ( 'table_open'  => '<table class="table " >' );
+		$tmpl = array ( 'table_open'  => '<table class="table table-condensed" >' );
 		$this->table->set_template($tmpl);
 
 		foreach ($products as $key => $prod)
@@ -865,13 +865,13 @@ class admin extends CI_controller
 
 			//Product Image
 			$img_path = site_url($prod['product_image_path']);
-			$image_cell = "<a href= $img_path><img class='img-responsive' src = $img_path></img></a>";
+			$image_cell = "<a href= $img_path><img class='img-responsive' width='75' src = $img_path></img></a>";
 
 			//Product Link			
 			$prod_url = product_url($prod);
 			$prod_name_cell = anchor($prod_url, $prod['product_name']);
 
-			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod_name_cell, $prod['product_url'], $prod['product_intro'], $prod['product_desc'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
+			$this->table->add_row($prod_id_cell, $prod['product_type'], $prod['product_game'], $prod_name_cell, $prod['product_url'], $prod['product_intro'], $image_cell, $prod['product_price'], $prod['product_count_small'], $prod['product_count_medium'], $prod['product_count_large'], $prod['product_count_xl'], $prod['product_qty_sold']);
 		}
 
 		return $this->table->generate();
