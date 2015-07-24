@@ -861,7 +861,7 @@ class admin extends CI_controller
 			//Edit link
 			$product_id = $prod['product_id'];
 			$prod_edit_link = site_url('admin/edit_product/'.$product_id);
-			$prod_id_cell = "<a href=$prod_edit_link> $product_id </a>";
+			$prod_id_cell = "<a href=$prod_edit_link> <i class=\"fa fa-pencil\"></i> $product_id </a> ";
 
 			//Product Image
 			$img_path = site_url($prod['product_image_path']);
