@@ -715,7 +715,9 @@ class admin extends CI_controller
 	function _get_product_form_post($input)
 	{
 		//All data ok, add this product to database
-		$product['product_id'] = $input['id'];
+		/*product_id for adding product is done automatically
+		for editing product we mention seprately, doesnt come from form
+		*/
 		$product['product_type'] =$input['type'];
 		$product['product_game'] = $input['game_name'];
 		$product['product_name'] = $input['product_name'];
@@ -1006,4 +1008,3 @@ class admin extends CI_controller
 }
 
 ?>
-
