@@ -41,7 +41,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <p><a class="inline" href='#size_chart' data-toggle='modal' data-target="#size_chart"><small>Whats my </small><strong> size</strong> ?</a> </p>
+            <p><a class="inline" href='#size_chart' data-toggle='modal' data-target="#size_chart"><small>What's my </small><strong> size</strong> ?</a> </p>
           </div>             
           <div class="col-md-4">
             <form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
