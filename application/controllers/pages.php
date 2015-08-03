@@ -272,9 +272,9 @@ class Pages extends CI_controller
 							Your product will reach you in about 3-5 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
 							<h3> 365 days Return Policy</h3>
 							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want but most importantly notify us along with your order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> within 2 days and send us the product back whenever you can (literally 365 days) in its original condition. We will inspect the product and will do a refund or excahnge as you desire.
-							We will bear the shipping charges as well if its our fault.
-							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange.You will have to bear the shipping charges in this case.
-							<br><br> Note : In both the cases, problem should be notified within 2 days along with order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
+							We will bear the shipping charges as well if it's our fault.
+							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange. You will have to bear the shipping charges in this case.
+							<br><br> Note: In both the cases, problem should be notified within 2 days along with order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
 							<br><br>Email us with your product id at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and ship the product to given address
 							<br><br>
 							<h4 class=\"molot\">Address for returns</h4>
@@ -304,7 +304,7 @@ class Pages extends CI_controller
 							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
 							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass merchandise brand for the gaming and geek community of earth (other planets can wait for now).<br></p>
 							<h3><small>What is</small> <> by Codinpsycho ?</h3>
-							<p>It means all this crazy stuff was thought,designed and programmed by a single guy, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br></p>
+							<p>It means all this crazy stuff was thought, designed and programmed by a single guy, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br></p>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://twitter.com/codinpsycho\">Twitter </a></h5>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://www.facebook.com/codinpsycho\">Facebook </a></h5>
 							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho\">github</h5></a>
