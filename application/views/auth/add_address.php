@@ -27,7 +27,7 @@ $address1 = array(
 	'name'	=> 'address1',
 	'id'	=> 'address1',
 	'value' => set_value('address1'),
-	'maxlength'	=> 50,
+	'maxlength'	=> 90,
 	'size'	=> 30,
 	'class' => "form-control"
 );
@@ -35,7 +35,7 @@ $address2 = array(
 	'name'	=> 'address2',
 	'id'	=> 'address2',
 	'value' => set_value('address2'),
-	'maxlength'	=> 50,
+	'maxlength'	=> 90,
 	'size'	=> 30,
 	'class' => "form-control"
 );
