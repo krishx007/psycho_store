@@ -236,118 +236,151 @@ if(!function_exists('display'))
 	function display($page, $data)
 	{
 		$ci = &get_instance();
-		$ci->load->library('session');
+		$status = $ci->config->item('current_site_status');
 
-		generate_header($data);
-		
-		//Show header based on page
-		$header = stristr($page, 'admin') ? $ci->load->view('admin/admin_header', $data, true) : $ci->load->view('header', $data, true);
-
-		//Show body		
-		switch ($page)
+		switch ($status)
 		{
-			case 'search':
-				$body = $ci->load->view('view_search', $data, true);
-			break;
-			case 'browse':
-				$body = $ci->load->view('home', $data, true);	
-			break;
-			case 'product':	
-				$body = $ci->load->view('view_product', $data, true);
-			break;
-			case 'feedback_wall':
-				$body = $ci->load->view('feedback_wall', $data, true);
+			case 'LIVE':
+				_live($page, $data);
 				break;
-			case 'contact':
-				$body = $ci->load->view('view_contact', $data, true);
+			
+			case 'TRAVELLING':
+				_travelling();
 				break;
-			case 'cart':
-				$body = $ci->load->view('view_cart',$data, true);
+			
+			case 'down':
+				_down();
 				break;
-			case 'login':
-				$body = $ci->load->view('auth/login_form', $data, true);
-				break;
-			case 'post_login':
-				$body = $ci->load->view('auth/surprise', $data, true);
-				break;
-			case 'register_user_address':
-				$body = $ci->load->view('auth/register', $data, true);
-				break;
-			case 'forgot_password':
-				$body = $ci->load->view('auth/forgot_password_form', $data, true);
-				break;
-			case 'add_address':
-				$body = $ci->load->view('auth/add_address', $data, true);
-				break;
-			case 'message':
-				$body = $ci->load->view('auth/general_message', $data, true);
-				break;
-			case 'reset_password':
-				$body = $ci->load->view('auth/reset_password_form', $data, true);
-				break;
-			case 'send_again':
-				$body = $ci->load->view('auth/send_again_form', $data, true);
-				break;
-			case 'feedback_form':
-				$body = $ci->load->view('auth/feedback_form', $data, true);
-				break;
-			case 'admin_orders':
-				$body = $ci->load->view('admin/admin_orders', $data, true);
-				break;
-			case 'admin_products':
-				$body = $ci->load->view('admin/admin_products', $data, true);
-				break;
-			case 'admin_product_add_edit':
-				$body = $ci->load->view('admin/product_add_edit', $data, true);
-				break;
-			case 'admin_feedback':
-				$body = $ci->load->view('admin/admin_feedbacks', $data, true);
-				break;
-			case 'admin_mail':
-				$body = $ci->load->view('admin/admin_mails', $data, true);
-				break;
-			case 'admin_shipments':
-				$body = $ci->load->view('admin/admin_shipments', $data, true);
-				break;
-			case 'admin_logistics':
-				$body = $ci->load->view('admin/admin_logistics', $data, true);
-				break;
-			case 'admin_users':
-				$body = $ci->load->view('admin/admin_users', $data, true);
-				break;
-			case 'admin_discounts':
-				$body = $ci->load->view('admin/admin_discounts', $data, true);
-				break;
-			case 'address':
-				$body = $ci->load->view('view_address', $data, true);
-				break;
-			case 'review':
-				$body = $ci->load->view('view_review_order', $data, true);
-				break;
-			case 'message':
-				$body = $ci->load->view('basic_view', $data, true);
-				break;
-			case 'insights':
-				$body = $ci->load->view('view_insights', $data, true);
-				break;
-			case 'basic':
-				$body = $ci->load->view('basic_view', $data, true);
-				break;
+
 			default:
-				show_404();
-			break;
-		}		
-
-		//Show footer
-		$footer = $ci->load->view('footer', $data, true);
-		$data['header'] = $header;
-		$data['body'] = $body;
-		$data['footer'] = $footer;
-
-		execute_events($data);
-
-		$ci->load->view('main_view', $data);
+				# code...
+				break;
+		}
 	}
-}	
+}
+
+// *** NOT TO BE CALLED FROM OUTSIDE *** //
+
+function _live($page, $data)
+{
+	$ci = &get_instance();
+	$ci->load->library('session');
+	$ci->load->model('database');
+
+	generate_header($data);
+		
+	//Show header based on page
+	$header = stristr($page, 'admin') ? $ci->load->view('admin/admin_header', $data, true) : $ci->load->view('header', $data, true);
+
+	//Show body		
+	switch ($page)
+	{
+		case 'search':
+			$body = $ci->load->view('view_search', $data, true);
+		break;
+		case 'browse':
+			$body = $ci->load->view('home', $data, true);	
+		break;
+		case 'product':	
+			$body = $ci->load->view('view_product', $data, true);
+		break;
+		case 'feedback_wall':
+			$body = $ci->load->view('feedback_wall', $data, true);
+			break;
+		case 'contact':
+			$body = $ci->load->view('view_contact', $data, true);
+			break;
+		case 'cart':
+			$body = $ci->load->view('view_cart',$data, true);
+			break;
+		case 'login':
+			$body = $ci->load->view('auth/login_form', $data, true);
+			break;
+		case 'post_login':
+			$body = $ci->load->view('auth/surprise', $data, true);
+			break;
+		case 'register_user_address':
+			$body = $ci->load->view('auth/register', $data, true);
+			break;
+		case 'forgot_password':
+			$body = $ci->load->view('auth/forgot_password_form', $data, true);
+			break;
+		case 'add_address':
+			$body = $ci->load->view('auth/add_address', $data, true);
+			break;			
+		case 'reset_password':
+			$body = $ci->load->view('auth/reset_password_form', $data, true);
+			break;
+		case 'send_again':
+			$body = $ci->load->view('auth/send_again_form', $data, true);
+			break;
+		case 'feedback_form':
+			$body = $ci->load->view('auth/feedback_form', $data, true);
+			break;
+		case 'admin_orders':
+			$body = $ci->load->view('admin/admin_orders', $data, true);
+			break;
+		case 'admin_products':
+			$body = $ci->load->view('admin/admin_products', $data, true);
+			break;
+		case 'admin_product_add_edit':
+			$body = $ci->load->view('admin/product_add_edit', $data, true);
+			break;
+		case 'admin_feedback':
+			$body = $ci->load->view('admin/admin_feedbacks', $data, true);
+			break;
+		case 'admin_mail':
+			$body = $ci->load->view('admin/admin_mails', $data, true);
+			break;
+		case 'admin_shipments':
+			$body = $ci->load->view('admin/admin_shipments', $data, true);
+			break;
+		case 'admin_logistics':
+			$body = $ci->load->view('admin/admin_logistics', $data, true);
+			break;
+		case 'admin_users':
+			$body = $ci->load->view('admin/admin_users', $data, true);
+			break;
+		case 'admin_discounts':
+			$body = $ci->load->view('admin/admin_discounts', $data, true);
+			break;
+		case 'address':
+			$body = $ci->load->view('view_address', $data, true);
+			break;
+		case 'review':
+			$body = $ci->load->view('view_review_order', $data, true);
+			break;
+		case 'message':
+		case 'basic':
+			$body = $ci->load->view('basic_view', $data, true);
+			break;
+		case 'insights':
+			$body = $ci->load->view('view_insights', $data, true);
+			break;
+		default:
+			show_404();
+		break;
+	}
+
+	//Show footer
+	$footer = $ci->load->view('footer', $data, true);
+	$data['header'] = $header;
+	$data['body'] = $body;
+	$data['footer'] = $footer;
+
+	execute_events($data);
+
+	$ci->load->view('main_view', $data);
+}
+
+function _travelling()
+{
+	$ci = &get_instance();
+	$ci->load->library('session');
+	$ci->load->model('database');
+
+	$data['num_of_gamers'] = $ci->database->GetNumOfSubscribers();
+	$ci->load->view('view_travelling', $data);
+}
 
 ?>

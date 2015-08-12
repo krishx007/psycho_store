@@ -3,7 +3,7 @@
 if(!function_exists('request_delhivery_pickup'))
 {
 	function request_delhivery_pickup($packaged_shipemts)
-	{
+	{		
 		$ci = &get_instance();
 		$ci->config->load('shipping_settings');
 		$api_url = $ci->config->item('delhivery_url');
@@ -56,12 +56,12 @@ if(!function_exists('request_delhivery_pickup'))
 
 		// pickup location information //
 		$pickup_location = $ci->config->item('pickup_location');
-
+		
 		$package_data['shipments'] = $shipments;
 		$package_data['pickup_location'] = $pickup_location;
 		$params['format'] = 'json';
 		$params['data'] =json_encode($package_data);
-
+		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, true);

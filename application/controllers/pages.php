@@ -18,19 +18,7 @@ class Pages extends CI_controller
 	}
 
 	function index()
-	{
-		$this->signup();
-		//$this->latest('all');
-	}
-
-	function signup()
-	{
-		$data['num_of_gamers'] = $this->database->GetNumOfSubscribers();
-		$this->load->view('launch_signup', $data);		
-	}
-
-	function beta()
-	{
+	{		
 		$this->latest('all');
 	}
 

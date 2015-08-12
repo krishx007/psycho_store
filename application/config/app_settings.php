@@ -30,4 +30,12 @@ $config['return_address'] = array(
 									'state' 	=> 'Karnataka'
 									);
 
+/*Current status of the site
+Possible Status :
+LIVE
+DOWN
+TRAVELLING*/
+$config['current_site_status'] = 'LIVE'
+
+
 ?>
