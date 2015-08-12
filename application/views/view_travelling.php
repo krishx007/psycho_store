@@ -27,7 +27,7 @@
 	<hr>
 	<div class="well row">
 		<div class="col-md-12">
-			<h5>Once in a while, we take our bikes and hit the roads in search of new elements and compunds to create awesome loot and stuff for you guys. Currently we are at that point of time, so just hold on while we come back with super awesome stuff for you guys. Meanwhile you can leave your email id with us, we will let you know all about our adventures.</h5>
+			<h5>Once in a while, we take our bikes and hit the roads in search of new elements and compunds to create awesome loot and stuff for you guys. Currently we are at that point of time, so just hold on while we come back with super interesting materials for you guys. Meanwhile you can leave your email id with us.</h5>
 		</div>
 		<div class="col-md-6 col-md-offset-3 top-bottom-space-s">			
             <form class="form" method = "post" action=<?php echo site_url('pages/launch_signup')?>>
@@ -37,12 +37,8 @@
 	            </div>
            </form>           
 		</div>
-		<div class="col-md-12 text-center top-bottom-space-s">
-			<h2 class="molot">Coming Soon</h2>
-		</div>
 		<div class="col-md-12 text-center">
-			<h4 class="molot">Spread the Word Motherfucker.</h4>
-			<h4 class="molot"><small> Like right now !</small></h4>
+			<h4 class="molot top-bottom-space-s">We will let you know all about our adventures.</h4>			
 			<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpsychostorein&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
             </iframe>
             <a href="https://twitter.com/psychostorein" class="twitter-follow-button" data-show-count="false" data-lang="en" show-screen-name="false" data-size="small">Follow</a>
