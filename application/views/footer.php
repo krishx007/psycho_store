@@ -73,7 +73,7 @@
           <div class="col-md-12">
             <a target="_blank" class="molot pull-right" href= <?php echo site_url('wtf') ?> ><small>wtf.</small></a>
             <hr>
-            <h5><i class="fa fa-angle-left"></i> <i class="fa fa-angle-right"></i> by Codinpsycho <span class='pull-right'>Psycho Store <?php echo date('Y') ?> &copy; All rights reserved. A Psychonet Product.</span><h5>
+            <h5><a target="_blank" href="http://codinpsycho.com"><i class="fa fa-angle-left"></i> <i class="fa fa-angle-right"></i> by codinpsycho</a> <span class='pull-right'>Psycho Store <?php echo date('Y') ?> &copy; All rights reserved. A Psychonet Product.</span><h5>
             <p><small>All artwork posted on this website is intended as fan art and is not purported to be official merchandise. If you have any issues regarding the artwork, please write in to us at contact@psychostore.in</small></p>
           </div>
         </div>
