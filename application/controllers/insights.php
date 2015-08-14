@@ -103,7 +103,7 @@ class insights extends CI_Controller
 		$count = 0;
 		foreach ($orders as $key => $value)
 		{
-			if($value['payment_mode'] == "online")
+			if($value['payment_mode'] == "pre-paid")
 			{
 				$count++;
 			}
