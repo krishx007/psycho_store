@@ -21,7 +21,8 @@ class Auth extends CI_Controller
 	{
 		if ($message = $this->session->flashdata('message')) 
 		{
-			$data['message'] = $message;
+			$data['heading'] = 'Message';
+			$data['content'] = $message;
 			//$this->load->view('auth/general_message', array('message' => );
 			display('message',$data);
 		} 
