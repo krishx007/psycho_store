@@ -13,6 +13,7 @@
 	?>
 </head>
 <body>
+	<?php echo $external_scripts ?>
 	<?php echo $body?>
 	<?php echo $footer?>
 </body>

@@ -267,7 +267,7 @@ function _live($page, $data)
 	$ci->load->library('session');
 	$ci->load->model('database');
 
-	generate_header($data);
+	generate_header($data);	
 		
 	//Show header based on page
 	$header = stristr($page, 'admin') ? $ci->load->view('admin/admin_header', $data, true) : $ci->load->view('header', $data, true);
@@ -367,6 +367,7 @@ function _live($page, $data)
 	$data['header'] = $header;
 	$data['body'] = $body;
 	$data['footer'] = $footer;
+	$data['external_scripts'] = $ci->load->view('external_scripts', null, true);
 
 	execute_events($data);
 
