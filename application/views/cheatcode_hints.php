@@ -1,6 +1,4 @@
 What's the Konami Code?
-
-Which mode is the best?
-
-Try a left_right_up_down combination.
+Which mode would you love to have in real life?
+Try a left_right_up_down combination."
 
