@@ -61,7 +61,7 @@ class cart extends CI_controller
 		$this->_set_stock_info($data);
 		check_domain_discount();
 		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
-				
+
 		display('cart',$data);		
 	}	
 
@@ -155,7 +155,7 @@ class cart extends CI_controller
 		{
 			$params['title'] = "wrong cheat code";
 
-			$params['body'] = "<strong>$username</strong>, No such cheat code exists.<br>Anyway, we stronly encourage playing games with no cheat codes applied.<br>Happy gaming!" ;
+			$params['body'] = "<strong>$username</strong>, No such cheat code exists.<br>Anyway, we strongly encourage playing games with no cheat codes applied.<br><br>Happy gaming!" ;
 		}
 		else if(count($domain_discount))
 		{
@@ -167,7 +167,7 @@ class cart extends CI_controller
 		{
 			$params['title'] = "Cheat Code Applied $discount_percentage% off";
 
-			$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But it looks like this game is  too tough for you. So just for you we have made this game <strong>$discount_percentage%</strong> easier.<br>Happy gaming!" ;
+			$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But anyway, we have made this game <strong>$discount_percentage%</strong> easier, just for you.<br><br>Happy gaming!" ;
 		}
 		notify_event('apply_discount', $params);
 	}
