@@ -1,4 +1,6 @@
 What's the Konami Code?
-Which mode you want in real life?
+
+Which mode is the best?
+
 Try a left_right_up_down combination.
 

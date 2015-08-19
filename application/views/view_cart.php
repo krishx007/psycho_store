@@ -77,7 +77,7 @@ $(function () {
 			<?php endforeach; 
 			if($this->cart->total_items() == 0)
 				echo heading('Empty Cart',3, 'class="text-center"');
-			?>			
+			?>
 			</div>
 			<br><br>
 			<hr>
