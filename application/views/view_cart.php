@@ -1,13 +1,19 @@
+<script type="text/javascript">
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
  <body>
 	<div class="container top-bottom-space">
 		<div class="row">
 			<div class="col-md-12">
 				<h1>Total : <i class="fa fa-rupee"> </i> <?php echo $this->cart->final_price();?>
-					<?php if($this->cart->total_items()): ?>						
+					<?php if($this->cart->total_items()): ?>
 						<span class="col-md-5 pull-right play">
 							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
 					        	<div class="input-group">
-					          		<input type="text" name="coupon" class="form-control input" placeholder="Cheat Code">
+					          		<input type="text" name="coupon" data-toggle="tooltip" title= "<?php echo $cheat_hints ?>" data-placement="bottom" class="form-control input" placeholder="Cheat Code">
 					          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Cheat Code</button></span>
 					        	</div>
 					      	</form>
@@ -35,7 +41,7 @@
 							<?php echo anchor($url, img($image_properties));?>
 						</div>
 						<div class="col-md-10">
-							<nav>				
+							<nav>
 								<ul class='nav nav-pills navbar-left'>
 									<li>
 										<h4 class="navbar-text ">
@@ -45,12 +51,12 @@
 											<small><?php echo $option_name; ?>: </small><?php echo $option_value; ?>
 											<?php endforeach; ?>
 											<?php endif; ?>
-										</h4>								           
+										</h4>
 									</li>
 									<div class="col-md-3 navbar-btn">
 										<li>
 										<form class="form" method="post" action=<?php echo site_url('cart/update/')?> >
-						                    <div class="input-group">						                     
+						                    <div class="input-group">
 						                      <input type="number" min ='0' max = <?php echo $product['product_count_'.strtolower($items['options']['Size'])] ?> name=<?php echo $items['rowid']?> class="form-control input-sm" value=<?php echo $items['qty']?> >
 						                      <span class="input-group-btn"><button class="btn btn-default btn-sm" type="submit">Update</button></span>
 						                    </div>
@@ -65,8 +71,8 @@
 							</nav>
 						</div>
 			        </div>
-			    <?php if(count($this->cart->contents()) - $num_plus > 1): ?>			    
-			    	<div class="col-md-12"> <h1 class="text-center"><strong>+</strong></h1></div>			    	
+			    <?php if(count($this->cart->contents()) - $num_plus > 1): ?>
+			    	<div class="col-md-12"> <h1 class="text-center"><strong>+</strong></h1></div>
 				<?php $num_plus++; endif;?>
 			<?php endforeach; 
 			if($this->cart->total_items() == 0)
@@ -89,7 +95,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>						
+				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>
 						<?php if($this->cart->total_items()): ?>
 							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->final_price();?> </i> <i class="fa fa-arrow-right"></i> </a>
 						<?php endif; ?>

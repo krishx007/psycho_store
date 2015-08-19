@@ -60,7 +60,8 @@ class cart extends CI_controller
 		generate_header($data);		
 		$this->_set_stock_info($data);
 		check_domain_discount();
-		
+		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
+				
 		display('cart',$data);		
 	}	
 
