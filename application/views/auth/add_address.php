@@ -29,6 +29,7 @@ $address1 = array(
 	'value' => set_value('address1'),
 	'maxlength'	=> 90,
 	'size'	=> 30,
+	'placeholder'	=> 'Where you want us to ship',
 	'class' => "form-control"
 );
 $address2 = array(
@@ -71,6 +72,7 @@ $pincode = array(
 	'value' => set_value('pincode'),
 	'maxlength'	=> 10,
 	'size'	=> 30,
+	'placeholder'	=> 'Must be 6 digit',
 	'class' => "form-control"
 );
 $number = array(
