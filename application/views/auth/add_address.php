@@ -11,7 +11,7 @@ $first_name = array(
 	'value' => set_value('first_name'),
 	'maxlength'	=> 50,
 	'size'	=> 30,
-	'placeholder'	=> 'Ishkaran',
+	'placeholder'	=> 'What normal people call you',
 	'class' => "form-control"
 );
 $last_name = array(
@@ -20,7 +20,7 @@ $last_name = array(
 	'value' => set_value('last_name'),
 	'maxlength'	=> 50,
 	'size'	=> 30,
-	'placeholder'	=> 'Singh',
+	'placeholder'	=> 'What business people call you',
 	'class' => "form-control"
 );
 $address1 = array(
