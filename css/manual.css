@@ -47,6 +47,13 @@ background-color: inherit;
 color: #fff;
 }
 
+.vcenter
+{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 a:hover, a:focus {
 color: #fff;
 text-decoration: none;
