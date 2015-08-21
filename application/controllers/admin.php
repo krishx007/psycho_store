@@ -481,6 +481,14 @@ class admin extends CI_controller
 		display('admin_shipments', $data);
 	}
 
+	function manifest()
+	{
+		$requested_shipments = $this->database->GetOrdersByState(OrderState::Requested);
+		$data['requested_shipments'] = $this->_add_address_and_user_to_orders($requested_shipments);
+
+		$this->load->view('admin/manifest', $data);
+	}
+
 	function update_order($id, $status)
 	{
 		$this->_validate_user();
