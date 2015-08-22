@@ -170,6 +170,8 @@ class admin extends CI_controller
 		}
 
 		$all_users = $this->database->GetAllUsers();
+		$all_users = array_reverse($all_users);	//To see new users first
+
 		$data['num_users'] = count($all_users);
 		$data['users_table'] = $this->_generate_users_table($all_users);
 
