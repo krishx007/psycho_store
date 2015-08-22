@@ -6,7 +6,7 @@
     </h1>
     <hr>
     <div class="well">
-    	<div class="row ">
+    	<div class="row">
 	    	<div class="col-md-12">
 	    		<form class='form-inline' method="post" action= <?php echo site_url('admin/mails') ?> >
                     <div class="form-group">

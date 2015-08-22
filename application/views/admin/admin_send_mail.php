@@ -40,7 +40,7 @@
 	    	<div class="col-md-6">
 	    		<?php echo form_open($this->uri->uri_string()); ?>
 				<div class="form-group">
-					<p>Name</p>
+					<p>Subject</p>
 					<?php echo form_input($subject) ?>
 					<?php echo form_error($subject['name']); ?><?php echo isset($errors[$subject['name']])?$errors[$subject['name']]:''; ?>
 				</div>
