@@ -603,6 +603,27 @@ class admin extends CI_controller
 
 		return $orders;
 	}
+
+	function shipped_orders()
+	{
+		$this->_validate_user();
+		$orders = array();
+		
+		$shipped_orders = $this->database->GetOrdersByState(OrderState::Shipped);
+		$shipped_orders = array_reverse($shipped_orders);
+
+		if(count($shipped_orders))
+		{
+			$this->_add_address_and_user_to_orders($shipped_orders);
+		}
+
+		$data['orders'] = $shipped_orders;
+		$data['num_shipped_orders'] = count($shipped_orders);
+		$data['num_orders'] = 0;
+		$data['orders_table'] = $this->_generate_orders_table($shipped_orders);
+
+		display('admin_orders', $data);
+	}
 	
 	function orders($order_id = null)
 	{
@@ -615,7 +636,7 @@ class admin extends CI_controller
 			if($ord)
 			{
 				$orders = array($ord);
-			}			
+			}
 		}
 		else
 		{

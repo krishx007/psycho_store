@@ -1,6 +1,6 @@
 <div class="container top-bottom-space">  
     <h1>Orders
-    	<span class="pull-right navbar-text"> <small><?php echo $num_shipped_orders?> shipped</small></span>
+    	<span class="pull-right navbar-text"> <a href= <?php echo site_url('admin/shipped_orders')?> ><small><?php echo $num_shipped_orders?> shipped</small></a></span>
     </h1>
     <hr>
     <div class="well">
