@@ -73,6 +73,9 @@ class Auth extends CI_Controller
 		$password = $this->_generate_password(9, 8);
 		$user = $this->tank_auth->create_user($username, $email, $password, false);
 
+		//Add it to subscribers list
+		$this->_add_subscriber($email, $username);
+
 		return $user;
 	}
 
@@ -514,6 +517,12 @@ class Auth extends CI_Controller
 		}
 	}
 
+	function _add_subscriber($email, $username)
+	{
+		$this->database->Subscribe($email);
+		mg_add_subscriber($email, $username);
+	}
+
 	/**
 	 * Activate user account.
 	 * User is verified by user_id and authentication code in the URL.
@@ -532,8 +541,7 @@ class Auth extends CI_Controller
 			// success
 			//Add it into newletter
 			$user = $this->database->GetUserById($user_id);
-			$this->database->Subscribe($user['email']);
-			mg_add_subscriber($user['email'], $user['username']);
+			$this->_add_subscriber($user['email'], $user['username']);
 			
 			$this->tank_auth->logout();
 			$this->_show_message($this->lang->line('auth_message_activation_completed').' '.anchor('/auth/login/', 'Login'));
