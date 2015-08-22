@@ -1,6 +1,8 @@
 <div class="container top-bottom-space">  
-    <h1>Emails
-       <span class="pull-right navbar-text"> <small><?php echo $num_subscribers?> subscribers </small></span>
+    <h1>Emails        
+       <span class="pull-right navbar-text"> <small><?php echo $num_subscribers?> subscribers </small>
+       <a href=<?php echo site_url('admin/send_mail')?> class="btn play btn-full btn-primary">Send Custom Mail</a>
+       </span>
     </h1>
     <hr>
     <div class="well">

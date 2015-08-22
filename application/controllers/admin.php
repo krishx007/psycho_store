@@ -283,6 +283,31 @@ class admin extends CI_controller
 		redirect('admin/discount_domains');
 	}
 
+	function send_mail()
+	{
+		//Form validation
+		$this->form_validation->set_rules('subject', 'Username', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('msg', 'Message', 'trim|required|xss_clean');
+
+		if($this->form_validation->run())
+		{
+			//validation done, send mail
+			$params['subject'] = $this->form_validation->set_value('subject');
+			$params['from'] = 'Psycho Store<email@mails.psychostore.in>';
+			$params['domain'] = 'mails.psychostore.in';
+			$params['campaign_id'] = $this->config->item('campaign_id');
+			$params['reply_to'] = 'contact@psychostore.in';
+			$params['txt'] = $this->form_validation->set_value('msg');
+			$params['html'] = $this->form_validation->set_value('msg');
+
+			mg_send_mail($this->form_validation->set_value('email'), $params);
+			redirect('admin');
+		}
+
+		display('admin_send_mail', null);
+	}
+
 	function mails()
 	{
 		$this->_validate_user();
@@ -365,7 +390,7 @@ class admin extends CI_controller
 			$params['subject'] = $subject;
 			$params['from'] = 'Psycho Store Updates<email@news.psychostore.in>';
 			$params['domain'] = 'news.psychostore.in';
-			$params['campaign_id'] = 'psycho_campaign';
+			$params['campaign_id'] = $this->config->item('campaign_id');
 			$params['reply_to'] = 'contact@psychostore.in';
 			$params['txt'] = $this->load->view("email/newsletter/$subject-txt", $data, TRUE);
 			$params['html'] = $this->load->view("email/newsletter/$subject-html", $data, TRUE);	
