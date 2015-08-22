@@ -846,12 +846,15 @@ class admin extends CI_controller
 
 				case OrderState::Requested:
 					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Shipped);
-					$label_link = site_url('admin/labels/'.$waybill);
+					$label_link = site_url('admin/labels/'.$waybill);					
 					$view_label_link = "<a target='_blank' class ='btn btn-default' href=$label_link> View label</a>";
 					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Shipped</a>";
 					break;
 
 				case OrderState::Shipped:
+					$tracking_url = $this->config->item('delhivery_url');
+					$waybill_link = $tracking_url."/p/".$waybill;
+					$waybill = "<a target='_blank' href=$waybill_link>Track</a>";
 					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Returned);
 					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Returned</a>";
 					break;
