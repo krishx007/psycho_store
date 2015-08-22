@@ -163,7 +163,7 @@ if(!function_exists('get_current_user_discount_domain_info'))
 		$ci = &get_instance();
 		$ci->load->model('database');
 		$ci->load->library('tank_auth');		
-
+		$discount_domain = null;
 		$user = $ci->database->GetUserById($ci->tank_auth->get_user_id());		
 		if(count($user))
 		{

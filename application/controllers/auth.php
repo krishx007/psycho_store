@@ -10,8 +10,9 @@ class Auth extends CI_Controller
 		$this->load->library('form_validation');
 		$this->load->library('security');
 		$this->load->library('tank_auth');
-		$this->lang->load('tank_auth');		
+		$this->lang->load('tank_auth');
 		$this->load->model('database');
+		$this->load->model('tank_auth/users');
 		$this->load->library('cart');
 		$this->load->helper('psycho_helper');
 		$this->load->helper('mailgun_helper');
@@ -22,14 +23,68 @@ class Auth extends CI_Controller
 		if ($message = $this->session->flashdata('message')) 
 		{
 			$data['heading'] = 'Message';
-			$data['content'] = $message;
-			//$this->load->view('auth/general_message', array('message' => );
+			$data['content'] = $message;			
 			display('message',$data);
 		} 
 		else
 		{
 			redirect('/auth/login/');			
 		}
+	}
+
+	function fb()
+	{		
+		$email = trim($this->input->post('email'));
+		$username = trim($this->input->post('username'));
+
+		if($this->users->is_email_available($email))
+		{
+			//First time fb_Login, create new user
+			$this->_fb_register($email, $username);
+		}
+
+		//get the user by email
+		$user = $this->users->get_user_by_email($email);
+		
+		//Sign-in
+		$this->_fb_login($user->id, $user->username);
+	}
+
+	function _fb_login($user_id, $username)
+	{
+		// simulate what happens in the tank auth
+		$this->session->set_userdata(array(	'user_id' => $user_id, 'username' => $username,
+											'status' => STATUS_ACTIVATED));
+		
+		//$this->tank_auth->clear_login_attempts($user->email);
+		
+		$this->users->update_login_info( $user_id, $this->config->item('login_record_ip', 'tank_auth'), 
+										 $this->config->item('login_record_time', 'tank_auth'));
+		
+
+		$this->_redirect($this->input->get('redirect_url'));
+	}
+
+	function _fb_register($email, $username)
+	{
+		$username   =   trim($this->input->post('username'));
+		$email      =   trim($this->input->post('email'));
+		
+		$password = $this->_generate_password(9, 8);
+		$user = $this->tank_auth->create_user($username, $email, $password, false);
+
+		return $user;
+	}
+
+	function _redirect($url)
+	{
+		$redirect_url = '';
+		if($url != (string)FALSE)
+		{
+			$redirect_url = $url;
+		}
+
+		$this->_post_login($redirect_url);
 	}
 
 	/**
@@ -81,13 +136,7 @@ class Auth extends CI_Controller
 						$data['login_by_username'],
 						$data['login_by_email'])) 
 						{
-							$redirect_url = '';
-							if($this->input->get('redirect_url') != (string)FALSE)
-							{
-								$redirect_url = $this->input->get('redirect_url');
-							}
-
-							$this->_post_login($redirect_url);
+							$this->_redirect($this->input->get('redirect_url'));
 				}
 				else
 				{
@@ -169,12 +218,7 @@ class Auth extends CI_Controller
 		//Unset required session vars
 		//$this->session->unset_userdata('txn_id');
 		$this->cart->remove_discount();
-		$redirect_url = '';
-		if($this->input->get('redirect_url') != (string)FALSE)
-		{
-			$redirect_url = $this->input->get('redirect_url');							
-		}
-		redirect($redirect_url);		
+		$this->_redirect($this->input->get('redirect_url'));
 		//$this->_show_message($this->lang->line('auth_message_logged_out'));
 	}
 
@@ -826,6 +870,34 @@ class Auth extends CI_Controller
 			return FALSE;
 		}
 		return TRUE;
+	}
+
+	// generates a random password for the user
+	function _generate_password($length=9, $strength=0) 
+	{
+		$vowels = 'aeuy';
+		$consonants = 'bdghjmnpqrstvz';
+		if ($strength & 1) { $consonants .= 'BDGHJLMNPQRSTVWXZ'; }
+		if ($strength & 2) { $vowels .= "AEUY"; }
+		if ($strength & 4) { $consonants .= '23456789'; }
+		if ($strength & 8) { $consonants .= '@#$%'; }
+	 
+		$password = '';
+		$alt = time() % 2;
+		for ($i = 0; $i < $length; $i++) 
+		{
+			if ($alt == 1) 
+			{
+				$password .= $consonants[(rand() % strlen($consonants))];
+				$alt = 0;
+			} 
+			else 
+			{
+				$password .= $vowels[(rand() % strlen($vowels))];
+				$alt = 1;
+			}
+		}
+		return $password;
 	}
 
 }

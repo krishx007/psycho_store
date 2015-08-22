@@ -24,7 +24,8 @@ $(function () {
 
         ?>
         <?php $redirect_url =  rawurlencode($this->input->get('redirect_url'))?>
-         <?php echo form_open($this->uri->uri_string().'?redirect_url='.$redirect_url); ?>
+        <?php $attributes = array('id' => 'login_form');?>
+         <?php echo form_open($this->uri->uri_string().'?redirect_url='.$redirect_url, $attributes); ?>
          <div class="form-group">
             <?php echo $this->load->view('view_email') ?>
           </div>
@@ -44,7 +45,9 @@ $(function () {
           <h1 class=" text-center play"><small>or</small></h1>
         </div>
         <div class="col-md-4 col-xs-12 vcenter">
-            <a href = <?php echo site_url('auth/register')?>>  <h1 class="text-center">Register</h1> </a>
+          <div class="text-center">
+            <?php echo $this->load->view('fb_login.html')?>
+          </div>
         </div>
       </div>
     </div>
