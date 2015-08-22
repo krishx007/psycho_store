@@ -818,6 +818,8 @@ class admin extends CI_controller
 
 			$txn_id = $order['txn_id'];
 			$email = $order['user']['email'];
+			$username = $order['user']['username'];
+			$email = $email."\n".$username;
 			$address = format_address($order['address']);
 			$date = $order['date_created'];
 			$mode = $order['payment_mode'];
@@ -857,7 +859,11 @@ class admin extends CI_controller
 						$tracking_url = $this->config->item('delhivery_url');
 						$waybill_link = $tracking_url."/p/".$waybill;
 						$waybill = "<a target='_blank' href=$waybill_link>Track</a>";
-					}					
+					}
+					else
+					{
+						$waybill = "Self-Shipped";
+					}				
 					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Returned);
 					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Returned</a>";
 					break;
