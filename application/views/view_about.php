@@ -24,7 +24,7 @@ Whatever we do, we do with that crazy streak, whoever we work with, we just try 
 			<h5><a target='_blank' href="https://codinpsycho.tumblr.com"><i class="fa fa-2x fa-tumblr"></i></h5></a>
 		</div>
 		<div class="col-md-2">
-			<h5><a target='_blank' href="https://codinpsycho.tumblr.com"><i class="fa fa-2x fa-instagram"></i></h5></a>
+			<h5><a target='_blank' href="https://instagram.com/psychostore.in"><i class="fa fa-2x fa-instagram"></i></h5></a>
 		</div>		
 	</div>
 </div>
