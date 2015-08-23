@@ -107,6 +107,8 @@ class Pages extends CI_controller
 	function feedback()
 	{
 		$feedback = $this->database->GetFeedback(TRUE);
+		$feedback = array_reverse($feedback);
+		
 		$data['feedbacks'] = $feedback;
 		
 		display('feedback_wall', $data);
