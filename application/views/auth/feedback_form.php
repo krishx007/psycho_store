@@ -16,7 +16,7 @@
 		'name'	=> 'msg',
 		'id'	=> 'msg',
 		'value'	=>	set_value('msg'),
-		'maxlength'	=> 255,
+		'maxlength'	=> 512,
 		'minlength'	=> 2,
 		'size'	=> 30,
 		'class'	=> 'form-control',

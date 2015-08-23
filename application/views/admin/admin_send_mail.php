@@ -24,9 +24,9 @@
 	$msg = array(
 		'name'	=> 'msg',
 		'id'	=> 'msg',		
-		'maxlength'	=> 255,
+		'maxlength'	=> 2048,
 		'minlength'	=> 2,
-		'size'	=> 30,
+		'size'	=> 60,
 		'class'	=> 'form-control',
 		'placeholder'	=> 'Email Body.'
 	);
