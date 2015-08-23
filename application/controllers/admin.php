@@ -428,6 +428,8 @@ class admin extends CI_controller
 		$this->_validate_user();
 		//Get all feedbacks from the user, since a certain time
 		$feedbacks = $this->database->GetFeedback(false);
+		$feedbacks = array_reverse($feedbacks);
+		
 		$data['feedbacks_table'] = $this->_generate_feedback_table($feedbacks);
 		$data['num_feedbacks'] = count($feedbacks);
 
