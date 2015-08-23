@@ -54,10 +54,17 @@ color: #fff;
     float: none;
 }
 
-a:hover, a:focus {
-color: #fff;
-text-decoration: none;
+.circular-pic
+{
+    border-radius: 50%;
 }
+
+a:hover, a:focus
+{
+    color: #fff;
+    text-decoration: none;
+}
+
 
 .active
 {
