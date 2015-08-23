@@ -238,7 +238,7 @@ class Pages extends CI_controller
 		$data = array();
 
 		if(valid_email($email_id))
-		{			
+		{
 			$this->database->Unsubscribe($email_id);
 			mg_unsubscribe($email_id);
 			$data['email_id'] = $email_id;
@@ -252,26 +252,8 @@ class Pages extends CI_controller
 	function shipping_returns()
 	{
 		$data['heading'] = "Shipping and Returns";
-		$ret_address = format_address($this->config->item('return_address'));
-
-		$data['content'] = "<p>At Psycho Store our aim is to always provide you with unique and highest quality merchandises that you have always desired for.</p>
-							<h3>Free Shipping all over India</h3>
-							<p>Its as simple as that we ship all our products totally free, no minimum cost or hidden text, wether you pay us Online or Cash On Delivery everything is shipped totally free.
-							Your product will reach you in about 3-5 buisness days, given that there is no involvement of G-Man or some other force beyond our control. As of now we ship only in India.</p>
-							<h3> 365 days Return Policy</h3>
-							<p>If you recieved a defective product or we sent the wrong size or a completelty different tshirt, curse us and punch us in the face if you want but most importantly notify us along with your order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> within 3-5 days and send us the product back whenever you can (literally 365 days) in its original condition. We will inspect the product and will do a refund or excahnge accordingly.
-							We will bear the shipping charges as well if it's our fault.
-							<br><br> If you realised just now that you dont look good in this colour or you didn't check the size chart before buying, then we will curse you, punch you in the face if we can, but sigh, we will still accept the product back and do an exchange. You will have to bear the shipping charges in this case.
-							<br><br> Note: In both the cases, problem should be notified within 3-5 days along with order ID at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and returned product should be in its original condition, it should not be worn or washed, otherwise it will not be returned. Also Cash On Delivery handling charges are not refundable.
-							<br><br>Email us with your product id at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a> and ship the product to given address
-							<br><br>
-							<h4 class=\"molot\">Address for returns</h4>
-							$ret_address
-							<br><br>
-							For any other query email us at <a href=\"mailto:contact@psychostore.in\">contact@psychostore.in</a></p>";
-							
-							
-
+		$data['ret_address'] = format_address($this->config->item('return_address'));
+		$data['content'] = $this->load->view('view_shipping', $data, true);
 		display('basic', $data);
 	}
 
@@ -285,24 +267,7 @@ class Pages extends CI_controller
 	function about()
 	{
 		$data['heading'] = "Who are We";
-		$data['content'] = "<h3>Our belief</h3><p>You probably would be thinking why the word \"Psycho\" in a Gaming Merchandise store. Well it actually has to do with a problem that we have, \"Our Belief\" that is getting increasingly obsessed with something that we are passionate about.
-							Giving it all that we have and actually going that extra mile when everyone else's common sense says that it's the wrong direction. Did you ever had that feeling that whatever you were doing, your mind was always stuck on that one thing, that one thing which kept knocking on the back door of your mind.
-							We call that being in a state of psychoness, in which you feel about something so deep from your heart that you take absurd decisions to get it through, no matter what it takes and whats the cost. If you can relate, then just give us a shout I am sure our frequencies would match.
-							In short we have that crazy streak in us for whatever we decide to do. <br>In Hindi we say \"keeda hona chahiye kisi cheez ke liye\". We just replaced keeda with psycho and we are proud to say that we have that in us.<br>
-							Whatever we do, we do with that crazy streak, whoever we work with, we just try to look for that crazy streak in them as well.
-							<br><br>Oh by the way, you were asking</p> <h3>who are we?</h3> <p>We are the people who are working hard to create Psycho Store the biggest and the most badass merchandise brand for the gaming and geek community of earth (other planets can wait for now).<br></p>
-							<h3><small>What is</small> <> by Codinpsycho ?</h3>
-							<p>It means all this crazy stuff was thought, designed and programmed by a single guy, who calls himself Codinpsycho, god knows why. Also he open sourced this website's code, if any programmer out there wants to use. Get in touch with him and praise him, that would make him happy which in turn will make him do more creative stuff.<br></p>
-							<h5 class=\" molot\"><a target='_blank' href=\"https://twitter.com/codinpsycho\">Twitter </a></h5>
-							<h5 class=\" molot\"><a target='_blank' href=\"https://www.facebook.com/codinpsycho\">Facebook </a></h5>
-							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho\">github</h5></a>
-							<h5 class=\" molot\"><a target='_blank' href=\"https://github.com/codinpsycho/psycho_store\">Source Code</h5></a>
-							Kudos to these kickass human beings: 
-							<a traget='_blank' href=\"https://twitter.com/mdo\">@mdo</a> and <a traget=\"_blank\" href=\"https://twitter.com/fat\">@fat</a> for <a traget=\"_blank\" href=\"https://getbootstrap.com/\">Bootstrap</a>,
-							guys at <a traget='_blank' href=\"http://ellislab.com/\">Ellis Lab</a> for <a traget='_blank' href=\"https://github.com/EllisLab/CodeIgniter/\">CodeIgniter</a></p>
-							<p><br><br><br>P.S : He also wrote all that stuff you just read, including this line.</p>
-							";
-
+		$data['content'] = $this->load->view('view_about', null, true);
 		display('basic', $data);
 	}
 }
