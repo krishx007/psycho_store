@@ -33,6 +33,7 @@ class insights extends CI_Controller
 		$month_info = $this->_getOrdersDataForMonth($month);
 
 		$data['month'] = $month;
+		$data['total_products'] = $month_info['total_products'];
 		$data['sales_data'] = $month_info['orders'];
 		$data['num_orders'] = $month_info['num_orders'];
 		$data['dates'] = $month_info['dates'];
@@ -172,6 +173,14 @@ class insights extends CI_Controller
 			$month_dates[] = $i;
 		}
 
+		$total_products = 0;
+		foreach ($orders as $key => $order)
+		{		
+			$order_items = $order['order_items'];			
+			$total_products += count($order_items);
+		}
+
+		$month_info['total_products'] = $total_products;
 		$month_info['orders'] = $month_orders;
 		$month_info['num_orders'] = array_sum($month_orders);
 		$month_info['dates'] = $month_dates;
