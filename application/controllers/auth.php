@@ -23,17 +23,17 @@ class Auth extends CI_Controller
 		if ($message = $this->session->flashdata('message')) 
 		{
 			$data['heading'] = 'Message';
-			$data['content'] = $message;			
+			$data['content'] = $message;
 			display('message',$data);
 		} 
 		else
 		{
-			redirect('/auth/login/');			
+			redirect('/auth/login/');
 		}
 	}
 
 	function fb()
-	{		
+	{
 		$email = trim($this->input->post('email'));
 		$username = trim($this->input->post('username'));
 
@@ -45,7 +45,7 @@ class Auth extends CI_Controller
 
 		//get the user by email
 		$user = $this->users->get_user_by_email($email);
-		
+
 		//Sign-in
 		$this->_fb_login($user->id, $user->username);
 	}
@@ -74,7 +74,7 @@ class Auth extends CI_Controller
 		$user = $this->tank_auth->create_user($username, $email, $password, false);
 
 		//Add it to subscribers list
-		$this->_add_subscriber($email, $username);
+		add_subscriber($email, $username);
 
 		return $user;
 	}
@@ -515,13 +515,7 @@ class Auth extends CI_Controller
 			}
 			display('send_again', $data);			
 		}
-	}
-
-	function _add_subscriber($email, $username)
-	{
-		$this->database->Subscribe($email);
-		mg_add_subscriber($email, $username);
-	}
+	}	
 
 	/**
 	 * Activate user account.
@@ -541,7 +535,7 @@ class Auth extends CI_Controller
 			// success
 			//Add it into newletter
 			$user = $this->database->GetUserById($user_id);
-			$this->_add_subscriber($user['email'], $user['username']);
+			add_subscriber($user['email'], $user['username']);
 			
 			$this->tank_auth->logout();
 			$this->_show_message($this->lang->line('auth_message_activation_completed').' '.anchor('/auth/login/', 'Login'));

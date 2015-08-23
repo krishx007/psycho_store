@@ -111,6 +111,16 @@ if(!function_exists('format_address'))
 	}
 }
 
+function add_subscriber($email, $username = null)
+{
+	$ci = &get_instance();
+	$ci->load->model('database');
+	$ci->load->helper('mailgun_helper');
+
+	$ci->database->Subscribe($email);
+	mg_add_subscriber($email, $username);
+}
+
 if(!function_exists('product_url'))
 {
 	function product_url($product)

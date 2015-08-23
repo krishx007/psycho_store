@@ -1,10 +1,21 @@
 <div class="container top-bottom-space">  
     <h1>Emails        
-       <span class="pull-right navbar-text"> <small><?php echo $num_subscribers?> subscribers </small>
-       <a href=<?php echo site_url('admin/send_mail')?> class="btn play btn-full btn-primary">Send Custom Mail</a>
-       </span>
+       <span class="pull-right navbar-text"> <small><?php echo $num_subscribers?> subscribers </small></span>
     </h1>
     <hr>
+    <div class="well">
+        <div class="row">
+            <div class="col-md-12">
+                <form class='form-inline' method="post" action= <?php echo site_url('admin/mails') ?> >
+                     <div class="form-group">
+                        <input class="form-control" type="text" placeholder="you@email.com" name="subscriber_email">
+                        <button type="submit" class="btn btn-default">add subscriber</button>
+                        <a href=<?php echo site_url('admin/send_mail')?> class="btn  btn-default">send custom mail</a>
+                      </div>
+                </form>
+            </div>
+        </div>        
+    </div>
     <div class="well">
     	<div class="row">
 	    	<div class="col-md-12">

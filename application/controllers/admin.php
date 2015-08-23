@@ -320,6 +320,11 @@ class admin extends CI_controller
 		//Show some latest registered emails
 		$data['latest_subscribers'] = $this->database->GetSubscribers(10);
 
+		if($this->input->post('subscriber_email') != false)
+		{			
+			add_subscriber($this->input->post('subscriber_email'));
+		}
+
 		if($this->input->post('email') != false)
 		{
 			$params = mg_create_mail_params($type, $data);
