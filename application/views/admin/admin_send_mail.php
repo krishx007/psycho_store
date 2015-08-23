@@ -40,15 +40,15 @@
 	    	<div class="col-md-6">
 	    		<?php echo form_open($this->uri->uri_string()); ?>
 				<div class="form-group">
-					<p>Subject</p>
-					<?php echo form_input($subject) ?>
-					<?php echo form_error($subject['name']); ?><?php echo isset($errors[$subject['name']])?$errors[$subject['name']]:''; ?>
-				</div>
-				<div class="form-group">
 					<p>Email address</p>
 					<?php echo form_input($email); ?>
 					<?php echo form_error($email['name']); ?><?php echo isset($errors[$email['name']])?$errors[$email['name']]:''; ?>
 				</div>
+				<div class="form-group">
+					<p>Subject</p>
+					<?php echo form_input($subject) ?>
+					<?php echo form_error($subject['name']); ?><?php echo isset($errors[$subject['name']])?$errors[$subject['name']]:''; ?>
+				</div>				
 				<div class="form-group">
 				    	<p>Message</p>
 						<?php echo form_textarea($msg) ?>
@@ -57,7 +57,7 @@
 			</div>
 		</div>	
 	</div>
-	<button class="btn btn-primary" type="submit">Send Mail.</button>
+	<button class="btn btn-primary" type="submit">Send Mail</button>
 	<?php echo form_close(); ?>
 </div>
 
