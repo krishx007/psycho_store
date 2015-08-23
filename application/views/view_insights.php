@@ -30,8 +30,9 @@
     	<div class="row ">
 	    	<div class="col-md-12">
 	    		<h3 class="text-center"> Monthly Orders For <?php echo $month?></h3>
-	  			<canvas id='sales_chart'></canvas>
+	  			<canvas id='sales_chart'></canvas>	  			
 	  			<h4 class="text-center">Total Num Orders 	: <?php echo $num_orders?> </h4>
+	  			<h4 class="text-center">Total Products 	: <?php echo $total_products?> </h4>
 				<h4 class="text-center">Avg Order per Day 	: <?php echo ($num_orders /count($dates)) ?> </h4>
 			</div>			
 		</div>
