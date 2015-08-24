@@ -1,1 +1,1 @@
-<h3 class=" play text-center">No one.</h3>
+<h3 class=" play text-center">No one</h3>
