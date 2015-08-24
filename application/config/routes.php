@@ -46,6 +46,7 @@ $route['subscribe'] = 'pages/subscribe/';
 $route['shipping_returns'] = 'pages/shipping_returns/';
 $route['contact'] = 'pages/contact/';
 $route['about'] = 'pages/about/';
+$route['media'] = 'pages/media/';
 $route['popular'] = 'pages/popular/';
 $route['feedback'] = 'pages/feedback/';
 $route['beta'] = 'pages/beta/';
