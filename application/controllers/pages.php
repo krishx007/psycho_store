@@ -265,6 +265,12 @@ class Pages extends CI_controller
 		display('contact', $data);
 	}
 
+	function media()
+	{
+		$data['heading'] = "Who's talking about us";
+		$data['content'] = $this->load->view('view_media', null, true);
+		display('basic', $data);
+	}
 
 	function about()
 	{
