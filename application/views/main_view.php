@@ -16,6 +16,7 @@
 	<?php echo $external_scripts ?>
 	<?php echo $body?>
 	<?php echo $footer?>
+	<?php echo $event_tracking ?>
 </body>
 
 </html>

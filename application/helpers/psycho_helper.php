@@ -381,6 +381,7 @@ function _live($page, $data)
 	$data['body'] = $body;
 	$data['footer'] = $footer;
 	$data['external_scripts'] = $ci->load->view('external_scripts', null, true);
+	$data['event_tracking'] = $ci->load->view('event_tracking', null, true);
 
 	execute_events($data);
 

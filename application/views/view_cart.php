@@ -14,7 +14,7 @@ $(function () {
 							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
 					        	<div class="input-group">
 					          		<input type="text" name="coupon" data-toggle="tooltip" title= "<?php echo $cheat_hints ?>" data-placement="bottom" class="form-control input" placeholder="Cheat Code">
-					          		<span class="input-group-btn"><button class="btn btn-primary btn" type="submit">Apply Cheat Code</button></span>
+					          		<span class="input-group-btn"><button id="apply_discount" class="btn btn-primary btn" type="submit">Apply Cheat Code</button></span>
 					        	</div>
 					      	</form>
 						</span>
@@ -97,7 +97,7 @@ $(function () {
 			<div class="col-md-12">
 				<?php echo anchor('', 'Continue Shopping','class="btn btn-default"'); ?>
 						<?php if($this->cart->total_items()): ?>
-							<a class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->final_price();?> </i> <i class="fa fa-arrow-right"></i> </a>
+							<a id="checkout" class="btn btn-primary pull-right" href=<?php echo site_url('checkout/')?> > Checkout | <i class="fa fa-rupee"> <?php echo $this->cart->final_price();?> </i> <i class="fa fa-arrow-right"></i> </a>
 						<?php endif; ?>
 				</span> </h1>
 			</div>

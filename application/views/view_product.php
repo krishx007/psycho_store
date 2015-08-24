@@ -16,7 +16,7 @@
     <div class="top-bottom-space">
     <div class="row">
       <div class="col-md-12">
-        <h1 class="text-left"><?php echo $product['product_name'] ?> 
+        <h1 id="product_name" class="text-left"><?php echo $product['product_name'] ?> 
         <span class="pull-right"> <i class="fa fa-rupee"></i> <?php echo $product['product_price']?> </span> </h1>
         <hr>
       </div>
@@ -53,7 +53,7 @@
               </select>
             </div>  
             <div class="col-md-8">
-              <button type="submit" name = "add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
+              <button type="submit" name = "add_to_cart" id="add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
             </div>
           </form> 
           <div class="col-md-12">
