@@ -7,14 +7,15 @@
 <tr>
 <td width="5%"></td>
 <td align="left" width="95%" style="font: 13px/18px Arial, Helvetica, sans-serif;">
-<h2 style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;"><?php echo $username?>, Psycho Store remembers!</h2>
+<h2 style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;"><?php echo $username?>, Psycho Store remembers you!</h2>
 
 You might have forgotten us, but we never forget those who love our products. So as a token of love here's a cheat code specially for you that will unlock some discount.
 <br>
 <br>
-<h1><b>left_left_up_down</b></h1>
+<h2 style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;">
+<?php echo $cheat_code?></h2>
 <br>
-Awesomness is waiting for your in you cart. Go and get it and dont forget to apply this special cheat code.
+Awesomness is waiting for you in your <a href="http://psychostore.in/cart">cart</a>. Go and grab your gear and dont forget to apply this cheat code.
 <br>
 <br>
 <?php foreach ($products as $key => $product): ?>
