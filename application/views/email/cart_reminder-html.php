@@ -13,7 +13,7 @@ You might have forgotten us, but we never forget those who love our products. So
 <br>
 <br>
 <h2 style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;">
-<?php echo $cheat_code?></h2>
+left_left_up_down</h2>
 <br>
 Awesomness is waiting for you in your <a href="http://psychostore.in/cart">cart</a>. Go and grab your gear and dont forget to apply this cheat code.
 <br>
