@@ -1,2 +1,2 @@
-May the force be with you!<br />
-<?php echo $site_name ?> Team
+May the force be with you;<br>
+Psycho Store Team
