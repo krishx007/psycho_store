@@ -43,8 +43,8 @@
         <small><small> Return address: <?php echo $return_address ?></small></small>
     </td>
 </tr>
-    <td colspan="2">
-        <h1 class="center"> &nbsp &nbsp &nbsp &nbsp  Handle With Care </h1>
+    <td colspan="2" align='center'>
+        <h1> Handle With Care </h1>
     </td>
 <tr> 
 </tr>
