@@ -468,11 +468,15 @@ class Database extends CI_Model
 		return $query->row_array();
 	}
 
-	function GetCheckoutOrder($txn_id)
+	function GetCheckoutOrder($txn_id = null)
 	{
-		$this->db->where('txn_id', $txn_id);
+		if($txn_id)
+		{
+			$this->db->where('txn_id', $txn_id);
+		}		
+
 		$query = $this->db->get('checkout_orders');
-		return $query->row_array();	
+		return $txn_id ? $query->row_array() : $query->result_array();
 	}
 
 	function GetCheckoutOrderItems($txn_id)
@@ -499,7 +503,7 @@ class Database extends CI_Model
 
 	function SaveAmountOnCheckout($amount, $txn_id)
 	{
-		$this->db->set('amount', $amount);
+		$this->db->set('order_amount', $amount);
 		$this->db->where('txn_id', $txn_id);
 		$this->db->update('checkout_orders');
 	}
