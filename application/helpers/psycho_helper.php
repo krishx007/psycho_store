@@ -357,6 +357,9 @@ function _live($page, $data)
 		case 'admin_send_mail':
 			$body = $ci->load->view('admin/admin_send_mail', $data, true);
 			break;
+		case 'admin_checkouts':
+			$body = $ci->load->view('admin/admin_checkouts', $data, true);
+			break;			
 		case 'address':
 			$body = $ci->load->view('view_address', $data, true);
 			break;

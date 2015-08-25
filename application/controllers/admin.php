@@ -57,6 +57,38 @@ class admin extends CI_controller
 		}
 	}
 
+	function checkouts()
+	{
+		$checkout_orders = $this->database->GetCheckoutOrder(null);
+		$checkout_orders = array_reverse($checkout_orders);
+		$orders = null;
+		$checkout_amount = 0;
+
+		foreach($checkout_orders as $key => $order)
+		{
+			$checkout_item = $this->database->GetCheckoutOrderItems($order['txn_id']);
+			$order_items = $checkout_item;
+			$checkout_amount += $order['order_amount'];
+
+			foreach ($checkout_item as $key => $item)
+			{
+				$order_items[$key]['product'] = $this->database->GetProductById($item['product_id']);				
+			}
+
+			$order['order_items'] = $order_items;
+
+			$orders[] = $order;
+		}
+
+		$this->_add_address_and_user_to_orders($orders);
+		
+		$data['checkout_amount'] = $checkout_amount;
+		$data['num_checkouts'] = count($orders);
+		$data['checkout_table'] = $this->_generate_checkout_table($orders);
+
+		display("admin_checkouts", $data);
+	}
+
 	function labels($waybill)
 	{
 		$this->_validate_user();
@@ -317,6 +349,7 @@ class admin extends CI_controller
 		$data['order_id'] = '5XTGH567';
 		$type = $this->input->post('mail_type');
 		$data['num_subscribers'] = $this->database->GetNumOfSubscribers();
+		
 		//Show some latest registered emails
 		$data['latest_subscribers'] = $this->database->GetSubscribers(10);
 
@@ -325,7 +358,7 @@ class admin extends CI_controller
 			add_subscriber($this->input->post('subscriber_email'));
 		}
 
-		if($this->input->post('email') != false)
+		if($type != false)
 		{
 			$params = mg_create_mail_params($type, $data);
 			mg_send_mail($this->input->post('email'), $params);
@@ -402,6 +435,32 @@ class admin extends CI_controller
 		}
 
 		return $params;
+	}
+
+	function remind($user_id, $ids)
+	{
+		$product_ids = explode('-', $ids);
+		foreach ($product_ids as $key => $id)
+		{
+			$products[] = $this->database->GetProductById($id);
+		}		
+
+		$user = $this->database->GetUserById($user_id);
+		$data['username'] = $user['username'];
+		$data['products'] = $products;
+		$data['site_name'] = $this->config->item('site_name');
+				
+		$params = mg_create_mail_params('cart_reminder', $data);
+
+		mg_send_mail($user['email'], $params);
+		
+		redirect('admin/checkouts');
+	}
+
+	function delete_checkout($txn_id)
+	{
+		$this->database->CheckoutDone($txn_id);
+		redirect('admin/checkouts');
 	}
 
 	function webhooks()
@@ -619,7 +678,7 @@ class admin extends CI_controller
 		}
 		
 		foreach ($txn_id as $key => $id)
-		{			
+		{
 			$this->database->UpdateOrderStatus($id, OrderState::Returned);
 			$this->database->RemoveWaybillFromOrder($id);
 		}
@@ -630,8 +689,7 @@ class admin extends CI_controller
 		//Get user details and address in the array
 		foreach ($orders as $key => $value)
 		{
-			$user = $this->database->GetUserById($value['user_id']);				
-			$orders[$key]['user'] = $user;
+			$orders[$key]['user'] = $this->database->GetUserById($value['user_id']);
 			$orders[$key]['address'] = $this->database->GetAddressById($value['address_id']);
 		}
 
@@ -1057,6 +1115,75 @@ class admin extends CI_controller
 			$i++;
 		}
 
+		return $this->table->generate();
+	}	
+
+	function _generate_checkout_table($orders)
+	{		
+		$this->load->library('table');
+		$this->table->set_heading('#', 'Txn_id', 'Date', 'Email', 'Address', 'Amount', 'State', 'Remind', 'Delete');
+
+		$tmpl = array ( 'table_open'  => '<table class="table table-condensed" >' );
+		$this->table->set_template($tmpl);		
+
+		$num = 1;
+		foreach ($orders as $order)
+		{
+			if(is_null($order))
+			{
+				continue;
+			}
+
+			$txn_id = $order['txn_id'];
+			$address = "null";
+			$date = $order['date_created'];
+			$amount = $order['order_amount'];
+			$state = $order['state'];
+			$reminder_mail_link = null;
+			$email = "null";
+
+			if(count($order['address']))
+			{
+				$address = format_address($order['address']);
+			}
+
+			if(count($order['user']))
+			{
+				$email = $order['user']['email'];
+				$email = $email;
+				$product_id = null;
+
+				foreach ($order['order_items'] as $key => $item)
+				{
+					$product_id[] = $item['product']['product_id'];
+				}
+
+				$product_id = implode('-', $product_id);
+				$user_id = $order['user']['id'];
+				$remind_url = site_url("admin/remind/$user_id/$product_id");
+
+				$reminder_mail_link = "<a class ='btn btn-danger' href=$remind_url> Remind </a>";;
+			}
+
+			$delete_url = site_url("admin/delete_checkout/$txn_id");
+			$delete_link = "<a class ='btn btn-warning' href=$delete_url> Delete Checkout </a>";
+
+			$this->table->add_row($num, $txn_id,  $date, $email, $address, $amount, $state, $reminder_mail_link, $delete_link);
+	
+			if(isset($order['order_items']))
+			{
+				foreach ($order['order_items'] as $key => $item) 
+				{
+					$product = $item['product'];
+					$product_name = array('data'=> $product['product_name'], 'colspan'=>4, 'align'=>'right');
+					$size = array('data' => $item['size'], 'colspan'=>2, 'align'=>'right');
+					$count = array('data' => $item['count'], 'colspan'=>2, 'align'=>'right');
+					$this->table->add_row( $product_name, $size, $count);
+				}
+			}			
+			++$num;	
+		}
+		
 		return $this->table->generate();
 	}
 

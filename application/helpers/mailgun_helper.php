@@ -12,6 +12,15 @@ if(!function_exists('mg_create_mail_params'))
 				
 		switch ($type)
 		{
+			case 'cart_reminder':
+				$subject_var = $data['username'];	
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
+				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
+				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
+			break;
+
 			case 'first_order':
 				$subject_var = $data['username'];
 				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
