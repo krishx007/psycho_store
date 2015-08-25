@@ -26,6 +26,10 @@ Awesomness is waiting for you in your <a href="http://psychostore.in/cart">cart<
 <?php endforeach; ?>
 <br>
 <br>
+<br>
+<p>If there is any query/concern, do contact us at contact@psychostore.in</p>
+<br>
+<br>
 <?php  echo $this->load->view('email/signature') ?>;
 </td>
 </tr>
