@@ -134,6 +134,9 @@ class cart extends CI_controller
 	function applyDiscount()
 	{
 		$coupon = trim($this->input->post('coupon'));
+		//Log coupon to see people apply
+		$this->database->SaveCheatCode($coupon);
+		
 		if($coupon != (string)FALSE)
 		{			
 			$coupon = trim($this->input->post('coupon'));

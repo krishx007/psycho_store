@@ -543,6 +543,29 @@ class Database extends CI_Model
 	//-------------------------- XXX -------------------------- 
 
 	//----------------- Discount related functions -----------------
+	
+	//To see what people are entering
+	function SaveCheatCode($cheat_code)
+	{
+		$code_info['cheat_code'] = $cheat_code;
+		$this->db->insert('applied_cheat_codes', $code_info);
+	}
+
+	function GetCheatCodes($count = null)
+	{
+		if($count)
+		{
+			$this->db->limit($count);
+		}
+
+		$query = $this->db->get('applied_cheat_codes');
+		return $query->result_array();
+	}
+
+	function ClearCheatCodes()
+	{
+		$this->db->truncate('applied_cheat_codes');
+	}
 
 	function AddDiscountDomain($domain_info)
 	{

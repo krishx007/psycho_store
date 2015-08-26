@@ -42,4 +42,16 @@
 			</div>
 		</div>
 	</div>
+    <h3>And people are applying <span class="pull-right"><a href=<?php echo site_url('admin/clear_cheatcodes')?> class="btn play btn-warning">Clear Saved Chat Codes</a></span>
+    </h3>
+    <hr>    
+    <div class="well">
+        <div class="row">
+            <div class="col-md-12">
+                <?php foreach ($applied_cheat_codes as $key => $code): ?>
+                    <p> <?php echo $code['cheat_code']?> </p>
+                <?php endforeach; ?>                
+            </div>
+        </div>
+    </div>    
 </div>

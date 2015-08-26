@@ -59,6 +59,8 @@ class admin extends CI_controller
 
 	function checkouts()
 	{
+		$this->_validate_user();
+
 		$checkout_orders = $this->database->GetCheckoutOrder(null);
 		$checkout_orders = array_reverse($checkout_orders);
 		$orders = null;
@@ -210,6 +212,13 @@ class admin extends CI_controller
 		display('admin_users', $data);
 	}
 
+	function clear_cheatcodes()
+	{
+		$this->database->ClearCheatCodes();
+
+		redirect('admin/discounts', 'refresh');
+	}
+
 	function discounts($id = null)
 	{
 		$this->_validate_user();
@@ -219,6 +228,8 @@ class admin extends CI_controller
 		2. Discount Coupons
 		*/
 
+		$applied_cheat_codes = $this->database->GetCheatCodes();
+		$applied_cheat_codes = array_reverse($applied_cheat_codes);
 		$discount_domains = $this->database->GetDiscountDomain();
 		$discount_coupons = $this->database->GetDiscountCoupon();
 		$discounts['domains'] = $discount_domains;
@@ -226,9 +237,11 @@ class admin extends CI_controller
 
 		$discount_table = $this->_generate_discount_table($discounts);
 
+		$data['applied_cheat_codes'] = $applied_cheat_codes;
 		$data['discount_table'] = $discount_table;
 		$data['num_domains'] = count($discount_domains);
 		$data['num_coupons'] = count($discount_coupons);
+
 		display('admin_discounts', $data);
 	}
 
