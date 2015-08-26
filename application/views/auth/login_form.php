@@ -3,7 +3,7 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 </script>
-
+<link rel="stylesheet" href=<?php echo site_url('css/bootstrap-social.css') ?> >
 
 <div class="container top-bottom-space ">
 	<h1>Login</h1>
@@ -45,10 +45,19 @@ $(function () {
           <h1 class=" text-center play"><small>or</small></h1>
         </div>
         <div class="col-md-4 col-xs-12 vcenter">
-          <div class="text-center">
-            <?php echo $this->load->view('fb_login.html')?>
+          <div class="text-center" >
+            <a class="btn" >
+              <?php echo $this->load->view('google_signin.html')?>
+            </a>
           </div>
-        </div>
+          <hr>
+          <div class="text-center">
+            <a class="btn btn-social btn-facebook" scope="public_profile,email" onlogin="checkLoginState();" onclick="init_fb_login();">
+            <i class="fa fa-facebook"></i> Sign in with facebook
+              <?php echo $this->load->view('fb_login.html')?>
+            </a>
+          </div>
+        </div>        
       </div>
     </div>
       <div class="col-md-12">

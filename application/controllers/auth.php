@@ -32,25 +32,30 @@ class Auth extends CI_Controller
 		}
 	}
 
-	function fb()
+	function external_auth()
 	{
+		/*Improvements to do 
+		1. Check for valid email_id, notify otherwise
+		2. Check for unique username, if not then ask for a username
+		*/
+		
 		$email = trim($this->input->post('email'));
 		$username = trim($this->input->post('username'));
-
+		
 		if($this->users->is_email_available($email))
 		{
 			//First time fb_Login, create new user
-			$this->_fb_register($email, $username);
+			$this->_external_register($email, $username);
 		}
 
 		//get the user by email
 		$user = $this->users->get_user_by_email($email);
 
 		//Sign-in
-		$this->_fb_login($user->id, $user->username);
+		$this->_external_login($user->id, $user->username);
 	}
 
-	function _fb_login($user_id, $username)
+	function _external_login($user_id, $username)
 	{
 		// simulate what happens in the tank auth
 		$this->session->set_userdata(array(	'user_id' => $user_id, 'username' => $username,
@@ -65,7 +70,7 @@ class Auth extends CI_Controller
 		$this->_redirect($this->input->get('redirect_url'));
 	}
 
-	function _fb_register($email, $username)
+	function _external_register($email, $username)
 	{
 		$username   =   trim($this->input->post('username'));
 		$email      =   trim($this->input->post('email'));

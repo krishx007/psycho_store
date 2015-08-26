@@ -114,23 +114,13 @@ function post(path, params, method)
   	//Generate post_url
   	var form_url = document.getElementById('login_form').getAttribute('action');
   	var redirect_url = form_url.split('?');
-  	var post_url = "fb"+"?"+redirect_url[1];    
+  	var post_url = "external_auth"+"?"+redirect_url[1];    
     FB.api('/me', function(response)
     {
     	post(post_url, {username: response.name, email: response.email} );
     });
   }
 </script>
-
-<!--
-  Below we include the Login Button social plugin. This button uses
-  the JavaScript SDK to present a graphical Login button that triggers
-  the FB.login() function when clicked.
--->
-
-<fb:login-button scope="public_profile,email" data-size="xlarge" onlogin="checkLoginState();" onclick="init_fb_login();">
-Login with facebook
-</fb:login-button>
 
 </body>
 </html>
