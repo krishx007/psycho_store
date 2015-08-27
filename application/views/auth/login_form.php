@@ -45,14 +45,15 @@ $(function () {
           <h1 class=" text-center play"><small>or</small></h1>
         </div>
         <div class="col-md-4 col-xs-12 vcenter">
-          <div class="text-center">
-            <a class="btn g-signin2" data-theme="dark" data-width="200" data-scope="https://www.googleapis.com/auth/plus.login" data-onsuccess="onSignIn">          
-            <?php echo $this->load->view('google_signin.html')?>
+          <div class="text-center">          
+            <a class="btn btn-social btn-google" disabled id="google_signin">
+             <i class="fa fa-google-plus"></i> Sign in with google
+             <?php echo $this->load->view('google_signin.html')?>
             </a>
           </div>
           <hr>
           <div class="text-center">
-            <a class="btn btn-social btn-facebook" scope="public_profile,email" onlogin="checkLoginState();" onclick="init_fb_login();">
+            <a id="fb_login" disabled class="btn btn-social btn-facebook" onclick="init_fb_login();">
             <i class="fa fa-facebook"></i> Sign in with facebook
               <?php echo $this->load->view('fb_login.html')?>
             </a>

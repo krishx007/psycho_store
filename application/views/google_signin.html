@@ -31,22 +31,36 @@ function post(path, params, method)
     form.submit();
 }
 
-
 function onSignIn(googleUser)
 {
   // Useful data for your client-side scripts:
-  var profile = googleUser.getBasicProfile();
-  console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-  console.log("Name: " + profile.getName());
-  console.log("Image URL: " + profile.getImageUrl());
-  console.log("Email: " + profile.getEmail());
+  if(googleUser)
+  {
+    var profile = googleUser.getBasicProfile(); 
 
-  var form_url = document.getElementById('login_form').getAttribute('action');
-  var redirect_url = form_url.split('?');
-  var post_url = "external_auth"+"?"+redirect_url[1];
-  post(post_url, {username: profile.getName(), email: profile.getEmail()} );
-
+    var form_url = document.getElementById('login_form').getAttribute('action');
+    var redirect_url = form_url.split('?');
+    var post_url = "external_auth"+"?"+redirect_url[1];
+    post(post_url, {username: profile.getName(), email: profile.getEmail()} );
+  }
 }
+
+function start_login()
+{
+  gapi.load('auth2', function()
+  {
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+      client_id: '858976915070-f2higqaj6iu3gpuijmddhqs973ihlf9m.apps.googleusercontent.com'
+      // Request scopes in addition to 'profile' and 'email'
+      //scope: 'additional_scope'
+    });
+
+    auth2.attachClickHandler(document.getElementById('google_signin'), {}, onSignIn, onFailure );
+
+  });
+}
+
 function onFailure(error)
 {
   console.log(error);
@@ -54,7 +68,18 @@ function onFailure(error)
 
 </script>
 
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-  
+<script src="https://apis.google.com/js/platform.js?onload=start_login" async defer></script>
+
+<script type="text/javascript">
+window.onload = function()
+{
+  var google_login = document.getElementById('google_signin');
+  google_login.removeAttribute('disabled');
+
+  var fb_login = document.getElementById('fb_login');
+  fb_login.removeAttribute('disabled');
+}  
+</script>
+
 </body>
 </html>
