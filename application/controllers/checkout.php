@@ -112,7 +112,7 @@ class checkout extends CI_controller
 
 		$user_id = $this->tank_auth->get_user_id();
 		
-		if(strlen($user_id) > 0)
+		if($this->tank_auth->is_logged_in())
 		{
 			$this->_save_user_details();
 
@@ -534,7 +534,7 @@ class checkout extends CI_controller
 		}		
 
 		$order_info['txn_id'] = $checkout_order['txn_id'];
-		$order_info['amount'] = $checkout_order['amount'];
+		$order_info['amount'] = $checkout_order['order_amount'];
 		$order_info['address_id'] = $checkout_order['address_id'];
 		$order_info['user_id'] = $checkout_order['user_id'];
 		$order_info['checkout_items'] = $this->database->GetCheckoutOrderItems($order_info['txn_id']);
