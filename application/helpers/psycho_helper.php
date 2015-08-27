@@ -18,7 +18,8 @@ if(!function_exists('generate_header'))
 		if($ci->tank_auth->is_logged_in())
 		{
 			$data['user_id'] 	= $ci->tank_auth->get_user_id();
-			$data['user_name'] 	= explode('@',$ci->tank_auth->get_username())[0];
+			$user_name 			= explode('@',$ci->tank_auth->get_username());
+			$data['user_name'] 	= $user_name[0];
 		}
 
 		//Cart Info
