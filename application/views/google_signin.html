@@ -41,7 +41,7 @@ function onSignIn(googleUser)
     var form_url = document.getElementById('login_form').getAttribute('action');
     var redirect_url = form_url.split('?');
     var post_url = "external_auth"+"?"+redirect_url[1];
-    post(post_url, {username: profile.getName(), email: profile.getEmail()} );
+    post(post_url, {username: profile.getEmail(), email: profile.getEmail()} );
   }
 }
 

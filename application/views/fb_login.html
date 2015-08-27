@@ -116,9 +116,10 @@ function post(path, params, method)
   	var form_url = document.getElementById('login_form').getAttribute('action');
   	var redirect_url = form_url.split('?');
   	var post_url = "external_auth"+"?"+redirect_url[1];
+
     FB.api('/me', function(response)
     {
-    	post(post_url, {username: response.name, email: response.email} );
+    	post(post_url, {username: response.email, email: response.email} );
     });
   }
 </script>
