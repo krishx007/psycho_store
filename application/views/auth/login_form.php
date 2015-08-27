@@ -45,9 +45,9 @@ $(function () {
           <h1 class=" text-center play"><small>or</small></h1>
         </div>
         <div class="col-md-4 col-xs-12 vcenter">
-          <div class="text-center" >
-            <a class="btn" >
-              <?php echo $this->load->view('google_signin.html')?>
+          <div class="text-center">
+            <a class="btn g-signin2" data-theme="dark" data-width="200" data-scope="https://www.googleapis.com/auth/plus.login" data-onsuccess="onSignIn">          
+            <?php echo $this->load->view('google_signin.html')?>
             </a>
           </div>
           <hr>

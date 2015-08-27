@@ -3,10 +3,10 @@
   <meta name="google-signin-client_id" content="858976915070-f2higqaj6iu3gpuijmddhqs973ihlf9m.apps.googleusercontent.com">
 </head>
 <body>
-  <div id="my-signin2"></div>
-  <script>
 
-  function post(path, params, method)
+<script>
+
+function post(path, params, method)
 {
     method = method || "post"; // Set method to post by default if not specified.
 
@@ -31,55 +31,30 @@
     form.submit();
 }
 
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function login()
-  {
-    //Generate post_url
-    var form_url = document.getElementById('login_form').getAttribute('action');
-    var redirect_url = form_url.split('?');
-    var post_url = "external_auth"+"?"+redirect_url[1];    
-    FB.api('/me', function(response)
-    {
-      post(post_url, {username: response.name, email: response.email} );
-    });
-  }
 
-  function onSignIn(googleUser)
-  {
-    // Useful data for your client-side scripts:
-    var profile = googleUser.getBasicProfile();
-    console.log("ID: " + profile.getId()); // Don't send this directly to your server!
-    console.log("Name: " + profile.getName());
-    console.log("Image URL: " + profile.getImageUrl());
-    console.log("Email: " + profile.getEmail());
+function onSignIn(googleUser)
+{
+  // Useful data for your client-side scripts:
+  var profile = googleUser.getBasicProfile();
+  console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+  console.log("Name: " + profile.getName());
+  console.log("Image URL: " + profile.getImageUrl());
+  console.log("Email: " + profile.getEmail());
 
-    var form_url = document.getElementById('login_form').getAttribute('action');
-    var redirect_url = form_url.split('?');
-    var post_url = "external_auth"+"?"+redirect_url[1];
-    post(post_url, {username: profile.getName(), email: profile.getEmail()} );
+  var form_url = document.getElementById('login_form').getAttribute('action');
+  var redirect_url = form_url.split('?');
+  var post_url = "external_auth"+"?"+redirect_url[1];
+  post(post_url, {username: profile.getName(), email: profile.getEmail()} );
 
-  }
-  function onFailure(error)
-  {
-    console.log(error);
-  }
+}
+function onFailure(error)
+{
+  console.log(error);
+}
 
-  function renderButton()
-  {
-    gapi.signin2.render('my-signin2', {
-      'scope': 'https://www.googleapis.com/auth/plus.login',
-      'width': 200,
-      'height': 35,
-      'longtitle': true,
-      'theme': 'dark',
-      'onsuccess': onSignIn,
-      'onfailure': onFailure
-    });
-  }
-  </script>
+</script>
 
-  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
   
 </body>
 </html>
