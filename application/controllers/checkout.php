@@ -26,9 +26,7 @@ class checkout extends CI_controller
 
 	function _start_checkout()
 	{
-		$txn_id = $this->session->userdata('txn_id');
-
-		if($txn_id == false)
+		if($this->_is_active_txn_id_valid() == false)
 		{
 			$this->_create_checkout_order();
 		}
@@ -127,18 +125,28 @@ class checkout extends CI_controller
 		
 	}
 
-	function _validate_cart()
+	function _is_active_txn_id_valid()
 	{
-		//Make sure txn_id is generated
 		$is_txn_id_valid = false;
 		$txn_id = $this->session->userdata('txn_id');
 		if($txn_id)
 		{
+			//Make sure it exists in db also
 			$checkout_order = $this->database->GetCheckoutOrder($txn_id);
 
 			if(count($checkout_order))
+			{
 				$is_txn_id_valid = true;
+			}
 		}
+		
+		return $is_txn_id_valid;
+	}
+
+	function _validate_cart()
+	{
+		//Make sure txn_id is generated	
+		$txn_id = $this->_is_active_txn_id_valid();
 
 		$out_of_stock = false;
 
