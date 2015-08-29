@@ -4,6 +4,10 @@
 </head>
 <body>
 
+<a class="btn btn-social btn-google" id="google_signin">
+  <i class="fa fa-google-plus"></i> Sign in with google  
+</a>
+
 <script>
 
 function post(path, params, method)
@@ -69,17 +73,6 @@ function onFailure(error)
 </script>
 
 <script src="https://apis.google.com/js/platform.js?onload=start_login" async defer></script>
-
-<script type="text/javascript">
-window.onload = function()
-{
-  var google_login = document.getElementById('google_signin');
-  google_login.removeAttribute('disabled');
-
-  var fb_login = document.getElementById('fb_login');
-  fb_login.removeAttribute('disabled');
-}  
-</script>
 
 </body>
 </html>

@@ -39,26 +39,19 @@ $(function () {
           </div>
           <?php if ($this->config->item('allow_registration', 'tank_auth')) echo anchor('/auth/register/', ' Register'); ?> \
           <?php echo anchor('/auth/forgot_password/', 'Forgot password'); ?>
-        </div>      
-
+        </div>
         <div class="col-md-1 col-xs-12 vcenter">
           <h1 class=" text-center play"><small>or</small></h1>
         </div>
         <div class="col-md-4 col-xs-12 vcenter">
-          <div class="text-center">          
-            <a class="btn btn-social btn-google" disabled id="google_signin">
-             <i class="fa fa-google-plus"></i> Sign in with google
+          <div class="text-center">
              <?php echo $this->load->view('google_signin.html')?>
-            </a>
           </div>
           <hr>
           <div class="text-center">
-            <a id="fb_login" disabled class="btn btn-social btn-facebook" onclick="init_fb_login();">
-            <i class="fa fa-facebook"></i> Sign in with facebook
               <?php echo $this->load->view('fb_login.html')?>
-            </a>
           </div>
-        </div>        
+        </div>
       </div>
     </div>
       <div class="col-md-12">
