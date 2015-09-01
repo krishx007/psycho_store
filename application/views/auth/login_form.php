@@ -47,10 +47,6 @@ $(function () {
           <div class="text-center">
              <?php echo $this->load->view('google_signin.html')?>
           </div>
-          <hr>
-          <div class="text-center">
-              <?php echo $this->load->view('fb_login.html')?>
-          </div>
         </div>
       </div>
     </div>
