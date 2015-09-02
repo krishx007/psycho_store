@@ -64,6 +64,7 @@
 			</div>
 		</div>		
 	</div>
+	<a class='btn btn-default' href= <?php echo site_url('') ?> >Return To Awesomess</a>
 </div>
 <script type="text/javascript">	
 	var revenue_data = {
