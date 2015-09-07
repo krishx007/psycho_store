@@ -972,7 +972,7 @@ class admin extends CI_controller
 
 				case OrderState::Shipped:
 					$user_id = $order['user']['id'];
-					$feedback_url = site_url("admin/feedback_mail/$user_id/$product_id");
+					$feedback_url = site_url("admin/feedback_mail/$user_id");
 
 					$feedback_link = "<a class ='btn btn-warning' href=$feedback_url> Get Feedback! </a>";
 					if($waybill)
