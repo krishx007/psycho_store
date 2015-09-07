@@ -470,7 +470,7 @@ class admin extends CI_controller
 		redirect('admin/checkouts');
 	}
 
-	function feedback_mail($user_id, $ids)
+	function feedback_mail($user_id)
 	{
 		$user = $this->database->GetUserById($user_id);
 		$data['username'] = $user['username'];		
@@ -971,17 +971,10 @@ class admin extends CI_controller
 					break;
 
 				case OrderState::Shipped:
-
-					foreach ($order['order_items'] as $key => $item)
-					{
-						$product_id[] = $item['product']['product_id'];
-					}
-
-					$product_id = implode('-', $product_id);
 					$user_id = $order['user']['id'];
-					$remind_url = site_url("admin/feedback_mail/$user_id/$product_id");
+					$feedback_url = site_url("admin/feedback_mail/$user_id/$product_id");
 
-					$feedback_link = "<a class ='btn btn-warning' href=$remind_url> Get Feedback! </a>";
+					$feedback_link = "<a class ='btn btn-warning' href=$feedback_url> Get Feedback! </a>";
 					if($waybill)
 					{
 						$tracking_url = $this->config->item('delhivery_url');
