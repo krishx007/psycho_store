@@ -13,3 +13,5 @@ We will bear the shipping charges as well if it's our fault.
 <?php echo $ret_address ?>
 <br><br>
 For any other query email us at <a href="mailto:contact@psychostore.in">contact@psychostore.in</a></p>
+<br>
+<a class='btn btn-primary' href= <?php echo site_url('') ?> >Return To Awesomess</a>
