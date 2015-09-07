@@ -456,18 +456,31 @@ class admin extends CI_controller
 		foreach ($product_ids as $key => $id)
 		{
 			$products[] = $this->database->GetProductById($id);
-		}		
+		}
 
 		$user = $this->database->GetUserById($user_id);
 		$data['username'] = $user['username'];
 		$data['products'] = $products;
 		$data['site_name'] = $this->config->item('site_name');
-				
+
 		$params = mg_create_mail_params('cart_reminder', $data);
 
 		mg_send_mail($user['email'], $params);
 		
 		redirect('admin/checkouts');
+	}
+
+	function feedback_mail($user_id, $ids)
+	{
+		$user = $this->database->GetUserById($user_id);
+		$data['username'] = $user['username'];		
+		$data['site_name'] = $this->config->item('site_name');
+
+		$params = mg_create_mail_params('feedback', $data);
+
+		mg_send_mail($user['email'], $params);
+		
+		redirect('admin/shipped_orders');
 	}
 
 	function delete_checkout($txn_id)
@@ -930,7 +943,8 @@ class admin extends CI_controller
 			$status = $order['order_state'];
 			$waybill = $order['waybill'];
 			$order_process_link = null;
-			$view_label_link = null;		
+			$view_label_link = null;
+			$feedback_link	= null;
 
 			switch ($status)
 			{
@@ -957,16 +971,27 @@ class admin extends CI_controller
 					break;
 
 				case OrderState::Shipped:
+
+					foreach ($order['order_items'] as $key => $item)
+					{
+						$product_id[] = $item['product']['product_id'];
+					}
+
+					$product_id = implode('-', $product_id);
+					$user_id = $order['user']['id'];
+					$remind_url = site_url("admin/feedback_mail/$user_id/$product_id");
+
+					$feedback_link = "<a class ='btn btn-warning' href=$remind_url> Get Feedback! </a>";
 					if($waybill)
 					{
 						$tracking_url = $this->config->item('delhivery_url');
 						$waybill_link = $tracking_url."/p/".$waybill;
-						$waybill = "<a target='_blank' href=$waybill_link>Track</a>";
+						$waybill = "<a target='_blank' href=$waybill_link>$waybill</a>";
 					}
 					else
 					{
 						$waybill = "Self-Shipped";
-					}				
+					}
 					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Returned);
 					$order_process_link = "<a class ='btn btn-danger' href=$process_link> Returned</a>";
 					break;
@@ -974,11 +999,12 @@ class admin extends CI_controller
 				default:
 					$order_process_link = null;
 					$view_label_link = null;
+					$feedback_link = null;
 					# code...
 					break;
 			}	
 
-			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link, $view_label_link);
+			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link, $view_label_link, $feedback_link);
 
 			foreach ($order['order_items'] as $key => $item) 
 			{
@@ -1175,7 +1201,7 @@ class admin extends CI_controller
 				$user_id = $order['user']['id'];
 				$remind_url = site_url("admin/remind/$user_id/$product_id");
 
-				$reminder_mail_link = "<a class ='btn btn-danger' href=$remind_url> Remind </a>";;
+				$reminder_mail_link = "<a class ='btn btn-danger' href=$remind_url> Remind </a>";
 			}
 
 			$delete_url = site_url("admin/delete_checkout/$txn_id");
