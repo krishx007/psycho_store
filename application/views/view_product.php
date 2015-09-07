@@ -30,6 +30,7 @@
       </ul>
       <div class="col-md-6 text-center">
         <img class="" src = <?php echo site_url("{$product['product_image_path']}") ?> >
+        <?php echo $this->load->view('view_product_social', null); ?>
       </div>
       <div class="col-md-4">
         <div class="row">
@@ -80,7 +81,7 @@
                   <?php echo anchor($url, img($image_properties));?>      
               </div>
 
-            <?php endforeach ?> 
+            <?php endforeach ?>             
           </div>
         </div>            
       </div>
