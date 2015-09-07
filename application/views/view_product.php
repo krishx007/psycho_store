@@ -70,7 +70,7 @@
             <hr>
             <?php
             foreach($suggested_products as $product_item):
-              $url = product_url($product_item); 
+              $prod_url = product_url($product_item); 
               $path = "/".$product_item['product_image_path'];
               $image_properties = array(
                       'src' => "$path",
@@ -78,7 +78,7 @@
             );
             ?>
               <div class="product-link-sm col-md-4 col-sm-4 col-xs-4">
-                  <?php echo anchor($url, img($image_properties));?>      
+                  <?php echo anchor($prod_url, img($image_properties));?>      
               </div>
 
             <?php endforeach ?>             
