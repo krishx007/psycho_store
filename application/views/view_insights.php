@@ -1,6 +1,6 @@
 <script src= <?php echo site_url("scripts/Chart.min.js")?> ></script>
 <div class="container top-bottom-space">
-
+<div class="well">
 <?php if($is_admin): ?>
     <h1><?php echo $heading ?>  
 	    <span class=" col-md-3 pull-right play">
@@ -26,7 +26,6 @@
 	    </span>    
     </h1>
     <hr>
-    <div class="well">
     	<div class="row ">
 	    	<div class="col-md-12">
 	    		<h3 class="text-center"> Monthly Orders For <?php echo $month?></h3>
