@@ -82,7 +82,7 @@ class admin extends CI_controller
 			$orders[] = $order;
 		}
 
-		$this->_add_address_and_user_to_orders($orders);
+		_add_address_and_user_to_orders($orders);
 		
 		$data['checkout_amount'] = $checkout_amount;
 		$data['num_checkouts'] = count($orders);
@@ -99,7 +99,7 @@ class admin extends CI_controller
 		$data = null;
 		
 		$requested_shipments = $this->database->GetOrdersByState(OrderState::Requested);
-		$this->_add_address_and_user_to_orders($requested_shipments);
+		_add_address_and_user_to_orders($requested_shipments);
 		
 		//Get this particular shipment
 		$required_shipment = null;
@@ -581,10 +581,10 @@ class admin extends CI_controller
 
 		//Get all packaged and requested orders
 		$packaged_shipments = $this->database->GetOrdersByState(OrderState::Packaging);
-		$packaged_shipments = $this->_add_address_and_user_to_orders($packaged_shipments);		
+		$packaged_shipments = _add_address_and_user_to_orders($packaged_shipments);		
 		
 		$requested_shipments = $this->database->GetOrdersByState(OrderState::Requested);
-		$requested_shipments = $this->_add_address_and_user_to_orders($requested_shipments);
+		$requested_shipments = _add_address_and_user_to_orders($requested_shipments);
 
 		$this->session->set_flashdata('packaged_shipments', $packaged_shipments);		
 
@@ -603,7 +603,7 @@ class admin extends CI_controller
 	function manifest()
 	{
 		$requested_shipments = $this->database->GetOrdersByState(OrderState::Requested);
-		$data['requested_shipments'] = $this->_add_address_and_user_to_orders($requested_shipments);
+		$data['requested_shipments'] = _add_address_and_user_to_orders($requested_shipments);
 
 		$this->load->view('admin/manifest', $data);
 	}
@@ -675,7 +675,7 @@ class admin extends CI_controller
 		foreach ($txn_id as $key => $id)
 		{
 			$order[] = $this->database->GetOrderById($id);
-			$this->_add_address_and_user_to_orders($order);
+			_add_address_and_user_to_orders($order);
 			$order = $order[0];
 			//Mark as shipped
 			$this->database->UpdateOrderStatus($id, OrderState::Shipped);
@@ -710,18 +710,6 @@ class admin extends CI_controller
 		}
 	}
 
-	function _add_address_and_user_to_orders(&$orders)
-	{
-		//Get user details and address in the array
-		foreach ($orders as $key => $value)
-		{
-			$orders[$key]['user'] = $this->database->GetUserById($value['user_id']);
-			$orders[$key]['address'] = $this->database->GetAddressById($value['address_id']);
-		}
-
-		return $orders;
-	}
-
 	function shipped_orders()
 	{
 		$this->_validate_user();
@@ -732,7 +720,7 @@ class admin extends CI_controller
 
 		if(count($shipped_orders))
 		{
-			$this->_add_address_and_user_to_orders($shipped_orders);
+			_add_address_and_user_to_orders($shipped_orders);
 		}
 
 		$data['orders'] = $shipped_orders;
@@ -766,7 +754,7 @@ class admin extends CI_controller
 		//As $orders is an array
 		if(count($orders))
 		{
-			$this->_add_address_and_user_to_orders($orders);
+			_add_address_and_user_to_orders($orders);
 		}
 
 		$data['orders'] = $orders;

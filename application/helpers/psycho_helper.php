@@ -124,13 +124,28 @@ function add_subscriber($email, $username = null)
 
 if(!function_exists('product_url'))
 {
-	function product_url($product)
+	function product_url(&$product)
 	{		
 		$id = $product['product_id'];
 		$url = url_title($product['product_url']);
 		$final_url = "product/"."$id/$url";
 		return $final_url;
 	}
+}
+
+function _add_address_and_user_to_orders(&$orders)
+{
+	$ci = &get_instance();
+	$ci->load->model('database');
+
+	//Get user details and address in the array
+	foreach ($orders as $key => $value)
+	{
+		$orders[$key]['user'] = $ci->database->GetUserById($value['user_id']);
+		$orders[$key]['address'] = $ci->database->GetAddressById($value['address_id']);
+	}
+
+	return $orders;	
 }
 
 if(!function_exists('always_refresh'))
