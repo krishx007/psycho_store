@@ -11,13 +11,16 @@
 
 We hope that you have fallen in love with your Psycho Store merchandise.
 <br>
-Just wanted to say a big 'Thank you' for ordering from us.
+Just wanted to say a big <b>'Thank you'</b> for ordering from us.
 <br>
 <br>
 Do leave us some <a href="psychostore.in/auth/saysomething">feedback</a>. We would love to know what you think of us and how we can improve.
 <br>
 <br>
-Also, upload your pic with your Psycho Store merchandise on social media and tag us. We will make sure that you get some good discount on your next order.
+<b>Steps to unlock discount and earn cheat codes</b><br>
+1. Show off your gaming/geeky side with your psychostore merchandise on social media.<br>
+2. Dont forget to tag us.<br><br>
+Leave the rest to us, we will make sure that you unlock some good discount on your next order.
 <br>
 <br>
 <br>
