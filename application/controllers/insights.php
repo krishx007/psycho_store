@@ -28,7 +28,13 @@ class insights extends CI_Controller
 		$data['heading'] = "Insights";
 		
 		$all_orders = $this->database->GetAllOrders();
+
+		//get latest order
+		$latest_order_index = count($all_orders) - 1;
+		$latest_order = array($all_orders[$latest_order_index]);
 		
+		_add_address_and_user_to_orders($latest_order);
+
 		//Get this months orders data
 		$month_info = $this->_getOrdersDataForMonth($month);
 
@@ -42,6 +48,7 @@ class insights extends CI_Controller
 		$data['cod_orders'] = $this->_getNumCodOrders($all_orders);
 		$data['online_orders'] = $this->_getNumOnlineOrders($all_orders);		
 		$data['is_admin'] = $is_admin;
+		$data['latest_order'] = $latest_order;
 		
 		//Get Statewise Orders data
 		$state_info = $this->_getStateWiseOrderData();

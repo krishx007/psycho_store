@@ -30,11 +30,11 @@
     	<div class="row ">
 	    	<div class="col-md-12">
 	    		<h3 class="text-center"> Monthly Orders For <?php echo $month?></h3>
-	  			<canvas id='sales_chart'></canvas>	  			
+	  			<canvas id='sales_chart'></canvas>
 	  			<h4 class="text-center">Total Num Orders 	: <?php echo $num_orders?> </h4>
 	  			<h4 class="text-center">Total Products 	: <?php echo $total_products?> </h4>
 				<h4 class="text-center">Avg Order per Day 	: <?php echo ($num_orders /count($dates)) ?> </h4>
-			</div>			
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
@@ -50,7 +50,20 @@
   				<canvas id='payment_chart'></canvas>
 			</div>
 		</div>
-<?php endif; ?>		
+<?php endif; ?>
+		<div class="row top-bottom-space">
+			<div class="col-md-12">
+				<h3 class="text-center play"> Last Order : 
+				<?php foreach ($latest_order as $key => $order): ?>
+					<?php foreach ($order['order_items'] as $key => $items): ?>
+						<?php $url = product_url($items['product']); ?>
+						<a href= <?php echo $url ?> ><?php echo $items['product']['product_name'] ?></a>,
+					<?php endforeach; ?>
+				<?php endforeach; ?>
+				<?php echo $latest_order[0]['address']['city'].", ". $latest_order[0]['address']['state'] ?>
+				</h3>				
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<h3 class="text-center"> War of the States </h3>
@@ -62,7 +75,7 @@
 				<h3 class="text-center"> War of the Games </h3>
   				<canvas id='game_sales_chart'></canvas>
 			</div>
-		</div>		
+		</div>
 	</div>
 	<a class='btn btn-default' href= <?php echo site_url('') ?> >Return To Awesomess</a>
 </div>
