@@ -56,6 +56,9 @@
               <li>
                 <a href= <?php echo site_url('media')?> >Media</a>
               </li>
+              <li>
+                <a target="_blank" href= "http://psychostorein.tumblr.com/" >Blog</a>
+              </li>              
             </ul>
           </div>
           <div class="col-md-4 footer-col">
