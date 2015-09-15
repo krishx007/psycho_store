@@ -1,4 +1,3 @@
 What's the Konami Code?
-Which mode would you love to have in real life?
-Hint : Dont use spaces.
+Hint : Let google do the thinking and dont use spaces.
 
