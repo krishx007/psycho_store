@@ -30,7 +30,7 @@ class admin extends CI_controller
 	}
 
 	function index()
-	{		
+	{
 		$this->orders();
 	}
 
@@ -679,19 +679,19 @@ class admin extends CI_controller
 			$order = $order[0];
 			//Mark as shipped
 			$this->database->UpdateOrderStatus($id, OrderState::Shipped);
-			
-			//Collect waybills
-			$dead_waybills[] = $order['waybill'];
 
-			//Mail User
-			$data['order_id'] = $order['txn_id'];
-			$data['username'] = $order['user']['username'];
-			$data['waybill'] = $order['waybill'];
-			$data['tracking_address'] = $this->config->item('delhivery_url')."/p/{$order['waybill']}";
-			$data['site_name'] = $this->config->item('website_name', 'tank_auth');
-			$params = mg_create_mail_params('shipped', $data);
-			mg_send_mail($order['user']['email'], $params);
-		}		
+			if( strlen($order['waybill']) > 0 )
+			{
+				//Mail User
+				$data['order_id'] = $order['txn_id'];
+				$data['username'] = $order['user']['username'];
+				$data['waybill'] = $order['waybill'];
+				$data['tracking_address'] = $this->config->item('delhivery_url')."/p/{$order['waybill']}";
+				$data['site_name'] = $this->config->item('website_name', 'tank_auth');
+				$params = mg_create_mail_params('shipped', $data);
+				mg_send_mail($order['user']['email'], $params);
+			}			
+		}
 
 		redirect('admin/shipments');
 	}
@@ -933,12 +933,15 @@ class admin extends CI_controller
 			$order_process_link = null;
 			$view_label_link = null;
 			$feedback_link	= null;
+			$order_ship_link = null;
 
 			switch ($status)
 			{
 				case OrderState::Pending:
 					$process_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Packaging);
-					$order_process_link = "<a class ='btn btn-default' href=$process_link> Ship Today </a>";
+					$order_process_link = "<a class ='btn btn-default' href=$process_link> Dehlivery </a>";
+					$ship_link = site_url('admin/update_order/'.$txn_id.'/'.OrderState::Shipped);
+					$order_ship_link = "<a class ='btn btn-danger' href=$ship_link> Self-Shipped</a>";
 					break;
 				
 				case OrderState::Packaging:
@@ -981,11 +984,12 @@ class admin extends CI_controller
 					$order_process_link = null;
 					$view_label_link = null;
 					$feedback_link = null;
+					$order_ship_link = null;
 					# code...
 					break;
 			}	
 
-			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link, $view_label_link, $feedback_link);
+			$this->table->add_row($num, $txn_id,  $date, $email, $address, $mode, $amount, $status, $waybill, $order_process_link, $order_ship_link, $view_label_link, $feedback_link);
 
 			foreach ($order['order_items'] as $key => $item) 
 			{
