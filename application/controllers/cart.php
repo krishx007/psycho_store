@@ -158,7 +158,7 @@ class cart extends CI_controller
 		{
 			$params['title'] = "wrong cheat code";
 
-			$params['body'] = "<strong>$username</strong>, No such cheat code exists.<br>Anyway, we strongly encourage playing games with no cheat codes applied.<br><br>Happy gaming!" ;
+			$params['body'] = "<strong>$username</strong>, No such cheat code exists.<br>Anyway, we strongly encourage playing games with no cheat codes applied.<br>But here is a hint just for you.<br><br><strong>Hint : Google \"What is the Konami code\"</strong>. " ;
 		}
 		else if(count($domain_discount))
 		{
