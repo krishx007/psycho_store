@@ -26,6 +26,12 @@
 	    </span>    
     </h1>
     <hr>
+    	<div class="row top-bottom-space">
+			<div class="col-md-12">
+				<h1 class="text-center text-success">Gross : <?php echo $gross['total_orders']?> <small>Orders</small>, <?php echo $gross['total_order_items']?> <small>items</small>, <i class="fa fa-rupee"></i> <?php echo $gross['revenue']?>  <small>in revenue</small> </h1>
+  				<h4 class="text-center"> </h4>
+			</div>
+		</div>
     	<div class="row ">
 	    	<div class="col-md-12">
 	    		<h3 class="text-center"> Monthly Orders For <?php echo $month?></h3>

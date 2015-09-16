@@ -28,6 +28,7 @@ class insights extends CI_Controller
 		$data['heading'] = "Insights";
 		
 		$all_orders = $this->database->GetAllOrders();
+		$gross = $this->_get_gross_info($all_orders);
 
 		//get latest order
 		$latest_order_index = count($all_orders) - 1;
@@ -38,6 +39,7 @@ class insights extends CI_Controller
 		//Get this months orders data
 		$month_info = $this->_getOrdersDataForMonth($month);
 
+		$data['gross'] = $gross;
 		$data['month'] = $month;
 		$data['total_products'] = $month_info['total_products'];
 		$data['sales_data'] = $month_info['orders'];
@@ -70,6 +72,22 @@ class insights extends CI_Controller
 		}
 
 		display('insights', $data);
+	}
+
+	function _get_gross_info($orders)
+	{
+		//total orders, products, revenue
+		$gross['total_orders'] = count($orders);
+		$gross['total_order_items'] = $this->database->GetNumOrderItems();
+		$revenue = 0;
+		foreach ($orders as $key => $order)
+		{
+			$revenue += $order['order_amount'];
+		}
+
+		$gross['revenue'] = $revenue;
+
+		return $gross;
 	}
 
 	function _is_user_admin()
