@@ -28,7 +28,7 @@
     <hr>
     	<div class="row top-bottom-space">
 			<div class="col-md-12">
-				<h1 class="text-center text-success">Gross : <?php echo $gross['total_orders']?> <small>Orders</small>, <?php echo $gross['total_order_items']?> <small>items</small>, <i class="fa fa-rupee"></i> <?php echo $gross['revenue']?>  <small>in revenue</small> </h1>
+				<h1 class="text-center text-danger">Gross : <?php echo $gross['total_orders']?> <small>Orders</small>, <?php echo $gross['total_order_items']?> <small>items</small>, <i class="fa fa-rupee"></i> <?php echo $gross['revenue']?>  <small>in revenue</small> </h1>
   				<h4 class="text-center"> </h4>
 			</div>
 		</div>
