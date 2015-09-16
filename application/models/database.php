@@ -186,6 +186,11 @@ class Database extends CI_Model
 		return $this->db->count_all('orders');
 	}
 
+	function GetNumOrderItems()
+	{
+		return $this->db->count_all('order_items');
+	}
+
 	//Returns both order and order_items
 	//order_items are stored in 'order_items' key;
 	function GetOrderById($txn_id)
