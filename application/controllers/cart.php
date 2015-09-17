@@ -88,7 +88,7 @@ class cart extends CI_controller
 			}
 		}
 
-		show_alert($product['add_to_cart_comment'], 2000);
+		show_alert($product['add_to_cart_comment']);
 		
 		redirect('cart');
 	}

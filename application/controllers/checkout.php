@@ -265,6 +265,8 @@ class checkout extends CI_controller
 		{				
 			redirect('checkout/');
 		}
+		
+		show_alert("One more click and all this awesomeness will be yours, go on we know you cant wait.");
 
 		$address = $this->database->GetAddressById($checkout_order['address_id']);		
 		$shipping_details = $this->database->GetShippingDetails($address['pincode']);

@@ -207,7 +207,6 @@ if(!function_exists('notify_event'))
 {
 	function notify_event($event_name, $params = null)
 	{
-		echo "Trigerring event";
 		$ci = &get_instance();
 		$ci->load->library('session');
 		$events = $ci->session->userdata('events');
