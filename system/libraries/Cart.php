@@ -477,6 +477,11 @@ class CI_Cart {
 		return round($discount_amt);
 	}
 
+	function is_discount_applied()
+	{
+		return $this->_cart_contents['discount'] > 0 ? true : false;
+	}
+
 	// --------------------------------------------------------------------
 
 	/* Returns the final price after applying discount		
