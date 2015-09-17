@@ -24,12 +24,9 @@ $(function () {
 		</div>
 		<hr class="">
 		<div class="well">
-			<?php if($show_alert): ?>
-			<div class="alert alert-warning alert-dismissible fade in" role="alert">
-		      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>
-		      <?php echo $alert_comment?>
-		    </div>
-			<?php endif; ?>
+
+			<div id="alert"></div>
+
 			<div class="row">
 				<?php $num_plus = 0;
 				foreach ($this->cart->contents() as $items):

@@ -249,6 +249,12 @@ if(!function_exists('execute_events'))
 						$modal_params['timeout'] = 0;
 						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						break;
+					
+					case 'alert':
+						$alert['alert_text'] = $params['alert_text'];
+						$alert['timeout'] = 2000;
+						$data['scripts'][] = array('path' => 'events/alert', 'params' => $alert);
+						break;						
 						
 					default:
 						# code...
@@ -258,6 +264,14 @@ if(!function_exists('execute_events'))
 			$ci->session->set_userdata('events', null);
 		}
  	}
+}
+
+function show_alert($text, $timeout = 0)
+{
+	$params['alert_text'] = $text;
+	$params['timeout'] = $timeout;
+
+	notify_event('alert', $params);
 }
 
 if(!function_exists('display'))

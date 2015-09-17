@@ -251,7 +251,7 @@ class checkout extends CI_controller
 		}
 
 		redirect('checkout/');
-	}
+	}	
 
 	function review()
 	{

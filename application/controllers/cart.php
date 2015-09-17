@@ -59,16 +59,8 @@ class cart extends CI_controller
 		$num_items = $this->cart->total_items();
 		generate_header($data);
 		$this->_set_stock_info($data);
+		
 		check_domain_discount();
-
-		//Alert Comment Info
-		$data['show_alert'] = false;
-		$alert_comment = $this->session->flashdata('alert_comment');
-		if($alert_comment)
-		{
-			$data['show_alert'] = true;
-			$data['alert_comment'] = $alert_comment;
-		}
 
 		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
 		display('cart',$data);		
@@ -96,7 +88,7 @@ class cart extends CI_controller
 			}
 		}
 
-		$this->session->set_flashdata('alert_comment', $product['add_to_cart_comment']);
+		show_alert($product['add_to_cart_comment'], 2000);
 		
 		redirect('cart');
 	}
