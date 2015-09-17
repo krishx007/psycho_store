@@ -236,6 +236,7 @@ if(!function_exists('execute_events'))
 							$domain = $discount_domain['domain'];
 							$discount = $discount_domain['how_much'];
 							$modal_params['modal_title'] = $params['title'];
+							$modal_params['timeout'] = 0;
 							$modal_params['modal_body']  = "We noticed that you hail from the lands of <strong>$domain.</strong> We have huge respect for creatures hailing from that land, because of which we will be giving you <strong>$discount%</strong> off on each and every purchase that you make from us.";
 
 							$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
@@ -245,8 +246,10 @@ if(!function_exists('execute_events'))
 					case 'apply_discount':
 						$modal_params['modal_title'] = $params['title'];
 						$modal_params['modal_body']  = $params['body'];
+						$modal_params['timeout'] = 0;
 						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						break;
+						
 					default:
 						# code...
 						break;

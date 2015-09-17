@@ -25,7 +25,6 @@
     var body =  document.getElementById('modal_body');
     body.innerHTML= '<?php echo $modal_body ?>';
     
-    $('#modal').modal('show');
-
+    setTimeout(function(){ $('#modal').modal('show'); }, <?php echo $timeout; ?>);
   }
 </script>
