@@ -57,18 +57,27 @@ class cart extends CI_controller
 	{
 		$data[] = 0;
 		$num_items = $this->cart->total_items();
-		generate_header($data);		
+		generate_header($data);
 		$this->_set_stock_info($data);
 		check_domain_discount();
+
+		//Alert Comment Info
+		$data['show_alert'] = false;
+		$alert_comment = $this->session->flashdata('alert_comment');
+		if($alert_comment)
+		{
+			$data['show_alert'] = true;
+			$data['alert_comment'] = $alert_comment;
+		}
+
 		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
-
 		display('cart',$data);		
-	}	
+	}
 
-	function add($productID)
+	function add($product_id)
 	{		
 		//Get the product using id
-		$product = $this->database->getProductbyId($productID);
+		$product = $this->database->getProductbyId($product_id);
 		if($product)
 		{			
 			$size = $this->input->post('size');
@@ -76,7 +85,7 @@ class cart extends CI_controller
 			{
 				$cart_item = array
 					(
-						'id' 	=> $productID,
+						'id' 	=> $product_id,
 						'qty'	=> '1',
 						'price' => $product['product_price'],
 						'name'  => $product['product_name'],
@@ -86,6 +95,8 @@ class cart extends CI_controller
 				$row_id = $this->cart->insert($cart_item);
 			}
 		}
+
+		$this->session->set_flashdata('alert_comment', $product['add_to_cart_comment']);
 		
 		redirect('cart');
 	}
@@ -172,6 +183,7 @@ class cart extends CI_controller
 
 			$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But anyway, we have made this game <strong>$discount_percentage%</strong> easier, just for you.<br><br>Happy gaming!" ;
 		}
+
 		notify_event('apply_discount', $params);
 	}
 }
