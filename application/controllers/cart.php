@@ -145,13 +145,13 @@ class cart extends CI_controller
 			$coupon = trim($this->input->post('coupon'));
 			$discount_percentage = $this->_getDiscount($coupon);
 			$this->cart->apply_discount($discount_percentage);
-			$this->_notify_discount_applied($discount_percentage);
+			$this->_notify_discount_applied($discount_percentage, $coupon);
 		}
 
 		redirect('cart');
 	}
 
-	function _notify_discount_applied($discount_percentage)
+	function _notify_discount_applied($discount_percentage, $coupon)
 	{
 		$username = $this->tank_auth->get_username() ? $this->tank_auth->get_username() : 'creature';
 		$domain_discount = get_current_user_discount_domain_info();
@@ -170,10 +170,20 @@ class cart extends CI_controller
 			$params['body'] = "We already gave you <strong>{$domain_discount['how_much']}%</strong> off because you belong to the lands of <strong>{$domain_discount['domain']}</strong>. Now dont push us, we cannot afford to give you anymore discount, that would be unfair for our people. Hope you understand.";
 		}
 		else
-		{
-			$params['title'] = "Cheat Code Applied $discount_percentage% off";
-
-			$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But anyway, we have made this game <strong>$discount_percentage%</strong> easier, just for you.<br><br>Happy gaming!" ;
+		{			
+			//Personalised message depending on cheat code applied
+			switch ($coupon)
+			{
+				case 'frapp_mode':
+					$params['title'] = "Cheat Code Applied $discount_percentage% off";
+					$params['body'] = "<strong>$username</strong>, We all have been through student life and we all know how important discounts are, wish frapp was there in our times as well. Enjoy your <strong>$discount_percentage%</strong> discount. <br><br>Happy gaming/debugging!" ;
+					break;
+				
+				default:
+					$params['title'] = "Cheat Code Applied $discount_percentage% off";
+					$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But anyway, we have made this game <strong>$discount_percentage%</strong> easier, just for you.<br><br>Happy gaming/debugging!" ;
+					break;
+			}			
 		}
 
 		notify_event('apply_discount', $params);
