@@ -179,6 +179,11 @@ class cart extends CI_controller
 					$params['body'] = "<strong>$username</strong>, We all have been through student life and we all know how important discounts are, wish frapp was there in our times as well. Enjoy your <strong>$discount_percentage%</strong> discount. <br><br>Happy gaming/debugging!" ;
 					break;
 				
+				case 'bin_mode':
+					$params['title'] = "Cheat Code Applied $discount_percentage% off";
+					$params['body'] = "Hello, <strong>earthling</strong>, a big thank you from BinBag and Psycho Store for being a responsible creature of earth. For all your good deeds we have applied <strong>$discount_percentage%</strong> discount just for you. <br><br>Happy gaming/debugging!" ;
+					break;					
+				
 				default:
 					$params['title'] = "Cheat Code Applied $discount_percentage% off";
 					$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But anyway, we have made this game <strong>$discount_percentage%</strong> easier, just for you.<br><br>Happy gaming/debugging!" ;
