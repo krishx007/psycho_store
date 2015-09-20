@@ -226,6 +226,8 @@ if(!function_exists('execute_events'))
 		{
 			foreach ($events as $event_name => $params)
 			{
+				$modal_params['timeout'] = 0;
+				$modal_params['button_text'] = 'Close';
 				switch ($event_name)
 				{
 					case 'login_done':
@@ -234,10 +236,8 @@ if(!function_exists('execute_events'))
 						{
 							$domain = $discount_domain['domain'];
 							$discount = $discount_domain['how_much'];
-							$modal_params['modal_title'] = $params['title'];
-							$modal_params['timeout'] = 0;
+							$modal_params['modal_title'] = $params['title'];							
 							$modal_params['modal_body']  = "We noticed that you hail from the lands of <strong>$domain.</strong> We have huge respect for creatures hailing from that land, because of which we will be giving you <strong>$discount%</strong> off on each and every purchase that you make from us.";
-
 							$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						}
 						break;
@@ -245,10 +245,17 @@ if(!function_exists('execute_events'))
 					case 'apply_discount':
 						$modal_params['modal_title'] = $params['title'];
 						$modal_params['modal_body']  = $params['body'];
-						$modal_params['timeout'] = 0;
+						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
+						break;						
+					
+					case 'show_cheat_code':
+						$modal_params['modal_title'] = $params['title'];
+						$modal_params['modal_body']  = $params['body'];
+						$modal_params['timeout'] = $params['timeout'];
+						$modal_params['button_text'] = 'Thanks, you guys rock';
 						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						break;
-					
+
 					case 'alert':
 						$alert['alert_text'] = $params['alert_text'];
 						$alert['timeout'] = 2000;

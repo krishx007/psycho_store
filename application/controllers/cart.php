@@ -59,11 +59,33 @@ class cart extends CI_controller
 		$num_items = $this->cart->total_items();
 		generate_header($data);
 		$this->_set_stock_info($data);
-		
+
 		check_domain_discount();
+
+		if($num_items)
+		{
+			$this->_show_cheat_code_after_timeout(20000);
+		}		
 
 		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
 		display('cart',$data);		
+	}
+
+	function _show_cheat_code_after_timeout($timeout)
+	{
+		$is_discount_applied = $this->cart->is_discount_applied();
+
+		if($is_discount_applied == false)
+		{
+			$username = $this->tank_auth->get_username() ? $this->tank_auth->get_username() : 'creature';
+
+			//Show cheat code hint after some seconds for hesistant buyers
+			$params['timeout'] = $timeout;
+			$params['title'] = "$username, Anything Wrong?";
+			$params['body'] = " Allow us to make it right. Apply this cheat code and the world around you will burn with jealousy, seeing you with this geeky awesomeness and yes you can thank us later.<br><br> <strong>upupdowndownleftrightleftrightba</strong> <br><br>Happy gaming/debugging!" ;
+
+			notify_event('show_cheat_code', $params);
+		}
 	}
 
 	function add($product_id)

@@ -10,7 +10,7 @@
         <p id="modal_body">  </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default text-center" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default text-center" data-dismiss="modal"><?php echo $button_text?></button>
       </div>
     </div>
   </div>
