@@ -13,7 +13,8 @@ $(function () {
 						<span class="col-md-5 pull-right play">
 							<form class="navbar-form" method = "post" action=<?php echo site_url('cart/applyDiscount')?>>
 					        	<div class="input-group">
-					          		<input type="text" name="coupon" data-toggle="tooltip" title= "<?php echo $cheat_hints ?>" data-placement="bottom" class="form-control input" placeholder="Cheat Code">
+					        		<span class="input-group-addon" id="hint-tooltip" data-toggle="tooltip" data-toggle="tooltip" title= "<?php echo $cheat_hints ?>" data-placement="bottom" > <i class="fa fa-lg fa-exclamation"></i></span>
+					          		<input type="text" name="coupon" class="form-control input" placeholder="Cheat Code">
 					          		<span class="input-group-btn"><button id="apply_discount" class="btn btn-primary btn" type="submit">Apply Cheat Code</button></span>
 					        	</div>
 					      	</form>
@@ -105,5 +106,5 @@ $(function () {
 				</span> </h1>
 			</div>
 		</div>
-	</div>	
+	</div>
 </body>

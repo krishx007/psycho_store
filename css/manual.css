@@ -256,11 +256,16 @@ input
 
 .footer-col
 {
-    margin-top: 20px;    
+    margin-top: 20px;
     margin-bottom: 40px;
 }
 
 .modal
 {
     color: #333;
+}
+
+.input-group-addon
+{
+    background-color: #fff;    
 }

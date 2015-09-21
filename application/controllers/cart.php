@@ -65,10 +65,10 @@ class cart extends CI_controller
 		if($num_items)
 		{
 			$this->_show_cheat_code_after_timeout(20000);
-		}		
+		}
 
 		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
-		display('cart',$data);		
+		display('cart',$data);
 	}
 
 	function _show_cheat_code_after_timeout($timeout)
@@ -93,7 +93,7 @@ class cart extends CI_controller
 		//Get the product using id
 		$product = $this->database->getProductbyId($product_id);
 		if($product)
-		{			
+		{
 			$size = $this->input->post('size');
 			if($size)
 			{
@@ -124,11 +124,11 @@ class cart extends CI_controller
 	}
 
 	function update()
-	{		
+	{
 		foreach ($this->cart->contents() as $items)
 		{
 			if( $this->input->post($items['rowid']) != (string)FALSE)
-			{				
+			{
 				$id = $items['rowid'];
 				$quant = (int)$this->input->post($items['rowid']);
 
@@ -142,7 +142,7 @@ class cart extends CI_controller
 	}
 
 	function _getDiscount($coupon)
-	{		
+	{
 		$discount = $this->database->GetDiscountCoupon($coupon);
 		
 		if(count($discount) > 0)
@@ -153,7 +153,7 @@ class cart extends CI_controller
 				return $discount['how_much'];
 			}
 		}
-		return 0;	
+		return 0;
 	}	
 
 	function applyDiscount()
