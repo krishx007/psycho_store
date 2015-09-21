@@ -82,7 +82,7 @@ class cart extends CI_controller
 			//Show cheat code hint after some seconds for hesistant buyers
 			$params['timeout'] = $timeout;
 			$params['title'] = "$username, Anything Wrong?";
-			$params['body'] = " Allow us to make it right. Apply this cheat code and the world around you will burn with jealousy, seeing you with this geeky awesomeness and yes you can thank us later.<br><br> <strong>upupdowndownleftrightleftrightba</strong> <br><br>Happy gaming/debugging!" ;
+			$params['body'] = " Allow us to make it right. Apply this konami cheat code and the world around you will burn with jealousy, seeing you with this geeky awesomeness and yes you can thank us later.<br><br> <strong>upupdowndownleftrightleftrightba</strong> <br><br>Happy gaming/debugging!" ;
 
 			notify_event('show_cheat_code', $params);
 		}
