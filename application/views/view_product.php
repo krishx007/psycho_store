@@ -59,7 +59,7 @@
           </form> 
           <div class="col-md-12">
              <h5 class=""><a class="" href= <?php echo site_url('shipping_returns')?> >Free shipping + 365 days return</a></h5>
-          </div>                       
+          </div>
         </div>
         <hr>
         <div class="row ">

@@ -25,7 +25,7 @@ class cart extends CI_controller
 
 	//make sure user cant enter more than available stock qty
 	function _set_stock_info(&$data)
-	{
+	{		
 		foreach ($this->cart->contents() as $items)
 		{
 			$prod_id = $items['id'];
@@ -46,7 +46,7 @@ class cart extends CI_controller
 
 			
 			if($items['qty'] > $size_in_stock)
-				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";				
+				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";
 
 			$data['products'][$prod_id] = $product;
 		}
@@ -138,6 +138,16 @@ class cart extends CI_controller
 			}
 		}
 
+		//If discount is applied, do a conditional-check again
+		if($this->cart->is_discount_applied())
+		{
+			$coupon = $this->cart->get_applied_discount_coupon();
+			if($this->_cheat_code_precheck($coupon) == false)
+			{
+				$this->cart->remove_discount();
+			}
+		}		
+
 		redirect('cart');
 	}
 
@@ -158,19 +168,47 @@ class cart extends CI_controller
 
 	function applyDiscount()
 	{
-		$coupon = trim($this->input->post('coupon'));
-		//Log coupon to see people apply
-		$this->database->SaveCheatCode($coupon);
+		$coupon = trim($this->input->post('coupon'));		
 		
 		if($coupon != (string)FALSE)
-		{			
-			$coupon = trim($this->input->post('coupon'));
-			$discount_percentage = $this->_getDiscount($coupon);
-			$this->cart->apply_discount($discount_percentage);
+		{
+			//Log coupon to see people apply
+			$this->database->SaveCheatCode($coupon);			
+			$discount_percentage = 0;
+
+			//Run some conditional-check for code
+			if($this->_cheat_code_precheck($coupon))
+			{
+				$discount_percentage = $this->_getDiscount($coupon);
+				$this->cart->apply_discount($coupon, $discount_percentage);				
+			}
+
 			$this->_notify_discount_applied($discount_percentage, $coupon);
 		}
 
 		redirect('cart');
+	}
+
+	function _cheat_code_precheck($coupon)
+	{
+		$check_result = false;
+
+		switch ($coupon)
+		{
+			case 'godmode':
+				//Should be applied on purchase of only one tshirt
+				if($this->cart->total_items() == 1)
+				{
+					$check_result = true;
+				}
+				break;
+			
+			default:
+				$check_result = true;
+				break;
+		}
+
+		return $check_result;
 	}
 
 	function _notify_discount_applied($discount_percentage, $coupon)
