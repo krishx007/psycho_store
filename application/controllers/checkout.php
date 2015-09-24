@@ -515,6 +515,14 @@ class checkout extends CI_controller
 			//Update database
 			$this->database->ModifyProduct($product);
 			$this->database->AddOrderItem($order_item);
+
+			//Store consumed cheat_codes
+			if($this->cart->is_discount_applied())
+			{
+				$disc_info = $this->cart->discount_info();
+				$this->database->ConsumeCheatCode($disc_info['coupon'], $disc_info['percentage']);	
+			}
+			
 		}
 
 		//Destroy stuff now
