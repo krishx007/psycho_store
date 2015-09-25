@@ -25,7 +25,7 @@ class cart extends CI_controller
 
 	//make sure user cant enter more than available stock qty
 	function _set_stock_info(&$data)
-	{		
+	{
 		foreach ($this->cart->contents() as $items)
 		{
 			$prod_id = $items['id'];
@@ -168,7 +168,7 @@ class cart extends CI_controller
 
 	function applyDiscount()
 	{
-		$coupon = trim($this->input->post('coupon'));		
+		$coupon = strtolower( trim($this->input->post('coupon')) );
 		
 		if($coupon != (string)FALSE)
 		{

@@ -520,8 +520,8 @@ class CI_Cart {
 		unset($cart['total_items']);
 		unset($cart['cart_total']);
 		unset($cart['final_price']);
-		//unset($cart['discount']);
-		//unset($cart['discount_coupon']);
+		unset($cart['discount']);
+		unset($cart['discount_coupon']);
 
 		return $cart;
 	}

@@ -258,7 +258,7 @@ if(!function_exists('execute_events'))
 
 					case 'alert':
 						$alert['alert_text'] = $params['alert_text'];
-						$alert['timeout'] = 2000;
+						$alert['timeout'] = $params['timeout'];
 						$data['scripts'][] = array('path' => 'events/alert', 'params' => $alert);
 						break;						
 						
