@@ -556,12 +556,11 @@ class Database extends CI_Model
 		$this->db->insert('applied_cheat_codes', $code_info);
 	}
 
-	function ConsumeCheatCode($code, $percentage)
+	function ConsumeCode($code)
 	{
-		$code_info['cheat_code'] = $code;
-		$code_info['percentage'] = $percentage;
-
-		$this->db->insert('consumed_codes', $code_info);
+		$this->db->set('use_count', 'use_count + 1', FALSE);
+		$this->db->where('coupon', $code);
+		$this->db->update('discount_coupons');
 	}
 
 	function GetConsumedCheatCodes($code = null, $count = null)
