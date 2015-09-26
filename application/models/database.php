@@ -563,23 +563,6 @@ class Database extends CI_Model
 		$this->db->update('discount_coupons');
 	}
 
-	function GetConsumedCheatCodes($code = null, $count = null)
-	{
-		if($count)
-		{
-			$this->db->limit($count);
-		}
-
-		if($code)
-		{
-			$this->db->where('cheat_code', $code);
-		}
-
-		$query = $this->db->get('consumed_codes');
-		return $query->result_array();
-	}
-
-
 	function GetCheatCodes($code = null, $count = null)
 	{
 		if($count)

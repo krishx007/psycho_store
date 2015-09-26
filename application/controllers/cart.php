@@ -208,7 +208,6 @@ class cart extends CI_controller
 		switch ($coupon)
 		{
 			case 'godmode_frapp':
-				$code_consumed = $this->database->GetConsumedCheatCodes('godmode_frapp');
 				//Should be applied on purchase of only one tshirt
 				if($this->cart->total_items() == 1)
 				{
@@ -216,8 +215,7 @@ class cart extends CI_controller
 				}
 				break;
 			
-			case 'godmode_psycho':
-				$code_consumed = $this->database->GetConsumedCheatCodes('godmode_psycho');
+			case 'godmode_psycho':				
 				//Should be applied on purchase of only one tshirt
 				if($this->cart->total_items() == 1)
 				{
