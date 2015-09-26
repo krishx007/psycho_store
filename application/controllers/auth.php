@@ -86,11 +86,7 @@ class Auth extends CI_Controller
 
 	function _redirect($url)
 	{
-		$redirect_url = '';
-		if($url != (string)FALSE)
-		{
-			$redirect_url = $url;
-		}
+		$redirect_url = $url != (string)FALSE ? $redirect_url = $url : '';
 
 		$this->_post_login($redirect_url);
 	}
