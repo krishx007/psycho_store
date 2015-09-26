@@ -142,7 +142,7 @@ class cart extends CI_controller
 		if($this->cart->is_discount_applied())
 		{
 			$coupon = $this->cart->get_applied_discount_coupon();
-			if($this->_cheat_code_precheck($coupon) == false)
+			if($this->_can_apply_code($coupon) == false)
 			{
 				$this->cart->remove_discount();
 			}
@@ -175,9 +175,10 @@ class cart extends CI_controller
 			//Log coupon to see people apply
 			$this->database->SaveCheatCode($coupon);			
 			$discount_percentage = 0;
+			$coupon_info = $this->database->GetDiscountCoupon($coupon);
 
 			//Run some conditional-check for code
-			if($this->_cheat_code_precheck($coupon))
+			if($this->_can_apply_code($coupon_info))
 			{
 				$discount_percentage = $this->_getDiscount($coupon);
 				$this->cart->apply_discount($coupon, $discount_percentage);				
@@ -189,16 +190,27 @@ class cart extends CI_controller
 		redirect('cart');
 	}
 
-	function _cheat_code_precheck($coupon)
+	function _can_apply_code($coupon_info)
 	{
 		$check_result = false;
+		$coupon = $coupon_info['coupon'];
+		$use_limit = $coupon_info['use_limit'];
+		$use_count = $coupon_info['use_count'];
+
+		$can_use = $use_limit ? ($use_count < $use_limit) : true;
+		
+		if($can_use == false)
+		{
+			//Use Limit over
+			return false;
+		}
 
 		switch ($coupon)
 		{
 			case 'godmode_frapp':
 				$code_consumed = $this->database->GetConsumedCheatCodes('godmode_frapp');
 				//Should be applied on purchase of only one tshirt
-				if($this->cart->total_items() == 1 && count($code_consumed) < 1)
+				if($this->cart->total_items() == 1)
 				{
 					$check_result = true;
 				}
@@ -207,7 +219,7 @@ class cart extends CI_controller
 			case 'godmode_psycho':
 				$code_consumed = $this->database->GetConsumedCheatCodes('godmode_psycho');
 				//Should be applied on purchase of only one tshirt
-				if($this->cart->total_items() == 1 && count($code_consumed) < 1)
+				if($this->cart->total_items() == 1)
 				{
 					$check_result = true;
 				}
