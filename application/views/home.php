@@ -20,7 +20,8 @@
 	</div>
 	<div class="row top-bottom-space">
 		<div class="col-md-12">
-		<h5>We would love to hear what you think about us or drop us some <a href= <?php echo site_url('auth/saysomething')?> >feedback</a></h5>
+		<h2 class="molot">Any Suggestions / feedback?</h2>
+		<h5>We would love to hear what you think about us or drop us some <a href= <?php echo site_url('auth/saysomething')?> >feedback</a>.</h5>
 		<hr>
 			<?php $this->load->view('disqus_script')?>
 		</div>
