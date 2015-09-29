@@ -18,4 +18,11 @@
 			<?php $data['products'] = $products; $this->load->view('catalog',$data);?>
 		</div>
 	</div>
+	<div class="row top-bottom-space">
+		<div class="col-md-12">
+		<h5>We would love to hear what you think about us or drop us some <a href= <?php echo site_url('auth/saysomething')?> >feedback</a></h5>
+		<hr>
+			<?php $this->load->view('disqus_script')?>
+		</div>
+	</div>	
 </div>

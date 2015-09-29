@@ -6,6 +6,10 @@ if(isset($product))
 {
   $disqus_url = base_url()."product/$product[product_id]";
 }
+else
+{
+  $disqus_url = current_url();
+}
 ?>
 
 <script type="text/javascript">  
