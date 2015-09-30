@@ -106,7 +106,9 @@ function post(path, params, method)
   	//Generate post_url
   	var form_url = document.getElementById('login_form').getAttribute('action');
   	var redirect_url = form_url.split('?');
-  	var post_url = "external_auth"+"?"+redirect_url[1];    
+    var uri_string = '<?php echo uri_string(); ?>';
+    var base_url = uri_string.includes('auth') ? "external_auth" : "auth/external_auth";
+  	var post_url = base_url + "?" + redirect_url[1];    
 
     FB.api('/me', { fields : 'friends, email'}, function(response)
     {    	

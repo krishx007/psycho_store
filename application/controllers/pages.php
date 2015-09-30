@@ -10,6 +10,7 @@ class Pages extends CI_controller
 		$this->load->model('database');
 		$this->load->helper('url');
 		$this->load->helper('html');
+		$this->load->helper('form');
 		$this->load->helper('psycho_helper');
 		$this->load->helper('mailgun_helper');
 		$this->load->library('tank_auth');
@@ -18,7 +19,7 @@ class Pages extends CI_controller
 	}
 
 	function index()
-	{		
+	{
 		$this->latest('all');
 	}
 
@@ -102,6 +103,11 @@ class Pages extends CI_controller
 	function GetRecentlyViewed()
 	{
 		return $this->session->userdata('recently_viewed');
+	}
+
+	function giveaways()
+	{
+		display('view_giveaway', null);
 	}
 
 	function feedback()

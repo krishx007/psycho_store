@@ -49,6 +49,7 @@ $route['about'] = 'pages/about/';
 $route['media'] = 'pages/media/';
 $route['popular'] = 'pages/popular/';
 $route['feedback'] = 'pages/feedback/';
+$route['giveaways'] = 'pages/giveaways/';
 $route['beta'] = 'pages/beta/';
 $route['404_override'] = '';
 

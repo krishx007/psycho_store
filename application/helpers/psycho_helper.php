@@ -236,7 +236,7 @@ if(!function_exists('execute_events'))
 						{
 							$domain = $discount_domain['domain'];
 							$discount = $discount_domain['how_much'];
-							$modal_params['modal_title'] = $params['title'];							
+							$modal_params['modal_title'] = $params['title'];
 							$modal_params['modal_body']  = "We noticed that you hail from the lands of <strong>$domain.</strong> We have huge respect for creatures hailing from that land, because of which we will be giving you <strong>$discount%</strong> off on each and every purchase that you make from us.";
 							$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						}
@@ -246,7 +246,7 @@ if(!function_exists('execute_events'))
 						$modal_params['modal_title'] = $params['title'];
 						$modal_params['modal_body']  = $params['body'];
 						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
-						break;						
+						break;
 					
 					case 'show_cheat_code':
 						$modal_params['modal_title'] = $params['title'];
@@ -256,11 +256,17 @@ if(!function_exists('execute_events'))
 						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
 						break;
 
+					case 'register_cart':
+						$modal_params['modal_title'] = $params['title'];
+						$modal_params['modal_body']  = $params['body'];
+						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
+						break;
+
 					case 'alert':
 						$alert['alert_text'] = $params['alert_text'];
 						$alert['timeout'] = $params['timeout'];
 						$data['scripts'][] = array('path' => 'events/alert', 'params' => $alert);
-						break;						
+						break;
 						
 					default:
 						# code...
@@ -336,6 +342,9 @@ function _live($page, $data)
 		case 'feedback_wall':
 			$body = $ci->load->view('feedback_wall', $data, true);
 			break;
+		case 'view_giveaway':
+			$body = $ci->load->view('view_giveaway', $data, true);
+			break;						
 		case 'contact':
 			$body = $ci->load->view('view_contact', $data, true);
 			break;
