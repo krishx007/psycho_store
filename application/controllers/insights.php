@@ -199,10 +199,13 @@ class insights extends CI_Controller
 		}
 
 		$total_products = 0;
-		foreach ($orders as $key => $order)
-		{		
-			$order_items = $order['order_items'];			
-			$total_products += count($order_items);
+		if($orders)
+		{
+			foreach ($orders as $key => $order)
+			{
+				$order_items = $order['order_items'];			
+				$total_products += count($order_items);
+			}
 		}
 
 		$month_info['total_products'] = $total_products;
