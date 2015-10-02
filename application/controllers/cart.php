@@ -64,7 +64,7 @@ class cart extends CI_controller
 
 		if($num_items)
 		{
-			$this->_show_cheat_code_after_timeout(20000);
+			$this->_show_cheat_code_after_timeout(25000);
 		}
 
 		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
