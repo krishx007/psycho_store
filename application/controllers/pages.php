@@ -130,14 +130,15 @@ class Pages extends CI_controller
 			$next = $prev = 0;
 			$this->GetNextPreviousIds($result['product_id'], $next, $prev, $total_products);
 			$data['product'] = $result;
-			$data['total_products'] = $total_products;	
+			$data['total_products'] = $total_products;
+			$data['product_state'] = $result['product_state'];
 			$data['next_id'] = product_url( $this->database->GetProductById($next), false );
 			$data['prev_id'] = product_url( $this->database->GetProductById($prev), false );
 			$data['small_stock']="";
 			$data['medium_stock']="";
 			$data['large_stock']="";
 			$data['xl_stock']="";
-			$data['size_chart'] = site_url($this->config->item('size_chart'));
+			$data['size_chart'] = site_url($this->config->item('size_chart'));			
 
 			if($result['product_count_small'] <= 0)
 				$data['small_stock'] = 'disabled';

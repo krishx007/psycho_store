@@ -11,6 +11,25 @@
   </div>
 </div>
 
+<div class="modal fade" id="preorder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="molot modal-title text-center" id="modal_title"> Grab this loot before it vanishes </h4>
+      </div>
+      <div class="modal-body">
+        <h5>Ques : Why should i pre-order?<br><br>
+        Ans : Look at the loot, just look at it damn it. You know how many mercenaries have been hired to snatch this loot from us and you ask why should you pre-order. Our production minions are playing with their lives here to get you this loot and for that we need your confirmation as there is a limit to everything.<br><br>So pre-order this right now and we start shipping from <strong>9th october</strong>.
+        </h5>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default text-center" data-dismiss="modal">Hell Yeah! I Want One.</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
   <div class="section">
     <div class="top-bottom-space">
@@ -29,7 +48,7 @@
         </li>
       </ul>
       <div class="col-md-6 text-center">
-        <img class="" src = <?php echo site_url("{$product['product_image_path']}") ?> >
+        <img id="prod_img" class="" src = <?php echo site_url("{$product['product_image_path']}") ?> >
         <?php echo $this->load->view('view_product_social', null); ?>
       </div>
       <div class="col-md-4">
@@ -42,8 +61,12 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <h5><a class="inline" href='#size_chart' data-toggle='modal' data-target="#size_chart">size chart</a> </h5>
-          </div>             
+            <h5><a class="inline" href='#size_chart' data-toggle='modal' data-target="#size_chart">size chart</a> 
+            <?php if($product_state == 'preorder'): ?>
+              <span class="pull-right"><a class="inline" href='#preorder' data-toggle='modal' data-target="#preorder">Why Pre-order?</a> </span>
+            <?php endif; ?>  
+            </h5>
+          </div>
           <div class="col-md-4">
             <form  method = "post" action = <?php echo site_url("cart/add/{$product['product_id']}")?> role="form">
               <select class="form-control" name="size">
@@ -54,7 +77,8 @@
               </select>
             </div>  
             <div class="col-md-8">
-              <button type="submit" name = "add_to_cart" id="add_to_cart" class="btn btn-primary btn-block">Add To Cart</button>
+              <?php $button_text = $product_state == 'live' ? 'Add To Cart' : 'Pre-Order'?>              
+              <button type="submit" name = "add_to_cart" id="add_to_cart" class="btn btn-primary btn-block"><?php echo $button_text?></button>
             </div>
           </form> 
           <div class="col-md-12">
