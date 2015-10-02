@@ -226,8 +226,9 @@ if(!function_exists('execute_events'))
 		{
 			foreach ($events as $event_name => $params)
 			{
-				$modal_params['timeout'] = 0;
-				$modal_params['button_text'] = 'Close';
+				$script_params['timeout'] = 0;
+				$script_params['button_text'] = 'Close';
+				$script_params['event_name'] = $event_name;
 				switch ($event_name)
 				{
 					case 'login_done':
@@ -236,38 +237,39 @@ if(!function_exists('execute_events'))
 						{
 							$domain = $discount_domain['domain'];
 							$discount = $discount_domain['how_much'];
-							$modal_params['modal_title'] = $params['title'];
-							$modal_params['modal_body']  = "We noticed that you hail from the lands of <strong>$domain.</strong> We have huge respect for creatures hailing from that land, because of which we will be giving you <strong>$discount%</strong> off on each and every purchase that you make from us.";
-							$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
+							$script_params['modal_title'] = $params['title'];
+							$script_params['modal_body']  = "We noticed that you hail from the lands of <strong>$domain.</strong> We have huge respect for creatures hailing from that land, because of which we will be giving you <strong>$discount%</strong> off on each and every purchase that you make from us.";
+							$data['scripts'][] = array('path' => 'events/modal', 'params' => $script_params);
 						}
 						break;
 
 					case 'apply_discount':
-						$modal_params['modal_title'] = $params['title'];
-						$modal_params['modal_body']  = $params['body'];
-						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
+						$script_params['modal_title'] = $params['title'];
+						$script_params['modal_body']  = $params['body'];
+						
+						$data['scripts'][] = array('path' => 'events/modal', 'params' => $script_params);
 						break;
 					
 					case 'show_cheat_code':
-						$modal_params['modal_title'] = $params['title'];
-						$modal_params['modal_body']  = $params['body'];
-						$modal_params['timeout'] = $params['timeout'];
-						$modal_params['button_text'] = 'Thanks, you guys rock';
-						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
+						$script_params['modal_title'] = $params['title'];
+						$script_params['modal_body']  = $params['body'];
+						$script_params['timeout'] = $params['timeout'];
+						$script_params['button_text'] = 'Thanks, you guys rock';
+						$data['scripts'][] = array('path' => 'events/modal', 'params' => $script_params);
 						break;
 
 					case 'register_cart':
-						$modal_params['modal_title'] = $params['title'];
-						$modal_params['modal_body']  = $params['body'];
-						$data['scripts'][] = array('path' => 'events/modal', 'params' => $modal_params);
+						$script_params['modal_title'] = $params['title'];
+						$script_params['modal_body']  = $params['body'];
+						$data['scripts'][] = array('path' => 'events/modal', 'params' => $script_params);
 						break;
 
 					case 'alert':
-						$alert['alert_text'] = $params['alert_text'];
-						$alert['timeout'] = $params['timeout'];
-						$data['scripts'][] = array('path' => 'events/alert', 'params' => $alert);
+						$script_params['alert_text'] = $params['alert_text'];
+						$script_params['timeout'] = $params['timeout'];
+						$data['scripts'][] = array('path' => 'events/alert', 'params' => $script_params);
 						break;
-						
+
 					default:
 						# code...
 						break;
@@ -425,16 +427,18 @@ function _live($page, $data)
 			show_404();
 		break;
 	}
+	
+	execute_events($data);
 
-	//Show footer
-	$footer = $ci->load->view('footer', $data, true);
-	$data['header'] = $header;
-	$data['body'] = $body;
-	$data['footer'] = $footer;
+	$data['custom_events'] = $ci->load->view('custom_events', $data, true);
 	$data['external_scripts'] = $ci->load->view('external_scripts', null, true);
 	$data['event_tracking'] = $ci->load->view('event_tracking', null, true);
 
-	execute_events($data);
+	$footer = $ci->load->view('footer', $data, true);
+
+	$data['header'] = $header;
+	$data['body'] = $body;
+	$data['footer'] = $footer;
 
 	$ci->load->view('main_view', $data);
 }

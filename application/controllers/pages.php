@@ -40,7 +40,7 @@ class Pages extends CI_controller
 	}	
 
 	function GenerateSuggestions($product, $howmany)
-	{		
+	{
 		$exception[] = $product;
 		$suggested_products = $this->database->GetRandomProducts($howmany,'all', 'all', $exception);
 		return $suggested_products;

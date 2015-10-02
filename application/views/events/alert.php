@@ -1,14 +1,16 @@
 <script type="text/javascript">
-  window.onload= function()
-  {
-    setTimeout(show_alert, '<?php echo $timeout; ?>');
-  }
+	window.addEventListener('load', init);
+	
+	function init()
+	{
+		setTimeout(show_alert, '<?php echo $timeout; ?>');
+	}
 
-  function show_alert()
-  {
-	var div = document.getElementById('alert');
-    if(div)
-    {
+	function show_alert()
+	{
+		var div = document.getElementById('alert');
+	if(div)
+	{
 		div.setAttribute('class', 'alert alert-warning alert-dismissible fade in');		
 		div.setAttribute('role', 'alert');
 		var btn = document.createElement("BUTTON");		
@@ -22,6 +24,6 @@
 		btn.appendChild(span);
 		div.appendChild(btn);
 		div.innerHTML += '<?php echo $alert_text?>';
-    }
-  }
+	}
+	}
 </script>

@@ -4,10 +4,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="molot modal-title text-center" id="modal_title">  </h4>
+        <h4 class="molot modal-title text-center" id= '<?php echo $event_name."_title" ?>' >  </h4>
       </div>
       <div class="modal-body">
-        <p id="modal_body">  </p>
+        <p id= '<?php echo $event_name."_body" ?>' >  </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default text-center" data-dismiss="modal"><?php echo $button_text?></button>
@@ -17,12 +17,16 @@
 </div>
 
 <script type="text/javascript">
-  window.onload= function()
+  window.addEventListener('load', init);
+
+  function init()
   {
-    var title = document.getElementById('modal_title');
+    var tile_id = '<?php echo $event_name.'_title'?>';
+    var title = document.getElementById(tile_id);
     title.innerHTML= '<?php echo $modal_title ?>';
-    
-    var body =  document.getElementById('modal_body');
+
+    var body_id = '<?php echo $event_name.'_body'?>';
+    var body =  document.getElementById(body_id);
     body.innerHTML= '<?php echo $modal_body ?>';
     
     setTimeout(function(){ $('#modal').modal('show'); }, <?php echo $timeout; ?>);

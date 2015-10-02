@@ -235,7 +235,7 @@ class cart extends CI_controller
 	{
 		$username = $this->tank_auth->get_username() ? $this->tank_auth->get_username() : 'creature';
 		$domain_discount = get_current_user_discount_domain_info();
-		
+
 		//Notify event for modal pop up
 		if($discount_percentage == 0)
 		{
