@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+<div class="modal fade" id= '<?php echo $event_name?>' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -21,14 +21,16 @@
 
   function init()
   {
-    var tile_id = '<?php echo $event_name.'_title'?>';
+    var event_name = '<?php echo $event_name?>';
+    var modal_name = '#' + event_name;    
+    var tile_id = event_name + '_title';
     var title = document.getElementById(tile_id);
-    title.innerHTML= '<?php echo $modal_title ?>';
-
+    title.innerHTML= '<?php echo $modal_title ?>';    
+   
     var body_id = '<?php echo $event_name.'_body'?>';
     var body =  document.getElementById(body_id);
     body.innerHTML= '<?php echo $modal_body ?>';
     
-    setTimeout(function(){ $('#modal').modal('show'); }, <?php echo $timeout; ?>);
+    setTimeout( function(){ $(modal_name).modal('show'); } , <?php echo $timeout; ?>);
   }
 </script>
