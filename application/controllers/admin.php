@@ -120,6 +120,7 @@ class admin extends CI_controller
 		$data['courier_logo'] = site_url($this->config->item('delhivery_logo'));
 		$data['wb_barcode'] = $label['barcode'];
 		$data['oid_barcode'] = $label['oid_barcode'];
+		$data['name'] = $shipment['address']['first_name'];
 		$data['address'] = format_address($shipment['address']);
 		$data['city'] = $shipment['address']['city'];
 		$data['pin'] = $shipment['address']['pincode'];

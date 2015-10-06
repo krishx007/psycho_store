@@ -45,6 +45,8 @@
 </tr>
     <td colspan="2" align='center'>
         <h1> Handle With Care </h1>
+        <h5>Minions : "<?php echo $name ?>, we send each and every order with extreme love.<br> Actually seeing you using it makes us very happy.<br> So take a pic with this merchandise and share it with us. That will make our day."</h5>
+
     </td>
 <tr> 
 </tr>
