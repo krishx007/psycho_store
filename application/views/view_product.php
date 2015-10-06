@@ -48,7 +48,7 @@
         </li>
       </ul>
       <div class="col-md-6 text-center">
-        <img id="prod_img" class="" src = <?php echo site_url("{$product['product_image_path']}") ?> >
+        <?php echo $this->load->view('view_product_image')?>
         <?php echo $this->load->view('view_product_social', null); ?>
       </div>
       <div class="col-md-4">

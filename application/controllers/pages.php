@@ -138,7 +138,8 @@ class Pages extends CI_controller
 			$data['medium_stock']="";
 			$data['large_stock']="";
 			$data['xl_stock']="";
-			$data['size_chart'] = site_url($this->config->item('size_chart'));			
+			$data['size_chart'] = site_url($this->config->item('size_chart'));
+			$data['images'] = get_product_image($result['product_id']);
 
 			if($result['product_count_small'] <= 0)
 				$data['small_stock'] = 'disabled';
@@ -147,7 +148,7 @@ class Pages extends CI_controller
 			if($result['product_count_large'] <= 0)
 				$data['large_stock'] = 'disabled';
 			if($result['product_count_xl'] <= 0)
-				$data['xl_stock'] = 'disabled';			
+				$data['xl_stock'] = 'disabled';
 			
 			//Generate Suggestions
 			$data['suggested_products'] = $this->GenerateSuggestions($result, 3);

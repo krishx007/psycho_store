@@ -133,6 +133,20 @@ if(!function_exists('product_url'))
 	}
 }
 
+function get_product_image($prod_id)
+{
+	$ci = &get_instance();
+	$ci->load->helper('directory');
+	$images = directory_map("images/product/$prod_id");
+
+	foreach ($images as $key => $img)
+	{
+		$final_images[] = "images/product/$prod_id/$img";
+	}
+	
+	return $final_images;
+}
+
 function _add_address_and_user_to_orders(&$orders)
 {
 	$ci = &get_instance();
