@@ -1,7 +1,9 @@
 <div class="row well">
 	<div class="col-md-3 col-xs-3">
-		<div class="fb-like" data-href=<?php echo $url ?> data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-	</div>
+		<?php $src = "http://www.facebook.com/plugins/like.php?href=$url&layout=button_count&action=like&show_faces=false&share=true&height=21&appId=601282446622582" ?>
+		<iframe src="<?php echo $src ?>" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px; width:135px;" allowTransparency="true">
+	    </iframe>
+    </div>
 	<div class="col-md-3 col-xs-3">
 		<a class="twitter-share-button" href=<?php echo $url?> data-size="medium"></a>
 	</div>
