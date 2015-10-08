@@ -10,16 +10,16 @@
 	<hr>
 	<div class="well">
 		<div class="row">			
-			<?php if($shipping_available == false): ?>
+<!-- 			<?php //if($shipping_available == false): ?>
 				<div class="col-md-4">
 					<h1>Shipping To</h1>
-					<h4> <?php echo $address;?> </h4>
+					<h4> <?php // echo $address;?> </h4>
 				</div>
 				<div class="col-md-8">
 					<h1>Sorry</h1>
 					<p> Note : We have no idea where your realm is. We have deployed our scout minions in search of your address. But until then go back and try some other adrress, or send us a mail at <a href="mailto:contact@psychostore.in">contact@psychostore.in</a> for a personal delivery (no extra charges).</p>
 				</div>
-			<?php else: ?>
+			<?php// else: ?> -->
 			<div id="alert"></div>
 			<div class="col-md-4">
 				<h1>Shipping To</h1>
@@ -46,13 +46,13 @@
 						<p> Note : Cash On Delivery Service not available for your address</p>
 				<?php endif; ?>			
 			</div>
-			<?php endif; //We dont deliver at this address ?>	
+			<?php //endif; //We dont deliver at this address ?>	
 		</div>
 	</div>
 	Note : Placing the order implies you agree to our <a href = <?php echo site_url('shipping_returns') ?> > 365 days Shipping and Returns policy </a>
-	<?php if($shipping_available == true): ?>
+	<?php //if($shipping_available == true): ?>
 		<button class="btn btn-primary pull-right" type="submit"> Place Order | <i class="fa fa-rupee"></i>  <?php echo $this->cart->final_price();?> <i class="fa fa-arrow-right"></i></button>
-	<?php endif; ?>	
+	<?php //endif; ?>	
 	</form>
 </div>
 </body>
