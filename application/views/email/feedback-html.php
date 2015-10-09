@@ -9,17 +9,15 @@
 <td align="left" width="95%" style="font: 13px/18px Arial, Helvetica, sans-serif;">
 <h2 style="font: normal 20px/23px Arial, Helvetica, sans-serif; margin: 0; padding: 0 0 18px; color: black;"><?php echo $username?>, Psycho Store says "Thank You"</h2>
 
-We hope that you have fallen in love with your Psycho Store merchandise.
-<br>
-Just wanted to say a big <b>'Thank you'</b> for ordering from us.
+The minions who were responsible for handling your order have been imprisoned and we won't be giving them any bananas until and unless you confirm us you have fallen in love with your merchandise.
 <br>
 <br>
-Do leave us some <a href="psychostore.in/auth/saysomething">feedback</a>. We would love to know what you think of us and how we can improve.
+<a href="psychostore.in/auth/saysomething">Free the minions</a>.
 <br>
 <br>
-<b>Steps to unlock discount and earn cheat codes</b><br>
-1. Show off your gaming/geeky side with your psychostore merchandise on social media.<br>
-2. Dont forget to tag us.<br><br>
+<b>We would absolutely love to see you with your psychostore merchandise</b><br>
+1. Click your pic with your merchandise.<br>
+2. Share it with us.<br><br>
 Leave the rest to us, we will make sure that you unlock some good discount on your next order.
 <br>
 <br>
