@@ -33,6 +33,7 @@ $lang['auth_message_unregistered'] = 'Your account has been deleted...';
 $lang['auth_subject_shipped'] = '%s, Order ID : %s has been shipped';
 $lang['auth_subject_order'] = 'Order ID : %s';
 $lang['auth_subject_first_order'] = '%s, so it begins';
+$lang['auth_subject_second_order'] = '%s, so it continues';
 $lang['auth_subject_cart_reminder'] = '%s, We remember you!';
 $lang['auth_subject_feedback'] = '%s, Psycho Store says "Thank You"';
 $lang['auth_subject_subscribe'] = 'Stuff for Gamers and Geeks';

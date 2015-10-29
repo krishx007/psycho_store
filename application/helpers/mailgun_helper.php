@@ -39,6 +39,15 @@ if(!function_exists('mg_create_mail_params'))
 				$data['reply_to'] = 'contact@psychostore.in';
 			break;
 
+			case 'second_order':
+				$subject_var = $data['username'];
+				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);
+				$data['from'] = 'Psycho Store<email@mails.psychostore.in>';
+				$data['domain'] = 'mails.psychostore.in';
+				$data['campaign_id'] = null;
+				$data['reply_to'] = 'contact@psychostore.in';
+			break;			
+
 			case 'order':
 				$subject_var = $data['order_id'];
 				$data['subject'] = sprintf($ci->lang->line('auth_subject_'.$type), $subject_var);

@@ -408,6 +408,11 @@ class checkout extends CI_controller
 				$params = mg_create_mail_params('first_order', $data);
 				mg_send_mail($user['email'], $params);
 				break;
+
+			case '2':
+				$params = mg_create_mail_params('second_order', $data);
+				mg_send_mail($user['email'], $params);
+				break;
 			
 			default:
 				# code...
