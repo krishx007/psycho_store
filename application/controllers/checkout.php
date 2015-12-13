@@ -382,8 +382,21 @@ class checkout extends CI_controller
 
 	function _reward_user($order_info)
 	{
-		$user = $order_info['user'];		
-		$points = $user['points'] + $order_info['amount']/10;
+		$user = $order_info['user'];
+		$divider = 10;
+
+		switch ($order_info['payment_mode'])
+		{
+			case 'pre-paid':
+				$divider = 10;	//10%
+				break;
+			
+			case 'cod':
+				$divider = 20;	//5%
+				break;
+		}
+		
+		$points = $user['points'] + $order_info['amount']/$divider;
 		$this->database->RewardUser($order_info['user_id'], $points);
 	}
 
