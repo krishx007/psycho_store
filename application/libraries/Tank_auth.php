@@ -161,14 +161,14 @@ class Tank_auth
 	 * @return	array
 	 */
 	function create_user($username, $email, $password, $email_activation)
-	{
-		// if ((strlen($username) > 0) AND !$this->ci->users->is_username_available($username)) {
-		// 	$this->error = array('username' => 'auth_username_in_use');
-
-		// }
-		if (!$this->ci->users->is_email_available($email)) {
+	{	
+		if ((strlen($username) > 0) AND !$this->ci->users->is_username_available($username))
+		{
+			$this->error = array('username' => 'auth_username_in_use');
+		}
+		else if (!$this->ci->users->is_email_available($email))
+		{
 			$this->error = array('email' => 'auth_email_in_use');
-
 		} else {
 			// Hash password using phpass
 			$hasher = new PasswordHash(

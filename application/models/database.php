@@ -90,6 +90,11 @@ class Database extends CI_Model
 		return $random_prods;
 	}
 
+	function AddProduct($product)
+	{
+		$this->db->insert('products',$product);
+	}
+
 	function ModifyProduct($product)
 	{
 		$this->db->where('product_id', $product['product_id']);
@@ -101,6 +106,12 @@ class Database extends CI_Model
 		$this->db->where('id', $id);
 		$query = $this->db->get('users');
 		return $query->row_array();
+	}
+
+	function GetAllUsers()
+	{
+		$query = $this->db->get('users');
+		return $query->result_array();
 	}
 
 	function GetAddressById($id)
@@ -128,6 +139,37 @@ class Database extends CI_Model
 		$this->db->delete('address');
 	}
 
+	function AddFeedback($feedback)
+	{
+		$this->db->insert('feedback', $feedback);
+	}
+
+	function RemoveFeedback($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete('feedback');
+	}
+
+	function GetFeedback($published_only)
+	{
+		if($published_only)
+		{
+			$this->db->where('publish', 1);
+		}
+
+		$query = $this->db->get('feedback');
+		return $query->result_array();
+	}
+
+	function SetPublishState($id, $value)
+	{
+		$this->db->set('publish', $value);
+		$this->db->where('id', $id);		
+		$this->db->update('feedback');
+	}
+
+	//-------------------------- Order Specific Functions -------------------------- 
+
 	function AddOrder($order)
 	{
 		$this->db->insert('orders',$order);
@@ -142,6 +184,11 @@ class Database extends CI_Model
 	function GetNumOrders()
 	{
 		return $this->db->count_all('orders');
+	}
+
+	function GetNumOrderItems()
+	{
+		return $this->db->count_all('order_items');
 	}
 
 	//Returns both order and order_items
@@ -159,25 +206,136 @@ class Database extends CI_Model
 			$items_query = $this->db->get('order_items');
 
 			$row = $query->row_array();
-			$row['order_items'] = $items_query->result_array();
 
-			$order = $row;
+			//Get the product id and add actual products in 'order_items' array
+			$order_items = $items_query->result_array();
+			foreach ($items_query->result_array() as $key => $item)
+			{
+				$order_items[$key]['product'] = $this->GetProductById($item['product_id']);
+			}
+
+			$row['order_items'] = $order_items;
+
+			$order = $row;			
 		}	
 
 		return $order;
 	}
 
-	function GetPendingReturnedOrders()
+	function UpdateOrderStatus($txn_id, $state)
+	{
+		$this->db->set('order_state', $state);
+		$this->db->where_in('txn_id', $txn_id);
+		$query = $this->db->update('orders');
+	}
+
+	function AssignWaybill($txn_id, $waybill)
+	{
+		$this->db->set('waybill', $waybill);
+		$this->db->where('txn_id', $txn_id);
+		$this->db->update('orders');
+	}
+
+	function RemoveWaybillFromOrder($txn_id)
+	{
+		$this->db->set('waybill', null);
+		$this->db->where('txn_id', $txn_id);
+		$this->db->update('orders');
+	}
+
+	function GetOrdersByState($state)
 	{
 		$this->db->select('txn_id');
-		$this->db->where('order_status !=', 'shipped');
-		$query = $this->db->get('orders');		
+		$this->db->where('order_state =', $state);
+		$query = $this->db->get('orders');
+		$orders = array();
+
 		foreach ($query->result_array() as $row)
-		{			
+		{
 			$orders[] = $this->GetOrderById($row['txn_id']);
 		}
 
 		return $orders;
+	}
+
+	function GetPendingReturnedOrders()
+	{
+
+		$this->db->select('txn_id');
+		$this->db->where('order_state =', 'pending');
+		$this->db->or_where('order_state =', 'returned');
+		$query = $this->db->get('orders');
+		$orders = array();
+
+		foreach ($query->result_array() as $row)
+		{
+			$orders[] = $this->GetOrderById($row['txn_id']);
+		}
+
+		return $orders;
+	}
+
+	function GetAllOrders()
+	{
+		$this->db->select('txn_id');	
+		$query = $this->db->get('orders');
+		$orders = array();
+		foreach ($query->result_array() as $row)
+		{
+			$orders[] = $this->GetOrderById($row['txn_id']);
+		}
+
+		return $orders;
+	}
+
+	function NumShippedOrders()
+	{
+		$this->db->where('order_state', 'shipped');
+		$this->db->from('orders');
+		return $this->db->count_all_results();
+	}
+
+	//Format is "y-m-d"
+	function GetOrdersForDate($start_date, $end_date)
+	{
+		$start_date = $start_date." 00:00:00";
+		$end_date = $end_date." 23:59:59";		
+		
+		$this->db->select(array('txn_id', 'date_created'));
+		$this->db->having(array('date_created >= ' => $start_date, 'date_created <= ' => $end_date));
+		$query = $this->db->get('orders');		
+		if($query->num_rows() > 0)
+		{
+			foreach ($query->result_array() as $row)
+			{
+				$orders[] = $this->GetOrderById($row['txn_id']);
+			}
+			return $orders;
+		}
+
+		return null;
+	}
+
+	//-------------------------- XXX -------------------------- 
+
+	function GetDataForGameSalesChart()
+	{		
+		$this->db->select_sum('product_qty_sold');
+		$this->db->group_by('product_game');
+		$query = $this->db->get('products');
+		return $query->result_array();
+	}
+
+	function GetDataForStatesChart()
+	{
+		$sql = "Select *,Count('state') From ( SELECT address.state
+		FROM address
+		INNER JOIN orders
+		ON orders.address_id=address.address_id ) as t
+		Group By `state`";
+
+		$query = $this->db->query($sql);		
+		return $query->result_array();
 	}
 
 	function GetOrdersForUser($userId)
@@ -196,6 +354,7 @@ class Database extends CI_Model
 
 	function Subscribe($email_id)
 	{
+		$ret = false;
 		//make sure it isnt already present
 		$this->db->where('email', $email_id);
 		$query = $this->db->get('newsletter');
@@ -203,7 +362,42 @@ class Database extends CI_Model
 		{
 			$email = array('email' => $email_id);
 			$this->db->insert('newsletter',$email);
+			$ret = true;
 		}
+
+		return $ret;
+	}
+
+	function SubscriberUpdated($email)
+	{		
+		$this->db->set('last_update', date('Y-m-d H:i:s'));
+		$this->db->where('email', $email);
+		$this->db->update('newsletter');
+	}
+
+	function GetSubscribersForUpdate($update_threshold = '60*5')
+	{
+		//Get only those who havent been updated recently
+		$this->db->where('UNIX_TIMESTAMP(last_update) <', time() - $update_threshold);
+		$query = $this->db->get('newsletter');
+	}
+	
+	//null means get all subscribers
+	function GetSubscribers($num = null)
+	{
+		if($num)
+		{
+			$this->db->limit($num);
+		}
+		$this->db->order_by('register_time', 'desc');
+		$query = $this->db->get('newsletter');
+		return $query->result_array();
+	}
+
+	function GetTestEmails()
+	{
+		$query = $this->db->get('test_mails');
+		return $query->result_array();	
 	}
 
 	function Unsubscribe($email)
@@ -217,18 +411,77 @@ class Database extends CI_Model
 		return $this->db->count_all('newsletter');
 	}
 
-	function GetDiscountCoupon($coupon)
+	function SetWaybillState($waybill, $state)
 	{
-		$this->db->where('coupon', $coupon);
-		$query = $this->db->get('discount_coupons');
+		$this->db->set('state', $state);
+		$this->db->where_in('waybill', $waybill);
+		$this->db->update('delhivery_waybills');
+	}
+
+	function DeleteWaybill($waybill)
+	{		
+		$this->db->where_in('waybill', $waybill);
+		$this->db->delete('delhivery_waybills');
+	}
+
+	function NumWaybills()
+	{
+		return $this->db->count_all('delhivery_waybills');
+	}
+
+	function InsertWaybills($waybills)
+	{
+		if(is_array($waybills))
+		{
+			$this->db->insert_batch('delhivery_waybills', $waybills);
+		}
+		else
+		{
+			$this->db->insert('delhivery_waybills', $waybills);
+		}
+	}
+
+	function GetWaybills($count = 1)
+	{
+		$this->db->where('state !=', 'dead');
+		$this->db->limit($count);
+		$query = $this->db->get('delhivery_waybills');
+		$result = $query->result_array();
+
+		foreach ($result as $key => $waybill)
+		{
+			$wb[] = $waybill['waybill'];
+		}
+
+		$this->SetWaybillState($wb, 'dead');
+
+		return $wb;
+	}
+
+	function NumPincodes()
+	{
+		return $this->db->count_all('delhivery');
+	}
+	
+	//-------------------------- Checkout Specific Functions -------------------------- 	
+
+	//For now its only Delhivery
+	function GetShippingDetails($pincode)
+	{
+		$this->db->where('pincode', $pincode);
+		$query = $this->db->get('delhivery');
 		return $query->row_array();
 	}
 
-	function GetCheckoutOrder($txn_id)
+	function GetCheckoutOrder($txn_id = null)
 	{
-		$this->db->where('txn_id', $txn_id);
+		if($txn_id)
+		{
+			$this->db->where('txn_id', $txn_id);
+		}		
+
 		$query = $this->db->get('checkout_orders');
-		return $query->row_array();	
+		return $txn_id ? $query->row_array() : $query->result_array();
 	}
 
 	function GetCheckoutOrderItems($txn_id)
@@ -239,7 +492,7 @@ class Database extends CI_Model
 	}	
 
 	function CheckoutDone($txn_id)
-	{		
+	{
 		$this->db->where('txn_id', $txn_id);
 		$this->db->delete('checkout_orders');
 
@@ -255,7 +508,7 @@ class Database extends CI_Model
 
 	function SaveAmountOnCheckout($amount, $txn_id)
 	{
-		$this->db->set('amount', $amount);
+		$this->db->set('order_amount', $amount);
 		$this->db->where('txn_id', $txn_id);
 		$this->db->update('checkout_orders');
 	}
@@ -264,6 +517,12 @@ class Database extends CI_Model
 	function SaveCartItemOnCheckout($item)
 	{
 		$this->db->insert('checkout_items',$item);
+	}
+
+	function RemoveCheckoutItemsForTxnId($txn_id)
+	{
+		$this->db->where('txn_id', $txn_id);
+		$this->db->delete('checkout_items');
 	}
 
 	function SaveUserIdOnCheckout($user_id, $txn_id)
@@ -286,5 +545,98 @@ class Database extends CI_Model
 		$this->db->where('txn_id', $txn_id);
 		$this->db->update('checkout_orders');	
 	}
+	//-------------------------- XXX -------------------------- 
+
+	//----------------- Discount related functions -----------------
+	
+	//To see what people are entering
+	function SaveCheatCode($cheat_code)
+	{
+		$code_info['cheat_code'] = $cheat_code;
+		$this->db->insert('applied_cheat_codes', $code_info);
+	}
+
+	function ConsumeCode($code)
+	{
+		$this->db->set('use_count', 'use_count + 1', FALSE);
+		$this->db->where('coupon', $code);
+		$this->db->update('discount_coupons');
+	}
+
+	function GetCheatCodes($code = null, $count = null)
+	{
+		if($count)
+		{
+			$this->db->limit($count);
+		}
+
+		if($code)
+		{
+			$this->db->where('cheat_code', $code);
+		}
+
+		$query = $this->db->get('applied_cheat_codes');
+		return $query->result_array();
+	}
+
+	function ClearCheatCodes()
+	{
+		$this->db->truncate('applied_cheat_codes');
+	}
+
+	function AddDiscountDomain($domain_info)
+	{
+		$this->db->insert('discount_domains',$domain_info);
+	}
+
+	function RemoveDiscountDomain($domain_name)
+	{
+		$this->db->where('domain', $domain_name);
+		$this->db->delete('discount_domains');
+	}
+
+	function GetDiscountDomain($domain_name = null)
+	{
+		if(is_null($domain_name) == false)
+		{
+			$this->db->where('domain', $domain_name);
+		}
+
+		$query = $this->db->get('discount_domains');
+
+		return is_null($domain_name)  ? $query->result_array() : $query->row_array() ;
+	}
+
+	function SetDiscountForDomain($domain, $discount_percentage)
+	{
+		$this->db->set('how_much', $discount_percentage);
+		$this->db->like('domain', $domain);
+		$this->db->update('discount_domains');
+	}
+
+	function AddDiscountCoupon($coupon)
+	{
+		$this->db->insert('discount_coupons', $coupon);
+	}
+
+	function RemoveDiscountCoupon($coupon)
+	{
+		$this->db->where('coupon', $coupon);
+		$this->db->delete('discount_coupons');
+	}
+
+	function GetDiscountCoupon($coupon = null)
+	{
+		if(is_null($coupon) == false)
+		{
+			$this->db->where('coupon', $coupon);
+		}
+		
+		$query = $this->db->get('discount_coupons');
+
+		return is_null($coupon) ? $query->result_array() : $query->row_array();
+	}
+
+	//-------------------------- XXX --------------------------------------- 
 }
 ?>

@@ -33,7 +33,7 @@ class CI_Cart {
 	// Private variables.  Do not change!
 	var $CI;
 	var $_cart_contents	= array();
-
+	var $_discount	= array();
 
 	/**
 	 * Shopping Class Constructor
@@ -62,6 +62,7 @@ class CI_Cart {
 		if ($this->CI->session->userdata('cart_contents') !== FALSE)
 		{
 			$this->_cart_contents = $this->CI->session->userdata('cart_contents');
+			$this->_discount = $this->CI->session->userdata('discount');
 		}
 		else
 		{
@@ -69,7 +70,8 @@ class CI_Cart {
 			$this->_cart_contents['cart_total'] = 0;
 			$this->_cart_contents['total_items'] = 0;
 			$this->_cart_contents['final_price'] = 0;
-			$this->_cart_contents['discount'] = 0;
+			$this->_discount['percentage'] = 0;
+			$this->_discount['coupon'] = null;
 		}
 
 		log_message('debug', "Cart Class Initialized");
@@ -404,6 +406,7 @@ class CI_Cart {
 		if (count($this->_cart_contents) <= 2)
 		{
 			$this->CI->session->unset_userdata('cart_contents');
+			$this->CI->session->unset_userdata('discount');
 
 			// Nothing more to do... coffee time!
 			return FALSE;
@@ -412,6 +415,7 @@ class CI_Cart {
 		// If we made it this far it means that our cart has data.
 		// Let's pass it to the Session class so it can be stored
 		$this->CI->session->set_userdata(array('cart_contents' => $this->_cart_contents));
+		$this->CI->session->set_userdata(array('discount' => $this->_discount));
 
 		// Woot!
 		return TRUE;
@@ -447,11 +451,12 @@ class CI_Cart {
 
 	// --------------------------------------------------------------------
 	
-	//@param 	is considered in %
+	//@param 	coupon name and discount %
 
-	function apply_discount($discount)
+	function apply_discount($coupon, $discount_percentage)
 	{
-		$this->_cart_contents['discount'] = $discount;
+		$this->_discount['coupon'] = $coupon;
+		$this->_discount['percentage'] = $discount_percentage;
 		$this->_save_cart();
 	}
 
@@ -459,9 +464,10 @@ class CI_Cart {
 	
 	//This gets called when user logs out
 
-	function remove_discount($discount)
+	function remove_discount()
 	{
-		$this->_cart_contents['discount'] = 0;
+		$this->_discount['coupon'] = null;
+		$this->_discount['percentage'] = 0;
 		$this->_save_cart();
 	}
 
@@ -472,9 +478,20 @@ class CI_Cart {
 	*/
 	function discount()
 	{
-		$discount_percent = $this->_cart_contents['discount'];		
-		return ($discount_percent/100) * $this->total();	
+		$discount_percent = $this->_discount['percentage'];
+		$discount_amt = ($discount_percent/100) * $this->total();
+		return round($discount_amt);
 	}
+
+	function is_discount_applied()
+	{
+		return $this->_discount['percentage'] > 0 ? true : false;
+	}
+
+	function get_applied_discount_coupon()
+	{
+		return $this->_discount['coupon'];
+	}	
 
 	// --------------------------------------------------------------------
 
@@ -504,8 +521,14 @@ class CI_Cart {
 		unset($cart['cart_total']);
 		unset($cart['final_price']);
 		unset($cart['discount']);
+		unset($cart['discount_coupon']);
 
 		return $cart;
+	}
+
+	function discount_info()
+	{
+		return $this->_discount;
 	}
 
 	// --------------------------------------------------------------------
@@ -585,13 +608,16 @@ class CI_Cart {
 	function destroy()
 	{
 		unset($this->_cart_contents);
+		unset($this->_discount);
 
 		$this->_cart_contents['cart_total'] = 0;
 		$this->_cart_contents['total_items'] = 0;
 		$this->_cart_contents['final_price'] = 0;
-		$this->_cart_contents['discount'] = 0;
+		$this->_discount['percentage'] = 0;
+		$this->_discount['coupon'] = null;
 
 		$this->CI->session->unset_userdata('cart_contents');
+		$this->CI->session->unset_userdata('discount');
 	}
 
 

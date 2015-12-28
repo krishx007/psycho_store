@@ -9,16 +9,14 @@
 <meta name="viewport" content="width=device-width">
 <?php echo meta('description', $description) ?>
 <?php echo meta('keywords', $keywords) ?>
-<link rel="icon" type="image/jpg" href=<?php echo $favico ?> >
+<link rel="icon" type="image/png" href=<?php echo $favico ?> >
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Carrois+Gothic+SC' rel='stylesheet' type='text/css'>
-
-<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.js"></script>
-<link rel="stylesheet" href=<?php echo site_url('manual.css')?>>
-</head>
+<link rel="stylesheet" href=<?php echo site_url('css/bootstrap.min.css') ?> >
+<link rel="stylesheet" href= <?php echo site_url('css/font-awesome.min.css') ?> >
+<link rel="stylesheet" href=<?php echo site_url('css/manual.css?v2')?>>
+<script type="text/javascript" src= <?php echo site_url('scripts/jquery-2.1.3.min.js') ?> ></script>
+<script type="text/javascript" src= <?php echo site_url('scripts/bootstrap.min.js') ?> ></script>
 
 <header>
   <nav class="panel collapse navbar-collapse">
@@ -33,13 +31,13 @@
     	<a target="_blank" href="http://instagram.com/psychostore.in"><i class="navbar-btn fa fa-instagram"></i></a>
       </li>
       <li>
-       <form class="navbar-form" method = "post" action=<?php echo site_url("search");?>>
+       <form class="navbar-form" method = "post" action=<?php echo site_url("like");?>>
         <div class="btn-group">
-          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">Select A Game <span class="caret"></span>  </a>
+          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" href="#">What do you like <span class="caret"></span>  </a>
           <ul class="dropdown-menu">
             <?php foreach ($supported_games as $key => $game):?>
               <li>
-                <a href=<?php $url = url_title($game['product_game'],'_'); echo site_url("search/$url")?>> <?php echo $game['product_game'] ?></a>
+                <a href=<?php $game_url = url_title($game['product_game']); echo site_url("like/$game_url")?>> <?php echo $game['product_game'] ?></a>
               </li>
             <?php endforeach ?>
           </ul>
@@ -66,11 +64,3 @@
   </nav>
   
 </header>
-
-<body>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-</body>
-
-
-
-

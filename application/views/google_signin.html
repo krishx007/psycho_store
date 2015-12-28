@@ -1,0 +1,78 @@
+<html>
+<head>
+  <meta name="google-signin-client_id" content="858976915070-f2higqaj6iu3gpuijmddhqs973ihlf9m.apps.googleusercontent.com">
+</head>
+<body>
+<a class="btn btn-social btn-google" id="google_signin">
+  <i class="fa fa-google-plus"></i> Connect with google  
+</a>
+<script>
+
+function post(path, params, method)
+{
+    method = method || "post"; // Set method to post by default if not specified.
+
+    // The rest of this code assumes you are not using a library.
+    // It can be made less wordy if you use one.
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function onSignIn(googleUser)
+{
+  // Useful data for your client-side scripts:
+  if(googleUser)
+  {
+    var profile = googleUser.getBasicProfile(); 
+
+    var form_url = document.getElementById('login_form').getAttribute('action');
+    var redirect_url = form_url.split('?');
+    var uri_string = '<?php echo uri_string(); ?>';
+    var base_url = uri_string.includes('auth') ? "external_auth" : "auth/external_auth";
+    var post_url = base_url + "?" + redirect_url[1];   
+    post(post_url, {username: profile.getEmail(), email: profile.getEmail()} );
+  }
+}
+
+function start_login()
+{
+  gapi.load('auth2', function()
+  {
+    // Retrieve the singleton for the GoogleAuth library and set up the client.
+    auth2 = gapi.auth2.init({
+      client_id: '858976915070-f2higqaj6iu3gpuijmddhqs973ihlf9m.apps.googleusercontent.com'
+      // Request scopes in addition to 'profile' and 'email'
+      //scope: 'additional_scope'
+    });
+
+    auth2.attachClickHandler(document.getElementById('google_signin'), {}, onSignIn, onFailure );
+
+  });
+}
+
+function onFailure(error)
+{
+  console.log(error);
+}
+
+</script>
+
+<script src="https://apis.google.com/js/platform.js?onload=start_login" async defer></script>
+
+</body>
+</html>

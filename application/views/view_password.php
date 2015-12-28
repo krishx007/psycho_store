@@ -5,7 +5,7 @@ $password = array(
 	'type'	=> 'password',
 	'size'	=> 30,
 	'class'	=>'form-control',
-	'placeholder' => 'password',	
+	'placeholder' => 'password',
 	'minlength'	=> $this->config->item('password_min_length', 'tank_auth'),
 	'maxlength'	=> $this->config->item('password_max_length', 'tank_auth'),
 );

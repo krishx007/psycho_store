@@ -39,14 +39,17 @@
 */
 $route['default_controller'] = "pages";
 $route['product/(:any)'] = 'pages/product/$1';
-$route['search'] = 'pages/search';
-$route['search/(:any)'] = 'pages/search/$1';
+$route['like'] = 'pages/like';
+$route['like/(:any)'] = 'pages/like/$1';
 $route['latest'] = 'pages/latest/';
 $route['subscribe'] = 'pages/subscribe/';
 $route['shipping_returns'] = 'pages/shipping_returns/';
 $route['contact'] = 'pages/contact/';
 $route['about'] = 'pages/about/';
+$route['media'] = 'pages/media/';
 $route['popular'] = 'pages/popular/';
+$route['feedback'] = 'pages/feedback/';
+$route['giveaways'] = 'pages/giveaways/';
 $route['beta'] = 'pages/beta/';
 $route['404_override'] = '';
 

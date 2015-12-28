@@ -14,63 +14,9 @@ class checkout extends CI_controller
 		$this->load->helper('url');
 		$this->load->helper('html');
 		$this->load->helper('psycho_helper');
+		$this->load->helper('mailgun_helper');
 		$this->load->model('database');
-	}
-
-	function GenerateHeader(&$data)
-	{
-		//Login Info
-		$data['user_id'] = 0;
-		$data['user_name'] = null;
-
-		if($this->tank_auth->is_logged_in())
-		{
-			$data['user_id'] 	= $this->tank_auth->get_user_id();
-			$data['user_name'] 	= $this->tank_auth->get_username();
-		}
-
-		//Cart Info
-		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();
-
-		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();
-
-		//Meta tags
-		$data['title'] = $this->config->item('title');
-		$data['description'] = $this->config->item('description');
-		$data['keywords'] = $this->config->item('keywords');
-		$data['image'] = $this->config->item('favico');
-		$data['url'] = current_url();
-		$data['favico'] = $this->config->item('favico');
-	}
-
-	function display($page, $data)
-	{
-		$this->GenerateHeader($data);
-
-		//Show header
-		$this->load->view('header', $data);
-
-		//Show body
-		switch ($page)
-		{
-			case 'address':
-				$this->load->view('view_address', $data);
-			break;
-			case 'review':
-				$this->load->view('view_review_order', $data);
-			break;
-			case 'message':
-				$this->load->view('auth/general_message', $data);
-			break;
-			default:
-				show_404();
-			break;		
-		}		
-
-		//Show footer
-		$this->load->view('footer', $data);
+		$this->config->load('gateway_settings');
 	}
 
 	function index()
@@ -79,10 +25,8 @@ class checkout extends CI_controller
 	}
 
 	function _start_checkout()
-	{		
-		$txn_id = $this->session->userdata('txn_id');
-
-		if($txn_id == false)
+	{
+		if($this->_is_active_txn_id_valid() == false)
 		{
 			$this->_create_checkout_order();
 		}
@@ -95,7 +39,7 @@ class checkout extends CI_controller
 			$this->_create_checkout_order();
 		}
 
-		$this->_save_cart_items();		
+		$this->_save_cart_items();
 	
 		$this->login();
 	}
@@ -107,11 +51,14 @@ class checkout extends CI_controller
 		$this->database->SaveTxnIdOnCheckout($txn_id);
 		
 		//Set txn_id in session
-		$this->session->set_userdata('txn_id', $txn_id);		
+		$this->session->set_userdata('txn_id', $txn_id);
 	}
 
 	function _save_cart_items()
 	{
+		//Try applying domain based discount before saving
+		check_domain_discount();
+
 		$txn_id = $this->session->userdata('txn_id');
 
 		//Empty checkout_items for this txn_id		
@@ -149,45 +96,57 @@ class checkout extends CI_controller
 
 		if(!$this->tank_auth->is_logged_in())
 		{
-			redirect('auth/login?redirect_url='.rawurlencode('checkout/address'));
+			redirect('auth/login?redirect_url='.rawurlencode('checkout/'));
 		}
 		else
+		{
 			redirect('checkout/address');
+		}
 	}
 
 	function address()
 	{
-		$this->_validate_cart();		
+		$this->_validate_cart();
 
 		$user_id = $this->tank_auth->get_user_id();
 		
-		if(strlen($user_id) > 0)
-		{			
+		if($this->tank_auth->is_logged_in())
+		{
 			$this->_save_user_details();
 
 			$result = $this->database->GetAddressesForUser($user_id);
 			$data['addresses'] = $result;
-			$this->display('address',$data);
+			display('address',$data);
 		}
 		else
 		{
-			redirect('checkout/login');
+			redirect('checkout/');
 		}
 		
 	}
 
-	function _validate_cart()
+	function _is_active_txn_id_valid()
 	{
-		//Make sure txn_id is generated
 		$is_txn_id_valid = false;
 		$txn_id = $this->session->userdata('txn_id');
 		if($txn_id)
 		{
+			//Make sure it exists in db also
 			$checkout_order = $this->database->GetCheckoutOrder($txn_id);
 
 			if(count($checkout_order))
+			{
 				$is_txn_id_valid = true;
+			}
 		}
+		
+		return $is_txn_id_valid;
+	}
+
+	function _validate_cart()
+	{
+		//Make sure txn_id is generated	
+		$txn_id = $this->_is_active_txn_id_valid();
 
 		$out_of_stock = false;
 
@@ -292,7 +251,7 @@ class checkout extends CI_controller
 		}
 
 		redirect('checkout/');
-	}
+	}	
 
 	function review()
 	{
@@ -306,17 +265,29 @@ class checkout extends CI_controller
 		{				
 			redirect('checkout/');
 		}
-
-		// foreach ($this->cart->contents() as $items)
-		// {			
-		// 	$prod_id = $items['id'];
-		// 	$product = $this->database->GetProductById($prod_id);
-		// 	$data['products'][$prod_id] = $product;
-		// }
-
-		$data['address'] = $this->database->GetAddressById($checkout_order['address_id']);
 		
-		$this->display('review', $data);
+		show_alert("One more click and all this awesomeness will be yours, go on we know you cant wait.");
+
+		$address = $this->database->GetAddressById($checkout_order['address_id']);		
+		$shipping_details = $this->database->GetShippingDetails($address['pincode']);
+		$shipping_available = false;
+		$cod_available = false;
+
+		if($shipping_details)
+		{
+			$shipping_available = true;
+			
+			if($shipping_details['cod'] === 'Y')
+			{
+				$cod_available = true;
+			}	
+		}
+
+		$data['shipping_available'] = $shipping_available;
+		$data['cod_available'] = $cod_available;
+		$data['address'] = format_address($address);
+		
+		display('review', $data);
 	}
 
 	function payment()
@@ -329,20 +300,20 @@ class checkout extends CI_controller
 		$this->_save_cart_items();
 		$this->_save_user_details();
 
-		//Once everything is saved lock txn_id
-		$this->_lock_active_checkout_order();
-
 		$payment_mode = $this->input->post('payment_mode');
 
-		//Check payment mode
+		//Once we get the correct payment mode, then lock and fire
+		//Locking inside switch is imp.
 		switch ($payment_mode)
-		{
+		{			
 			case 'cod':
+				$this->_lock_active_checkout_order();
 				$this->session->set_flashdata('ok_to_order', true);
 				redirect('checkout/place_order');
 				break;
 
-			case 'online':
+			case 'pre-paid':
+				$this->_lock_active_checkout_order();
 				$this->_payment_gateway();
 				break;
 			
@@ -381,8 +352,8 @@ class checkout extends CI_controller
 		if($ok_to_place_order)
 		{
 			$order_info = $this->_generate_orderinfo($this->input->post());
-			//$this->_place_order($order_info);
-			//$this->_reward_user($order_info);
+			$this->_place_order($order_info);
+			$this->_reward_user($order_info);
 			$this->_send_order_mail($order_info);
 
 			redirect('checkout/success');
@@ -395,23 +366,37 @@ class checkout extends CI_controller
 
 	function success()
 	{	
-		$msg =sprintf("<h1>Minions, assemble now</h1> <br> All right minions, theres work to do, theres stuff to create, people are counting on us, gamers and geeks have high hopes from us and we need to deliver. So stop hunting for bananas and get to work so that this person right here watching us can get what he deserves.<br><br>
-			For laymans (seriusly, what are you doing on our site) : Your order has been placed and is up for processing. We do our best to provide you with quality stuff as quickly as possible. A mail has been sent to you confirming the same along with order details.<br><br> <a class= \"btn btn-primary\" href= %s>Continue Shopping</a> ", site_url('')) ;
-		$data = array('message' => $msg );
-		$this->display('message', $data);
+		$success = $this->load->view("success", null, TRUE);
+		$data = array('heading' => "Minions Assemble Now" );
+		$data['content'] = $success;
+		display('message', $data);
 	}
 
 	function failure()
 	{
-		$msg =sprintf("<h1>Uh Oh ... Damnit</h1> <br> Looks like G-Man is interfering with your order, but dont worry Gordon Freeman is on his way to sort things out. Meanwhile just try again.<br><br> For laymans (seriusly, what are you doing on our site) : There was some technial fault in processing your order, due to which it failed. If you have been charged, dont worry we will auto-refund your money.<br><br> <a class= \"btn btn-primary\" href= %s>Try Again</a> ", site_url('cart')) ;
-			$data = array('message' => $msg );
-			$this->display('message', $data);
+		$fail = $this->load->view("failure", null, TRUE);
+		$data = array('heading' => "Uh Oh ... Damnit" );
+		$data['content'] = $fail;
+		display('message', $data);
 	}
 
 	function _reward_user($order_info)
 	{
-		$user = $order_info['user'];		
-		$points = $user['points'] + $order_info['amount']/10;
+		$user = $order_info['user'];
+		$divider = 10;
+
+		switch ($order_info['payment_mode'])
+		{
+			case 'pre-paid':
+				$divider = 10;	//10%
+				break;
+			
+			case 'cod':
+				$divider = 20;	//5%
+				break;
+		}
+		
+		$points = $user['points'] + $order_info['amount']/$divider;
 		$this->database->RewardUser($order_info['user_id'], $points);
 	}
 
@@ -420,12 +405,12 @@ class checkout extends CI_controller
 		//Detects order num for a particular user and sends a mail accordingly
 		$user = $order_info['user'];
 		$orders = $this->database->GetOrdersForUser($order_info['user_id']);
-		$order_num = count($orders);		
+		$order_num = count($orders);
 
 		$data['site_name'] = $this->config->item('website_name', 'tank_auth');
 		$data['username'] = $user['username'];
 		$data['order_id'] = $order_info['txn_id'];
-		$data['product_table'] = generate_product_table_for_email($order_info);
+		$data['product_table'] = generate_product_table_for_order($order_info['txn_id']);
 		$data['address'] = format_address($order_info['address']);
 		$data['payment_mode'] = $order_info['payment_mode'];
 		
@@ -433,7 +418,13 @@ class checkout extends CI_controller
 		switch ($order_num)
 		{
 			case '1':
-				send_email($user['email'], 'ishkaran@psychostore.in', 'first_order', $data);
+				$params = mg_create_mail_params('first_order', $data);
+				mg_send_mail($user['email'], $params);
+				break;
+
+			case '2':
+				$params = mg_create_mail_params('second_order', $data);
+				mg_send_mail($user['email'], $params);
 				break;
 			
 			default:
@@ -442,7 +433,8 @@ class checkout extends CI_controller
 		}
 
 		//This is to be sent for each order
-		send_email($user['email'], 'no-reply@psychostore.in','order', $data );		
+		$params = mg_create_mail_params('order', $data);
+		mg_send_mail($user['email'], $params);
 	}
 
 	function _payment_gateway()
@@ -459,9 +451,11 @@ class checkout extends CI_controller
 		$gateway_params['txnid'] = $checkout_order['txn_id'];
 		$gateway_params['service_provider'] = $this->config->item('service_provider');
 
-		//Site specific info		
+		//Site specific info				
+		$address = $this->database->GetAddressById($checkout_order['address_id']);
+		$user = $this->database->GetUserById($checkout_order['user_id']);
 
-		$gateway_params['amount'] = $checkout_order['amount'];
+		$gateway_params['amount'] = $checkout_order['order_amount'];
 		$gateway_params['firstname'] = $address['first_name'];
 		$gateway_params['lastname'] = $address['last_name'];
 		$gateway_params['address1'] = $address['address_1'];
@@ -539,6 +533,14 @@ class checkout extends CI_controller
 			//Update database
 			$this->database->ModifyProduct($product);
 			$this->database->AddOrderItem($order_item);
+
+			//Consume code
+			if($this->cart->is_discount_applied())
+			{
+				$disc_info = $this->cart->discount_info();
+				$this->database->ConsumeCode($disc_info['coupon']);
+			}
+			
 		}
 
 		//Destroy stuff now
@@ -554,7 +556,7 @@ class checkout extends CI_controller
 		//Payment Mode
 		if( isset($post_back_params['mode']) )
 		{
-			$order_info['payment_mode'] = 'online';
+			$order_info['payment_mode'] = 'pre-paid';
 
 			//Its v.v.imp to take txnid from post_back_params, because session txnid can be modified
 			//when coming back from payment gateway
@@ -563,12 +565,12 @@ class checkout extends CI_controller
 		}
 		else
 		{
-			$order_info['payment_mode'] =	'cod';
+			$order_info['payment_mode'] = 'cod';
 			$checkout_order = $this->_get_active_checkout_order();
 		}		
 
 		$order_info['txn_id'] = $checkout_order['txn_id'];
-		$order_info['amount'] = $checkout_order['amount'];
+		$order_info['amount'] = $checkout_order['order_amount'];
 		$order_info['address_id'] = $checkout_order['address_id'];
 		$order_info['user_id'] = $checkout_order['user_id'];
 		$order_info['checkout_items'] = $this->database->GetCheckoutOrderItems($order_info['txn_id']);

@@ -11,8 +11,9 @@ class cart extends CI_controller
 		$this->load->library('cart');
 		$this->load->model('database');
 		$this->load->helper('url');
-		$this->load->helper('html');
+		$this->load->helper('html');		
 		$this->load->helper('form');
+		$this->load->helper('psycho_helper');
 		$this->load->library('session');
 		$this->load->library('tank_auth');
 	}
@@ -21,38 +22,9 @@ class cart extends CI_controller
 	{		
 		$this->view();
 	}
-	
-	function GenerateHeader(&$data)
-	{
-		//Login Info
-		$data['user_id'] = 0;
-		$data['user_name'] = null;
-
-		if($this->tank_auth->is_logged_in())
-		{
-			$data['user_id'] 	= $this->tank_auth->get_user_id();
-			$data['user_name'] 	= $this->tank_auth->get_username();
-		}		
-
-		//Cart Info
-		$data['num_items'] = $this->cart->total_items();
-		$data['total_price'] = $this->cart->total();
-
-		//Game search Links
-		$data['supported_games'] = $this->database->GetAllSuportedGames();
-
-		//Meta tags
-		$data['title'] = $this->config->item('title');
-		$data['description'] = $this->config->item('description');
-		$data['keywords'] = $this->config->item('keywords');
-		$data['image'] = $this->config->item('favico');
-		$data['url'] = current_url();
-		$data['favico'] = $this->config->item('favico');		
-	}	
-
 
 	//make sure user cant enter more than available stock qty
-	function set_stock_info(&$data)
+	function _set_stock_info(&$data)
 	{
 		foreach ($this->cart->contents() as $items)
 		{
@@ -74,7 +46,7 @@ class cart extends CI_controller
 
 			
 			if($items['qty'] > $size_in_stock)
-				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";				
+				$data['products'][$items['rowid'].'stock_state'] = "Out Of Stock";
 
 			$data['products'][$prod_id] = $product;
 		}
@@ -84,27 +56,50 @@ class cart extends CI_controller
 	function view()
 	{
 		$data[] = 0;
-		$num_items = $this->cart->total_items();		
-		$this->GenerateHeader($data);		
-		$this->set_stock_info($data);
+		$num_items = $this->cart->total_items();
+		generate_header($data);
+		$this->_set_stock_info($data);
 
-		$this->load->view('header',$data);
-		$this->load->view('view_cart',$data);
-		$this->load->view('footer');
-	}	
+		check_domain_discount();
 
-	function add($productID)
+		if($num_items)
+		{
+			$this->_show_cheat_code_after_timeout(25000);
+		}
+
+		$data['cheat_hints'] = $this->load->view('cheatcode_hints', null, true);
+		display('cart',$data);
+	}
+
+	function _show_cheat_code_after_timeout($timeout)
+	{
+		$is_discount_applied = $this->cart->is_discount_applied();
+
+		if($is_discount_applied == false)
+		{
+			$username = $this->tank_auth->get_username() ? $this->tank_auth->get_username() : 'creature';
+
+			//Show cheat code hint after some seconds for hesistant buyers
+			$params['timeout'] = $timeout;
+			$params['title'] = "$username, Anything Wrong?";
+			$params['body'] = " Allow us to make it right. Apply this konami cheat code and the world around you will burn with jealousy, seeing you with this geeky awesomeness and yes you can thank us later.<br><br> <strong>upupdowndownleftrightleftrightba</strong> <br><br>Happy gaming/debugging!" ;
+
+			notify_event('show_cheat_code', $params);
+		}
+	}
+
+	function add($product_id)
 	{		
 		//Get the product using id
-		$product = $this->database->getProductbyId($productID);
+		$product = $this->database->getProductbyId($product_id);
 		if($product)
-		{			
+		{
 			$size = $this->input->post('size');
 			if($size)
 			{
 				$cart_item = array
 					(
-						'id' 	=> $productID,
+						'id' 	=> $product_id,
 						'qty'	=> '1',
 						'price' => $product['product_price'],
 						'name'  => $product['product_name'],
@@ -114,6 +109,8 @@ class cart extends CI_controller
 				$row_id = $this->cart->insert($cart_item);
 			}
 		}
+
+		show_alert($product['add_to_cart_comment']);
 		
 		redirect('cart');
 	}
@@ -127,11 +124,11 @@ class cart extends CI_controller
 	}
 
 	function update()
-	{		
+	{
 		foreach ($this->cart->contents() as $items)
 		{
 			if( $this->input->post($items['rowid']) != (string)FALSE)
-			{				
+			{
 				$id = $items['rowid'];
 				$quant = (int)$this->input->post($items['rowid']);
 
@@ -141,11 +138,21 @@ class cart extends CI_controller
 			}
 		}
 
+		//If discount is applied, do a conditional-check again
+		if($this->cart->is_discount_applied())
+		{
+			$coupon = $this->cart->get_applied_discount_coupon();
+			if($this->_can_apply_code($coupon) == false)
+			{
+				$this->cart->remove_discount();
+			}
+		}		
+
 		redirect('cart');
 	}
 
-	function getDiscount($coupon)
-	{		
+	function _getDiscount($coupon)
+	{
 		$discount = $this->database->GetDiscountCoupon($coupon);
 		
 		if(count($discount) > 0)
@@ -156,18 +163,115 @@ class cart extends CI_controller
 				return $discount['how_much'];
 			}
 		}
-		return 0;	
-	}
+		return 0;
+	}	
 
 	function applyDiscount()
 	{
-		if($this->input->post('coupon') != (string)FALSE)
+		$coupon = strtolower( trim($this->input->post('coupon')) );
+		
+		if($coupon != (string)FALSE)
 		{
-			$coupon = trim($this->input->post('coupon'));
-			$this->cart->apply_discount($this->getDiscount($coupon));
+			//Log coupon to see people apply
+			$this->database->SaveCheatCode($coupon);			
+			$discount_percentage = 0;
+			$coupon_info = $this->database->GetDiscountCoupon($coupon);
+
+			//Run some conditional-check for code
+			if($this->_can_apply_code($coupon_info))
+			{
+				$discount_percentage = $this->_getDiscount($coupon);
+				$this->cart->apply_discount($coupon, $discount_percentage);				
+			}
+
+			$this->_notify_discount_applied($discount_percentage, $coupon);
 		}
 
 		redirect('cart');
+	}
+
+	function _can_apply_code($coupon_info)
+	{
+		$check_result = false;
+		$coupon = $coupon_info['coupon'];
+		$use_limit = $coupon_info['use_limit'];
+		$use_count = $coupon_info['use_count'];
+
+		$can_use = $use_limit ? ($use_count < $use_limit) : true;
+		
+		if($can_use == false)
+		{
+			//Use Limit over
+			return false;
+		}
+
+		switch ($coupon)
+		{
+			case 'godmode_frapp':
+				//Should be applied on purchase of only one tshirt
+				if($this->cart->total_items() == 1)
+				{
+					$check_result = true;
+				}
+				break;
+			
+			case 'godmode_psycho':				
+				//Should be applied on purchase of only one tshirt
+				if($this->cart->total_items() == 1)
+				{
+					$check_result = true;
+				}
+				break;
+
+			default:
+				$check_result = true;
+				break;
+		}
+
+		return $check_result;
+	}
+
+	function _notify_discount_applied($discount_percentage, $coupon)
+	{
+		$username = $this->tank_auth->get_username() ? $this->tank_auth->get_username() : 'creature';
+		$domain_discount = get_current_user_discount_domain_info();
+
+		//Notify event for modal pop up
+		if($discount_percentage == 0)
+		{
+			$params['title'] = "wrong cheat code";
+
+			$params['body'] = "<strong>$username</strong>, either there is no such cheat code like this or it cannot be applied right now.<br>Anyway, we strongly encourage playing games with no cheat codes applied.<br>But here is a hint just for you.<br><br><strong>Hint : Google \"What is the Konami code\"</strong>. " ;
+		}
+		else if(count($domain_discount))
+		{
+			$params['title'] = $username;
+
+			$params['body'] = "We already gave you <strong>{$domain_discount['how_much']}%</strong> off because you belong to the lands of <strong>{$domain_discount['domain']}</strong>. Now dont push us, we cannot afford to give you anymore discount, that would be unfair for our people. Hope you understand.";
+		}
+		else
+		{			
+			//Personalised message depending on cheat code applied
+			switch ($coupon)
+			{
+				case 'frapp_mode':
+					$params['title'] = "Cheat Code Applied $discount_percentage% off";
+					$params['body'] = "<strong>$username</strong>, We all have been through student life and we all know how important discounts are, wish frapp was there in our times as well. Enjoy your <strong>$discount_percentage%</strong> discount. <br><br>Happy gaming/debugging!" ;
+					break;
+				
+				case 'bin_mode':
+					$params['title'] = "Cheat Code Applied $discount_percentage% off";
+					$params['body'] = "Hello, <strong>earthling</strong>, a big thank you from BinBag and Psycho Store for being a responsible creature of earth. For all your good deeds we have applied <strong>$discount_percentage%</strong> discount just for you. <br><br>Happy gaming/debugging!" ;
+					break;					
+				
+				default:
+					$params['title'] = "Cheat Code Applied $discount_percentage% off";
+					$params['body'] = "<strong>$username</strong>, we strongly oppose gaming with cheat codes applied. But anyway, we have made this game <strong>$discount_percentage%</strong> easier, just for you.<br><br>Happy gaming/debugging!" ;
+					break;
+			}			
+		}
+
+		notify_event('apply_discount', $params);
 	}
 }
 ?>

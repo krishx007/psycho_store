@@ -1,11 +1,11 @@
 /* Make something awesome! */
 @font-face {
     font-family: 'molotregular';
-    src: url('typeface/molot/Molot-webfont.eot');
-    src: url('typeface/molot/Molot-webfont.eot?#iefix') format('embedded-opentype'),
-         url('typeface/molot/Molot-webfont.woff') format('woff'),
-         url('typeface/molot/Molot-webfont.ttf') format('truetype'),
-         url('typeface/molot/Molot-webfont.svg#molotregular') format('svg');
+    src: url('../typeface/molot/Molot-webfont.eot');
+    src: url('../typeface/molot/Molot-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../typeface/molot/Molot-webfont.woff') format('woff'),
+         url('../typeface/molot/Molot-webfont.ttf') format('truetype'),
+         url('../typeface/molot/Molot-webfont.svg#molotregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -13,11 +13,11 @@
 
 @font-face {
     font-family: 'playregular';
-    src: url('typeface/play/play-regular-webfont.eot');
-    src: url('typeface/play/play-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('typeface/play/play-regular-webfont.woff') format('woff'),
-         url('typeface/play/play-regular-webfont.ttf') format('truetype'),
-         url('typeface/play/play-regular-webfont.svg#playregular') format('svg');
+    src: url('../typeface/play/play-regular-webfont.eot');
+    src: url('../typeface/play/play-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../typeface/play/play-regular-webfont.woff') format('woff'),
+         url('../typeface/play/play-regular-webfont.ttf') format('truetype'),
+         url('../typeface/play/play-regular-webfont.svg#playregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -47,10 +47,24 @@ background-color: inherit;
 color: #fff;
 }
 
-a:hover, a:focus {
-color: #fff;
-text-decoration: none;
+.vcenter
+{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
+
+.circular-pic
+{
+    border-radius: 50%;
+}
+
+a:hover, a:focus
+{
+    color: #fff;
+    text-decoration: none;
+}
+
 
 .active
 {
@@ -243,6 +257,15 @@ input
 .footer-col
 {
     margin-top: 20px;
-    
     margin-bottom: 40px;
+}
+
+.modal
+{
+    color: #333;
+}
+
+.input-group-addon
+{
+    background-color: #fff;
 }
